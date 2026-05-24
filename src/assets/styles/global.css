@@ -4,11 +4,14 @@
 html {
   direction: rtl;
   scroll-behavior: smooth;
+  font-family: IRANYekanXFaNum;
 }
 
 .light {
   --color-green-primary: #008c78;
   --color-green-dark: #005b77;
+  --color-red-error: #ef5350;
+  --color-field-silver: #848484;
   --color-default-black: #1e1e1e;
   --color-default-light: #ffffff;
   --color-background-default: #f3f4f6;
@@ -18,6 +21,8 @@ html {
 .dark {
   --color-green-primary: #008c78;
   --color-green-dark: #017497;
+  --color-red-error: #ef5350;
+  --color-field-silver: #848484;
   --color-default-black: #ffffff;
   --color-default-light: #1e1e1e;
   --color-background-default: #111111;
@@ -27,6 +32,8 @@ html {
 @theme {
   --color-green-primary: var(--color-green-primary);
   --color-green-dark: var(--color-green-dark);
+  --color-red-error: var(--color-red-error);
+  --color-field-silver: var(--color-field-silver);
   --color-default-black: var(--color-default-black);
   --color-default-light: var(--color-default-light);
   --color-background-default: var(--color-page-background);
