@@ -1,9 +1,16 @@
 import { Landing } from "../../pages";
+import { MainLayout } from "../../templates";
 
 const mainRoute = [
   {
     path: "/",
-    element: <Landing />,
+    element: <MainLayout />,
+    children: [
+      {
+        path: "/",
+        element: <Landing />,
+      },
+    ],
   },
 ];
 
