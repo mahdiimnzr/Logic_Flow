@@ -9,7 +9,7 @@ const AppProvider = () => {
   return (
     <Suspense fallback={<div>IsLoading</div>}>
       <QueryClientProvider client={queryClient}>
-        <div className={`bg-background-default mx-auto`}>
+        <div className={`light bg-background-default mx-auto h-screen`}>
           <RouterProvider router={router} />
           <ToastContainer
             position="top-right"
