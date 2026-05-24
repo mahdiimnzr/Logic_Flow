@@ -3,7 +3,7 @@ import { Suspense } from "react";
 import queryClient from "../core/constants/queryClient";
 import { RouterProvider } from "react-router-dom";
 import router from "./router/routes";
-import { ToastContainer } from "@contentstack/react-toastify";
+import { Bounce, ToastContainer } from "react-toastify";
 
 const AppProvider = () => {
   return (
@@ -11,7 +11,19 @@ const AppProvider = () => {
       <QueryClientProvider client={queryClient}>
         <div className={`bg-background-default mx-auto`}>
           <RouterProvider router={router} />
-          <ToastContainer position="top-left" reverseOrder={false} />
+          <ToastContainer
+            position="top-right"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={true}
+            closeOnClick={false}
+            rtl={true}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+            transition={Bounce}
+          />
         </div>
       </QueryClientProvider>
     </Suspense>
