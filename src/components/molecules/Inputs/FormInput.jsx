@@ -34,7 +34,7 @@ const FormInput = ({ placeholder, name, error, icon, type = "text" }) => {
       <ErrorMessage
         name="text"
         component={"span"}
-        className="text-red-error text-[14px] font-normal"
+        className="text-red-error text-[14px] font-normal mt-2"
       />
     </div>
   );
