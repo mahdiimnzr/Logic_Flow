@@ -1,61 +1,86 @@
-import { Formik, Form } from "formik";
-import Button from "../components/atoms/Button/Button";
-import FormInput from "../components/molecules/Inputs/FormInput";
+import { Formik, Form, ErrorMessage } from "formik";
+import Button from "../components/atoms/Buttons/Button";
 import * as Yup from "yup";
-import EmailIcon from "../core/icons/EmailIcon";
-import CheckBox from "../components/molecules/Inputs/CheckBox";
-import { useContext, useState } from "react";
-import ThemeSlide from "../components/molecules/theme/themeSlide";
-import ThemeContext from "../app/context/themeContext";
-import ThemeButton from "../components/molecules/theme/ThemeButton";
+import ArrowIcon from "../core/icons/ArrowIcon";
+import OtpInput from "../components/molecules/Inputs/OtpInput";
+import { useState } from "react";
+import TextAreaInput from "../components/molecules/Inputs/TextAreaInput";
+import FormInput from "../components/molecules/Inputs/FormInput";
+import Card from "../components/molecules/Cards/Card";
+import TeachersCard from "../components/molecules/Cards/TeachersCard";
+import SearchInput from "../components/molecules/Inputs/SearchInput";
+import PaginationBasic from "../components/molecules/Pagination/Pagination";
 
 const validationSchema = Yup.object({
-  text: Yup.string().required("Please Fill The Box!"),
+  verifyCode: Yup.string()
+    .length(6, "پرکردن فیلد ها الزامی است !")
+    .required("پرکردن فیلد ها الزامی است !"),
 });
 
 const Landing = () => {
-  const [checked, setChecked] = useState(false);
-  const { theme, setTheme } = useContext(ThemeContext);
+  const [otp, setOtp] = useState(new Array(6).fill(""));
   return (
-    <div className={``}>
-      <ThemeSlide theme={theme} setTheme={setTheme} />
-      <ThemeButton theme={theme} setTheme={setTheme} />
-      <Button color={"authBtn"} className={`w-full h-15 font-bold`}>
-        پایتون + ماینکرفت = یادگیری برنامه‌ نویسی با بازی!
+    <div className={`pb-100`}>
+      <Button
+        color={"primaryBtn"}
+        className={`w-80 h-15 flex gap-1.5 justify-center items-center`}
+      >
+        <p>به جمع حرفه‌ای‌ها بپیوندید</p>
+        <ArrowIcon />
       </Button>
       <Formik
+        initialValues={{ verifyCode: "" }}
         validationSchema={validationSchema}
-        initialValues={{
-          text: "",
-          c1: "",
+        onSubmit={(values) => {
+          console.log(values);
         }}
-        onSubmit={(values) => console.log(values)}
       >
-        {({ errors }) => (
-          <Form>
-            <FormInput
-              icon={<EmailIcon />}
-              error={errors.text}
-              name={"text"}
-              type={"text"}
-              placeholder={"ایمیل یا شماره تماس"}
-            />
-            <CheckBox
-              id={"checkbox"}
-              name={"myCheckBox"}
-              checked={checked}
-              setChecked={() => {
-                setChecked(!checked);
-                console.log(checked);
-              }}
-              label={"مرا به خاطر بسپار"}
-            />
-            <button type="submit" className="text-default-light">
-              submit
-            </button>
-          </Form>
-        )}
-      </Formik>{" "}
+        {({ errors, setFieldValue, values }) => {
+          const otpValue = otp.join("");
+          if (values.verifyCode !== otpValue) {
+            setFieldValue("verifyCode", otpValue);
+          }
+          return (
+            <Form>
+              <div dir="ltr" className={`flex gap-10`}>
+                <OtpInput otp={otp} setOtp={setOtp} error={errors.verifyCode} />
+              </div>
+              <FormInput id={"text"} name={"text"} />
+              <FormInput id={"text1"} name={"text1"} lightTheme={true} />
+              <FormInput id={"text2"} name={"text2"} isComment={true} />
+              <ErrorMessage
+                name="verifyCode"
+                component={"span"}
+                className="text-red-error text-[14px] font-normal"
+              />
+              <Button color={"primaryBtn"} type="submit">
+                Click Meeee
+              </Button>
+              <TextAreaInput id={"name"} name={"name"} />
+            </Form>
+          );
+        }}
+      </Formik>
+      <SearchInput />
+      <PaginationBasic />
+      <div className={`grid grid-cols-4 gap-8 mx-auto`}>
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+      </div>
+      <div className={`grid grid-cols-4 gap-8 mx-auto`}>
+        <TeachersCard />
+        <TeachersCard />
+        <TeachersCard />
+        <TeachersCard />
+      </div>
+      <div className={`grid grid-cols-4 gap-8 mx-auto`}>
+        <Card isCourseCard={true} />
+        <Card isCourseCard={true} />
+        <Card isCourseCard={true} />
+        <Card isCourseCard={true} />
+      </div>
     </div>
   );
 };

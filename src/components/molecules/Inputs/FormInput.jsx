@@ -2,7 +2,17 @@ import { ErrorMessage, Field } from "formik";
 import EyeIcon from "../../../core/icons/EyeIcon";
 import { useRef } from "react";
 
-const FormInput = ({ placeholder, name, error, icon, type = "text" }) => {
+const FormInput = ({
+  placeholder,
+  name,
+  error,
+  icon,
+  type = "text",
+  className,
+  id,
+  lightTheme = false,
+  isComment = false,
+}) => {
   const inputRef = useRef(null);
   const handleHideFieldValue = () => {
     if (inputRef.current.type === "password") {
@@ -14,15 +24,16 @@ const FormInput = ({ placeholder, name, error, icon, type = "text" }) => {
   return (
     <div className={`flex flex-col gap-2`}>
       <div
-        className={`bg-background-default rounded-[100px] w-full h-15 px-5 flex items-center gap-4 box-border ${error && `border border-red-error`}`}
+        className={`${lightTheme ? `bg-default-light rounded-2xl border border-light-gray` : null} bg-background-default ${isComment ? `rounded-[25px]` : `rounded-[100px]`} w-full h-15 px-5 flex items-center gap-4 box-border ${error && `border border-red-error`} ${className}`}
       >
         {icon && icon}
         <Field
           name={name}
+          id={id}
           type={type}
           ref={inputRef}
           placeholder={placeholder}
-          className={`outline-none placeholder:text-field-silver text-field-silver text-base font-normal w-full`}
+          className={`outline-none placeholder:text-field-silver text-field-silver ${lightTheme && !isComment ? `text-base` : `text-[14px]`} font-normal w-full`}
         />
         {type === "password" && (
           <EyeIcon
