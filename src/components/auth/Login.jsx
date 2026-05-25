@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Step1 from "./login/step1";
-import Step2 from "./login/Step2";
+import Step1 from "./Login/step1";
+import Step2 from "./Login/Step2";
 
 const Login = () => {
   const [whichStep, setWhichStep] = useState("Step1");
@@ -14,9 +14,9 @@ const Login = () => {
           setWhichStep={setWhichStep}
         />
       )}
-      {whichStep === "Step2" && (
+      {/* {whichStep === "Step2" && (
         <Step2 SignUpParams={SignUpParams} setWhichStep={setWhichStep} />
-      )}
+      )} */}
     </div>
   );
 };
