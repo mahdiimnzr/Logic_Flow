@@ -4,8 +4,10 @@ import FormInput from "../components/molecules/Inputs/FormInput";
 import * as Yup from "yup";
 import EmailIcon from "../core/icons/EmailIcon";
 import CheckBox from "../components/molecules/Inputs/CheckBox";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import ThemeSlide from "../components/molecules/theme/themeSlide";
+import ThemeContext from "../app/context/themeContext";
+import ThemeButton from "../components/molecules/theme/ThemeButton";
 
 const validationSchema = Yup.object({
   text: Yup.string().required("Please Fill The Box!"),
@@ -13,9 +15,11 @@ const validationSchema = Yup.object({
 
 const Landing = () => {
   const [checked, setChecked] = useState(false);
+  const { theme, setTheme } = useContext(ThemeContext);
   return (
     <div className={``}>
-      <ThemeSlide />
+      <ThemeSlide theme={theme} setTheme={setTheme} />
+      <ThemeButton theme={theme} setTheme={setTheme} />
       <Button color={"authBtn"} className={`w-full h-15 font-bold`}>
         پایتون + ماینکرفت = یادگیری برنامه‌ نویسی با بازی!
       </Button>

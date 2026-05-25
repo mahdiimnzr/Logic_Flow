@@ -14,7 +14,7 @@ const FormInput = ({ placeholder, name, error, icon, type = "text" }) => {
   return (
     <div className={`flex flex-col gap-2`}>
       <div
-        className={`bg-background-default rounded-[100px] w-full h-15 px-5 flex items-center gap-4 box-border border ${error && `border-red-error`}`}
+        className={`bg-background-default rounded-[100px] w-full h-15 px-5 flex items-center gap-4 box-border ${error && `border border-red-error`}`}
       >
         {icon && icon}
         <Field
