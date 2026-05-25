@@ -7,7 +7,7 @@ import { Bounce, ToastContainer } from "react-toastify";
 import ThemeContext from "./context/themeContext";
 
 const AppProvider = () => {
-  const [theme, setTheme] = useState(true);
+  const [theme, setTheme] = useState(false);
   return (
     <Suspense fallback={<div>IsLoading</div>}>
       <QueryClientProvider client={queryClient}>
