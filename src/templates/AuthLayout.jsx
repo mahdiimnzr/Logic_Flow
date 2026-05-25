@@ -4,9 +4,9 @@ const AuthLayout = () => {
   return (
     <div className={`min-h-screen pt-30`}>
       <div
-        className={`border bg-default-light xl:w-9/10  mx-auto rounded-[60px] flex items-center p-4 justify-between`}
+        className={`border bg-default-light xl:w-9/10  mx-auto rounded-[60px] flex items-center p-4 justify-end gap-24.5`}
       >
-        <div className={`border w-5/10 h-[600px]`}>
+        <div className={`border w-4/10 h-[600px]`}>
           <Outlet />
         </div>
 
