@@ -15,6 +15,8 @@ html {
   --color-default-black: #1e1e1e;
   --color-default-light: #ffffff;
   --color-background-default: #f3f4f6;
+  --color-sun-background: #ffdf9b;
+  --color-moon-background: #455a64;
   --color-light-green: #eefffc;
 }
 
@@ -26,6 +28,8 @@ html {
   --color-default-black: #ffffff;
   --color-default-light: #1e1e1e;
   --color-background-default: #111111;
+  --color-sun-background: #ffdf9b;
+  --color-moon-background: #455a64;
   --color-light-green: #eefffc;
 }
 
@@ -37,5 +41,7 @@ html {
   --color-default-black: var(--color-default-black);
   --color-default-light: var(--color-default-light);
   --color-background-default: var(--color-page-background);
+  --color-sun-background: var(--color-sun-background);
+  --color-moon-background: var(--color-moon-background);
   --color-light-green: var(--color-light-green);
 }
