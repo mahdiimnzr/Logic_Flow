@@ -5,8 +5,8 @@ import * as Yup from "yup";
 import FormInput from "../../../molecules/Inputs/FormInput";
 import EmailIcon from "../../../../core/icons/EmailIcon";
 import CheckBox from "../../../molecules/Inputs/CheckBox";
-import Button from "../../../atoms/Button/Button";
 import HomeIcon from "../../../../core/icons/HomeIcon";
+import Button from "../../../atoms/Buttons/Button";
 
 const validationSchema = Yup.object({
   phoneOrGmail: Yup.string().required("ایمیل وارد شده معتبر نیست!"),
@@ -74,10 +74,7 @@ const Step1 = () => {
               </span>
             </div>
 
-            <Button
-              type="submit"
-              className={` xl:w-115.75 h-15 bg-green-primary m-auto rounded-full text-[16px] text-default-light`}
-            >
+            <Button type="submit" color={"authBtn"} className={`h-15`}>
               ارسال کد یکبار مصرف
             </Button>
             <div
