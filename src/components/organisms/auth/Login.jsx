@@ -1,6 +1,5 @@
 import { useState } from "react";
-import Step1 from "./Login/step1";
-import Step2 from "./Login/Step2";
+import Step1 from "./Login/Step1";
 
 const Login = () => {
   const [whichStep, setWhichStep] = useState("Step1");
