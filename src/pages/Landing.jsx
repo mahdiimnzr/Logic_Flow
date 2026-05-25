@@ -9,7 +9,6 @@ import FormInput from "../components/molecules/Inputs/FormInput";
 import Card from "../components/molecules/Cards/Card";
 import TeachersCard from "../components/molecules/Cards/TeachersCard";
 import SearchInput from "../components/molecules/Inputs/SearchInput";
-import PaginationBasic from "../components/molecules/Pagination/Pagination";
 
 const validationSchema = Yup.object({
   verifyCode: Yup.string()
@@ -62,7 +61,6 @@ const Landing = () => {
         }}
       </Formik>
       <SearchInput />
-      <PaginationBasic />
       <div className={`grid grid-cols-4 gap-8 mx-auto`}>
         <Card />
         <Card />
