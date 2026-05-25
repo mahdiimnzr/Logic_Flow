@@ -38,7 +38,7 @@ const Landing = () => {
             </button>
           </Form>
         )}
-      </Formik>
+      </Formik>{" "}
     </div>
   );
 };
