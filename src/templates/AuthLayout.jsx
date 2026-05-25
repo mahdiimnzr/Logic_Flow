@@ -14,15 +14,15 @@ const AuthLayout = () => {
           <Outlet />
         </div>
         <div
-          className={`xl:w-5/10 xl:h-176.75 bg-light-green relative rounded-[60px] loginStep1 flex flex-col justify-center items-center`}
+          className={`xl:w-5/10 xl:h-176.75 px-8 py-15 bg-light-green relative rounded-[60px] flex flex-col items-center gap-6`}
         >
-          <div className={` absolute right-180 top-1`}>
-            <ThemeSlide theme={theme} setTheme={setTheme} />
-          </div>
-          <img src={loginStep1} />
-          <div
-            className={`flex flex-col justify-center items-center xl:gap-4 mt-10`}
-          >
+          <ThemeSlide
+            theme={theme}
+            setTheme={setTheme}
+            className={`self-end`}
+          />
+          <img className={`w-108`} src={loginStep1} />
+          <div className={`flex flex-col justify-center items-center xl:gap-4`}>
             <h2 className={`text-green-dark text-[24px] font-bold `}>
               به دنیای یادگیری خوش آمدید!
             </h2>
