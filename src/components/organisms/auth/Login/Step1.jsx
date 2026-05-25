@@ -1,12 +1,12 @@
 import { Form, Formik } from "formik";
-import FormInput from "../../molecules/Inputs/FormInput";
+import FormInput from "../../../molecules/Inputs/FormInput";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
-import HomeIcon from "../../../core/icons/HomeIcon";
-import CheckBox from "../../molecules/Inputs/CheckBox";
-import EmailIcon from "../../../core/icons/EmailIcon";
+import HomeIcon from "../../../../core/icons/HomeIcon";
+import CheckBox from "../../../molecules/Inputs/CheckBox";
+import EmailIcon from "../../../../core/icons/EmailIcon";
 import { useState } from "react";
-import Button from "../../atoms/Button/Button";
+import Button from "../../../atoms/Button/Button";
 
 const validationSchema = Yup.object({
   phoneOrGmail: Yup.string().required("ایمیل وارد شده معتبر نیست!"),
