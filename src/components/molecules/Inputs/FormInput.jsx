@@ -2,7 +2,14 @@ import { ErrorMessage, Field } from "formik";
 import EyeIcon from "../../../core/icons/EyeIcon";
 import { useRef } from "react";
 
-const FormInput = ({ placeholder, name, error, icon, type = "text" }) => {
+const FormInput = ({
+  placeholder,
+  name,
+  error,
+  icon,
+  type = "text",
+  className,
+}) => {
   const inputRef = useRef(null);
   const handleHideFieldValue = () => {
     if (inputRef.current.type === "password") {
@@ -14,7 +21,7 @@ const FormInput = ({ placeholder, name, error, icon, type = "text" }) => {
   return (
     <div className={`flex flex-col gap-2`}>
       <div
-        className={`bg-background-default rounded-[100px] w-full h-15 px-5 flex items-center gap-4 box-border ${error && `border border-red-error`}`}
+        className={`bg-background-default rounded-[100px] w-full h-15 px-5 flex items-center gap-4 box-border ${error && `border border-red-error`} ${className}`}
       >
         {icon && icon}
         <Field
