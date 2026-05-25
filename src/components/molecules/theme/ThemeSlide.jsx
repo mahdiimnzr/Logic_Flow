@@ -1,11 +1,11 @@
 import MoonIcon from "../../../core/icons/MoonIcon";
 import SunIcon from "../../../core/icons/SunIcon";
 
-const ThemeSlide = ({ theme, setTheme }) => {
+const ThemeSlide = ({ className, theme, setTheme }) => {
   return (
     <div
       onClick={() => setTheme(!theme)}
-      className={`rounded-[50px] mx-auto mt-20 border relative ${!theme ? `bg-[#E0E0E0] border-star-yellow` : `bg-moon-background border-[#37474F]`} flex items-center justify-between w-16 h-7 px-1 cursor-pointer`}
+      className={`rounded-[50px] mx-auto mt-20 border relative ${!theme ? `bg-[#E0E0E0] border-star-yellow` : `bg-moon-background border-[#37474F]`} flex items-center justify-between w-16 h-7 px-1 cursor-pointer ${className}`}
     >
       <MoonIcon className={!theme ? `opacity-0 invisible` : null} />
       <div
