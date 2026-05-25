@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import course from "../../../assets/images/coursePng.png";
 import CalenderIcon from "../../../core/icons/CalenderIcon";
 import EyeOpenIcon from "../../../core/icons/EyeOpenIcon";
@@ -16,12 +17,12 @@ const Card = (props) => {
       >
         <FavoriteIcon isFavorite={false} className={`mx-auto`} />
       </div>
-      <div className={`h-60 group content-center`}>
+      <Link className={`h-60 group content-center block`}>
         <img
           className={`transform-[scale(1.5)] size-full transition-all cursor-pointer mx-auto group-hover:transform-[scale(1.2)]`}
           src={course}
         />
-      </div>
+      </Link>
       <div
         className={`rounded-[20px] bg-default-light flex flex-col gap-7 p-4 relative`}
       >
