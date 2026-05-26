@@ -8,7 +8,7 @@ import Step2 from "./login/Step2";
 
 const Login = () => {
   const { theme, setTheme } = useContext(ThemeContext);
-  const [whichStep, setWhichStep] = useState("Step2");
+  const [whichStep, setWhichStep] = useState("Step1");
   const [SignUpParams, setSignUpParams] = useState({});
   return (
     <div className=" border w-full flex flex-col md:flex-row items-center p-4 justify-end xl:gap-24 lg:gap-20 md:gap-15 gap-3">
@@ -26,7 +26,7 @@ const Login = () => {
         />
         <img
           src={whichStep == "Step1" ? loginStep1 : loginStep2}
-          className={`xl:size-108 lg:size-78 md:size-60`}
+          className={`xl:size-108 lg:size-78 md:size-55`}
         />
         <div className={`flex flex-col justify-center items-center xl:gap-4`}>
           <h2
