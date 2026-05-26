@@ -49,7 +49,7 @@ const Step2 = ({ setWhichStep }) => {
             </div>
 
             <div
-              className={`flex flex-col items-center justify-center gap-8 xl:mt-20 lg:mt-15 mt-6`}
+              className={`flex flex-col items-center justify-center gap-6 xl:mt-20 lg:mt-15 mt-6`}
             >
               <span
                 className={`text-green-primary xl:text-[24px] lg:text-[20px] md:text-[16px] font-bold  `}
