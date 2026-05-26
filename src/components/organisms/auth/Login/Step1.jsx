@@ -15,6 +15,10 @@ const validationSchema = Yup.object({
 
 const Step1 = () => {
   const [checked, setChecked] = useState(false);
+  const handleSubmit = ({ setWhichStep }) => {
+    setWhichStep("Step2");
+  };
+
   return (
     <Formik
       initialValues={{
@@ -22,8 +26,8 @@ const Step1 = () => {
         password: "",
       }}
       validationSchema={validationSchema}
-      onSubmit={(value) => {
-        console.log(value);
+      onSubmit={(values) => {
+        handleSubmit();
       }}
     >
       {({ errors }) => (
@@ -43,14 +47,14 @@ const Step1 = () => {
             <div className={`flex flex-col gap-10 `}>
               <FormInput
                 icon={<EmailIcon />}
-                error={errors.text}
-                name={"text"}
+                error={errors.phoneOrGmail}
+                name={"phoneOrGmail"}
                 type={"text"}
                 placeholder={"ایمیل یا شماره تماس"}
               />
               <FormInput
                 icon={<EmailIcon />}
-                error={errors.text}
+                error={errors.password}
                 name={"password"}
                 type={"password"}
                 placeholder={"رمز عبور "}
@@ -74,7 +78,7 @@ const Step1 = () => {
               </span>
             </div>
 
-            <Button type="submit" color={"authBtn"} className={`h-15`}>
+            <Button color={"authBtn"} className={`h-15`}>
               ارسال کد یکبار مصرف
             </Button>
             <div
