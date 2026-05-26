@@ -37,7 +37,7 @@ const OtpInput = ({ otp, setOtp, error }) => {
     <input
       key={index}
       value={value}
-      className={`rounded-[15px] bg-background-default xl:size-15  text-[20px] text-default-black text-center box-content outline-none content-center transition-all focus:scale-115 ${
+      className={`rounded-[15px] bg-background-default xl:size-16 lg:size-12 size-8 text-[20px] text-default-black text-center box-content outline-none content-center transition-all focus:scale-115 ${
         value ? "border-2 border-[#008C78]" : ""
       } ${error && !value ? `border-2 border-red-error` : ``}`}
       type="text"
