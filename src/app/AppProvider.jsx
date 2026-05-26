@@ -13,7 +13,7 @@ const AppProvider = () => {
       <QueryClientProvider client={queryClient}>
         <ThemeContext.Provider value={{ theme, setTheme }}>
           <div
-            className={`${theme ? `dark` : `light`} bg-background-default px-10 mx-auto h-screen`}
+            className={`${theme ? `dark` : `light`} bg-background-default max-w-480 mx-auto h-screen`}
           >
             <RouterProvider router={router} />
             <ToastContainer
