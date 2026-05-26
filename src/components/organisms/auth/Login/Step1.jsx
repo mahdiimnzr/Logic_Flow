@@ -9,13 +9,17 @@ import HomeIcon from "../../../../core/icons/HomeIcon";
 import Button from "../../../atoms/Buttons/Button";
 
 const validationSchema = Yup.object({
-  phoneOrGmail: Yup.string().required("ایمیل وارد شده معتبر نیست!"),
-  password: Yup.string().required("رمز عبور وارد شده معتبر نیست!"),
+  phoneOrGmail: Yup.string()
+    .min(8, " ایمیل حداقل باید تشکیل شده از 8 حروف باشد")
+    .required("ایمیل وارد شده معتبر نیست!"),
+  password: Yup.string()
+    .min(8, "رمز عبور حداقل باید تشکیل شده از 8 حروف باشد")
+    .required("رمز عبور وارد شده معتبر نیست!"),
 });
 
-const Step1 = () => {
+const Step1 = ({ setWhichStep }) => {
   const [checked, setChecked] = useState(false);
-  const handleSubmit = ({ setWhichStep }) => {
+  const handleSubmit = () => {
     setWhichStep("Step2");
   };
 
@@ -34,13 +38,13 @@ const Step1 = () => {
         <Form>
           <div className={`flex gap-2 `}>
             <HomeIcon />
-            <Link to={"/"} className={`text-green-dark text-3.5 font-bold `}>
+            <Link to={"/"} className={`text-green-dark text-3.5 font-bold`}>
               صفحه اصلی
             </Link>
           </div>
-          <div className={`flex flex-col gap-7.5 mt-15`}>
+          <div className={`flex flex-col gap-8 xl:mt-20 lg:mt-15 mt-6`}>
             <span
-              className={`text-green-primary text-[26px] font-bold text-center`}
+              className={`text-green-primary xl:text-[24px] lg:text-[20px] md:text-[16px] font-bold text-center  `}
             >
               ورود به حساب کاربری
             </span>
