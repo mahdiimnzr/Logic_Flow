@@ -28,6 +28,7 @@ const Step1 = ({ setWhichStep }) => {
       initialValues={{
         phoneOrGmail: "",
         password: "",
+        rememberMe: "",
       }}
       validationSchema={validationSchema}
       onSubmit={(values) => {
@@ -35,68 +36,74 @@ const Step1 = ({ setWhichStep }) => {
         console.log(values);
       }}
     >
-      {({ errors }) => (
-        <Form>
-          <Link to={"/"} className={`flex gap-2`}>
-            <HomeIcon />
-            <p className={`text-green-dark text-3.5 font-bold`}>صفحه اصلی</p>
-          </Link>
-          <div className={`flex flex-col gap-8 xl:mt-20 lg:mt-15 mt-6`}>
-            <span
-              className={`text-green-primary xl:text-[24px] lg:text-[20px] md:text-[16px] font-bold text-center  `}
-            >
-              ورود به حساب کاربری
-            </span>
-            <div className={`flex flex-col gap-10 `}>
-              <FormInput
-                icon={<EmailIcon />}
-                error={errors.phoneOrGmail}
-                name={"phoneOrGmail"}
-                type={"text"}
-                placeholder={"ایمیل یا شماره تماس"}
-              />
-              <FormInput
-                icon={<EmailIcon />}
-                error={errors.password}
-                name={"password"}
-                type={"password"}
-                placeholder={"رمز عبور "}
-              />
-            </div>
-            <div className={`flex justify-between`}>
-              <CheckBox
-                id={"checkbox"}
-                name={"myCheckBox"}
-                checked={checked}
-                setChecked={() => {
-                  setChecked(!checked);
-                  console.log(checked);
-                }}
-                label={"مرا به خاطر بسپار"}
-              />
+      {({ errors, setFieldValue, values }) => {
+        const newValue = checked;
+        if (values.rememberMe !== checked) {
+          setFieldValue("rememberMe", newValue);
+        }
+        return (
+          <Form>
+            <Link to={"/"} className={`flex gap-2`}>
+              <HomeIcon />
+              <p className={`text-green-dark text-3.5 font-bold`}>صفحه اصلی</p>
+            </Link>
+            <div className={`flex flex-col gap-8 xl:mt-20 lg:mt-15 mt-6`}>
               <span
-                className={`text-field-silver text-[14px] font-normal ml-3`}
+                className={`text-green-primary xl:text-[24px] lg:text-[20px] md:text-[16px] font-bold text-center  `}
               >
-                فراموشی رمز عبور
+                ورود به حساب کاربری
               </span>
-            </div>
+              <div className={`flex flex-col gap-10 `}>
+                <FormInput
+                  icon={<EmailIcon />}
+                  error={errors.phoneOrGmail}
+                  name={"phoneOrGmail"}
+                  type={"text"}
+                  placeholder={"ایمیل یا شماره تماس"}
+                />
+                <FormInput
+                  icon={<EmailIcon />}
+                  error={errors.password}
+                  name={"password"}
+                  type={"password"}
+                  placeholder={"رمز عبور "}
+                />
+              </div>
+              <div className={`flex justify-between`}>
+                <CheckBox
+                  id={"rememberMe"}
+                  name={"rememberMe"}
+                  checked={checked}
+                  setChecked={() => {
+                    setChecked(!checked);
+                    console.log(checked);
+                  }}
+                  label={"مرا به خاطر بسپار"}
+                />
+                <span
+                  className={`text-field-silver text-[14px] font-normal ml-3`}
+                >
+                  فراموشی رمز عبور
+                </span>
+              </div>
 
-            <Button color={"authBtn"} className={`h-15`}>
-              ارسال کد یکبار مصرف
-            </Button>
-            <div
-              className={`flex gap-2 justify-center text-[14px] font-normal`}
-            >
-              <p className={`text-default-black`}>
-                حساب کاربری دارید؟{" "}
-                <Link to={"/Auth/Register"} className={`text-green-primary`}>
-                  ثبت نام
-                </Link>
-              </p>
+              <Button color={"authBtn"} className={`h-15`}>
+                ارسال کد یکبار مصرف
+              </Button>
+              <div
+                className={`flex gap-2 justify-center text-[14px] font-normal`}
+              >
+                <p className={`text-default-black`}>
+                  حساب کاربری دارید؟{" "}
+                  <Link to={"/Auth/Register"} className={`text-green-primary`}>
+                    ثبت نام
+                  </Link>
+                </p>
+              </div>
             </div>
-          </div>
-        </Form>
-      )}
+          </Form>
+        );
+      }}
     </Formik>
   );
 };
