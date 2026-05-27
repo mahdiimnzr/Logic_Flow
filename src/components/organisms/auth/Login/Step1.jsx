@@ -32,6 +32,7 @@ const Step1 = ({ setWhichStep }) => {
       validationSchema={validationSchema}
       onSubmit={(values) => {
         handleSubmit();
+        console.log(values);
       }}
     >
       {({ errors }) => (
@@ -88,10 +89,12 @@ const Step1 = ({ setWhichStep }) => {
             <div
               className={`flex gap-2 justify-center text-[14px] font-normal`}
             >
-              <p className={`text-default-black`}>حساب کاربری ندارید؟</p>
-              <Link to={"/Auth/Register"} className={`text-green-primary`}>
-                ثبت نام
-              </Link>
+              <p className={`text-default-black`}>
+                حساب کاربری دارید؟{" "}
+                <Link to={"/Auth/Register"} className={`text-green-primary`}>
+                  ثبت نام
+                </Link>
+              </p>
             </div>
           </div>
         </Form>

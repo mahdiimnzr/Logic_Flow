@@ -1,10 +1,10 @@
 import { Formik, Form } from "formik";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import FormInput from "../../../molecules/Inputs/FormInput";
-import EmailIcon from "../../../../core/icons/EmailIcon";
 import HomeIcon from "../../../../core/icons/HomeIcon";
 import Button from "../../../atoms/Buttons/Button";
+import Phone from "../../../../core/icons/Phone";
 
 const validationSchema = Yup.object({
   phoneOrGmail: Yup.string()
@@ -12,10 +12,10 @@ const validationSchema = Yup.object({
     .required("ایمیل وارد شده معتبر نیست!"),
 });
 const Registration = ({ setPage }) => {
+  const Navigate = useNavigate();
   const handleSubmit = () => {
     setPage("Step2");
   };
-
   return (
     <Formik
       initialValues={{
@@ -24,42 +24,61 @@ const Registration = ({ setPage }) => {
       validationSchema={validationSchema}
       onSubmit={(values) => {
         handleSubmit();
+        console.log(values);
       }}
     >
       {({ errors }) => (
         <Form>
-          <div className={`flex gap-2 `}>
-            <HomeIcon />
-            <Link to={"/"} className={`text-green-dark text-3.5 font-bold`}>
-              صفحه اصلی
-            </Link>
-          </div>
-          <div className={`flex flex-col gap-8 xl:mt-20 lg:mt-15 mt-6`}>
-            <span
-              className={`text-green-primary xl:text-[24px] lg:text-[20px] md:text-[16px] font-bold text-center  `}
+          <div className={`flex flex-col gap-10 `}>
+            <div
+              onClick={() => {
+                Navigate("/Auth/Login");
+              }}
+              className={`flex gap-2 cursor-pointer`}
             >
-              ورود به حساب کاربری
-            </span>
+              <HomeIcon />
+              <span className={`text-green-dark text-3.5 font-bold`}>
+                صفحه اصلی
+              </span>
+            </div>
+            <div className={`flex flex-col gap-2 text-center cursor-pointer`}>
+              {" "}
+              <span
+                className={`text-green-primary xl:text-[24px] lg:text-[20px] md:text-[16px] font-bold `}
+              >
+                ایجاد حساب کاربری
+              </span>
+              <span
+                className={`xl:text-[16px] lg:text-[15px] md:text-[14px] text-default-black`}
+              >
+                وارد کردن شماره تماس برای ایجاد حساب کاربری
+              </span>
+            </div>
             <div className={`flex flex-col gap-10 `}>
               <FormInput
-                icon={<EmailIcon />}
+                icon={<Phone />}
                 error={errors.phoneOrGmail}
                 name={"phoneOrGmail"}
                 type={"text"}
-                placeholder={"ایمیل یا شماره تماس"}
+                placeholder={"شماره تماس خود را وارد کنید"}
               />
             </div>
 
-            <Button color={"authBtn"} className={`h-15`}>
+            <Button
+              color={"authBtn"}
+              className={`h-15 xl:text-[16px] lg:text-[15px] md:text-[14px] `}
+            >
               ارسال کد یکبار مصرف
             </Button>
             <div
-              className={`flex gap-2 justify-center text-[14px] font-normal`}
+              className={`flex gap-2 justify-center text-[14px] font-normal cursor-pointer `}
             >
-              <p className={`text-default-black`}>حساب کاربری ندارید؟</p>
-              <Link to={"/Auth/Register"} className={`text-green-primary`}>
-                ثبت نام
-              </Link>
+              <p className={`text-default-black`}>
+                حساب کاربری دارید؟{" "}
+                <Link to={"/Auth/Login"} className={`text-green-primary`}>
+                  وارد شوید
+                </Link>
+              </p>
             </div>
           </div>
         </Form>
