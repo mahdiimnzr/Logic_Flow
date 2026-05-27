@@ -37,12 +37,10 @@ const Step1 = ({ setWhichStep }) => {
     >
       {({ errors }) => (
         <Form>
-          <div className={`flex gap-2 `}>
+          <Link to={"/"} className={`flex gap-2`}>
             <HomeIcon />
-            <Link to={"/"} className={`text-green-dark text-3.5 font-bold`}>
-              صفحه اصلی
-            </Link>
-          </div>
+            <p className={`text-green-dark text-3.5 font-bold`}>صفحه اصلی</p>
+          </Link>
           <div className={`flex flex-col gap-8 xl:mt-20 lg:mt-15 mt-6`}>
             <span
               className={`text-green-primary xl:text-[24px] lg:text-[20px] md:text-[16px] font-bold text-center  `}

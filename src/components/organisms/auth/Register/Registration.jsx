@@ -1,5 +1,5 @@
 import { Formik, Form } from "formik";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import FormInput from "../../../molecules/Inputs/FormInput";
 import HomeIcon from "../../../../core/icons/HomeIcon";
@@ -12,7 +12,6 @@ const validationSchema = Yup.object({
     .required("ایمیل وارد شده معتبر نیست!"),
 });
 const Registration = ({ setPage }) => {
-  const Navigate = useNavigate();
   const handleSubmit = () => {
     setPage("Step2");
   };
@@ -30,17 +29,12 @@ const Registration = ({ setPage }) => {
       {({ errors }) => (
         <Form>
           <div className={`flex flex-col gap-10 `}>
-            <div
-              onClick={() => {
-                Navigate("/Auth/Login");
-              }}
-              className={`flex gap-2 cursor-pointer`}
-            >
+            <Link to={"/"} className={`flex gap-2 cursor-pointer`}>
               <HomeIcon />
               <span className={`text-green-dark text-3.5 font-bold`}>
                 صفحه اصلی
               </span>
-            </div>
+            </Link>
             <div className={`flex flex-col gap-2 text-center cursor-pointer`}>
               {" "}
               <span

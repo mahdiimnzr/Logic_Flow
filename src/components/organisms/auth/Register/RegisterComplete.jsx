@@ -40,7 +40,7 @@ const RegisterComplete = ({ setPage }) => {
           <div className={`flex flex-col gap-10`}>
             <div
               onClick={() => {
-                setPage("Step1");
+                setPage("Step2");
               }}
               className={`flex gap-2 cursor-pointer`}
             >
