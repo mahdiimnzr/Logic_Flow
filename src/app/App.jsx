@@ -1,4 +1,5 @@
 import AppProvider from "./AppProvider";
+
 const App = () => {
   return <AppProvider />;
 };
