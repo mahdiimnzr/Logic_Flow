@@ -1,10 +1,10 @@
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Suspense, useState } from "react";
-import queryClient from "../core/constants/queryClient";
 import { RouterProvider } from "react-router-dom";
 import router from "./router/routes";
 import { Bounce, ToastContainer } from "react-toastify";
 import ThemeContext from "./context/themeContext";
+import queryClient from "@/config/queryClient";
 
 const AppProvider = () => {
   const [theme, setTheme] = useState(false);
