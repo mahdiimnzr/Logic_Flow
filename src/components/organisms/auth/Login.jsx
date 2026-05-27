@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import loginStep1 from "../../../assets/images/loginstep1.png";
-import loginStep2 from "../../../assets/images/loginstep2.png";
+import loginStep2 from "../../../assets/images/loginstep And Register2.png";
 import ThemeSlide from "../../../components/molecules/theme/ThemeSlide";
 import ThemeContext from "../../../app/context/themeContext";
 import Step1 from "./login/step1";
@@ -9,9 +9,9 @@ import Step2 from "./login/Step2";
 const Login = () => {
   const { theme, setTheme } = useContext(ThemeContext);
   const [whichStep, setWhichStep] = useState("Step1");
-  const [SignUpParams, setSignUpParams] = useState({});
+  // const [SignUpParams, setSignUpParams] = useState({});
   return (
-    <div className=" border w-full flex flex-col md:flex-row items-center p-4 justify-end xl:gap-24 lg:gap-20 md:gap-15 gap-3">
+    <div className="  w-full flex flex-col md:flex-row items-center p-4 justify-end xl:gap-24 lg:gap-20 md:gap-15 gap-3">
       <div className={`h-full md:w-4/10 w-full flex flex-col justify-between`}>
         {whichStep === "Step1" && <Step1 setWhichStep={setWhichStep} />}
         {whichStep === "Step2" && <Step2 setWhichStep={setWhichStep} />}
