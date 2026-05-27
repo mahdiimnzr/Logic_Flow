@@ -1,6 +1,6 @@
 import { Formik, Form, ErrorMessage } from "formik";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import Button from "../../../atoms/Buttons/Button";
 import ArrowRightIcon from "../../../../core/icons/ArrowRightIcon";
@@ -70,14 +70,6 @@ const Step2 = ({ setWhichStep }) => {
               <Button color={"authBtn"} className={` h-15 w-full`}>
                 ارسال کد یکبار مصرف
               </Button>
-            </div>
-            <div
-              className={`flex gap-2 justify-center text-[14px] font-normal mt-8`}
-            >
-              <p className={`text-default-black`}>حساب کاربری ندارید؟</p>
-              <Link to={"/Auth/Register"} className={`text-green-primary`}>
-                ثبت نام
-              </Link>
             </div>
           </Form>
         );
