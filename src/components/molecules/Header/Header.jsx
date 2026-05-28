@@ -5,7 +5,7 @@ import Button from "@/components/atoms/Buttons/Button";
 import SearchHeader from "../Inputs/SearchHeader";
 import ThemeButton from "../theme/ThemeButton";
 import { useContext } from "react";
-import ThemeContext from "@/app/context/themeContext";
+import ThemeContext from "@/app/context/ThemeContext";
 
 const Header = () => {
   const { theme, setTheme } = useContext(ThemeContext);

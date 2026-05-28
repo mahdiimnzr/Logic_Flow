@@ -7,7 +7,8 @@ const TeachersCard = (props) => {
   const { isFromDetail = false } = props;
   return (
     <div
-      className={`border border-light-gray bg-default-light rounded-[20px] p-4 flex flex-col items-center gap-2`}
+      dir="rtl"
+      className={`border border-light-gray bg-default-light rounded-[20px] p-4 flex flex-col items-center gap-2 transition-all shadow-[0px_4px_4px_0px_#000000]/0 hover:shadow-cards-hover`}
     >
       <Link className={`block h-45 ${isFromDetail ? "w-45" : "w-full"}`}>
         <img
@@ -24,7 +25,7 @@ const TeachersCard = (props) => {
           پروفایل لیندکین
         </span>
       </div>
-      <div className={`flex items-center gap-6`}>
+      <div className={`flex items-center justify-center w-full gap-6`}>
         <div className={`flex flex-col items-center`}>
           <span className={`text-default-black font-normal text-[14px]`}>
             3
@@ -33,7 +34,7 @@ const TeachersCard = (props) => {
             دوره ها
           </h4>
         </div>
-        <Border width="w-0.5" height="h-full" />
+        <Border width="w-0.5" height="h-12.5" />
         <div className={`flex flex-col items-center`}>
           <span className={`text-default-black font-normal text-[14px]`}>
             8

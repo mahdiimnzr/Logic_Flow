@@ -3,7 +3,7 @@ import ArrowIcon from "@/core/icons/ArrowIcon";
 import experienceLanding from "@/assets/images/experienceLanding.png";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
-import ThemeContext from "@/app/context/themeContext";
+import ThemeContext from "@/app/context/ThemeContext";
 
 const ExperienceSection = () => {
   const { theme } = useContext(ThemeContext);

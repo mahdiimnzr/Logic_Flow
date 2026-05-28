@@ -1,10 +1,10 @@
+import TeachersCard from "@/components/molecules/Cards/TeachersCard";
 import { ArrowLeft, ArrowRight, ChevronLeft } from "lucide-react";
-import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
-import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { useContext, useState } from "react";
+import { Navigation } from "swiper/modules";
+import { Link } from "react-router-dom";
 import "swiper/css";
-import Card from "@/components/molecules/Cards/Card";
 import ThemeContext from "@/app/context/ThemeContext";
 
 const mockCourses = [
@@ -52,7 +52,7 @@ const mockCourses = [
   },
 ];
 
-const CoursesSection = () => {
+const TeachersSection = () => {
   const { theme } = useContext(ThemeContext);
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
@@ -61,10 +61,10 @@ const CoursesSection = () => {
     <div className="w-[95%] mx-auto flex flex-col gap-8 items-center">
       <div className="flex flex-col items-center gap-2">
         <h3 className="font-bold text-[32px] text-green-primary">
-          دوره‌های آموزشی برنامه‌نویسی
+          آشنایی با اساتید حرفه‌ای ما
         </h3>
         <p className="text-2xl font-normal text-gray-subtitle">
-          دوره‌هایی برای همه: یاد بگیر، تمرین کن، پروژه بزن!
+          یادگیری از برترین مدرسین با تجربه و دانش به‌روز
         </p>
       </div>
       <div className="flex flex-col gap-8 w-full">
@@ -97,9 +97,9 @@ const CoursesSection = () => {
               />
             </button>
           </div>
-          <Link to="/Courses" className="flex items-center gap-2">
+          <Link to="/Teachers" className="flex items-center gap-2">
             <span className="text-field-silver text-[14px] font-normal">
-              مشاهده همه دوره ها
+              مشاهده همه اساتید
             </span>
             <ChevronLeft width="16" height="16" color="#848484" />
           </Link>
@@ -128,7 +128,7 @@ const CoursesSection = () => {
           >
             {mockCourses.map((course) => (
               <SwiperSlide key={course.id}>
-                <Card isCourseCard={true} />
+                <TeachersCard isCourseCard={true} />
               </SwiperSlide>
             ))}
           </Swiper>
@@ -138,4 +138,4 @@ const CoursesSection = () => {
   );
 };
 
-export default CoursesSection;
+export default TeachersSection;

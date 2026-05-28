@@ -1,4 +1,4 @@
-import ThemeContext from "@/app/context/themeContext";
+import ThemeContext from "@/app/context/ThemeContext";
 import boyPlaying from "../../../assets/images/landingHero.png";
 import ArrowIcon from "../../../core/icons/ArrowIcon";
 import Border from "../../atoms/Border/Border";
