@@ -1,61 +1,21 @@
 import { ArrowLeft, ArrowRight, ChevronLeft } from "lucide-react";
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import Card from "@/components/molecules/Cards/Card";
 import ThemeContext from "@/app/context/ThemeContext";
-
-const mockCourses = [
-  {
-    id: 1,
-    title: "دوره React",
-    level: "مقدماتی",
-    price: "۲۵۰,۰۰۰",
-    image: null,
-  },
-  {
-    id: 2,
-    title: "دوره Next.js",
-    level: "متوسط",
-    price: "۳۵۰,۰۰۰",
-    image: null,
-  },
-  {
-    id: 3,
-    title: "دوره TypeScript",
-    level: "پیشرفته",
-    price: "۴۰۰,۰۰۰",
-    image: null,
-  },
-  {
-    id: 4,
-    title: "دوره Tailwind",
-    level: "مقدماتی",
-    price: "۱۵۰,۰۰۰",
-    image: null,
-  },
-  {
-    id: 5,
-    title: "دوره Node.js",
-    level: "متوسط",
-    price: "۳۰۰,۰۰۰",
-    image: null,
-  },
-  {
-    id: 6,
-    title: "دوره MongoDB",
-    level: "متوسط",
-    price: "۲۸۰,۰۰۰",
-    image: null,
-  },
-];
+import useGetCourses from "@/core/services/api/common/useGetCourse";
 
 const CoursesSection = () => {
   const { theme } = useContext(ThemeContext);
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
+  const prevRef = useRef(null);
+  const nextRef = useRef(null);
+  const { isLoading, data } = useGetCourses({"RowsOfPage":"100","TechCount":"1"});
+
   return (
     <div className="w-[95%] mx-auto flex flex-col gap-8 items-center">
       <div className="flex flex-col items-center gap-2">
@@ -70,9 +30,10 @@ const CoursesSection = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1">
             <button
+              ref={nextRef}
               className={`${
                 isEnd ? "bg-green-primary" : "bg-transparent"
-              } size-8.5 content-center rounded-full cursor-pointer transition-colors duration-200 nextBtn`}
+              } size-8.5 content-center rounded-full cursor-pointer transition-colors duration-200`}
             >
               <ArrowRight
                 width="19"
@@ -82,9 +43,10 @@ const CoursesSection = () => {
               />
             </button>
             <button
+              ref={prevRef}
               className={`${
                 isBeginning ? "bg-green-primary" : "bg-transparent"
-              } size-8.5 content-center rounded-full cursor-pointer transition-colors duration-200 prevBtn`}
+              } size-8.5 content-center rounded-full cursor-pointer transition-colors duration-200`}
             >
               <ArrowLeft
                 width="19"
@@ -103,31 +65,37 @@ const CoursesSection = () => {
             <ChevronLeft width="16" height="16" color="#848484" />
           </Link>
         </div>
-        <div className={`w-full`}>
+        <div className="w-full">
           <Swiper
             dir="ltr"
             modules={[Navigation]}
-            navigation={{
-              prevEl: ".prevBtn",
-              nextEl: ".nextBtn",
+            navigation={true}
+            onBeforeInit={(swiper) => {
+              swiper.params.navigation.prevEl = prevRef.current;
+              swiper.params.navigation.nextEl = nextRef.current;
             }}
             loop={false}
-            spaceBetween={32}
-            slidesPerView={4}
-            slidesPerGroup={1}
-            onSwiper={(swiper) => {
-              setIsBeginning(swiper.isBeginning);
-              setIsEnd(swiper.isEnd);
+            breakpoints={{
+              0: { slidesPerView: 1.2, spaceBetween: 12 },
+              640: { slidesPerView: 2, spaceBetween: 16 },
+              1024: { slidesPerView: 3, spaceBetween: 24 },
+              1280: { slidesPerView: 4, spaceBetween: 32 },
             }}
             onSlideChange={(swiper) => {
               setIsBeginning(swiper.isBeginning);
               setIsEnd(swiper.isEnd);
             }}
+            onSwiper={(swiper) => {
+              if (!isLoading) {
+                setIsBeginning(swiper.isBeginning);
+                setIsEnd(swiper.isEnd);
+              }
+            }}
             style={{ paddingBottom: "10px", paddingInline: "10px" }}
           >
-            {mockCourses.map((course) => (
-              <SwiperSlide key={course.id}>
-                <Card isCourseCard={true} />
+            {data?.courseFilterDtos?.map((course,index) => (
+              <SwiperSlide key={index}>
+                <Card isCourseCard={true} isFavorite={false} />
               </SwiperSlide>
             ))}
           </Swiper>
