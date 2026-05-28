@@ -11,7 +11,7 @@ const ArticlesSection = () => {
           با تازه‌ترین اخبار و مقالات برنامه‌نویسی به‌روز بمانید
         </p>
       </div>
-      <div className="grid grid-cols-[40%_60%] gap-8 w-full">
+      <div className="grid grid-cols-[40%_58.25%] gap-8 w-full">
         <ArticlesCardLanding />
         <ArticlesCardLanding />
       </div>

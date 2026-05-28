@@ -9,7 +9,7 @@ import TechnologyCardIcon from "../../../core/icons/TechnologyCardIcon";
 import formatPrice from "../../../core/utils/formatPrice";
 
 const Card = (props) => {
-  const { isCourseCard = false } = props;
+  const { isCourseCard = false, isFavorite = false } = props;
   return (
     <div
       dir="rtl"
@@ -18,11 +18,11 @@ const Card = (props) => {
       <div
         className={`absolute z-10 right-4 top-4 content-center bg-default-black/25 size-10 rounded-full cursor-pointer`}
       >
-        <FavoriteIcon isFavorite={false} className={`mx-auto`} />
+        <FavoriteIcon isFavorite={isFavorite} className={`mx-auto`} />
       </div>
-      <Link className={`h-60 group content-center block`}>
+      <Link className={`h-60 group content-center block relative`}>
         <img
-          className={`transform-[scale(1.5)] size-full transition-all cursor-pointer mx-auto group-hover:transform-[scale(1.2)]`}
+          className={`transform-[scale(1.5)] size-full transition-all cursor-pointer mx-auto group-hover:transform-[scale(1.2)] absolute inset-0 object-cover`}
           src={course}
         />
       </Link>
