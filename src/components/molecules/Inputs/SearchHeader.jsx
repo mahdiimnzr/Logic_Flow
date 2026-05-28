@@ -1,9 +1,9 @@
 import SelectModal from "../Select/Select";
 import { Search } from "lucide-react";
 import { useContext } from "react";
-import ThemeContext from "@/app/context/themeContext";
 import Button from "@/components/atoms/Buttons/Button";
 import selectCategories from "@/core/constants/selectCategories";
+import ThemeContext from "@/app/context/ThemeContext";
 
 const SearchHeader = () => {
   const { theme } = useContext(ThemeContext);

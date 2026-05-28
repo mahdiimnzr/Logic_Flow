@@ -1,11 +1,11 @@
 import { useContext, useState } from "react";
 import Registration from "./Register/Registration";
 import ThemeSlide from "../../molecules/theme/ThemeSlide";
-import ThemeContext from "../../../app/context/themeContext";
 import RegisterCode from "./Register/RegisterCode";
 import RegisterStep1 from "../../../assets/images/registerStep1.png";
 import Register2 from "../../../assets/images/loginstep And Register2.png";
 import RegisterComplete from "./Register/RegisterComplete";
+import ThemeContext from "@/app/context/ThemeContext";
 const Register = () => {
   const { theme, setTheme } = useContext(ThemeContext);
   const [page, setPage] = useState("Step1");

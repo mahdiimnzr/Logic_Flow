@@ -15,7 +15,7 @@ const ServicesSection = () => {
         {services?.map((service, index) => (
           <div
             key={index}
-            className={`bg-default-light rounded-[16px] px-4.5 py-8 flex flex-col gap-3 items-center transition-all shadow-[0px_4px_4px_0px_#000000]/0 cursor-pointer hover:shadow-[0px_4px_4px_0px_#000000]/25`}
+            className={`bg-default-light rounded-[16px] px-4.5 py-8 flex flex-col gap-3 items-center transition-all shadow-[0px_4px_4px_0px_#000000]/0 cursor-pointer hover:shadow-cards-hover`}
           >
             <div
               className={`bg-light-green rounded-[20px] size-19.5 content-center`}

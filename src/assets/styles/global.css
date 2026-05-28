@@ -25,6 +25,7 @@ html {
   --color-sun-background: #ffdf9b;
   --color-moon-background: #455a64;
   --color-light-green: #eefffc;
+  --shadow-cards-hover: 0px 4px 4px 0px #00000025;
 }
 
 .dark {
@@ -34,7 +35,7 @@ html {
   --color-star-yellow: #f8bc24;
   --color-red-error: #ef5350;
   --color-field-silver: #848484;
-  --color-light-gray: #3d3d3d;
+  --color-light-gray: #313131;
   --color-gray-subtitle: #dbdbdb;
   --color-dark-gray: #adadad;
   --color-default-black: #ffffff;
@@ -43,6 +44,7 @@ html {
   --color-sun-background: #ffdf9b;
   --color-moon-background: #455a64;
   --color-light-green: #292727;
+  --shadow-cards-hover: 0px 4px 4px 0px #ffffff25;
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
@@ -92,6 +94,7 @@ html {
   --color-sun-background: var(--color-sun-background);
   --color-moon-background: var(--color-moon-background);
   --color-light-green: var(--color-light-green);
+  --shadow-cards-hover: var(--shadow-cards-hover);
 }
 
 @theme inline {

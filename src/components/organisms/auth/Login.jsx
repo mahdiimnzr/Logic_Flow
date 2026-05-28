@@ -2,9 +2,9 @@ import { useContext, useState } from "react";
 import loginStep1 from "../../../assets/images/loginstep1.png";
 import loginStep2 from "../../../assets/images/loginstep And Register2.png";
 import ThemeSlide from "../../../components/molecules/theme/ThemeSlide";
-import ThemeContext from "../../../app/context/themeContext";
 import Step1 from "./Login/Step1";
 import Step2 from "./Login/Step2";
+import ThemeContext from "@/app/context/ThemeContext";
 
 const Login = () => {
   const { theme, setTheme } = useContext(ThemeContext);

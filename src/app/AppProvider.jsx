@@ -3,8 +3,8 @@ import { Suspense, useState } from "react";
 import { RouterProvider } from "react-router-dom";
 import router from "./router/routes";
 import { Bounce, ToastContainer } from "react-toastify";
-import ThemeContext from "./context/themeContext";
 import queryClient from "@/config/queryClient";
+import ThemeContext from "./context/ThemeContext";
 
 const AppProvider = () => {
   const [theme, setTheme] = useState(false);
