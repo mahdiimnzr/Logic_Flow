@@ -18,6 +18,7 @@ html {
   --color-red-error: #ef5350;
   --color-field-silver: #848484;
   --color-light-gray: #eaeaea;
+  --color-gray-subtitle: #353535;
   --color-dark-gray: #626262;
   --color-default-black: #1e1e1e;
   --color-default-light: #ffffff;
@@ -35,6 +36,7 @@ html {
   --color-red-error: #ef5350;
   --color-field-silver: #848484;
   --color-light-gray: #3d3d3d;
+  --color-gray-subtitle: #dbdbdb;
   --color-dark-gray: #adadad;
   --color-default-black: #ffffff;
   --color-default-light: #1e1e1e;
@@ -83,6 +85,7 @@ html {
   --color-red-error: var(--color-red-error);
   --color-field-silver: var(--color-field-silver);
   --color-light-gray: var(--color-light-gray);
+  --color-gray-subtitle: var(--color-gray-subtitle);
   --color-dark-gray: var(--color-dark-gray);
   --color-default-black: var(--color-default-black);
   --color-default-light: var(--color-default-light);
@@ -94,7 +97,7 @@ html {
 
 @theme inline {
   --font-heading: var(--font-sans);
-  --font-sans: 'Geist Variable', sans-serif;
+  --font-sans: "Geist Variable", sans-serif;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
