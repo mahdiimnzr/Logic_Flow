@@ -11,7 +11,7 @@ const Login = () => {
   const [whichStep, setWhichStep] = useState("Step1");
   // const [SignUpParams, setSignUpParams] = useState({});
   return (
-    <div className="  w-full flex flex-col md:flex-row items-center p-4 justify-end xl:gap-24 lg:gap-20 md:gap-15 gap-3">
+    <div className="  w-full flex flex-col md:flex-row  p-4 justify-end xl:gap-24 lg:gap-20 md:gap-15 gap-3">
       <div className={`h-full md:w-4/10 w-full flex flex-col justify-between`}>
         {whichStep === "Step1" && <Step1 setWhichStep={setWhichStep} />}
         {whichStep === "Step2" && <Step2 setWhichStep={setWhichStep} />}
