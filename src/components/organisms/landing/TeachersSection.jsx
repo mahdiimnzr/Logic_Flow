@@ -56,7 +56,6 @@ const TeachersSection = () => {
   const { theme } = useContext(ThemeContext);
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
-
   return (
     <div className="w-[95%] mx-auto flex flex-col gap-8 items-center">
       <div className="flex flex-col items-center gap-2">
