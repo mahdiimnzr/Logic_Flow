@@ -1,8 +1,14 @@
 import navigation from "@/core/constants/navigation";
 import logoIcon from "/logoIcon.png";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import Button from "@/components/atoms/Buttons/Button";
+import SearchHeader from "../Inputs/SearchHeader";
+import ThemeButton from "../theme/ThemeButton";
+import { useContext } from "react";
+import ThemeContext from "@/app/context/themeContext";
 
 const Header = () => {
+  const { theme, setTheme } = useContext(ThemeContext);
   return (
     <div
       className={`w-[95%] flex justify-between items-center pt-6 mx-auto relative z-10`}
@@ -28,7 +34,21 @@ const Header = () => {
           ))}
         </div>
       </div>
-      <div></div>
+      <div className={`flex items-center gap-5`}>
+        <ThemeButton
+          className={`size-11.5!`}
+          sunClassName={`size-6`}
+          moonClassName={`w-5 h-6`}
+          theme={theme}
+          setTheme={setTheme}
+        />
+        <SearchHeader />
+        <Link to={"/Auth/Login"} className={`rounded-[50px]`}>
+          <Button color={"registerBtn"} className={`py-2.5 px-6`}>
+            ورود / ثبت نام
+          </Button>
+        </Link>
+      </div>
     </div>
   );
 };
