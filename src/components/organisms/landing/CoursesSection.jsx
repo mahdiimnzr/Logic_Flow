@@ -7,7 +7,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import Card from "@/components/molecules/Cards/Card";
 
-// داده‌های نمونه — با داده‌های واقعیت جایگزین کن
 const mockCourses = [
   {
     id: 1,
