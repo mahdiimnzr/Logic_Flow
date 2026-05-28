@@ -2,8 +2,11 @@ import Button from "@/components/atoms/Buttons/Button";
 import ArrowIcon from "@/core/icons/ArrowIcon";
 import experienceLanding from "@/assets/images/experienceLanding.png";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import ThemeContext from "@/app/context/themeContext";
 
 const ExperienceSection = () => {
+  const { theme } = useContext(ThemeContext);
   return (
     <div className={`flex justify-between items-center w-[95%] mx-auto`}>
       <div className={`w-4/10 flex flex-col gap-8`}>
@@ -28,7 +31,7 @@ const ExperienceSection = () => {
             className={`h-11.5 w-63 flex justify-center items-center gap-4`}
           >
             <p>به جمع اساتید بپیوندید</p>
-            <ArrowIcon />
+            <ArrowIcon color={theme ? `#1E1E1E` : `#ffffff`} />
           </Button>
         </Link>
       </div>
