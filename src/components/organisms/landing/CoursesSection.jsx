@@ -1,4 +1,3 @@
-import ThemeContext from "@/app/context/themeContext";
 import { ArrowLeft, ArrowRight, ChevronLeft } from "lucide-react";
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
@@ -6,6 +5,7 @@ import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import Card from "@/components/molecules/Cards/Card";
+import ThemeContext from "@/app/context/ThemeContext";
 
 const mockCourses = [
   {
@@ -104,7 +104,7 @@ const CoursesSection = () => {
             <ChevronLeft width="16" height="16" color="#848484" />
           </Link>
         </div>
-        <div className={``}>
+        <div className={`w-full`}>
           <Swiper
             dir="ltr"
             modules={[Navigation]}
