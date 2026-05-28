@@ -49,31 +49,35 @@ const RegisterCode = ({ setPage }) => {
                   بازگشت
                 </span>
               </div>
-              <div className={`flex flex-col gap-2 text-center cursor-pointer`}>
-                {" "}
-                <span
-                  className={`text-green-primary xl:text-[24px] lg:text-[20px] md:text-[16px] font-bold  `}
+              <div className={`flex flex-col gap-10`}>
+                <div
+                  className={`flex flex-col gap-2 text-center cursor-pointer`}
                 >
-                  ورود به حساب کاربری
-                </span>
-                <span className={`text-[16px] text-default-black`}>
-                  رمز یکبار مصرف ارسال شده را وارد کنید
-                </span>
+                  {" "}
+                  <span
+                    className={`text-green-primary xl:text-[24px] lg:text-[20px] md:text-[16px] font-bold  `}
+                  >
+                    ورود به حساب کاربری
+                  </span>
+                  <span className={`text-[16px] text-default-black`}>
+                    رمز یکبار مصرف ارسال شده را وارد کنید
+                  </span>
+                </div>
+                <div
+                  dir="ltr"
+                  className={`flex xl:gap-10 lg:gap-6.5 gap-4 justify-center items-center`}
+                >
+                  <OtpInput
+                    otp={otp}
+                    setOtp={setOtp}
+                    error={errors?.verifyCode}
+                  />
+                </div>
+                <ErrorMessage component={"span"} name="verifyCode" />
+                <Button color={"authBtn"} className={` h-15 w-full`}>
+                  تایید رمز یکبار مصرف
+                </Button>
               </div>
-              <div
-                dir="ltr"
-                className={`flex xl:gap-10 lg:gap-6.5 gap-4 justify-center items-center`}
-              >
-                <OtpInput
-                  otp={otp}
-                  setOtp={setOtp}
-                  error={errors?.verifyCode}
-                />
-              </div>
-              <ErrorMessage component={"span"} name="verifyCode" />
-              <Button color={"authBtn"} className={` h-15 w-full`}>
-                ارسال کد یکبار مصرف
-              </Button>
             </div>
           </Form>
         );

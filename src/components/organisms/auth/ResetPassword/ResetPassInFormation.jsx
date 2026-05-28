@@ -11,9 +11,9 @@ const validationSchema = Yup.object({
     .min(8, " ایمیل حداقل باید تشکیل شده از 8 حروف باشد")
     .required("ایمیل وارد شده معتبر نیست!"),
 });
-const Registration = ({ setPage }) => {
+const ResetPassInFormation = ({ setWhichStep }) => {
   const handleSubmit = () => {
-    setPage("Step2");
+    setWhichStep("Step2");
   };
   return (
     <Formik
@@ -83,4 +83,4 @@ const Registration = ({ setPage }) => {
   );
 };
 
-export default Registration;
+export default ResetPassInFormation;
