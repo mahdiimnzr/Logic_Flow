@@ -1,5 +1,6 @@
 import { Login, Register } from "@/components/organisms/auth";
 import { AuthLayout } from "../../templates";
+import ResetPassword from "@/components/organisms/auth/ResetPassword";
 
 const authRoute = [
   {
@@ -13,6 +14,10 @@ const authRoute = [
       {
         path: "/Auth/Register",
         element: <Register />,
+      },
+      {
+        path: "/Auth/ResetPassword",
+        element: <ResetPassword />,
       },
     ],
   },
