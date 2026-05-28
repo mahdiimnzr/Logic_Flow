@@ -82,11 +82,12 @@ const Step1 = ({ setWhichStep }) => {
                     }}
                     label={"مرا به خاطر بسپار"}
                   />
-                  <span
+                  <Link
+                    to={"/Auth/ResetPassword"}
                     className={`text-field-silver text-[14px] font-normal ml-3`}
                   >
                     فراموشی رمز عبور
-                  </span>
+                  </Link>
                 </div>
 
                 <Button color={"authBtn"} className={`h-15`}>

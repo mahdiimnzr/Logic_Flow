@@ -19,7 +19,7 @@ const validationSchema = Yup.object({
     .required("رمز عبور وارد شده معتبر نیست!"),
 });
 
-const RegisterComplete = ({ setPage }) => {
+const NewPassword = ({ setWhichStep }) => {
   const Navigate = useNavigate();
   const handleSubmit = () => {
     Navigate("/Auth/Login");
@@ -40,7 +40,7 @@ const RegisterComplete = ({ setPage }) => {
           <div className={`flex flex-col xl:gap-8 gap-3 xl:pt-19.5 pt-10`}>
             <div
               onClick={() => {
-                setPage("Step2");
+                setWhichStep("Step2");
               }}
               className={`flex gap-2 cursor-pointer`}
             >
@@ -62,13 +62,6 @@ const RegisterComplete = ({ setPage }) => {
               </span>
             </div>
             <div className={`flex flex-col gap-10 `}>
-              <FormInput
-                icon={<EmailIcon />}
-                error={errors.phoneOrGmail}
-                name={"phoneOrGmail"}
-                type={"text"}
-                placeholder={"ایمیل خود را وارد کنید"}
-              />
               <FormInput
                 icon={<KeyIcon />}
                 error={errors.phoneOrGmail}
@@ -104,4 +97,4 @@ const RegisterComplete = ({ setPage }) => {
   );
 };
 
-export default RegisterComplete;
+export default NewPassword;
