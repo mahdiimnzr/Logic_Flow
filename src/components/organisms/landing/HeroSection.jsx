@@ -1,9 +1,12 @@
+import ThemeContext from "@/app/context/themeContext";
 import boyPlaying from "../../../assets/images/landingHero.png";
 import ArrowIcon from "../../../core/icons/ArrowIcon";
 import Border from "../../atoms/Border/Border";
 import Button from "../../atoms/Buttons/Button";
+import { useContext } from "react";
 
 const HeroSection = () => {
+  const { theme } = useContext(ThemeContext);
   return (
     <div className={`bg-light-green w-full pt-29 relative -top-29`}>
       <div className={`flex justify-between items-center w-[95%] mx-auto`}>
@@ -28,7 +31,7 @@ const HeroSection = () => {
             className={`h-11.5 w-63 flex justify-center items-center gap-1.5`}
           >
             <p>به جمع حرفه‌ای‌ها بپیوندید</p>
-            <ArrowIcon />
+            <ArrowIcon color={theme ? `#1E1E1E` : `#ffffff`} />
           </Button>
         </div>
         <div className={`w-4/10 flex justify-end`}>
