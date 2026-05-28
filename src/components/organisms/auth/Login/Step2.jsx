@@ -47,7 +47,6 @@ const Step2 = ({ setWhichStep }) => {
                 بازگشت
               </div>
             </div>
-
             <div
               className={`flex flex-col items-center justify-center gap-6 xl:mt-20 lg:mt-15 mt-6`}
             >

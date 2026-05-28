@@ -86,7 +86,6 @@ const Step1 = ({ setWhichStep }) => {
                   فراموشی رمز عبور
                 </span>
               </div>
-
               <Button color={"authBtn"} className={`h-15`}>
                 ارسال کد یکبار مصرف
               </Button>

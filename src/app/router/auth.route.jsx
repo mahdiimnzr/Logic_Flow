@@ -1,5 +1,4 @@
-import Login from "../../components/organisms/auth/Login";
-import Register from "../../components/organisms/auth/Register";
+import { Login, Register } from "@/components/organisms/auth";
 import { AuthLayout } from "../../templates";
 
 const authRoute = [
