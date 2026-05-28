@@ -20,9 +20,9 @@ const Card = (props) => {
       >
         <FavoriteIcon isFavorite={false} className={`mx-auto`} />
       </div>
-      <Link className={`h-60 group content-center block`}>
+      <Link className={`h-60 group content-center block relative`}>
         <img
-          className={`transform-[scale(1.5)] size-full transition-all cursor-pointer mx-auto group-hover:transform-[scale(1.2)]`}
+          className={`transform-[scale(1.5)] size-full transition-all cursor-pointer mx-auto group-hover:transform-[scale(1.2)] absolute inset-0 object-cover`}
           src={course}
         />
       </Link>

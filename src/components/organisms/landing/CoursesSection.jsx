@@ -6,56 +6,13 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import Card from "@/components/molecules/Cards/Card";
 import ThemeContext from "@/app/context/ThemeContext";
-
-const mockCourses = [
-  {
-    id: 1,
-    title: "دوره React",
-    level: "مقدماتی",
-    price: "۲۵۰,۰۰۰",
-    image: null,
-  },
-  {
-    id: 2,
-    title: "دوره Next.js",
-    level: "متوسط",
-    price: "۳۵۰,۰۰۰",
-    image: null,
-  },
-  {
-    id: 3,
-    title: "دوره TypeScript",
-    level: "پیشرفته",
-    price: "۴۰۰,۰۰۰",
-    image: null,
-  },
-  {
-    id: 4,
-    title: "دوره Tailwind",
-    level: "مقدماتی",
-    price: "۱۵۰,۰۰۰",
-    image: null,
-  },
-  {
-    id: 5,
-    title: "دوره Node.js",
-    level: "متوسط",
-    price: "۳۰۰,۰۰۰",
-    image: null,
-  },
-  {
-    id: 6,
-    title: "دوره MongoDB",
-    level: "متوسط",
-    price: "۲۸۰,۰۰۰",
-    image: null,
-  },
-];
+import useGetCourses from "@/core/services/api/common/useGetCourse";
 
 const CoursesSection = () => {
   const { theme } = useContext(ThemeContext);
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
+  const { isLoading, data } = useGetCourses();
   return (
     <div className="w-[95%] mx-auto flex flex-col gap-8 items-center">
       <div className="flex flex-col items-center gap-2">
@@ -116,16 +73,18 @@ const CoursesSection = () => {
             slidesPerView={4}
             slidesPerGroup={1}
             onSwiper={(swiper) => {
-              setIsBeginning(swiper.isBeginning);
-              setIsEnd(swiper.isEnd);
+              if (!isLoading) {
+                setIsBeginning(swiper.isBeginning);
+                setIsEnd(swiper.isEnd);
+              }
             }}
             onSlideChange={(swiper) => {
               setIsBeginning(swiper.isBeginning);
               setIsEnd(swiper.isEnd);
             }}
-            style={{ paddingBottom: "10px", paddingInline: "10px" }}
+            // style={{ paddingBottom: "10px", paddingInline: "10px" }}
           >
-            {mockCourses.map((course) => (
+            {data?.courseFilterDtos?.map((course) => (
               <SwiperSlide key={course.id}>
                 <Card isCourseCard={true} />
               </SwiperSlide>
