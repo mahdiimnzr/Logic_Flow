@@ -11,7 +11,10 @@ import formatPrice from "../../../core/utils/formatPrice";
 const Card = (props) => {
   const { isCourseCard = false } = props;
   return (
-    <div className={`rounded-[20px] relative overflow-hidden w-full`}>
+    <div
+      dir="rtl"
+      className={`rounded-[20px] relative overflow-hidden w-full transition-all shadow-[0px_4px_4px_0px_#000000]/0 hover:shadow-cards-hover`}
+    >
       <div
         className={`absolute z-10 right-4 top-4 content-center bg-default-black/25 size-10 rounded-full cursor-pointer`}
       >
