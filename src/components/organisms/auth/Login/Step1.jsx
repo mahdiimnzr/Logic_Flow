@@ -3,15 +3,14 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import FormInput from "../../../molecules/Inputs/FormInput";
-import EmailIcon from "../../../../core/icons/EmailIcon";
 import CheckBox from "../../../molecules/Inputs/CheckBox";
 import HomeIcon from "../../../../core/icons/HomeIcon";
 import Button from "../../../atoms/Buttons/Button";
+import KeyIcon from "../../../../core/icons/KeyIcon";
+import HumanIcon from "@/core/icons/HumanIcon";
 
 const validationSchema = Yup.object({
-  phoneOrGmail: Yup.string()
-    .min(8, " ایمیل حداقل باید تشکیل شده از 8 حروف باشد")
-    .required("ایمیل وارد شده معتبر نیست!"),
+  phoneOrGmail: Yup.string().required("ایمیل وارد شده معتبر نیست!"),
   password: Yup.string()
     .min(8, "رمز عبور حداقل باید تشکیل شده از 8 حروف باشد")
     .required("رمز عبور وارد شده معتبر نیست!"),
@@ -43,62 +42,69 @@ const Step1 = ({ setWhichStep }) => {
         }
         return (
           <Form>
-            <Link to={"/"} className={`flex gap-2`}>
-              <HomeIcon />
-              <p className={`text-green-dark text-3.5 font-bold`}>صفحه اصلی</p>
-            </Link>
-            <div className={`flex flex-col gap-8 xl:mt-20 lg:mt-15 mt-6`}>
-              <span
-                className={`text-green-primary xl:text-[24px] lg:text-[20px] md:text-[16px] font-bold text-center  `}
-              >
-                ورود به حساب کاربری
-              </span>
-              <div className={`flex flex-col gap-10 `}>
-                <FormInput
-                  icon={<EmailIcon />}
-                  error={errors.phoneOrGmail}
-                  name={"phoneOrGmail"}
-                  type={"text"}
-                  placeholder={"ایمیل یا شماره تماس"}
-                />
-                <FormInput
-                  icon={<EmailIcon />}
-                  error={errors.password}
-                  name={"password"}
-                  type={"password"}
-                  placeholder={"رمز عبور "}
-                />
-              </div>
-              <div className={`flex justify-between`}>
-                <CheckBox
-                  id={"rememberMe"}
-                  name={"rememberMe"}
-                  checked={checked}
-                  setChecked={() => {
-                    setChecked(!checked);
-                    console.log(checked);
-                  }}
-                  label={"مرا به خاطر بسپار"}
-                />
-                <span
-                  className={`text-field-silver text-[14px] font-normal ml-3`}
-                >
-                  فراموشی رمز عبور
-                </span>
-              </div>
-
-              <Button color={"authBtn"} className={`h-15`}>
-                ارسال کد یکبار مصرف
-              </Button>
-              <div
-                className={`flex gap-2 justify-center text-[14px] font-normal`}
-              >
-                <p className={`text-default-black`}>
-                  حساب کاربری دارید؟{" "}
-                  <Link to={"/Auth/Register"} className={`text-green-primary`}>
-                    ثبت نام
-                  </Link>
+            <div className={`flex flex-col xl:gap-10 gap-5 xl:pt-19 pt-8 `}>
+              <Link to={"/"} className={`flex gap-2`}>
+                <HomeIcon />
+                <p className={`text-green-dark text-3.5 font-bold`}>
+                  صفحه اصلی
                 </p>
+              </Link>
+              <div className={`flex flex-col gap-8 xl:mt-18 lg:mt-8 mt-3`}>
+                <span
+                  className={`text-green-primary xl:text-[24px] lg:text-[20px] md:text-[16px] font-bold text-center  `}
+                >
+                  ورود به حساب کاربری
+                </span>
+                <div className={`flex flex-col gap-10 `}>
+                  <FormInput
+                    icon={<HumanIcon />}
+                    error={errors.phoneOrGmail}
+                    name={"phoneOrGmail"}
+                    type={"text"}
+                    placeholder={"ایمیل یا شماره تماس"}
+                  />
+                  <FormInput
+                    icon={<KeyIcon />}
+                    error={errors.password}
+                    name={"password"}
+                    type={"password"}
+                    placeholder={"رمز عبور "}
+                  />
+                </div>
+                <div className={`flex justify-between`}>
+                  <CheckBox
+                    id={"rememberMe"}
+                    name={"rememberMe"}
+                    checked={checked}
+                    setChecked={() => {
+                      setChecked(!checked);
+                      console.log(checked);
+                    }}
+                    label={"مرا به خاطر بسپار"}
+                  />
+                  <span
+                    className={`text-field-silver text-[14px] font-normal ml-3`}
+                  >
+                    فراموشی رمز عبور
+                  </span>
+                </div>
+
+                <Button color={"authBtn"} className={`h-15`}>
+                  ارسال کد یکبار مصرف
+                </Button>
+                <div
+                  className={`flex gap-2 justify-center text-[14px] font-normal cursor-pointer`}
+                >
+                  <p className={`text-default-black`}>
+                    حساب کاربری دارید؟{" "}
+                    <Link
+                      to={"/Auth/Register"}
+                      className={`text-green-primary`}
+                    >
+                      ثبت نام
+                    </Link>
+                  </p>
+                </div>
               </div>
             </div>
           </Form>

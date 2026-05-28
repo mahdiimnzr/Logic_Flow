@@ -11,7 +11,7 @@ const Register = () => {
   const [page, setPage] = useState("Step1");
   // const [registerData, setRegisterData] = useState({ gmail: "" });
   return (
-    <div className="  w-full flex flex-col md:flex-row-reverse items-center p-4 justify-end xl:gap-20 lg:gap-18 md:gap-13 gap-3">
+    <div className="  w-full flex flex-col md:flex-row-reverse  p-4 justify-end xl:gap-20 lg:gap-18 md:gap-13 gap-3">
       <div className={`h-full md:w-4/10 w-full flex flex-col justify-between`}>
         {page === "Step1" && <Registration setPage={setPage} />}
         {page === "Step2" && <RegisterCode setPage={setPage} />}
@@ -35,7 +35,9 @@ const Register = () => {
           }
           className={`xl:size-108 lg:size-85 md:size-70`}
         />
-        <div className={`flex flex-col justify-center items-center xl:gap-4`}>
+        <div
+          className={`flex flex-col justify-center items-center xl:gap-4 cursor-pointer`}
+        >
           <h2
             className={`text-green-dark xl:text-[24px] lg:text-[20px] md:text-[16px] font-bold  `}
           >
@@ -46,7 +48,7 @@ const Register = () => {
                 : "مرحله پایانی ثبت‌ نام پیش روی شماست."}
           </h2>
           <span
-            className={` text-default-black xl:text-[16px] lg:text-[15px] md:text-[13px] xl:w-132.5 md:w-80 text-center`}
+            className={` text-default-black xl:text-[16px] lg:text-[15px] md:text-[13px] xl:w-132.5 md:w-80 text-center `}
           >
             {page == "Step1"
               ? " با ساخت حساب کاربری‌تان، به محتوای آموزشی، دوره‌ها و ابزارهای پیشرفته دسترسی خواهید داشت. اولین قدم برای رشد و پیشرفت همین‌جاست!"

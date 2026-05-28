@@ -28,7 +28,9 @@ const Registration = ({ setPage }) => {
     >
       {({ errors }) => (
         <Form>
-          <div className={`flex flex-col gap-10 `}>
+          <div
+            className={`flex flex-col xl:gap-15 gap-5 xl:pt-27.75 lg:pt-21.75 md:pt-17.75 pt-10`}
+          >
             <Link to={"/"} className={`flex gap-2 cursor-pointer`}>
               <HomeIcon />
               <span className={`text-green-dark text-3.5 font-bold`}>
