@@ -6,6 +6,7 @@ import SearchHeader from "../Inputs/SearchHeader";
 import ThemeButton from "../theme/ThemeButton";
 import { useContext } from "react";
 import ThemeContext from "@/app/context/ThemeContext";
+import { Search } from "lucide-react";
 
 const Header = () => {
   const { theme, setTheme } = useContext(ThemeContext);
@@ -42,7 +43,16 @@ const Header = () => {
           theme={theme}
           setTheme={setTheme}
         />
-        <SearchHeader />
+        <SearchHeader
+          buttonClassName={`size-11.5`}
+          placeHolder={"جستجو کنید..."}
+          haveSelect={true}
+        >
+          <Search
+            className={`mx-auto size-6`}
+            color={theme ? `#000000` : `#ffffff`}
+          />
+        </SearchHeader>
         <Link to={"/Auth/Login"} className={`rounded-[50px]`}>
           <Button color={"registerBtn"} className={`py-2.5 px-6`}>
             ورود / ثبت نام
