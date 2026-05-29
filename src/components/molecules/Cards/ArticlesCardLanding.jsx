@@ -4,6 +4,7 @@ import Badge from "@/components/atoms/Badge/Badge";
 import EyeOpenIcon from "@/core/icons/EyeOpenIcon";
 import StarIcon from "@/core/icons/StarIcon";
 import { Link } from "react-router-dom";
+import ImageFallback from "@/components/atoms/ImageFallBack/ImageFallBack";
 
 const ArticlesCardLanding = ({
   articleId,
@@ -12,10 +13,12 @@ const ArticlesCardLanding = ({
   categoryName,
   currentView,
   rate,
+  image,
 }) => {
   return (
     <div className={`relative rounded-[20px] overflow-hidden h-91.5`}>
-      <img className={`size-full`} src={article} />
+      <ImageFallback src={image} className={`size-full`} fallback={article} />
+      <img />
       <Link
         to={`/Articles/Detail/${articleId}`}
         className={`absolute z-10 bottom-0 right-0 bg-black/50 transition-all hover:bg-black/85 size-full cursor-pointer p-8 flex items-end`}
