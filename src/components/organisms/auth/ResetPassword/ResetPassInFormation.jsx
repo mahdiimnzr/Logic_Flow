@@ -4,12 +4,11 @@ import * as Yup from "yup";
 import FormInput from "../../../molecules/Inputs/FormInput";
 import HomeIcon from "../../../../core/icons/HomeIcon";
 import Button from "../../../atoms/Buttons/Button";
-import Phone from "../../../../core/icons/Phone";
+
+import EmailIcon from "@/core/icons/EmailIcon";
 
 const validationSchema = Yup.object({
-  phoneOrGmail: Yup.string()
-    .min(8, " ایمیل حداقل باید تشکیل شده از 8 حروف باشد")
-    .required("ایمیل وارد شده معتبر نیست!"),
+  phoneOrGmail: Yup.string().required("ایمیل وارد شده معتبر نیست!"),
 });
 const ResetPassInFormation = ({ setWhichStep }) => {
   const handleSubmit = () => {
@@ -28,7 +27,9 @@ const ResetPassInFormation = ({ setWhichStep }) => {
     >
       {({ errors }) => (
         <Form>
-          <div className={`flex flex-col md:gap-26.75 gap-12 md:pt-18 pt-8`}>
+          <div
+            className={`flex flex-col xl:gap-27 lg:gap-23 gap-12 md:pt-19 pt-8`}
+          >
             <Link to={"/"} className={`flex gap-2 cursor-pointer`}>
               <HomeIcon />
               <span className={`text-green-dark text-3.5 font-bold`}>
@@ -41,21 +42,21 @@ const ResetPassInFormation = ({ setWhichStep }) => {
                 <span
                   className={`text-green-primary xl:text-[24px] lg:text-[20px] md:text-[16px] font-bold `}
                 >
-                  ایجاد حساب کاربری
+                  فراموشی رمز عبور
                 </span>
                 <span
                   className={`xl:text-[16px] lg:text-[15px] md:text-[14px] text-default-black`}
                 >
-                  وارد کردن شماره تماس برای ایجاد حساب کاربری
+                  ایمیل خود را برای تغییر رمز درخواست وارد کنید
                 </span>
               </div>
               <div className={`flex flex-col gap-10 `}>
                 <FormInput
-                  icon={<Phone />}
+                  icon={<EmailIcon />}
                   error={errors.phoneOrGmail}
                   name={"phoneOrGmail"}
                   type={"text"}
-                  placeholder={"شماره تماس خود را وارد کنید"}
+                  placeholder={"ایمیل خود را وارد کنید"}
                 />
               </div>
 
@@ -63,18 +64,8 @@ const ResetPassInFormation = ({ setWhichStep }) => {
                 color={"authBtn"}
                 className={`h-15 xl:text-[16px] lg:text-[15px] md:text-[14px] `}
               >
-                ارسال کد یکبار مصرف
+                ارسال درخواست
               </Button>
-              <div
-                className={`flex gap-2 justify-center text-[14px] font-normal cursor-pointer `}
-              >
-                <p className={`text-default-black`}>
-                  حساب کاربری دارید؟{" "}
-                  <Link to={"/Auth/Login"} className={`text-green-primary`}>
-                    وارد شوید
-                  </Link>
-                </p>
-              </div>
             </div>
           </div>
         </Form>

@@ -49,19 +49,20 @@ const RegisterComplete = ({ setPage }) => {
                 بازگشت
               </span>
             </div>
-            <div className={`flex flex-col gap-2 cursor-pointer`}>
-              <span
-                className={`text-green-primary xl:text-[24px] lg:text-[20px] text-[16px] font-bold text-center  `}
-              >
-                ایجاد حساب کاربری
-              </span>
-              <span
-                className={`xl:text-[16px] lg:text-[14px] text-[13px] text-default-black text-center`}
-              >
-                کامل کردن مشخصات
-              </span>
-            </div>
             <div className={`flex flex-col gap-10 `}>
+              <div className={`flex flex-col gap-2 cursor-pointer`}>
+                <span
+                  className={`text-green-primary xl:text-[24px] lg:text-[20px] text-[16px] font-bold text-center  `}
+                >
+                  ایجاد حساب کاربری
+                </span>
+                <span
+                  className={`xl:text-[16px] lg:text-[14px] text-[13px] text-default-black text-center`}
+                >
+                  کامل کردن مشخصات
+                </span>
+              </div>
+
               <FormInput
                 icon={<EmailIcon />}
                 error={errors.phoneOrGmail}
