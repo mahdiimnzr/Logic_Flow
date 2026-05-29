@@ -22,10 +22,10 @@ const CoursesSection = () => {
   return (
     <div className="w-[95%] mx-auto flex flex-col gap-8 items-center">
       <div className="flex flex-col items-center gap-2">
-        <h3 className="font-bold text-[32px] text-green-primary">
+        <h3 className="font-bold xl:text-[32px] md:text-[28px] text-[20px] text-green-primary">
           دوره‌های آموزشی برنامه‌نویسی
         </h3>
-        <p className="text-2xl font-normal text-gray-subtitle">
+        <p className="xl:text-2xl md:text-[20px] text-base font-normal text-gray-subtitle">
           دوره‌هایی برای همه: یاد بگیر، تمرین کن، پروژه بزن!
         </p>
       </div>
