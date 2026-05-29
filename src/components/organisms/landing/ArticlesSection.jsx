@@ -34,6 +34,7 @@ const ArticlesSection = () => {
               rate={article.newsRate.avg}
               categoryName={article.newsCatregoryName}
               currentView={article.currentView}
+              image={article.currentImageAddress}
             />
           );
         })}
@@ -49,6 +50,7 @@ const ArticlesSection = () => {
               rate={article.newsRate.avg}
               categoryName={article.newsCatregoryName}
               currentView={article.currentView}
+              image={article.currentImageAddress}
             />
           );
         })}

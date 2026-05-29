@@ -7,38 +7,43 @@ import StarIcon from "../../../core/icons/StarIcon";
 import TeachersCardIcon from "../../../core/icons/TeachersCardIcon";
 import TechnologyCardIcon from "../../../core/icons/TechnologyCardIcon";
 import formatPrice from "../../../core/utils/formatPrice";
+import ImageFallback from "@/components/atoms/ImageFallBack/ImageFallBack";
+import Tilt from "react-parallax-tilt";
 
 const Card = (props) => {
-  const { isCourseCard = false, isFavorite = false, courseId } = props;
+  const { isCourseCard = false, isFavorite = false, courseId, image } = props;
   return (
-    <div
-      dir="rtl"
-      className={`rounded-[20px] relative overflow-hidden w-full transition-all shadow-[0px_4px_4px_0px_#000000]/0 hover:shadow-cards-hover`}
-    >
+    <Tilt>
       <div
-        className={`absolute z-10 right-4 top-4 content-center bg-default-black/25 size-10 rounded-full cursor-pointer`}
+        dir="rtl"
+        className={`rounded-[20px] relative overflow-hidden w-full transition-all shadow-[0px_4px_4px_0px_#000000]/0 hover:shadow-cards-hover`}
       >
-        <FavoriteIcon isFavorite={isFavorite} className={`mx-auto`} />
+        <div
+          className={`absolute z-10 right-4 top-4 content-center bg-default-black/25 size-10 rounded-full cursor-pointer`}
+        >
+          <FavoriteIcon isFavorite={isFavorite} className={`mx-auto`} />
+        </div>
+        <Link
+          to={isCourseCard ? `/Courses/Detail/${courseId}` : "/news"}
+          className={`h-60 group content-center block relative`}
+        >
+          <ImageFallback
+            src={image}
+            fallback={course}
+            className={`transform-[scale(1.5)] size-full transition-all cursor-pointer mx-auto group-hover:transform-[scale(1.2)] absolute inset-0 object-cover`}
+          />
+        </Link>
+        <div
+          className={`rounded-[20px] bg-default-light flex flex-col gap-7 p-4 relative`}
+        >
+          {isCourseCard ? (
+            <CourseCardInformation props={props} />
+          ) : (
+            <NewsCardInformation props={props} />
+          )}
+        </div>
       </div>
-      <Link
-        to={isCourseCard ? `/Courses/Detail/${courseId}` : "/news"}
-        className={`h-60 group content-center block relative`}
-      >
-        <img
-          className={`transform-[scale(1.5)] size-full transition-all cursor-pointer mx-auto group-hover:transform-[scale(1.2)] absolute inset-0 object-cover`}
-          src={course}
-        />
-      </Link>
-      <div
-        className={`rounded-[20px] bg-default-light flex flex-col gap-7 p-4 relative`}
-      >
-        {isCourseCard ? (
-          <CourseCardInformation props={props} />
-        ) : (
-          <NewsCardInformation props={props} />
-        )}
-      </div>
-    </div>
+    </Tilt>
   );
 };
 
@@ -73,7 +78,7 @@ const CourseCardInformation = (props) => {
               قیمت
             </span>
             <h3 className={`text-green-primary text-base font-bold`}>
-              {formatPrice(cost)} تومان
+              {cost && formatPrice(cost)} تومان
             </h3>
           </div>
           <div className={`flex items-center gap-1`}>

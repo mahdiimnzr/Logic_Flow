@@ -10,18 +10,19 @@ const SearchHeader = ({
   inputClassName = "w-5/10",
   children,
   color = "authBtn",
+  className,
 }) => {
   return (
     <div
-      className={`rounded-[100px] flex justify-between items-center bg-default-light pr-4 w-83`}
+      className={`rounded-[100px] flex justify-between items-center bg-default-light pr-4 w-83 ${className}`}
     >
       <input
-        className={`${inputClassName} text-dark-gray placeholder:text-dark-gray text-base font-normal outline-none`}
+        className={`${inputClassName} text-dark-gray placeholder:text-dark-gray xl:text-base lg:text-[14px] font-normal outline-none`}
         placeholder={placeHolder}
         type="text"
         onChange={onChange}
       />
-      <div className={`flex items-center gap-4`}>
+      <div className={`flex items-center xl:gap-4 lg:gap-2`}>
         {haveSelect && (
           <SelectModal
             items={selectCategories}
