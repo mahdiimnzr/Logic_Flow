@@ -40,7 +40,10 @@ const HeroSection = () => {
             <p className={`xl:text-base md:text-[14px] text-[12px]`}>
               به جمع حرفه‌ای‌ها بپیوندید
             </p>
-            <ArrowIcon className={`size-3 md:size-3.75`} color={theme ? `#1E1E1E` : `#ffffff`} />
+            <ArrowIcon
+              className={`size-3 md:size-3.75`}
+              color={theme ? `#1E1E1E` : `#ffffff`}
+            />
           </Button>
         </div>
         <div className={`md:w-4/10 w-full flex justify-end`}>
