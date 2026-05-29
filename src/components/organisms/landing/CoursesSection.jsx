@@ -94,7 +94,7 @@ const CoursesSection = () => {
                 setIsEnd(swiper.isEnd);
               }
             }}
-            style={{ paddingBottom: "10px", paddingInline: "10px" }}
+            style={{ paddingBlock: "20px", paddingInline: "20px" }}
           >
             {data?.courseFilterDtos?.map((course, index) => (
               <SwiperSlide key={index}>
