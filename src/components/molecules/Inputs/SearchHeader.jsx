@@ -14,10 +14,10 @@ const SearchHeader = ({
 }) => {
   return (
     <div
-      className={`rounded-[100px] flex justify-between items-center bg-default-light pr-4 w-83 ${className}`}
+      className={`rounded-[100px] flex justify-between items-center bg-default-light pr-4 xl:w-83 ${className}`}
     >
       <input
-        className={`${inputClassName} text-dark-gray placeholder:text-dark-gray xl:text-base lg:text-[14px] font-normal outline-none`}
+        className={`${inputClassName} text-dark-gray placeholder:text-dark-gray xl:text-base lg:text-[14px] text-[12px] font-normal outline-none`}
         placeholder={placeHolder}
         type="text"
         onChange={onChange}

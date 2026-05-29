@@ -20,7 +20,7 @@ const CoursesSection = () => {
   });
 
   return (
-    <div className="w-[95%] mx-auto flex flex-col gap-8 items-center">
+    <div className="md:w-[95%] w-[90%] mx-auto flex flex-col gap-8 items-center">
       <div className="flex flex-col items-center gap-2">
         <h3 className="font-bold xl:text-[32px] md:text-[28px] text-[20px] text-green-primary">
           دوره‌های آموزشی برنامه‌نویسی

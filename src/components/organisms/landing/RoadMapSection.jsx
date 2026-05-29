@@ -3,7 +3,7 @@ import roadMap from "../../../assets/images/roadmap.png";
 
 const RoadMapSection = () => {
   return (
-    <div className={`w-[95%] mx-auto flex flex-col md:flex-row gap-10 md:gap-0 items-center justify-between`}>
+    <div className={`md:w-[95%] w-[90%] mx-auto flex flex-col md:flex-row gap-10 md:gap-0 items-center justify-between`}>
       <div>
         <img
           className={`2xl:w-150 2xl:h-137.5 xl:w-120 xl:h-117.5 md:w-100 md:h-87.5 w-full h-auto`}

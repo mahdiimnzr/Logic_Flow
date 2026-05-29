@@ -9,7 +9,7 @@ const ExperienceSection = () => {
   const { theme } = useContext(ThemeContext);
   return (
     <div
-      className={`flex flex-col md:flex-row justify-between items-center gap-10 md:gap-0 w-[95%] mx-auto`}
+      className={`flex flex-col md:flex-row justify-between items-center gap-10 md:gap-0 md:w-[95%] w-[90%] mx-auto`}
     >
       <div className={`md:w-5/10 w-full flex flex-col xl:gap-8 gap-6`}>
         <div className={`flex flex-col xl:gap-6 gap-4`}>
