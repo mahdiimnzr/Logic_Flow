@@ -15,6 +15,7 @@ const ArticlesCardLanding = ({
   currentView,
   rate,
   image,
+  handleAddFavoriteArticle,
 }) => {
   return (
     <Tilt scale={0.9}>
@@ -64,6 +65,7 @@ const ArticlesCardLanding = ({
           </div>
         </Link>
         <div
+          onClick={() => handleAddFavoriteArticle(articleId)}
           className={`absolute z-10 right-4 top-4 content-center bg-default-light/50 size-10 rounded-full cursor-pointer`}
         >
           <FavoriteIcon isFavorite={false} className={`mx-auto`} />

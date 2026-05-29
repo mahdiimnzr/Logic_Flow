@@ -44,7 +44,7 @@ function DrawerContent({ primitiveClassName, className, children, ...props }) {
         {...props}
       >
         <div
-          className={`mx-auto mt-4 hidden h-1 w-[100px] shrink-0 rounded-full primitiveClassName group-data-[vaul-drawer-direction=bottom]/drawer-content:block ${primitiveClassName}`}
+          className={`mx-auto mt-4 hidden h-1 w-25 shrink-0 rounded-full primitiveClassName group-data-[vaul-drawer-direction=bottom]/drawer-content:block ${primitiveClassName}`}
         />
         {children}
       </DrawerPrimitive.Content>
@@ -79,10 +79,7 @@ function DrawerTitle({ className, ...props }) {
   return (
     <DrawerPrimitive.Title
       data-slot="drawer-title"
-      className={cn(
-        "font-heading text-base font-medium",
-        className,
-      )}
+      className={cn("font-heading text-base font-medium", className)}
       {...props}
     />
   );

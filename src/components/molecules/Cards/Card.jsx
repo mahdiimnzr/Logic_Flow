@@ -11,7 +11,13 @@ import ImageFallback from "@/components/atoms/ImageFallBack/ImageFallBack";
 import Tilt from "react-parallax-tilt";
 
 const Card = (props) => {
-  const { isCourseCard = false, isFavorite = false, courseId, image } = props;
+  const {
+    isCourseCard = false,
+    isFavorite = false,
+    courseId,
+    image,
+    handleAddFavoriteCourse,
+  } = props;
   return (
     <Tilt>
       <div
@@ -19,6 +25,7 @@ const Card = (props) => {
         className={`rounded-[20px] relative overflow-hidden w-full transition-all shadow-[0px_4px_4px_0px_#000000]/0 hover:shadow-cards-hover`}
       >
         <div
+          onClick={() => handleAddFavoriteCourse(courseId)}
           className={`absolute z-10 right-4 top-4 content-center bg-default-black/25 size-10 rounded-full cursor-pointer`}
         >
           <FavoriteIcon isFavorite={isFavorite} className={`mx-auto`} />

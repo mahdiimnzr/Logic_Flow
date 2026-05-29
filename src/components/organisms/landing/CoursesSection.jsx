@@ -7,6 +7,8 @@ import "swiper/css";
 import Card from "@/components/molecules/Cards/Card";
 import ThemeContext from "@/app/context/ThemeContext";
 import useGetCourses from "@/core/services/api/common/useGetCourse";
+import { addFavoriteCourse } from "@/core/services/api/landing/landing.service";
+import { toast } from "react-toastify";
 
 const CoursesSection = () => {
   const { theme } = useContext(ThemeContext);
@@ -14,11 +16,21 @@ const CoursesSection = () => {
   const [isEnd, setIsEnd] = useState(false);
   const prevRef = useRef(null);
   const nextRef = useRef(null);
-  const { isLoading, data } = useGetCourses({
+  const { isLoading, data: courses } = useGetCourses({
     RowsOfPage: "100",
     TechCount: "1",
   });
-
+  const handleAddFavoriteCourse = async (courseId) => {
+    const response = await addFavoriteCourse({ courseId: courseId });
+    if (response.data.success) {
+      if (response.status != 400) toast.success(response.data.message);
+      else {
+        toast.error(response.data.message);
+      }
+    } else if (!response.data.success) {
+      toast.error(response.data.message);
+    }
+  };
   return (
     <div className="md:w-[95%] w-[90%] mx-auto flex flex-col gap-8 items-center">
       <div className="flex flex-col items-center gap-2">
@@ -96,7 +108,7 @@ const CoursesSection = () => {
             }}
             style={{ paddingBlock: "20px", paddingInline: "20px" }}
           >
-            {data?.courseFilterDtos?.map((course, index) => (
+            {courses?.data?.courseFilterDtos?.map((course, index) => (
               <SwiperSlide key={index}>
                 <Card
                   courseId={course.courseId}
@@ -109,6 +121,7 @@ const CoursesSection = () => {
                   image={course.imageAddress}
                   isCourseCard={true}
                   isFavorite={false}
+                  handleAddFavoriteCourse={handleAddFavoriteCourse}
                 />
               </SwiperSlide>
             ))}

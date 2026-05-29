@@ -1,18 +1,31 @@
 import ArticlesCardLanding from "@/components/molecules/Cards/ArticlesCardLanding";
 import useGetArticles from "@/core/services/api/common/useGetArticles";
+import { addFavoriteArticle } from "@/core/services/api/landing/landing.service";
 import { useMemo } from "react";
+import { toast } from "react-toastify";
 
 const ArticlesSection = () => {
-  const { isLoading, data } = useGetArticles({
+  const { isLoading, data: articles } = useGetArticles({
     RowsOfPage: "100",
     TechCount: "1",
   });
   const articlesRow1 = useMemo(() => {
-    return data?.news?.slice(0, 2);
-  }, [data]);
+    return articles?.data?.news?.slice(0, 2);
+  }, [articles]);
   const articlesRow2 = useMemo(() => {
-    return data?.news?.slice(2, 5);
-  }, [data]);
+    return articles?.data?.news?.slice(2, 5);
+  }, [articles]);
+  const handleAddFavoriteArticle = async (articleId) => {
+    const response = await addFavoriteArticle(articleId);
+    if (response.data.success) {
+      if (response.status != 400) toast.success(response.data.message);
+      else {
+        toast.error(response.data.message);
+      }
+    } else if (!response.data.success) {
+      toast.error(response.data.message);
+    }
+  };
   return (
     <div className="md:w-[95%] w-[90%] mx-auto flex flex-col gap-8 items-center">
       <div className="flex flex-col items-center gap-2">
@@ -35,6 +48,7 @@ const ArticlesSection = () => {
               categoryName={article.newsCatregoryName}
               currentView={article.currentView}
               image={article.currentImageAddress}
+              handleAddFavoriteArticle={handleAddFavoriteArticle}
             />
           );
         })}
@@ -51,6 +65,7 @@ const ArticlesSection = () => {
               categoryName={article.newsCatregoryName}
               currentView={article.currentView}
               image={article.currentImageAddress}
+              handleAddFavoriteArticle={handleAddFavoriteArticle}
             />
           );
         })}
