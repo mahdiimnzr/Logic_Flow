@@ -1,7 +1,7 @@
 import TeachersCard from "@/components/molecules/Cards/TeachersCard";
 import { ArrowLeft, ArrowRight, ChevronLeft } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { Navigation } from "swiper/modules";
 import { Link } from "react-router-dom";
 import "swiper/css";
@@ -53,16 +53,18 @@ const mockCourses = [
 ];
 
 const TeachersSection = () => {
+  const prevRef = useRef(null);
+  const nextRef = useRef(null);
   const { theme } = useContext(ThemeContext);
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
   return (
     <div className="w-[95%] mx-auto flex flex-col gap-8 items-center">
       <div className="flex flex-col items-center gap-2">
-        <h3 className="font-bold text-[32px] text-green-primary">
+        <h3 className="font-bold xl:text-[32px] md:text-[28px] text-[20px] text-green-primary">
           آشنایی با اساتید حرفه‌ای ما
         </h3>
-        <p className="text-2xl font-normal text-gray-subtitle">
+        <p className="xl:text-2xl md:text-[20px] text-base font-normal text-gray-subtitle">
           یادگیری از برترین مدرسین با تجربه و دانش به‌روز
         </p>
       </div>
@@ -70,6 +72,7 @@ const TeachersSection = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1">
             <button
+              ref={nextRef}
               className={`${
                 isEnd ? "bg-green-primary" : "bg-transparent"
               } size-8.5 content-center rounded-full cursor-pointer transition-colors duration-200 nextBtn`}
@@ -82,6 +85,7 @@ const TeachersSection = () => {
               />
             </button>
             <button
+              ref={prevRef}
               className={`${
                 isBeginning ? "bg-green-primary" : "bg-transparent"
               } size-8.5 content-center rounded-full cursor-pointer transition-colors duration-200 prevBtn`}
@@ -107,27 +111,31 @@ const TeachersSection = () => {
           <Swiper
             dir="ltr"
             modules={[Navigation]}
-            navigation={{
-              prevEl: ".prevBtn",
-              nextEl: ".nextBtn",
+            navigation={true}
+            onBeforeInit={(swiper) => {
+              swiper.params.navigation.prevEl = prevRef.current;
+              swiper.params.navigation.nextEl = nextRef.current;
             }}
             loop={false}
-            spaceBetween={32}
-            slidesPerView={4}
-            slidesPerGroup={1}
-            onSwiper={(swiper) => {
-              setIsBeginning(swiper.isBeginning);
-              setIsEnd(swiper.isEnd);
+            breakpoints={{
+              0: { slidesPerView: 1.2, spaceBetween: 12 },
+              640: { slidesPerView: 2, spaceBetween: 16 },
+              1024: { slidesPerView: 3, spaceBetween: 24 },
+              1280: { slidesPerView: 4, spaceBetween: 32 },
             }}
             onSlideChange={(swiper) => {
               setIsBeginning(swiper.isBeginning);
               setIsEnd(swiper.isEnd);
             }}
-            style={{ paddingBottom: "10px", paddingInline: "10px" }}
+            onSwiper={(swiper) => {
+              setIsBeginning(swiper.isBeginning);
+              setIsEnd(swiper.isEnd);
+            }}
+            style={{ paddingBlock: "20px", paddingInline: "20px" }}
           >
-            {mockCourses.map((course) => (
-              <SwiperSlide key={course.id}>
-                <TeachersCard isCourseCard={true} />
+            {mockCourses.map((teachers, index) => (
+              <SwiperSlide key={index}>
+                <TeachersCard isCourseCard={true} image={teachers.image} />
               </SwiperSlide>
             ))}
           </Swiper>
