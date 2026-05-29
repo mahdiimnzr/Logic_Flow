@@ -17,7 +17,7 @@ const ArticlesCardLanding = ({
   image,
 }) => {
   return (
-    <Tilt>
+    <Tilt scale={0.9}>
       <div
         className={`relative rounded-[20px] overflow-hidden h-91.5 hover:z-20`}
       >
@@ -31,17 +31,26 @@ const ArticlesCardLanding = ({
           className={`absolute z-10 bottom-0 right-0 bg-black/50 transition-all hover:bg-black/85 size-full cursor-pointer p-8 flex items-end`}
         >
           <div className={`w-full flex flex-col justify-end gap-3.5`}>
-            <Badge color="articleBadge" className={`px-2 py-1 w-fit`}>
+            <Badge
+              color="articleBadge"
+              className={`px-2 py-1 xl:text-[14px]! lg:text-[12px]! w-fit`}
+            >
               {categoryName}
             </Badge>
-            <h3 className={`text-white font-bold text-[20px]`}>{title}</h3>
-            <p className={`text-base font-normal text-white line-clamp-3 h-18`}>
+            <h3
+              className={`text-white font-bold xl:text-[20px] lg:text-base text-[20px] h-12 xl:h-auto`}
+            >
+              {title}
+            </h3>
+            <p
+              className={`xl:text-base lg:text-[14px] text-base font-normal text-white line-clamp-3 h-18`}
+            >
               {describe}
             </p>
             <div className={`flex justify-between items-center`}>
               <div className={`flex items-center gap-1`}>
                 <EyeOpenIcon />
-                <span className={`text-field-silver text-[12px] font-normal`}>
+                <span className={`text-field-silver text-[14px] font-normal`}>
                   {currentView}
                 </span>
               </div>

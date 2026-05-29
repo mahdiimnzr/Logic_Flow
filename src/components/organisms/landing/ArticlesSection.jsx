@@ -16,14 +16,14 @@ const ArticlesSection = () => {
   return (
     <div className="w-[95%] mx-auto flex flex-col gap-8 items-center">
       <div className="flex flex-col items-center gap-2">
-        <h3 className="font-bold text-[32px] text-green-primary">
+        <h3 className="font-bold xl:text-[32px] md:text-[28px] text-[20px] text-green-primary">
           اخبار و مقالات
         </h3>
-        <p className="text-2xl font-normal text-gray-subtitle">
+        <p className="xl:text-2xl md:text-[20px] text-base font-normal text-gray-subtitle">
           با تازه‌ترین اخبار و مقالات برنامه‌نویسی به‌روز بمانید
         </p>
       </div>
-      <div className="grid grid-cols-[40%_58.25%] gap-8 w-full">
+      <div className="grid 2xl:grid-cols-[40%_58.25%] xl:grid-cols-[40%_57.5%] lg:grid-cols-[40%_56.5%] gap-8 w-full">
         {articlesRow1?.map((article, index) => {
           return (
             <ArticlesCardLanding
@@ -39,7 +39,7 @@ const ArticlesSection = () => {
           );
         })}
       </div>
-      <div className={`grid grid-cols-3 gap-8 w-full`}>
+      <div className={`grid lg:grid-cols-3 gap-8 w-full`}>
         {articlesRow2?.map((article, index) => {
           return (
             <ArticlesCardLanding
