@@ -9,7 +9,7 @@ import TechnologyCardIcon from "../../../core/icons/TechnologyCardIcon";
 import formatPrice from "../../../core/utils/formatPrice";
 
 const Card = (props) => {
-  const { isCourseCard = false, isFavorite = false } = props;
+  const { isCourseCard = false, isFavorite = false, courseId } = props;
   return (
     <div
       dir="rtl"
@@ -20,7 +20,10 @@ const Card = (props) => {
       >
         <FavoriteIcon isFavorite={isFavorite} className={`mx-auto`} />
       </div>
-      <Link className={`h-60 group content-center block relative`}>
+      <Link
+        to={isCourseCard ? `/Courses/Detail/${courseId}` : "/news"}
+        className={`h-60 group content-center block relative`}
+      >
         <img
           className={`transform-[scale(1.5)] size-full transition-all cursor-pointer mx-auto group-hover:transform-[scale(1.2)] absolute inset-0 object-cover`}
           src={course}
@@ -29,22 +32,24 @@ const Card = (props) => {
       <div
         className={`rounded-[20px] bg-default-light flex flex-col gap-7 p-4 relative`}
       >
-        {isCourseCard ? <CourseCardInformation /> : <NewsCardInformation />}
+        {isCourseCard ? (
+          <CourseCardInformation props={props} />
+        ) : (
+          <NewsCardInformation props={props} />
+        )}
       </div>
     </div>
   );
 };
 
-const CourseCardInformation = () => {
+const CourseCardInformation = (props) => {
+  const { title, describe, cost, levelName, teacherName, rate } = props.props;
   return (
     <>
       <div className={`flex flex-col gap-2 text-default-black`}>
-        <h3 className={`text-base font-bold truncate`}>
-          دوره آموزش جامع HTML5
-        </h3>
+        <h3 className={`text-base font-bold truncate`}>{title}</h3>
         <p className={`text-[14px] font-normal h-10.5 line-clamp-2`}>
-          خواه شما مبتدی باشید یا به دنبال پیشرفت در مهارت‌های برنامه‌نویسی خود
-          باشید، دوره‌های آموزشی ما شما را در هر مرحله همراهی می‌کنند.
+          {describe}
         </p>
       </div>
       <div className={`flex flex-col gap-2`}>
@@ -52,13 +57,13 @@ const CourseCardInformation = () => {
           <div className={`flex items-center gap-1`}>
             <TeachersCardIcon />
             <span className={`text-field-silver text-[12px] font-normal`}>
-              دکتر بحرالعلومی
+              {teacherName}
             </span>
           </div>
           <div className={`flex items-center gap-1`}>
             <TechnologyCardIcon />
             <span className={`text-field-silver text-[12px] font-normal`}>
-              پیشرفته
+              {levelName}
             </span>
           </div>
         </div>
@@ -68,12 +73,12 @@ const CourseCardInformation = () => {
               قیمت
             </span>
             <h3 className={`text-green-primary text-base font-bold`}>
-              {formatPrice(500000)} تومان
+              {formatPrice(cost)} تومان
             </h3>
           </div>
           <div className={`flex items-center gap-1`}>
             <span className={`text-star-yellow text-[14px] font-normal`}>
-              {(3.111).toFixed(1)}
+              {rate?.toFixed(1)}
             </span>
             <StarIcon />
           </div>

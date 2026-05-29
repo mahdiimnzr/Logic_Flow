@@ -14,7 +14,10 @@ const CoursesSection = () => {
   const [isEnd, setIsEnd] = useState(false);
   const prevRef = useRef(null);
   const nextRef = useRef(null);
-  const { isLoading, data } = useGetCourses({"RowsOfPage":"100","TechCount":"1"});
+  const { isLoading, data } = useGetCourses({
+    RowsOfPage: "100",
+    TechCount: "1",
+  });
 
   return (
     <div className="w-[95%] mx-auto flex flex-col gap-8 items-center">
@@ -93,9 +96,20 @@ const CoursesSection = () => {
             }}
             style={{ paddingBottom: "10px", paddingInline: "10px" }}
           >
-            {data?.courseFilterDtos?.map((course,index) => (
+            {data?.courseFilterDtos?.map((course, index) => (
               <SwiperSlide key={index}>
-                <Card isCourseCard={true} isFavorite={false} />
+                <Card
+                  courseId={course.courseId}
+                  title={course.title}
+                  describe={course.describe}
+                  levelName={course.levelName}
+                  teacherName={course.teacherName}
+                  rate={course.courseRate.avg}
+                  cost={course.cost}
+                  image={course.imageAddress}
+                  isCourseCard={true}
+                  isFavorite={false}
+                />
               </SwiperSlide>
             ))}
           </Swiper>
