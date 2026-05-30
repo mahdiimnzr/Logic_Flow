@@ -9,14 +9,23 @@ import ThemeContext from "@/app/context/ThemeContext";
 const Login = () => {
   const { theme, setTheme } = useContext(ThemeContext);
   const [whichStep, setWhichStep] = useState("Step1");
-  // const [SignUpParams, setSignUpParams] = useState({});
+  const [SignUpParams, setSignUpParams] = useState({ phoneOrGmail: "" });
   return (
     <div className="  w-full flex flex-col md:flex-row  p-4 justify-end xl:gap-24 lg:gap-20 md:gap-15 gap-3">
       <div className={`h-full md:w-4/10 w-full flex flex-col justify-between`}>
         {whichStep == "Step1" ? (
-          <Step1 whichStep={whichStep} setWhichStep={setWhichStep} />
+          <Step1
+            whichStep={whichStep}
+            setWhichStep={setWhichStep}
+            setSignUpParams={setSignUpParams}
+            SignUpParams={SignUpParams}
+          />
         ) : (
-          <Step2 whichStep={whichStep} setWhichStep={setWhichStep} />
+          <Step2
+            whichStep={whichStep}
+            setWhichStep={setWhichStep}
+            SignUpParams={SignUpParams}
+          />
         )}
       </div>
       <div

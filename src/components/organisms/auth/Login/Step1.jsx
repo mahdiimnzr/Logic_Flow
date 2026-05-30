@@ -1,6 +1,6 @@
 import { Formik, Form } from "formik";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import FormInput from "../../../molecules/Inputs/FormInput";
 import CheckBox from "../../../molecules/Inputs/CheckBox";
@@ -8,6 +8,8 @@ import HomeIcon from "../../../../core/icons/HomeIcon";
 import Button from "../../../atoms/Buttons/Button";
 import KeyIcon from "../../../../core/icons/KeyIcon";
 import HumanIcon from "@/core/icons/HumanIcon";
+import { postLogin } from "@/core/services/api/auth/auth.service";
+import { toast } from "react-toastify";
 
 const validationSchema = Yup.object({
   phoneOrGmail: Yup.string().required("ایمیل وارد شده معتبر نیست!"),
@@ -16,10 +18,23 @@ const validationSchema = Yup.object({
     .required("رمز عبور وارد شده معتبر نیست!"),
 });
 
-const Step1 = ({ setWhichStep }) => {
+const Step1 = ({ setWhichStep, setSignUpParams, SignUpParams }) => {
   const [checked, setChecked] = useState(false);
-  const handleSubmit = () => {
-    setWhichStep("Step2");
+  const Navigate = useNavigate();
+  const handleSubmit = async (value) => {
+    const result = await postLogin(value);
+    if (result.data.success) {
+      toast.success(result.data.message);
+      if (result.data.token) {
+        Navigate("");
+      } else {
+        setWhichStep("Step2");
+        setSignUpParams({ ...SignUpParams, phoneOrGmail: value.phoneOrGmail });
+        localStorage.setItem("token", JSON.stringify(result.data.token));
+      }
+    } else {
+      toast.success(result.data.message);
+    }
   };
 
   return (
@@ -27,12 +42,11 @@ const Step1 = ({ setWhichStep }) => {
       initialValues={{
         phoneOrGmail: "",
         password: "",
-        rememberMe: "",
+        rememberMe: false,
       }}
       validationSchema={validationSchema}
       onSubmit={(values) => {
-        handleSubmit();
-        console.log(values);
+        handleSubmit(values);
       }}
     >
       {({ errors, setFieldValue, values }) => {
