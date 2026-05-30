@@ -9,6 +9,15 @@ html {
   font-family: IRANYekanXFaNum;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 .light {
   --color-green-primary: #008c78;
   --color-lightly-green: #24d0b7;
