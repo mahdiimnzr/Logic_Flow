@@ -27,10 +27,10 @@ const Step1 = ({ setWhichStep, setSignUpParams, SignUpParams }) => {
       toast.success(result.data.message);
       if (result.data.token) {
         navigate("/");
+        localStorage.setItem("token", JSON.stringify(result.data.token));
       } else {
         setWhichStep("Step2");
         setSignUpParams({ ...SignUpParams, phoneOrGmail: value.phoneOrGmail });
-        localStorage.setItem("token", JSON.stringify(result.data.token));
       }
     } else {
       toast.error(result.data.message);

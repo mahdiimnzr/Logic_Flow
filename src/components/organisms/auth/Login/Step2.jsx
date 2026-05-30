@@ -5,7 +5,9 @@ import * as Yup from "yup";
 import Button from "../../../atoms/Buttons/Button";
 import ArrowRightIcon from "../../../../core/icons/ArrowRightIcon";
 import OtpInput from "../../../molecules/Inputs/OtpInput";
-import { loginVerifyCode } from "@/core/services/api/auth/auth.service";
+import {
+  verifyCodeLogin,
+} from "@/core/services/api/auth/auth.service";
 import { toast } from "react-toastify";
 
 const validationSchema = Yup.object({
@@ -19,7 +21,7 @@ const Step2 = ({ setWhichStep }) => {
   const otp = new Array(6).fill("");
   const [otpValue, setOtpValue] = useState("");
   const handleSubmit = async (value) => {
-    const result = await loginVerifyCode(value);
+    const result = await verifyCodeLogin(value);
     if (result.data.success) {
       toast.success(result.data.message);
       Navigate("/");

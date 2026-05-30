@@ -5,32 +5,43 @@ import * as Yup from "yup";
 import Button from "../../../atoms/Buttons/Button";
 import ArrowRightIcon from "../../../../core/icons/ArrowRightIcon";
 import OtpInput from "../../../molecules/Inputs/OtpInput";
-const RegisterCode = ({ setPage }) => {
+import { toast } from "react-toastify";
+import { verifyMessageRegister } from "@/core/services/api/auth/auth.service";
+const RegisterCode = ({ setPage, registerData }) => {
   const otp = new Array(6).fill("");
   const [otpValue, setOtpValue] = useState("");
-  const handleSubmit = () => {
-    setPage("Step3");
-  };
   const validationSchema = Yup.object({
     verifyCode: Yup.string()
+      .trim()
       .length(6, "پرکردن فیلد ها الزامی است !")
       .required("پرکردن فیلد ها الزامی است !"),
   });
+  const handleSubmit = async (value) => {
+    const response = await verifyMessageRegister(value);
+    if (response.data.success) {
+      toast.success(response.data.message);
+      setPage("Step3");
+    } else {
+      toast.error(response.data.message);
+    }
+  };
   return (
     <Formik
       initialValues={{
+        gmail: registerData?.gmail,
         verifyCode: "",
       }}
       validationSchema={validationSchema}
       onSubmit={(values) => {
-        handleSubmit();
+        handleSubmit(values);
       }}
     >
       {({ errors, values, setFieldValue }) => {
-        const newCode = otp.join("");
+        const newCode = otpValue;
         if (values.verifyCode !== newCode) {
           setFieldValue("verifyCode", newCode);
         }
+        console.log(values.verifyCode);
         return (
           <Form>
             <div

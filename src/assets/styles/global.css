@@ -95,6 +95,7 @@ html {
   --color-moon-background: var(--color-moon-background);
   --color-light-green: var(--color-light-green);
   --shadow-cards-hover: var(--shadow-cards-hover);
+  --breakpoint-3xl: 1600px;
 }
 
 @theme inline {

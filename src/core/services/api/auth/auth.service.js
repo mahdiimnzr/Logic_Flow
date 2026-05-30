@@ -1,11 +1,10 @@
-import apiClient from "../../interceptor/interceptor.service";
-export const postLogin = async (value) => {
-  const result = await apiClient.post(`Sign/Login`, value);
-  return result;
-};
-export const loginVerifyCode = async (value) => {
-  const response = await apiClient.post(
-    `/Sign/LoginTelegram/${value.verifyCode}/${value.phoneOrGmail}`,
-  );
-  return response;
-};
+import postParams from "../../common/postParams";
+
+export const postLogin = (params) => postParams(`Sign/Login`, params);
+export const verifyCodeLogin = (params) =>
+  postParams(`/Sign/LoginTelegram/${params.verifyCode}/${params.phoneOrGmail}`);
+export const sendVerifyRegister = (params) =>
+  postParams(`Sign/SendVerifyMessage`, params);
+export const verifyMessageRegister = (params) =>
+  postParams(`Sign/VerifyMessage`, params);
+export const completeRegister = (params) => postParams(`Sign/Register`, params);
