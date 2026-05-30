@@ -9,11 +9,13 @@ import ThemeContext from "@/app/context/ThemeContext";
 import useGetCourses from "@/core/services/api/common/useGetCourse";
 import { addFavoriteCourse } from "@/core/services/api/landing/landing.service";
 import { toast } from "react-toastify";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const CoursesSection = () => {
   const { theme } = useContext(ThemeContext);
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
+  const skeletonCount = new Array(4).fill("");
   const prevRef = useRef(null);
   const nextRef = useRef(null);
   const { isLoading, data: courses } = useGetCourses({
@@ -31,6 +33,7 @@ const CoursesSection = () => {
       toast.error(response.data.message);
     }
   };
+  console.log(isLoading);
   return (
     <div className="md:w-[95%] w-[90%] mx-auto flex flex-col gap-8 items-center">
       <div className="flex flex-col items-center gap-2">
@@ -80,6 +83,7 @@ const CoursesSection = () => {
             <ChevronLeft width="16" height="16" color="#848484" />
           </Link>
         </div>
+
         <div className="w-full">
           <Swiper
             dir="ltr"
@@ -108,23 +112,38 @@ const CoursesSection = () => {
             }}
             style={{ paddingBlock: "20px", paddingInline: "20px" }}
           >
-            {courses?.data?.courseFilterDtos?.map((course, index) => (
-              <SwiperSlide key={index}>
-                <Card
-                  courseId={course.courseId}
-                  title={course.title}
-                  describe={course.describe}
-                  levelName={course.levelName}
-                  teacherName={course.teacherName}
-                  rate={course.courseRate.avg}
-                  cost={course.cost}
-                  image={course.imageAddress}
-                  isCourseCard={true}
-                  isFavorite={false}
-                  handleAddFavoriteCourse={handleAddFavoriteCourse}
-                />
-              </SwiperSlide>
-            ))}
+            {isLoading
+              ? skeletonCount?.map((value, index) => (
+                  <SwiperSlide key={index}>
+                    <div
+                      dir="rtl"
+                      className={`w-full p-5 flex flex-col gap-5 rounded-[20px] bg-field-silver`}
+                    >
+                      <Skeleton className={`h-55 w-full`}></Skeleton>
+                      <Skeleton className={`h-7 w-5/10`}></Skeleton>
+                      <Skeleton className={`h-14 w-7/10`}></Skeleton>
+                      <Skeleton className={`h-7 w-full`}></Skeleton>
+                      <Skeleton className={`h-7 w-full`}></Skeleton>
+                    </div>
+                  </SwiperSlide>
+                ))
+              : courses?.data?.courseFilterDtos?.map((course, index) => (
+                  <SwiperSlide key={index}>
+                    <Card
+                      courseId={course.courseId}
+                      title={course.title}
+                      describe={course.describe}
+                      levelName={course.levelName}
+                      teacherName={course.teacherName}
+                      rate={course.courseRate.avg}
+                      cost={course.cost}
+                      image={course.imageAddress}
+                      isCourseCard={true}
+                      isFavorite={false}
+                      handleAddFavoriteCourse={handleAddFavoriteCourse}
+                    />
+                  </SwiperSlide>
+                ))}
           </Swiper>
         </div>
       </div>

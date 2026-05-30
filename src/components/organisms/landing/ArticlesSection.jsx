@@ -1,10 +1,13 @@
 import ArticlesCardLanding from "@/components/molecules/Cards/ArticlesCardLanding";
+import { Skeleton } from "@/components/ui/skeleton";
 import useGetArticles from "@/core/services/api/common/useGetArticles";
 import { addFavoriteArticle } from "@/core/services/api/landing/landing.service";
 import { useMemo } from "react";
 import { toast } from "react-toastify";
 
 const ArticlesSection = () => {
+  const skeletonCount1 = new Array(2).fill("");
+  const skeletonCount2 = new Array(3).fill("");
   const { isLoading, data: articles } = useGetArticles({
     RowsOfPage: "100",
     TechCount: "1",
@@ -37,38 +40,58 @@ const ArticlesSection = () => {
         </p>
       </div>
       <div className="grid 2xl:grid-cols-[40%_58.25%] xl:grid-cols-[40%_57.5%] lg:grid-cols-[40%_56.5%] gap-8 w-full">
-        {articlesRow1?.map((article, index) => {
-          return (
-            <ArticlesCardLanding
-              key={index}
-              articleId={article.id}
-              title={article.title}
-              describe={article.describe}
-              rate={article.newsRate.avg}
-              categoryName={article.newsCatregoryName}
-              currentView={article.currentView}
-              image={article.currentImageAddress}
-              handleAddFavoriteArticle={handleAddFavoriteArticle}
-            />
-          );
-        })}
+        {isLoading
+          ? skeletonCount1?.map((value, index) => (
+              <div
+                key={index}
+                className={`w-full p-5 flex flex-col gap-5 rounded-[20px] bg-field-silver`}
+              >
+                <Skeleton className={`h-7 w-1/10 mt-40`}></Skeleton>
+                <Skeleton className={`h-7 w-5/10`}></Skeleton>
+                <Skeleton className={`h-18 w-full`}></Skeleton>
+                <Skeleton className={`h-7 w-full`}></Skeleton>
+              </div>
+            ))
+          : articlesRow1?.map((article, index) => (
+              <ArticlesCardLanding
+                key={index}
+                articleId={article.id}
+                title={article.title}
+                describe={article.describe}
+                rate={article.newsRate.avg}
+                categoryName={article.newsCatregoryName}
+                currentView={article.currentView}
+                image={article.currentImageAddress}
+                handleAddFavoriteArticle={handleAddFavoriteArticle}
+              />
+            ))}
       </div>
       <div className={`grid lg:grid-cols-3 gap-8 w-full`}>
-        {articlesRow2?.map((article, index) => {
-          return (
-            <ArticlesCardLanding
-              key={index}
-              articleId={article.id}
-              title={article.title}
-              describe={article.describe}
-              rate={article.newsRate.avg}
-              categoryName={article.newsCatregoryName}
-              currentView={article.currentView}
-              image={article.currentImageAddress}
-              handleAddFavoriteArticle={handleAddFavoriteArticle}
-            />
-          );
-        })}
+        {isLoading
+          ? skeletonCount2?.map((value, index) => (
+              <div
+                key={index}
+                className={`w-full p-5 flex flex-col gap-5 rounded-[20px] bg-field-silver`}
+              >
+                <Skeleton className={`h-7 w-1/10 mt-40`}></Skeleton>
+                <Skeleton className={`h-7 w-5/10`}></Skeleton>
+                <Skeleton className={`h-18 w-full`}></Skeleton>
+                <Skeleton className={`h-7 w-full`}></Skeleton>
+              </div>
+            ))
+          : articlesRow2?.map((article, index) => (
+              <ArticlesCardLanding
+                key={index}
+                articleId={article.id}
+                title={article.title}
+                describe={article.describe}
+                rate={article.newsRate.avg}
+                categoryName={article.newsCatregoryName}
+                currentView={article.currentView}
+                image={article.currentImageAddress}
+                handleAddFavoriteArticle={handleAddFavoriteArticle}
+              />
+            ))}
       </div>
     </div>
   );

@@ -1,58 +1,23 @@
-import { useRef } from "react";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
+import { REGEXP_ONLY_DIGITS } from "input-otp";
 
-const OtpInput = ({ otp, setOtp, error }) => {
-  const otpBoxReference = useRef([]);
-
-  const handleChange = (value, index) => {
-    if (value >= "0" && value <= "9") {
-      let newArr = [...otp];
-      newArr[index] = value;
-      setOtp(newArr);
-      if (index < otp.length - 1) {
-        otpBoxReference.current[index + 1].focus();
-      }
-    } else if (value === "") {
-      let newArr = [...otp];
-      newArr[index] = "";
-      setOtp(newArr);
-    }
-  };
-
-  const handleKeyDown = (e, index) => {
-    if (e.key === "Backspace") {
-      if (!otp[index] && index > 0) {
-        let newArr = [...otp];
-        newArr[index - 1] = "";
-        setOtp(newArr);
-        otpBoxReference.current[index - 1].focus();
-      } else if (otp[index]) {
-        let newArr = [...otp];
-        newArr[index] = "";
-        setOtp(newArr);
-      }
-    }
-  };
-
-  return otp.map((value, index) => (
-    <input
-      key={index}
-      value={value}
-      className={`rounded-[15px] bg-background-default xl:size-14 lg:size-11.5 size-9.5 text-[20px] text-default-black text-center box-content outline-none content-center transition-all focus:scale-115 ${
-        value ? "border-2 border-[#008C78]" : ""
-      } ${error && !value ? `border-2 border-red-error` : ``}`}
-      type="text"
-      name="confirmCode"
-      maxLength={1}
-      inputMode="numeric"
-      onChange={(e) => {
-        handleChange(e.target.value, index);
-      }}
-      onKeyDown={(e) => {
-        handleKeyDown(e, index);
-      }}
-      ref={(reference) => (otpBoxReference.current[index] = reference)}
-    />
-  ));
+const OtpInput = () => {
+  return (
+    <InputOTP  id="digits-only" maxLength={6} pattern={REGEXP_ONLY_DIGITS}>
+      <InputOTPGroup className={`flex items-center justify-between`}>
+        <InputOTPSlot className={`size-15 border-transparent outline-none ring-0 shadow-none bg-background-default rounded-[15px]`} index={0} />
+        <InputOTPSlot index={1} />
+        <InputOTPSlot index={2} />
+        <InputOTPSlot index={3} />
+        <InputOTPSlot index={4} />
+        <InputOTPSlot index={5} />
+      </InputOTPGroup>
+    </InputOTP>
+  );
 };
 
 export default OtpInput;
