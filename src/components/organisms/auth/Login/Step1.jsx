@@ -20,20 +20,20 @@ const validationSchema = Yup.object({
 
 const Step1 = ({ setWhichStep, setSignUpParams, SignUpParams }) => {
   const [checked, setChecked] = useState(false);
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
   const handleSubmit = async (value) => {
     const result = await postLogin(value);
     if (result.data.success) {
       toast.success(result.data.message);
       if (result.data.token) {
-        Navigate("");
+        navigate("/");
       } else {
         setWhichStep("Step2");
         setSignUpParams({ ...SignUpParams, phoneOrGmail: value.phoneOrGmail });
         localStorage.setItem("token", JSON.stringify(result.data.token));
       }
     } else {
-      toast.success(result.data.message);
+      toast.error(result.data.message);
     }
   };
 
