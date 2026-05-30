@@ -1,21 +1,27 @@
 import { Formik, Form, ErrorMessage } from "formik";
-import { useState } from "react";
-
+import { useContext, useState } from "react";
 import * as Yup from "yup";
 import Button from "../../../atoms/Buttons/Button";
 import ArrowRightIcon from "../../../../core/icons/ArrowRightIcon";
 import OtpInput from "../../../molecules/Inputs/OtpInput";
 import { toast } from "react-toastify";
 import { verifyMessageRegister } from "@/core/services/api/auth/auth.service";
+import ThemeSlide from "@/components/molecules/theme/ThemeSlide";
+import ThemeContext from "@/app/context/ThemeContext";
+import Timer from "@/components/atoms/Timer/Timer";
+
+const validationSchema = Yup.object({
+  verifyCode: Yup.string()
+    .trim()
+    .length(6, "پرکردن فیلد ها الزامی است !")
+    .required("پرکردن فیلد ها الزامی است !"),
+});
+
 const RegisterCode = ({ setPage, registerData }) => {
+  const [timer, setTimer] = useState(120);
+  const { theme, setTheme } = useContext(ThemeContext);
   const otp = new Array(6).fill("");
   const [otpValue, setOtpValue] = useState("");
-  const validationSchema = Yup.object({
-    verifyCode: Yup.string()
-      .trim()
-      .length(6, "پرکردن فیلد ها الزامی است !")
-      .required("پرکردن فیلد ها الزامی است !"),
-  });
   const handleSubmit = async (value) => {
     const response = await verifyMessageRegister(value);
     if (response.data.success) {
@@ -45,32 +51,38 @@ const RegisterCode = ({ setPage, registerData }) => {
         return (
           <Form>
             <div
-              className={`flex flex-col xl:gap-15 gap-5 xl:pt-27.75 lg:pt-21.75 md:pt-17.75 pt-10`}
+              className={`flex flex-col sm:gap-15 gap-10 xl:pt-19 lg:pt-15 md:pt-10 pt-2`}
             >
-              <div
-                onClick={() => {
-                  setPage("Step1");
-                }}
-                className={`flex gap-2 cursor-pointer `}
-              >
-                <ArrowRightIcon />
-                <span
-                  className={`text-green-dark text-3.5 font-bold cursor-pointer `}
-                >
-                  بازگشت
-                </span>
-              </div>
-              <div className={`flex flex-col gap-10`}>
+              <div className={`flex items-center justify-between w-full`}>
                 <div
-                  className={`flex flex-col gap-2 text-center cursor-pointer`}
+                  onClick={() => {
+                    setPage("Step1");
+                  }}
+                  className={`flex gap-2 cursor-pointer `}
                 >
-                  {" "}
+                  <ArrowRightIcon className={`xl:size-6 sm:size-5 size-4`} />
                   <span
-                    className={`text-green-primary xl:text-[24px] lg:text-[20px] md:text-[16px] font-bold  `}
+                    className={`text-green-dark xl:text-base sm:text-[14px] text-[12px] font-bold`}
                   >
-                    ورود به حساب کاربری
+                    بازگشت
                   </span>
-                  <span className={`text-[16px] text-default-black`}>
+                </div>
+                <ThemeSlide
+                  theme={theme}
+                  setTheme={setTheme}
+                  className={`flex md:hidden`}
+                />
+              </div>
+              <div className={`flex flex-col xl:gap-8 lg:gap-4 gap-5`}>
+                <div className={`flex flex-col gap-2 text-center`}>
+                  <span
+                    className={`text-green-primary xl:text-2xl lg:text-[18px] md:text-base text-[14px] font-bold text-center`}
+                  >
+                    ایجاد حساب کاربری
+                  </span>
+                  <span
+                    className={`xl:text-[16px] lg:text-[15px] md:text-[14px] text-[12px] text-default-black`}
+                  >
                     رمز یکبار مصرف ارسال شده را وارد کنید
                   </span>
                 </div>
@@ -86,12 +98,29 @@ const RegisterCode = ({ setPage, registerData }) => {
                   <ErrorMessage
                     component={"span"}
                     name="verifyCode"
-                    className={`text-red-error text-[14px] font-normal mt-2`}
+                    className={`text-red-error lg:text-[14px] text-[12px] font-normal`}
                   />
                 </div>
-                <Button color={"authBtn"} className={` h-15 w-full`}>
+                <Button
+                  color={"authBtn"}
+                  className={`xl:h-15 lg:h-13 h-11 xl:text-base! lg:text-[14px]! text-[12px]!`}
+                >
                   تایید رمز یکبار مصرف
                 </Button>
+                <div className={`flex justify-center`}>
+                  {timer === 0 ? (
+                    <p
+                      onClick={() => {
+                        setTimer(120);
+                      }}
+                      className={`text-default-black md:text-base text-[12px]`}
+                    >
+                      ارسال مجدد کد؟
+                    </p>
+                  ) : (
+                    <Timer timer={timer} setTimer={setTimer} />
+                  )}
+                </div>
               </div>
             </div>
           </Form>
