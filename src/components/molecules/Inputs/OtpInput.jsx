@@ -5,16 +5,26 @@ import {
 } from "@/components/ui/input-otp";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 
-const OtpInput = () => {
+const OtpInput = ({ otp, setOtpValue, otpValue, error }) => {
   return (
-    <InputOTP  id="digits-only" maxLength={6} pattern={REGEXP_ONLY_DIGITS}>
-      <InputOTPGroup className={`flex items-center justify-between`}>
-        <InputOTPSlot className={`size-15 border-transparent outline-none ring-0 shadow-none bg-background-default rounded-[15px]`} index={0} />
-        <InputOTPSlot index={1} />
-        <InputOTPSlot index={2} />
-        <InputOTPSlot index={3} />
-        <InputOTPSlot index={4} />
-        <InputOTPSlot index={5} />
+    <InputOTP
+      name="verifyCode"
+      id="digits-only"
+      maxLength={6}
+      pattern={REGEXP_ONLY_DIGITS}
+      containerClassName={`w-full!`}
+      onChange={(value) => {
+        setOtpValue(value);
+      }}
+    >
+      <InputOTPGroup className={`flex! items-center! justify-between! w-full!`}>
+        {otp?.map((value, index) => (
+          <InputOTPSlot
+            className={`lg:text-[20px] md:text-base text-[18px] box-border xl:size-15 lg:size-13 md:size-10 sm:size-15 size-12 border-transparent border-2 outline-none ring-0 shadow-none bg-background-default xl:rounded-[15px] md:rounded-[10px] sm:rounded-[15px] rounded-[12px] data-[active=true]:transform-[scale(1.25)] ${otpValue[index] && "border-green-primary"} ${error && !otpValue[index] && "border-red-error"}`}
+            key={index}
+            index={index}
+          />
+        ))}
       </InputOTPGroup>
     </InputOTP>
   );

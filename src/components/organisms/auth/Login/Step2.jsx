@@ -14,9 +14,10 @@ const validationSchema = Yup.object({
 
 const Step2 = ({ setWhichStep }) => {
   const Navigate = useNavigate();
-  const [otp, setOtp] = useState(new Array(6).fill(""));
+  const otp = new Array(6).fill("");
+  const [otpValue, setOtpValue] = useState("");
   const handleSubmit = () => {
-    Navigate("/");
+    // Navigate("/");
   };
   return (
     <Formik
@@ -30,7 +31,7 @@ const Step2 = ({ setWhichStep }) => {
       }}
     >
       {({ errors, values, setFieldValue }) => {
-        const newCode = otp.join("");
+        const newCode = otpValue;
         if (values.verifyCode !== newCode) {
           setFieldValue("verifyCode", newCode);
         }
@@ -68,15 +69,21 @@ const Step2 = ({ setWhichStep }) => {
                     رمز یکبار مصرف ارسال شده را وارد کنید
                   </span>
                 </div>
-
-                <div dir="ltr" className={`flex xl:gap-8 lg:gap-6 gap-3.5 `}>
-                  <OtpInput
-                    otp={otp}
-                    setOtp={setOtp}
-                    error={errors?.verifyCode}
+                <div className={`flex flex-col gap-2 w-full`}>
+                  <div dir="ltr" className={`flex w-full`}>
+                    <OtpInput
+                      otp={otp}
+                      otpValue={otpValue}
+                      setOtpValue={setOtpValue}
+                      error={errors?.verifyCode}
+                    />
+                  </div>
+                  <ErrorMessage
+                    component={"span"}
+                    name="verifyCode"
+                    className={`text-red-error text-[14px] font-normal mt-2`}
                   />
                 </div>
-                <ErrorMessage component={"span"} name="verifyCode" />
                 <Button color={"authBtn"} className={` h-15 w-full`}>
                   ارسال کد یکبار مصرف
                 </Button>

@@ -6,7 +6,8 @@ import Button from "../../../atoms/Buttons/Button";
 import ArrowRightIcon from "../../../../core/icons/ArrowRightIcon";
 import OtpInput from "../../../molecules/Inputs/OtpInput";
 const RegisterCode = ({ setPage }) => {
-  const [otp, setOtp] = useState(new Array(6).fill(""));
+  const otp = new Array(6).fill("");
+  const [otpValue, setOtpValue] = useState("");
   const handleSubmit = () => {
     setPage("Step3");
   };
@@ -23,7 +24,6 @@ const RegisterCode = ({ setPage }) => {
       validationSchema={validationSchema}
       onSubmit={(values) => {
         handleSubmit();
-        console.log(values);
       }}
     >
       {({ errors, values, setFieldValue }) => {
@@ -63,17 +63,21 @@ const RegisterCode = ({ setPage }) => {
                     رمز یکبار مصرف ارسال شده را وارد کنید
                   </span>
                 </div>
-                <div
-                  dir="ltr"
-                  className={`flex xl:gap-10 lg:gap-6.5 gap-4 justify-center items-center`}
-                >
-                  <OtpInput
-                    otp={otp}
-                    setOtp={setOtp}
-                    error={errors?.verifyCode}
+                <div className={`flex flex-col gap-2 w-full`}>
+                  <div dir="ltr" className={`flex w-full`}>
+                    <OtpInput
+                      otp={otp}
+                      otpValue={otpValue}
+                      setOtpValue={setOtpValue}
+                      error={errors?.verifyCode}
+                    />
+                  </div>
+                  <ErrorMessage
+                    component={"span"}
+                    name="verifyCode"
+                    className={`text-red-error text-[14px] font-normal mt-2`}
                   />
                 </div>
-                <ErrorMessage component={"span"} name="verifyCode" />
                 <Button color={"authBtn"} className={` h-15 w-full`}>
                   تایید رمز یکبار مصرف
                 </Button>
