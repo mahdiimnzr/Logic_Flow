@@ -12,6 +12,8 @@ const onSuccess = (response) => {
 };
 
 const onError = (error) => {
+  error.message == "Network Error" &&
+    toast.error("مشکل در دریافت اطلاعات از سرور!");
   if (error.response.status >= 500) {
     toast.error("خطا از سوی سرور: " + error.response.status);
   }
