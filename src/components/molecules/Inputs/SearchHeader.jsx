@@ -11,6 +11,8 @@ const SearchHeader = ({
   children,
   color = "authBtn",
   className,
+  contentClassName,
+  itemClassName,
 }) => {
   return (
     <div
@@ -27,9 +29,9 @@ const SearchHeader = ({
           <SelectModal
             items={selectCategories}
             contentPosition={"popper"}
-            contentClassName={`min-w-30!`}
+            contentClassName={`min-w-30! ${contentClassName}`}
             defaultValue={"courses"}
-            itemClassName={`cursor-pointer!`}
+            itemClassName={`cursor-pointer! ${itemClassName}`}
             triggerClassName={`border-none! flex! items-center! gap-1! ring-0! p-0! font-normal! text-[14px]! text-default-black! cursor-pointer! bg-default-light!`}
           />
         )}

@@ -4,7 +4,7 @@ import { Link, NavLink } from "react-router-dom";
 import Button from "@/components/atoms/Buttons/Button";
 import SearchHeader from "../Inputs/SearchHeader";
 import ThemeButton from "../theme/ThemeButton";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import ThemeContext from "@/app/context/ThemeContext";
 import { Menu, Search } from "lucide-react";
 import DrawerComponents from "../Drawer/Drawer";
@@ -13,9 +13,37 @@ import FaceBookIcon from "@/core/icons/FaceBookIcon";
 import TwitterIcon from "@/core/icons/TwitterIcon";
 import TelegramIcon from "@/core/icons/TelegramIcon";
 import WhatsAppIcon from "@/core/icons/WhatsAppIcon";
+import useGetCourses from "@/core/services/api/common/useGetCourse";
+import debounce from "debounce";
+import { Skeleton } from "@/components/ui/skeleton";
+import ImageFallback from "@/components/atoms/ImageFallBack/ImageFallBack";
+import image from "../../../assets/images/coursePng.png";
 
 const Header = () => {
+  const skeletonCount = new Array(3).fill("");
+  const [modalOpen, setModalOpen] = useState(false);
+  const [params, setParams] = useState({
+    RowsOfPage: 3,
+    Query: null,
+  });
   const { theme, setTheme } = useContext(ThemeContext);
+  const { isLoading, data, refetch } = useGetCourses("FundedCourses", params);
+  const updateParams = (key, value) => {
+    const newParams = { ...params, [key]: value };
+    return setParams(newParams);
+  };
+  const handleSearch = debounce((value) => {
+    updateParams("Query", value.trim() === "" ? null : value.trim());
+    if (data && value.trim() !== "") {
+      setModalOpen(true);
+    } else if (!data || data?.length === 0 || value.trim() === "") {
+      setModalOpen(false);
+    }
+  }, 1000);
+  useEffect(() => {
+    refetch();
+  }, [params]);
+  console.log(isLoading);
   return (
     <div
       className={`md:w-[95%] w-[90%] flex justify-between items-center pt-6 mx-auto relative z-10`}
@@ -59,12 +87,49 @@ const Header = () => {
           buttonClassName={`xl:size-11.5 lg:size-10`}
           placeHolder={"جستجو کنید..."}
           haveSelect={true}
-          className={`lg:w-70 hidden lg:flex`}
+          className={`lg:w-70 hidden lg:flex relative`}
+          contentClassName={`${theme ? `bg-[#1e1e1e] text-white` : `bg-white text-[#1E1E1E]`}`}
+          itemClassName={`${theme ? `focus:bg-[oklch(0.269_0_0)]` : `focus:bg-muted`}`}
+          onChange={(event) => {
+            handleSearch(event.target.value);
+          }}
         >
           <Search
             className={`mx-auto xl:size-6 lg:size-5`}
             color={theme ? `#000000` : `#ffffff`}
           />
+          {modalOpen && (
+            <div className={`absolute top-14 right-0 left-0 bg-default-light`}>
+              <div className={`flex flex-col gap-2 p-4`}>
+                {isLoading ? (
+                  skeletonCount?.map((value, index) => (
+                    <Skeleton key={index} className={`w-9/10 h-11.5`} />
+                  ))
+                ) : data?.data?.courseFilterDtos.length === 0 ? (
+                  <span className={`text-default-black text-[14px]`}>
+                    موردی یافت نشد
+                  </span>
+                ) : (
+                  data?.data?.courseFilterDtos?.map((value, index) => (
+                    <Link
+                      key={index}
+                      to={`/Course/${value?.id}`}
+                      className={`flex items-center gap-2`}
+                    >
+                      <ImageFallback
+                        className={`size-11.5 rounded-2xl`}
+                        src={value.imageAddress}
+                        fallback={image}
+                      />
+                      <span className={`text-default-black text-[14px]`}>
+                        {value?.title}
+                      </span>
+                    </Link>
+                  ))
+                )}
+              </div>
+            </div>
+          )}
         </SearchHeader>
         <Link to={"/Auth/Login"} className={`rounded-[50px]`}>
           <Button
