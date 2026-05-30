@@ -8,7 +8,7 @@ import ArticlesSection from "@/components/organisms/landing/ArticlesSection";
 
 const Landing = () => {
   return (
-    <div className={`flex flex-col items-center gap-25 pb-30`}>
+    <div className={`flex flex-col items-center gap-25 md:pb-30 pb-10`}>
       <div>
         <HeroSection />
         <ServicesSection />

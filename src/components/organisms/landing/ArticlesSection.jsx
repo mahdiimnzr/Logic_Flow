@@ -31,7 +31,7 @@ const ArticlesSection = () => {
   };
   return (
     <div className="md:w-[95%] w-[90%] mx-auto flex flex-col gap-8 items-center">
-      <div className="flex flex-col items-center gap-2">
+      <div className="flex flex-col items-center text-center gap-2">
         <h3 className="font-bold xl:text-[32px] md:text-[28px] text-[20px] text-green-primary">
           اخبار و مقالات
         </h3>

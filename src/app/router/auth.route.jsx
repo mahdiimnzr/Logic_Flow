@@ -18,6 +18,12 @@ const authRoute = [
       {
         path: "/Auth/ResetPassword",
         element: <ResetPassword />,
+        children: [
+          {
+            path: "/Auth/ResetPassword/:resetValue",
+            element: <ResetPassword />,
+          },
+        ],
       },
     ],
   },

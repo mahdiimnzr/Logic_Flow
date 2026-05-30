@@ -152,14 +152,14 @@ const Header = () => {
           footer={
             <div className={`flex items-center justify-between`}>
               <div className={`flex items-center gap-3`}>
-                <img className={`size-11.5`} src={logoIcon} />
+                <img className={`sm:size-11.5 size-10`} src={logoIcon} />
                 <span
-                  className={`text-[20px] font-bold ${theme ? "text-white" : "text-[#848484]"}`}
+                  className={`text-[20px] hidden sm:block font-bold ${theme ? "text-white" : "text-[#848484]"}`}
                 >
                   آکادمی بحر
                 </span>
               </div>
-              <div className={`flex items-center gap-6`}>
+              <div className={`flex items-center md:gap-6 gap-3`}>
                 <InstagramIcon color={theme ? "white" : "#848484"} />
                 <FaceBookIcon color={theme ? "white" : "#848484"} />
                 <TwitterIcon color={theme ? "white" : "#848484"} />
