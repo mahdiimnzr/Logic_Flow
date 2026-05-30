@@ -20,14 +20,18 @@ const AppProvider = () => {
               position="top-right"
               autoClose={3000}
               hideProgressBar={false}
-              newestOnTop={true}
               closeOnClick={false}
               rtl={true}
               pauseOnFocusLoss
               draggable
               pauseOnHover
-              theme="light"
+              theme={theme ? `dark` : "light"}
+              fontFamily="vazir"
               transition={Bounce}
+              stacked
+              toastStyle={{
+                fontFamily: "IRANYekanXFaNum",
+              }}
             />
           </div>
         </ThemeContext.Provider>

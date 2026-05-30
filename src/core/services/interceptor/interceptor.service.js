@@ -8,17 +8,20 @@ const apiClient = axios.create({
 });
 
 const onSuccess = (response) => {
-  return response.data;
+  return response;
 };
 
 const onError = (error) => {
-  if (error.response.status >= 400 && error.response.status < 500) {
-    toast.error("خطا از سوی کاربر: " + error.response.status);
+  if (error.response.status >= 500) {
+    toast.error("خطا از سوی سرور: " + error.response.status);
   }
   return error.response;
 };
 
-apiClient.interceptors.response.use(onSuccess, onError);
+apiClient.interceptors.response.use(
+  (response) => onSuccess(response),
+  (error) => onError(error),
+);
 
 apiClient.interceptors.request.use((config) => {
   delete config.headers.Authorization;

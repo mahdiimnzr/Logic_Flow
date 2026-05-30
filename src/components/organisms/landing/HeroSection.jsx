@@ -10,7 +10,7 @@ const HeroSection = () => {
   return (
     <div className={`bg-light-green w-full pt-29 relative -top-29`}>
       <div
-        className={`flex flex-col md:flex-row justify-between items-center w-[95%] mx-auto py-10`}
+        className={`flex flex-col md:flex-row justify-between items-center md:w-[95%] w-[90%] mx-auto py-10`}
       >
         <div className={`md:w-5/10 w-full flex flex-col xl:gap-8 gap-6`}>
           <div className={`flex flex-col xl:gap-6 gap-4`}>
@@ -40,7 +40,10 @@ const HeroSection = () => {
             <p className={`xl:text-base md:text-[14px] text-[12px]`}>
               به جمع حرفه‌ای‌ها بپیوندید
             </p>
-            <ArrowIcon className={`size-3 md:size-3.75`} color={theme ? `#1E1E1E` : `#ffffff`} />
+            <ArrowIcon
+              className={`size-3 md:size-3.75`}
+              color={theme ? `#1E1E1E` : `#ffffff`}
+            />
           </Button>
         </div>
         <div className={`md:w-4/10 w-full flex justify-end`}>

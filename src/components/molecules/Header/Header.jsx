@@ -18,7 +18,7 @@ const Header = () => {
   const { theme, setTheme } = useContext(ThemeContext);
   return (
     <div
-      className={`w-[95%] flex justify-between items-center pt-6 mx-auto relative z-10`}
+      className={`md:w-[95%] w-[90%] flex justify-between items-center pt-6 mx-auto relative z-10`}
     >
       <div className={`flex items-center xl:gap-8`}>
         <div className={`flex items-center xl:gap-4 md:gap-3`}>
@@ -59,7 +59,7 @@ const Header = () => {
           buttonClassName={`xl:size-11.5 lg:size-10`}
           placeHolder={"جستجو کنید..."}
           haveSelect={true}
-          className={`lg:w-70! hidden lg:flex`}
+          className={`lg:w-70 hidden lg:flex`}
         >
           <Search
             className={`mx-auto xl:size-6 lg:size-5`}
