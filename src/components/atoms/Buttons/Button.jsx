@@ -7,9 +7,9 @@ const Button = ({
 }) => {
   const buttonColor = {
     authBtn:
-      "bg-green-primary text-default-light font-bold rounded-[100px] text-base cursor-pointer",
+      "bg-green-primary text-white font-bold rounded-[100px] text-base cursor-pointer",
     primaryBtn:
-      "bg-green-dark text-default-light rounded-[50px] text-base  font-bold cursor-pointer",
+      "bg-green-dark text-white rounded-[50px] text-base font-bold cursor-pointer",
     reserveBtn:
       "bg-lightly-green text-default-light rounded-[20px] text-base  font-normal text-[18px] cursor-pointer",
     teachersBtn:

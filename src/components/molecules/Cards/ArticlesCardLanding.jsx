@@ -5,7 +5,6 @@ import EyeOpenIcon from "@/core/icons/EyeOpenIcon";
 import StarIcon from "@/core/icons/StarIcon";
 import { Link } from "react-router-dom";
 import ImageFallback from "@/components/atoms/ImageFallBack/ImageFallBack";
-import Tilt from "react-parallax-tilt";
 
 const ArticlesCardLanding = ({
   articleId,
@@ -18,9 +17,8 @@ const ArticlesCardLanding = ({
   handleAddFavoriteArticle,
 }) => {
   return (
-    <Tilt scale={0.9}>
       <div
-        className={`relative rounded-[20px] overflow-hidden h-91.5 hover:z-20`}
+        className={`relative rounded-[20px] overflow-hidden md:h-91.5 h-80 hover:z-20`}
       >
         <ImageFallback
           src={image}
@@ -29,22 +27,22 @@ const ArticlesCardLanding = ({
         />
         <Link
           to={`/Articles/Detail/${articleId}`}
-          className={`absolute z-10 bottom-0 right-0 bg-black/50 transition-all hover:bg-black/85 size-full cursor-pointer p-8 flex items-end`}
+          className={`absolute z-10 bottom-0 right-0 bg-black/50 transition-all hover:bg-black/85 size-full cursor-pointer md:p-8 p-4 flex items-end`}
         >
           <div className={`w-full flex flex-col justify-end gap-3.5`}>
             <Badge
               color="articleBadge"
-              className={`px-2 py-1 xl:text-[14px]! lg:text-[12px]! w-fit`}
+              className={`md:px-2 md:py-1 px-1.5 py-0.5 xl:text-[14px]! lg:text-[12px]! w-fit`}
             >
               {categoryName}
             </Badge>
             <h3
-              className={`text-white font-bold xl:text-[20px] lg:text-base text-[20px] h-12 xl:h-auto`}
+              className={`text-white font-bold xl:text-[20px] lg:text-base md:text-[20px] text-base sm:h-12 xl:h-auto`}
             >
               {title}
             </h3>
             <p
-              className={`xl:text-base lg:text-[14px] text-base font-normal text-white line-clamp-3 h-18`}
+              className={`xl:text-base lg:text-[14px] md:text-base text-[14px] font-normal text-white line-clamp-3 h-18`}
             >
               {describe}
             </p>
@@ -66,12 +64,11 @@ const ArticlesCardLanding = ({
         </Link>
         <div
           onClick={() => handleAddFavoriteArticle(articleId)}
-          className={`absolute z-10 right-4 top-4 content-center bg-default-light/50 size-10 rounded-full cursor-pointer`}
+          className={`absolute z-10 right-4 top-4 content-center bg-default-light/50 md:size-10 size-8 rounded-full cursor-pointer`}
         >
-          <FavoriteIcon isFavorite={false} className={`mx-auto`} />
+          <FavoriteIcon isFavorite={false} className={`mx-auto md:size-6 size-5`} />
         </div>
       </div>
-    </Tilt>
   );
 };
 

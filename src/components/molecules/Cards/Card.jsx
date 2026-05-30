@@ -32,7 +32,7 @@ const Card = (props) => {
         </div>
         <Link
           to={isCourseCard ? `/Courses/Detail/${courseId}` : "/news"}
-          className={`h-60 group content-center block relative`}
+          className={`lg:h-60 sm:h-50 h-45 group content-center block relative`}
         >
           <ImageFallback
             src={image}

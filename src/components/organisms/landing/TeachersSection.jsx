@@ -1,11 +1,10 @@
 import TeachersCard from "@/components/molecules/Cards/TeachersCard";
 import { ArrowLeft, ArrowRight, ChevronLeft } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { useContext, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Navigation } from "swiper/modules";
 import { Link } from "react-router-dom";
 import "swiper/css";
-import ThemeContext from "@/app/context/ThemeContext";
 
 const mockCourses = [
   {
@@ -55,12 +54,11 @@ const mockCourses = [
 const TeachersSection = () => {
   const prevRef = useRef(null);
   const nextRef = useRef(null);
-  const { theme } = useContext(ThemeContext);
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
   return (
     <div className="md:w-[95%] w-[90%] mx-auto flex flex-col gap-8 items-center">
-      <div className="flex flex-col items-center gap-2">
+      <div className="flex flex-col items-center text-center gap-2">
         <h3 className="font-bold xl:text-[32px] md:text-[28px] text-[20px] text-green-primary">
           آشنایی با اساتید حرفه‌ای ما
         </h3>
@@ -81,7 +79,7 @@ const TeachersSection = () => {
                 width="19"
                 height="16"
                 className="mx-auto"
-                color={isEnd ? (!theme ? "#ffffff" : "#1E1E1E") : "#008C78"}
+                color={isEnd ? "#ffffff" : "#008C78"}
               />
             </button>
             <button
@@ -94,9 +92,7 @@ const TeachersSection = () => {
                 width="19"
                 height="16"
                 className="mx-auto"
-                color={
-                  isBeginning ? (!theme ? "#ffffff" : "#1E1E1E") : "#008C78"
-                }
+                color={isBeginning ? "#ffffff" : "#008C78"}
               />
             </button>
           </div>
@@ -131,7 +127,7 @@ const TeachersSection = () => {
               setIsBeginning(swiper.isBeginning);
               setIsEnd(swiper.isEnd);
             }}
-            style={{ paddingBlock: "20px", paddingInline: "20px" }}
+            style={{ paddingBlock: "20px" }}
           >
             {mockCourses.map((teachers, index) => (
               <SwiperSlide key={index}>
