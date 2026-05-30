@@ -12,6 +12,9 @@ const FormInput = ({
   id,
   lightTheme = false,
   isComment = false,
+  errorMessageClassName,
+  inputClassName,
+  ...rest
 }) => {
   const inputRef = useRef(null);
   const handleHideFieldValue = () => {
@@ -22,7 +25,7 @@ const FormInput = ({
     }
   };
   return (
-    <div className={`flex flex-col gap-2`}>
+    <div className={`flex flex-col lg:gap-2 gap-1`}>
       <div
         className={`${lightTheme ? `bg-default-light rounded-2xl border border-light-gray` : null} bg-background-default ${isComment ? `rounded-[25px]` : `rounded-[100px]`} w-full h-15 px-5 flex items-center gap-4 box-border ${error && `border border-red-error`} ${className}`}
       >
@@ -33,7 +36,8 @@ const FormInput = ({
           type={type}
           ref={inputRef}
           placeholder={placeholder}
-          className={`outline-none placeholder:text-field-silver text-field-silver ${lightTheme && !isComment ? `text-base` : `text-[14px]`} font-normal w-full`}
+          {...rest}
+          className={`outline-none placeholder:text-field-silver text-field-silver ${lightTheme && !isComment ? `text-base` : `text-[14px]`} font-normal w-full ${inputClassName}`}
         />
         {type === "password" && (
           <EyeIcon
@@ -45,7 +49,7 @@ const FormInput = ({
       <ErrorMessage
         name={name}
         component={"span"}
-        className="text-red-error text-[14px] font-normal mt-2"
+        className={`text-red-error text-[14px] font-normal mt-2 ${errorMessageClassName}`}
       />
     </div>
   );

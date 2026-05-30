@@ -11,8 +11,10 @@ const Login = () => {
   const [whichStep, setWhichStep] = useState("Step1");
   const [SignUpParams, setSignUpParams] = useState({ phoneOrGmail: "" });
   return (
-    <div className="  w-full flex flex-col md:flex-row  p-4 justify-end xl:gap-24 lg:gap-20 md:gap-15 gap-3">
-      <div className={`h-full md:w-4/10 w-full flex flex-col justify-between`}>
+    <div className={`w-full flex flex-col md:flex-row p-4 justify-end xl:gap-24 lg:gap-15 md:gap-6 gap-10`}>
+      <div
+        className={`h-full lg:w-4/10 md:w-5/10 w-full flex flex-col justify-between`}
+      >
         {whichStep == "Step1" ? (
           <Step1
             whichStep={whichStep}
@@ -29,27 +31,29 @@ const Login = () => {
         )}
       </div>
       <div
-        className={` md:w-5/10 px-8 py-15 bg-light-green relative rounded-[60px] flex flex-col items-center gap-6`}
+        className={`md:w-5/10 px-8 lg:py-15 md:py-10 py-5 bg-light-green relative md:rounded-[60px] rounded-[30px] flex flex-col items-center gap-6 text-center`}
       >
         <ThemeSlide
           theme={theme}
           setTheme={setTheme}
-          className={`self-end h-7`}
+          className={`self-end md:flex hidden`}
         />
         <img
           src={whichStep == "Step1" ? loginStep1 : loginStep2}
-          className={`xl:size-108 lg:size-78 md:size-55`}
+          className={`xl:w-108 lg:w-78 md:w-55 w-full`}
         />
-        <div className={`flex flex-col justify-center items-center xl:gap-4`}>
+        <div
+          className={`flex flex-col justify-center items-center xl:gap-4 gap-5`}
+        >
           <h2
-            className={`text-green-dark xl:text-[24px] lg:text-[20px] md:text-[16px] font-bold  `}
+            className={`text-green-dark xl:text-[24px] lg:text-[20px] sm:text-base text-[14px] font-bold`}
           >
             {whichStep == "Step1"
               ? "به دنیای یادگیری خوش آمدید!"
               : "تنها یک قدم تا دنیای یادگیری!"}
           </h2>
           <p
-            className={`text-default-black xl:text-[16px] lg:text-[15px] md:text-[13px] xl:w-132.5 md:w-80 text-center`}
+            className={`text-default-black xl:text-base lg:text-[15px] sm:text-[13px] text-[12px] xl:w-132.5 lg:w-90 md:w-80 sm:w-ull text-center`}
           >
             {whichStep == "Step1"
               ? " با ورود به حساب کاربری‌تان، به محتوای آموزشی، دوره‌ها و ابزارهای پیشرفته دسترسی خواهید داشت. اولین قدم برای رشد و پیشرفت همین‌جاست!"

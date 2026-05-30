@@ -2,18 +2,20 @@ import { Formik, Form } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import FormInput from "../../../molecules/Inputs/FormInput";
-import EmailIcon from "../../../../core/icons/EmailIcon";
 import Button from "../../../atoms/Buttons/Button";
 import ArrowRightIcon from "../../../../core/icons/ArrowRightIcon";
 import KeyIcon from "../../../../core/icons/KeyIcon";
 import { toast } from "react-toastify";
 import { completeRegister } from "@/core/services/api/auth/auth.service";
+import ThemeSlide from "@/components/molecules/theme/ThemeSlide";
+import ThemeContext from "@/app/context/ThemeContext";
+import { useContext } from "react";
+import Phone from "@/core/icons/Phone";
 
 const validationSchema = Yup.object({
   phoneNumber: Yup.string()
-    .trim()
-    .min(8, " ایمیل حداقل باید تشکیل شده از 8 حروف باشد")
-    .required("ایمیل وارد شده معتبر نیست!"),
+    .min(10, "شماره موبایل حداقل باید تشکیل شده از 11 رقم باشد")
+    .required("شماره موبایل وارد شده معتبر نیست!"),
   password: Yup.string()
     .trim()
     .min(8, "رمز عبور حداقل باید تشکیل شده از 8 حروف باشد")
@@ -26,6 +28,7 @@ const validationSchema = Yup.object({
 });
 
 const RegisterComplete = ({ setPage, registerData }) => {
+  const { theme, setTheme } = useContext(ThemeContext);
   const navigate = useNavigate();
   const handleSubmit = async (value) => {
     const response = await completeRegister(value);
@@ -46,64 +49,86 @@ const RegisterComplete = ({ setPage, registerData }) => {
       }}
       validationSchema={validationSchema}
       onSubmit={(values) => {
+        values.phoneNumber = values.phoneNumber.toString();
         handleSubmit(values);
         console.log(values);
       }}
     >
       {({ errors }) => (
         <Form>
-          <div className={`flex flex-col xl:gap-8 gap-3 xl:pt-19.5 pt-10`}>
-            <div
-              onClick={() => {
-                setPage("Step2");
-              }}
-              className={`flex gap-2 cursor-pointer`}
-            >
-              <ArrowRightIcon />
-              <span className={`text-green-dark text-3.5 font-bold `}>
-                بازگشت
-              </span>
-            </div>
-            <div className={`flex flex-col gap-10 `}>
-              <div className={`flex flex-col gap-2 cursor-pointer`}>
+          <div
+            className={`flex flex-col xl:gap-25 lg:gap-20 sm:gap-15 gap-6 xl:pt-19 lg:pt-15 md:pt-10 pt-2`}
+          >
+            <div className={`flex items-center justify-between w-full`}>
+              <div
+                onClick={() => {
+                  setPage("Step2");
+                }}
+                className={`flex gap-2 cursor-pointer `}
+              >
+                <ArrowRightIcon className={`xl:size-6 sm:size-5 size-4`} />
                 <span
-                  className={`text-green-primary xl:text-[24px] lg:text-[20px] text-[16px] font-bold text-center  `}
+                  className={`text-green-dark xl:text-base sm:text-[14px] text-[12px] font-bold`}
+                >
+                  بازگشت
+                </span>
+              </div>
+              <ThemeSlide
+                theme={theme}
+                setTheme={setTheme}
+                className={`flex md:hidden`}
+              />
+            </div>
+            <div className={`flex flex-col xl:gap-8 lg:gap-4 gap-5`}>
+              <div className={`flex flex-col gap-2 text-center`}>
+                <span
+                  className={`text-green-primary xl:text-2xl lg:text-[18px] md:text-base text-[14px] font-bold text-center`}
                 >
                   ایجاد حساب کاربری
                 </span>
                 <span
-                  className={`xl:text-[16px] lg:text-[14px] text-[13px] text-default-black text-center`}
+                  className={`xl:text-[16px] lg:text-[15px] md:text-[14px] text-[12px] text-default-black`}
                 >
                   کامل کردن مشخصات
                 </span>
               </div>
               <FormInput
-                icon={<EmailIcon />}
+                icon={<Phone />}
                 error={errors.phoneNumber}
                 name={"phoneNumber"}
-                type={"text"}
-                placeholder={"ایمیل خود را وارد کنید"}
+                type={"number"}
+                pattern="/^[0-9]$/"
+                placeholder={"شماره موبایل خود را وارد کنید"}
+                className={`xl:h-15! lg:h-13! md:h-11! sm:h-13! h-11!`}
+                errorMessageClassName={`lg:text-[14px]! text-[12px]!`}
               />
               <FormInput
                 icon={<KeyIcon />}
-                error={errors.phoneOrGmail}
+                error={errors.password}
                 name={"password"}
                 type={"password"}
                 placeholder={"رمز عبور خود را وارد کنید"}
+                className={`xl:h-15! lg:h-13! md:h-11! sm:h-13! h-11!`}
+                errorMessageClassName={`lg:text-[14px]! text-[12px]!`}
               />
               <FormInput
                 icon={<KeyIcon />}
-                error={errors.phoneOrGmail}
+                error={errors.repeatPassword}
                 name={"repeatPassword"}
                 type={"password"}
                 placeholder={"تکرار رمز عبور"}
+                className={`xl:h-15! lg:h-13! md:h-11! sm:h-13! h-11!`}
+                errorMessageClassName={`lg:text-[14px]! text-[12px]!`}
               />
             </div>
-            <Button color={"authBtn"} className={`h-15 `}>
+            <Button
+              color={"authBtn"}
+              className={`xl:h-15 lg:h-13 h-11 xl:text-base! lg:text-[14px]! text-[12px]!`}
+            >
               ثبت نام
             </Button>
             <div
-              className={`flex gap-2 justify-center text-[14px] font-normal cursor-pointer`}
+              className={`flex gap-2 justify-center lg:text-[14px] text-[12px] font-normal cursor-pointer`}
             >
               <p className={`text-default-black`}>
                 حساب کاربری دارید؟{" "}
