@@ -6,32 +6,47 @@ import EmailIcon from "../../../../core/icons/EmailIcon";
 import Button from "../../../atoms/Buttons/Button";
 import ArrowRightIcon from "../../../../core/icons/ArrowRightIcon";
 import KeyIcon from "../../../../core/icons/KeyIcon";
+import { toast } from "react-toastify";
+import { completeRegister } from "@/core/services/api/auth/auth.service";
 
 const validationSchema = Yup.object({
-  phoneOrGmail: Yup.string()
+  phoneNumber: Yup.string()
+    .trim()
     .min(8, " ایمیل حداقل باید تشکیل شده از 8 حروف باشد")
     .required("ایمیل وارد شده معتبر نیست!"),
   password: Yup.string()
+    .trim()
     .min(8, "رمز عبور حداقل باید تشکیل شده از 8 حروف باشد")
     .required("رمز عبور وارد شده معتبر نیست!"),
-  passwordd: Yup.string()
+  repeatPassword: Yup.string()
+    .trim()
     .min(8, "رمز عبور حداقل باید تشکیل شده از 8 حروف باشد")
+    .oneOf([Yup.ref("password")], "مقدار وارد شده با رمز عبور یکسان نمیباشد")
     .required("رمز عبور وارد شده معتبر نیست!"),
 });
 
-const RegisterComplete = ({ setPage }) => {
-  const Navigate = useNavigate();
-  const handleSubmit = () => {
-    Navigate("/Auth/Login");
+const RegisterComplete = ({ setPage, registerData }) => {
+  const navigate = useNavigate();
+  const handleSubmit = async (value) => {
+    const response = await completeRegister(value);
+    if (response.data.success) {
+      toast.success("حساب کاربری شما با موفقیت ایجاد شد.");
+      navigate("/Auth/Login");
+    } else {
+      toast.error(response.data.message);
+    }
   };
   return (
     <Formik
       initialValues={{
-        phoneOrGmail: "",
+        gmail: registerData?.gmail,
+        password: "",
+        repeatPassword: "",
+        phoneNumber: "",
       }}
       validationSchema={validationSchema}
       onSubmit={(values) => {
-        handleSubmit();
+        handleSubmit(values);
         console.log(values);
       }}
     >
@@ -62,11 +77,10 @@ const RegisterComplete = ({ setPage }) => {
                   کامل کردن مشخصات
                 </span>
               </div>
-
               <FormInput
                 icon={<EmailIcon />}
-                error={errors.phoneOrGmail}
-                name={"phoneOrGmail"}
+                error={errors.phoneNumber}
+                name={"phoneNumber"}
                 type={"text"}
                 placeholder={"ایمیل خود را وارد کنید"}
               />
@@ -80,7 +94,7 @@ const RegisterComplete = ({ setPage }) => {
               <FormInput
                 icon={<KeyIcon />}
                 error={errors.phoneOrGmail}
-                name={"passwordd"}
+                name={"repeatPassword"}
                 type={"password"}
                 placeholder={"تکرار رمز عبور"}
               />

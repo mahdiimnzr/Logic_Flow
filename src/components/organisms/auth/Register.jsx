@@ -9,13 +9,19 @@ import ThemeContext from "@/app/context/ThemeContext";
 const Register = () => {
   const { theme, setTheme } = useContext(ThemeContext);
   const [page, setPage] = useState("Step1");
-  // const [registerData, setRegisterData] = useState({ gmail: "" });
+  const [registerData, setRegisterData] = useState({ gmail: "" });
   return (
     <div className="  w-full flex flex-col md:flex-row-reverse  p-4 justify-end xl:gap-20 lg:gap-18 md:gap-13 gap-3">
       <div className={`h-full md:w-4/10 w-full flex flex-col justify-between`}>
-        {page === "Step1" && <Registration setPage={setPage} />}
-        {page === "Step2" && <RegisterCode setPage={setPage} />}
-        {page === "Step3" && <RegisterComplete setPage={setPage} />}
+        {page === "Step1" && (
+          <Registration setRegisterData={setRegisterData} setPage={setPage} />
+        )}
+        {page === "Step2" && (
+          <RegisterCode registerData={registerData} setPage={setPage} />
+        )}
+        {page === "Step3" && (
+          <RegisterComplete registerData={registerData} setPage={setPage} />
+        )}
       </div>
       <div
         className={` md:w-5/10 px-8 py-15 bg-light-green relative rounded-[60px] flex flex-col items-center gap-6`}

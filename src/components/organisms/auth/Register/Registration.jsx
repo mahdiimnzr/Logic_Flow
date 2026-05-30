@@ -4,26 +4,35 @@ import * as Yup from "yup";
 import FormInput from "../../../molecules/Inputs/FormInput";
 import HomeIcon from "../../../../core/icons/HomeIcon";
 import Button from "../../../atoms/Buttons/Button";
-import Phone from "../../../../core/icons/Phone";
+import { sendVerifyRegister } from "@/core/services/api/auth/auth.service";
+import { toast } from "react-toastify";
+import EmailIcon from "@/core/icons/EmailIcon";
 
 const validationSchema = Yup.object({
-  phoneOrGmail: Yup.string()
-    .min(8, " ایمیل حداقل باید تشکیل شده از 8 حروف باشد")
+  gmail: Yup.string()
+    .trim()
+    .email("ایمیل وارد شده معتبر نیست!")
     .required("ایمیل وارد شده معتبر نیست!"),
 });
-const Registration = ({ setPage }) => {
-  const handleSubmit = () => {
-    setPage("Step2");
+const Registration = ({ setPage, setRegisterData }) => {
+  const handleSubmit = async (value) => {
+    const response = await sendVerifyRegister(value);
+    if (response.data.success) {
+      toast.success(response.data.message);
+      setPage("Step2");
+      setRegisterData(value);
+    } else {
+      toast.error(response.data.message);
+    }
   };
   return (
     <Formik
       initialValues={{
-        phoneOrGmail: "",
+        gmail: "",
       }}
       validationSchema={validationSchema}
       onSubmit={(values) => {
-        handleSubmit();
-        console.log(values);
+        handleSubmit(values);
       }}
     >
       {({ errors }) => (
@@ -39,7 +48,7 @@ const Registration = ({ setPage }) => {
               <div className={`flex flex-col gap-2 text-center cursor-pointer`}>
                 {" "}
                 <span
-                  className={`text-green-primary xl:text-[24px] lg:text-[20px] md:text-[16px] font-bold `}
+                  className={`text-green-primary xl:text-[24px] lg:text-[20px] md:text-[16px] font-bold`}
                 >
                   ایجاد حساب کاربری
                 </span>
@@ -49,13 +58,13 @@ const Registration = ({ setPage }) => {
                   وارد کردن شماره تماس برای ایجاد حساب کاربری
                 </span>
               </div>
-              <div className={`flex flex-col gap-10 `}>
+              <div className={`flex flex-col gap-10`}>
                 <FormInput
-                  icon={<Phone />}
-                  error={errors.phoneOrGmail}
-                  name={"phoneOrGmail"}
+                  icon={<EmailIcon />}
+                  error={errors.gmail}
+                  name={"gmail"}
                   type={"text"}
-                  placeholder={"شماره تماس خود را وارد کنید"}
+                  placeholder={"ایمیل خود را وارد کنید"}
                 />
               </div>
 
