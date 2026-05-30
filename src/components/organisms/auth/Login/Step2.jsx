@@ -5,6 +5,8 @@ import * as Yup from "yup";
 import Button from "../../../atoms/Buttons/Button";
 import ArrowRightIcon from "../../../../core/icons/ArrowRightIcon";
 import OtpInput from "../../../molecules/Inputs/OtpInput";
+import { loginVerifyCode } from "@/core/services/api/auth/auth.service";
+import { toast } from "react-toastify";
 
 const validationSchema = Yup.object({
   verifyCode: Yup.string()
@@ -16,8 +18,14 @@ const Step2 = ({ setWhichStep }) => {
   const Navigate = useNavigate();
   const otp = new Array(6).fill("");
   const [otpValue, setOtpValue] = useState("");
-  const handleSubmit = () => {
-    // Navigate("/");
+  const handleSubmit = async (value) => {
+    const result = await loginVerifyCode(value);
+    if (result.data.success) {
+      toast.success(result.data.message);
+      Navigate("/");
+    } else {
+      toast.error(result.data.message);
+    }
   };
   return (
     <Formik
@@ -26,8 +34,7 @@ const Step2 = ({ setWhichStep }) => {
       }}
       validationSchema={validationSchema}
       onSubmit={(values) => {
-        handleSubmit();
-        console.log(values);
+        handleSubmit(values);
       }}
     >
       {({ errors, values, setFieldValue }) => {
