@@ -4,9 +4,12 @@ import Footer from "@/components/molecules/Footer/Footer";
 import Border from "@/components/atoms/Border/Border";
 import { ChevronsUp } from "lucide-react";
 import { useEffect, useRef } from "react";
+import { useI18n } from "@/i18n/useI18n";
 
 const MainLayout = () => {
+  const { t } = useI18n();
   const upBtnRef = useRef(null);
+  const { lang, changeLang } = useI18n();
   useEffect(() => {
     document.onscroll = () => {
       if (window.pageYOffset > 300) {
@@ -35,9 +38,19 @@ const MainLayout = () => {
         <div
           className={`flex items-center gap-2 text-white md:text-base text-[12px]`}
         >
-          <span className={`cursor-pointer`}>EN</span>
+          <span
+            onClick={() => changeLang("en")}
+            className={`cursor-pointer ${lang === "en" ? "font-bold" : "font-normal"}`}
+          >
+            EN
+          </span>
           <Border width="w-0.5" height="h-4" color="bg-white" />
-          <span className={`cursor-pointer`}>FA</span>
+          <span
+            onClick={() => changeLang("fa")}
+            className={`cursor-pointer ${lang === "fa" ? "font-bold" : "font-normal"}`}
+          >
+            FA
+          </span>
         </div>
       </div>
       <Header />
