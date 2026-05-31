@@ -115,7 +115,7 @@ const Step1 = ({ setWhichStep, setSignUpParams, SignUpParams }) => {
                     label={"مرا به خاطر بسپار"}
                   />
                   <Link
-                    to={"/Auth/ResetPassword"}
+                    to={"/Auth/ResetPassword/ResetPassInFormation"}
                     className={`text-field-silver xl:text-[14px] text-[12px] font-normal ml-3`}
                   >
                     فراموشی رمز عبور

@@ -1,28 +1,39 @@
 import { Formik, Form } from "formik";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import FormInput from "../../../molecules/Inputs/FormInput";
 import HomeIcon from "../../../../core/icons/HomeIcon";
 import Button from "../../../atoms/Buttons/Button";
-
 import EmailIcon from "@/core/icons/EmailIcon";
+import { ResetPassInFormations } from "@/core/services/api/auth/auth.service";
+import { toast } from "react-toastify";
 
 const validationSchema = Yup.object({
   phoneOrGmail: Yup.string().required("ایمیل وارد شده معتبر نیست!"),
 });
-const ResetPassInFormation = ({ setWhichStep }) => {
-  const handleSubmit = () => {
-    setWhichStep("Step2");
+const ResetPassInFormation = () => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (value) => {
+    const response = await ResetPassInFormations(value);
+    if (response.data.success) {
+      toast.success("حساب کاربری شما با موفقیت ایجاد شد.");
+      navigate("/Auth/ResetPassword/NewPassword/:veriFyCode", {
+        state: value.email,
+      });
+    } else {
+      toast.error(response.data.message);
+    }
   };
   return (
     <Formik
       initialValues={{
-        phoneOrGmail: "",
+        email: "",
+        baseUrl: "https:/localhost:5173/Auth/ResetPassword/NewPassword/",
       }}
       validationSchema={validationSchema}
       onSubmit={(values) => {
-        handleSubmit();
-        console.log(values);
+        handleSubmit(values);
       }}
     >
       {({ errors }) => (

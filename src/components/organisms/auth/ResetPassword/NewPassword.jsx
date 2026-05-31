@@ -17,6 +17,8 @@ const validationSchema = Yup.object({
 
 const NewPassword = ({ setWhichStep }) => {
   const Navigate = useNavigate();
+  // const { state } = useLocation();
+  // const email = state;
   const handleSubmit = () => {
     Navigate("/Auth/Login");
   };

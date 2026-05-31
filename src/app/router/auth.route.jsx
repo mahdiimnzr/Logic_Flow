@@ -1,6 +1,11 @@
-import { Login, Register } from "@/components/organisms/auth";
+import {
+  Login,
+  Register,
+  ResetPassInFormation,
+  ResetPassword,
+} from "@/components/organisms/auth";
 import { AuthLayout } from "../../templates";
-import ResetPassword from "@/components/organisms/auth/ResetPassword";
+import NewPassword from "@/components/organisms/auth/ResetPassword/NewPassword";
 
 const authRoute = [
   {
@@ -20,8 +25,12 @@ const authRoute = [
         element: <ResetPassword />,
         children: [
           {
-            path: "/Auth/ResetPassword/:resetValue",
-            element: <ResetPassword />,
+            path: "/Auth/ResetPassword/ResetPassInFormation",
+            element: <ResetPassInFormation />,
+          },
+          {
+            path: "/Auth/ResetPassword/NewPassword/:veriFyCode",
+            element: <NewPassword />,
           },
         ],
       },
