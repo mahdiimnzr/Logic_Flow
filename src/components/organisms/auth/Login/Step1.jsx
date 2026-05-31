@@ -132,7 +132,7 @@ const Step1 = ({ setWhichStep, setSignUpParams, SignUpParams }) => {
                   className={`flex gap-2 justify-center lg:text-[14px] text-[12px] font-normal cursor-pointer`}
                 >
                   <p className={`text-default-black`}>
-                    حساب کاربری دارید؟{" "}
+                    حساب کاربری ندارید؟{" "}
                     <Link
                       to={"/Auth/Register"}
                       className={`text-green-primary`}
