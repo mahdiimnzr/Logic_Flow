@@ -7,20 +7,29 @@ import Button from "../../../atoms/Buttons/Button";
 import EmailIcon from "@/core/icons/EmailIcon";
 import { ResetPassInFormations } from "@/core/services/api/auth/auth.service";
 import { toast } from "react-toastify";
+import ThemeSlide from "@/components/molecules/theme/ThemeSlide";
+import { useContext } from "react";
+import ThemeContext from "@/app/context/ThemeContext";
+import { useDispatch } from "react-redux";
+import { updateResetPass } from "@/app/store/actions";
 
 const validationSchema = Yup.object({
-  phoneOrGmail: Yup.string().required("ایمیل وارد شده معتبر نیست!"),
+  email: Yup.string()
+    .trim()
+    .email("ایمیل وارد شده معتبر نیست!")
+    .required("ایمیل وارد شده معتبر نیست!"),
 });
 const ResetPassInFormation = () => {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
+  const { theme, setTheme } = useContext(ThemeContext);
   const handleSubmit = async (value) => {
     const response = await ResetPassInFormations(value);
     if (response.data.success) {
-      toast.success("حساب کاربری شما با موفقیت ایجاد شد.");
-      navigate("/Auth/ResetPassword/NewPassword/:veriFyCode", {
-        state: value.email,
-      });
+      toast.success(response.data.message);
+      navigate("/Auth/ResetPassword/NewPassword/000000");
+      dispatch(updateResetPass(value.email));
+      localStorage.setItem("email", JSON.stringify(value.email));
     } else {
       toast.error(response.data.message);
     }
@@ -39,41 +48,48 @@ const ResetPassInFormation = () => {
       {({ errors }) => (
         <Form>
           <div
-            className={`flex flex-col xl:gap-27 lg:gap-23 gap-12 md:pt-19 pt-8`}
+            className={`flex flex-col xl:gap-25 lg:gap-20 sm:gap-15 gap-10 xl:pt-19 lg:pt-15 md:pt-10 pt-2`}
           >
-            <Link to={"/"} className={`flex gap-2 cursor-pointer`}>
-              <HomeIcon />
-              <span className={`text-green-dark text-3.5 font-bold`}>
-                صفحه اصلی
-              </span>
-            </Link>
-            <div className={`flex flex-col gap-10`}>
-              <div className={`flex flex-col gap-2 text-center cursor-pointer`}>
-                {" "}
+            <div className={`flex items-center justify-between w-full`}>
+              <Link to={"/"} className={`flex gap-2`}>
+                <HomeIcon className={`xl:size-6 sm:size-5 size-4`} />
+                <p
+                  className={`text-green-dark xl:text-base sm:text-[14px] text-[12px] font-bold`}
+                >
+                  صفحه اصلی
+                </p>
+              </Link>
+              <ThemeSlide
+                theme={theme}
+                setTheme={setTheme}
+                className={`flex md:hidden`}
+              />
+            </div>
+            <div className={`flex flex-col xl:gap-8 lg:gap-4 gap-5`}>
+              <div className={`flex flex-col gap-2 text-center`}>
                 <span
-                  className={`text-green-primary xl:text-[24px] lg:text-[20px] md:text-[16px] font-bold `}
+                  className={`text-green-primary xl:text-2xl lg:text-[18px] md:text-base text-[14px] font-bold text-center`}
                 >
                   فراموشی رمز عبور
                 </span>
                 <span
-                  className={`xl:text-[16px] lg:text-[15px] md:text-[14px] text-default-black`}
+                  className={`xl:text-[16px] lg:text-[15px] md:text-[14px] text-[12px] text-default-black`}
                 >
                   ایمیل خود را برای تغییر رمز درخواست وارد کنید
                 </span>
               </div>
-              <div className={`flex flex-col gap-10 `}>
-                <FormInput
-                  icon={<EmailIcon />}
-                  error={errors.phoneOrGmail}
-                  name={"phoneOrGmail"}
-                  type={"text"}
-                  placeholder={"ایمیل خود را وارد کنید"}
-                />
-              </div>
-
+              <FormInput
+                icon={<EmailIcon />}
+                error={errors?.email}
+                name={"email"}
+                type={"text"}
+                placeholder={"ایمیل خود را وارد کنید"}
+                className={`xl:h-15! lg:h-13! md:h-11! sm:h-13! h-11!`}
+                errorMessageClassName={`lg:text-[14px]! text-[12px]!`}
+              />
               <Button
                 color={"authBtn"}
-                className={`h-15 xl:text-[16px] lg:text-[15px] md:text-[14px] `}
+                className={`xl:h-15 lg:h-13 h-11 xl:text-base! lg:text-[14px]! text-[12px]!`}
               >
                 ارسال درخواست
               </Button>

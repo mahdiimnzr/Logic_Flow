@@ -29,7 +29,7 @@ const authRoute = [
             element: <ResetPassInFormation />,
           },
           {
-            path: "/Auth/ResetPassword/NewPassword/:veriFyCode",
+            path: "/Auth/ResetPassword/NewPassword/:verifyCode",
             element: <NewPassword />,
           },
         ],
