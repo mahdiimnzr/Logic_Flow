@@ -13,6 +13,8 @@ const SearchHeader = ({
   className,
   contentClassName,
   itemClassName,
+  value,
+  setValue,
 }) => {
   return (
     <div
@@ -33,6 +35,8 @@ const SearchHeader = ({
             defaultValue={"courses"}
             itemClassName={`cursor-pointer! ${itemClassName}`}
             triggerClassName={`border-none! flex! items-center! gap-1! ring-0! p-0! font-normal! text-[14px]! text-default-black! cursor-pointer! bg-default-light!`}
+            value={value}
+            setValue={setValue}
           />
         )}
         <Button color={color} className={buttonClassName}>

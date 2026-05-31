@@ -1,5 +1,5 @@
 import useGetQuery from "../../common/useGetQuery";
 
-const useGetArticles = (params) => useGetQuery("Articles", "/News", params);
+const useGetArticles = (key, params) => useGetQuery(key, "/News", params);
 
 export default useGetArticles;

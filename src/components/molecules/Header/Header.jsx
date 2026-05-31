@@ -6,7 +6,7 @@ import SearchHeader from "../Inputs/SearchHeader";
 import ThemeButton from "../theme/ThemeButton";
 import { useContext, useEffect, useState } from "react";
 import ThemeContext from "@/app/context/ThemeContext";
-import { Menu, Search } from "lucide-react";
+import { Menu, Search, X } from "lucide-react";
 import DrawerComponents from "../Drawer/Drawer";
 import InstagramIcon from "@/core/icons/InstagramIcon";
 import FaceBookIcon from "@/core/icons/FaceBookIcon";
@@ -18,37 +18,56 @@ import debounce from "debounce";
 import { Skeleton } from "@/components/ui/skeleton";
 import ImageFallback from "@/components/atoms/ImageFallBack/ImageFallBack";
 import image from "../../../assets/images/coursePng.png";
+import Border from "@/components/atoms/Border/Border";
+import ArrowIcon from "@/core/icons/ArrowIcon";
+import useGetArticles from "@/core/services/api/common/useGetArticles";
 
 const Header = () => {
   const skeletonCount = new Array(3).fill("");
   const [modalOpen, setModalOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState("courses");
   const [params, setParams] = useState({
     RowsOfPage: 3,
     Query: null,
   });
   const { theme, setTheme } = useContext(ThemeContext);
-  const { isLoading, data, refetch } = useGetCourses("FundedCourses", params);
+  const {
+    isLoading,
+    data: courses,
+    refetch: coursesRefetch,
+  } = useGetCourses("FundedCourses", params);
+  const { data: articles, refetch: articlesRefetch } = useGetArticles(
+    "FundedArticles",
+    params,
+  );
   const updateParams = (key, value) => {
     const newParams = { ...params, [key]: value };
     return setParams(newParams);
   };
   const handleSearch = debounce((value) => {
     updateParams("Query", value.trim() === "" ? null : value.trim());
-    if (data && value.trim() !== "") {
+    if (
+      (searchValue === "courses" ? courses : articles) &&
+      value.trim() !== ""
+    ) {
       setModalOpen(true);
-    } else if (!data || data?.length === 0 || value.trim() === "") {
+    } else if (
+      (searchValue === "courses" ? !courses : !articles) ||
+      (searchValue === "courses" ? courses : articles)?.length === 0 ||
+      value.trim() === ""
+    ) {
       setModalOpen(false);
     }
   }, 1000);
   useEffect(() => {
-    refetch();
-  }, [params]);
-  console.log(isLoading);
+    searchValue === "courses" ? coursesRefetch() : articlesRefetch();
+  }, [params, searchValue]);
   return (
     <div
-      className={`md:w-[95%] w-[90%] flex justify-between items-center pt-6 mx-auto relative z-10`}
+    onScroll={() => console.log("first")}
+      className={`w-full flex justify-between items-center md:px-[2%] px-[4%] md:py-6 py-3 mx-auto fixed z-100 bg-light-green`}
     >
-      <div className={`flex items-center xl:gap-8`}>
+      <div className={`flex items-center xl:gap-8 gap-6`}>
         <div className={`flex items-center xl:gap-4 md:gap-3`}>
           <img className={`size-11.5`} src={logoIcon} />
           <span
@@ -93,39 +112,85 @@ const Header = () => {
           onChange={(event) => {
             handleSearch(event.target.value);
           }}
+          value={searchValue}
+          setValue={setSearchValue}
         >
           <Search
             className={`mx-auto xl:size-6 lg:size-5`}
             color={theme ? `#000000` : `#ffffff`}
           />
           {modalOpen && (
-            <div className={`absolute top-14 right-0 left-0 bg-default-light`}>
-              <div className={`flex flex-col gap-2 p-4`}>
-                {isLoading ? (
-                  skeletonCount?.map((value, index) => (
-                    <Skeleton key={index} className={`w-9/10 h-11.5`} />
-                  ))
-                ) : data?.data?.courseFilterDtos.length === 0 ? (
-                  <span className={`text-default-black text-[14px]`}>
-                    موردی یافت نشد
-                  </span>
-                ) : (
-                  data?.data?.courseFilterDtos?.map((value, index) => (
-                    <Link
-                      key={index}
-                      to={`/Course/${value?.id}`}
-                      className={`flex items-center gap-2`}
-                    >
-                      <ImageFallback
-                        className={`size-11.5 rounded-2xl`}
-                        src={value.imageAddress}
-                        fallback={image}
-                      />
-                      <span className={`text-default-black text-[14px]`}>
-                        {value?.title}
-                      </span>
-                    </Link>
-                  ))
+            <div
+              className={`absolute top-12 right-0 left-0 bg-default-light rounded-[6px] border border-field-gray`}
+            >
+              <div className={`flex flex-col gap-3 p-2`}>
+                <div
+                  onClick={() => setModalOpen(false)}
+                  className={`flex items-center gap-2`}
+                >
+                  <X
+                    className={`size-5`}
+                    color={theme ? `#ffffff` : `#1E1E1E`}
+                  />
+                  <span className={`text-default-black text-[14px]`}>بستن</span>
+                </div>
+                <Border
+                  width="w-full"
+                  height="h-0.5"
+                  background={`bg-field-gray`}
+                />
+                <div className={`flex flex-col gap-1`}>
+                  {isLoading ? (
+                    skeletonCount?.map((value, index) => (
+                      <Skeleton key={index} className={`w-9/10 h-11.5`} />
+                    ))
+                  ) : (searchValue === "courses"
+                      ? courses.data?.courseFilterDtos
+                      : articles?.data?.news
+                    )?.length === 0 ? (
+                    <span className={`text-default-black text-[14px]`}>
+                      موردی یافت نشد
+                    </span>
+                  ) : (
+                    (searchValue === "courses"
+                      ? courses?.data?.courseFilterDtos
+                      : articles?.data?.news
+                    )?.map((value, index) => (
+                      <Link
+                        key={index}
+                        to={`/Course/${value?.courseId}`}
+                        className={`flex items-center gap-2 rounded-[5px] px-2 py-1 hover:bg-muted`}
+                      >
+                        <ImageFallback
+                          className={`w-15 h-11 rounded-[10px]`}
+                          src={value.imageAddress}
+                          fallback={image}
+                        />
+                        <span
+                          className={`text-default-black text-[14px] w-full text-right truncate`}
+                        >
+                          {value?.title}
+                        </span>
+                      </Link>
+                    ))
+                  )}
+                </div>
+                {(searchValue === "courses"
+                  ? courses.data?.courseFilterDtos
+                  : articles?.data?.news
+                )?.length >= 3 && (
+                  <Link
+                    to={searchValue === "courses" ? `/Courses` : `/Articles`}
+                    className={`text-[14px]! h-10 flex items-center justify-center gap-1 bg-green-primary text-white font-bold rounded-[100px] cursor-pointer`}
+                  >
+                    <span>
+                      {" "}
+                      {searchValue === "courses"
+                        ? "مشاهده همه دوره ها"
+                        : "مشاهده همه اخبار ها"}
+                    </span>
+                    <ArrowIcon className={`size-3`} color={`#ffffff`} />
+                  </Link>
                 )}
               </div>
             </div>

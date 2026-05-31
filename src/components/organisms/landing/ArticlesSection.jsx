@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 const ArticlesSection = () => {
   const skeletonCount1 = new Array(2).fill("");
   const skeletonCount2 = new Array(3).fill("");
-  const { isLoading, data: articles } = useGetArticles({
+  const { isLoading, data: articles } = useGetArticles("ArticlesLanding", {
     RowsOfPage: "100",
     TechCount: "1",
   });

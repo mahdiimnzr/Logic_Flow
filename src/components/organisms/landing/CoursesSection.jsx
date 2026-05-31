@@ -16,7 +16,7 @@ const CoursesSection = () => {
   const skeletonCount = new Array(4).fill("");
   const prevRef = useRef(null);
   const nextRef = useRef(null);
-  const { isLoading, data: courses } = useGetCourses("Courses", {
+  const { isLoading, data: courses } = useGetCourses("CoursesLanding", {
     RowsOfPage: "100",
     TechCount: "1",
   });
