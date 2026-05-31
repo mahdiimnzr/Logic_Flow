@@ -15,9 +15,16 @@ const SelectModal = ({
   items,
   contentPosition,
   defaultValue,
+  value,
+  setValue,
 }) => {
   return (
-    <Select dir={"rtl"} defaultValue={defaultValue}>
+    <Select
+      dir={"rtl"}
+      defaultValue={defaultValue}
+      value={value}
+      onValueChange={setValue}
+    >
       <SelectTrigger className={triggerClassName}>
         <SelectValue />
       </SelectTrigger>

@@ -6,14 +6,14 @@ import { CountUp } from "use-count-up";
 
 const HeroSection = () => {
   return (
-    <div className={`bg-light-green w-full pt-29 relative -top-29`}>
+    <div className={`bg-light-green w-full pt-10 relative`}>
       <div
         className={`flex flex-col md:flex-row justify-between items-center md:w-[95%] w-[90%] mx-auto py-10`}
       >
         <div className={`md:w-5/10 w-full flex flex-col xl:gap-8 gap-6`}>
           <div className={`flex flex-col xl:gap-6 gap-4`}>
             <h2
-              className={`text-default-black 3xl:text-[40px]! xl:text-4xl lg:text-2xl text-[20px] font-bold`}
+              className={`text-default-black 3xl:text-[40px]! xl:text-4xl lg:text-2xl md:text-[20px] text-[18px] font-bold`}
             >
               یادگیری برنامه‌نویسی با اساتید مجرب ، <br />
               <span className={`text-green-primary leading-normal`}>
