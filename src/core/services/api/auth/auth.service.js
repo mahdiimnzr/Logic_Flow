@@ -8,3 +8,7 @@ export const sendVerifyRegister = (params) =>
 export const verifyMessageRegister = (params) =>
   postParams(`Sign/VerifyMessage`, params);
 export const completeRegister = (params) => postParams(`Sign/Register`, params);
+export const ResetPassInFormations = (params) =>
+  postParams(`Sign/ForgetPassword`, params);
+export const ResetPassNewPass = (params) =>
+  postParams(`Sign/Reset`, params);

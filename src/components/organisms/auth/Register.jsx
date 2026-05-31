@@ -28,7 +28,7 @@ const Register = () => {
         )}
       </div>
       <div
-        className={`md:w-5/10 px-8 lg:py-15 md:py-10 py-5 bg-light-green relative md:rounded-[60px] rounded-[30px] flex flex-col items-center gap-6 text-center`}
+        className={`md:w-5/10 px-8 lg:py-15 md:py-10 py-5 bg-light-green relative md:rounded-[60px] rounded-[30px] md:flex hidden flex-col items-center gap-6 text-center`}
       >
         <ThemeSlide
           theme={theme}
