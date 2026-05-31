@@ -64,7 +64,7 @@ const Header = () => {
   }, [params, searchValue]);
   return (
     <div
-    onScroll={() => console.log("first")}
+      onScroll={() => console.log("first")}
       className={`w-full flex justify-between items-center md:px-[2%] px-[4%] md:py-6 py-3 mx-auto absolute z-100 bg-light-green`}
     >
       <div className={`flex items-center xl:gap-8 gap-6`}>
