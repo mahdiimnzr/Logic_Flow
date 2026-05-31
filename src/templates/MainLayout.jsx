@@ -8,8 +8,8 @@ import { useEffect, useRef } from "react";
 const MainLayout = () => {
   const upBtnRef = useRef(null);
   useEffect(() => {
-    window.onscroll = () => {
-      if (window.pageYOffset > 200) {
+    document.onscroll = () => {
+      if (window.pageYOffset > 300) {
         upBtnRef.current.style.height = "40px";
         upBtnRef.current.style.opacity = "100";
         upBtnRef.current.style.transform = "rotate(0deg)";
