@@ -21,7 +21,7 @@ const MainLayout = () => {
     };
   });
   return (
-    <>
+    <div className={`relative`}>
       <div
         className={`fixed flex flex-col items-center gap-2 left-5 top-7/10 z-50 bg-green-primary py-1 px-2 rounded shadow-[0px_4px_4px_0px_#000000]/15`}
       >
@@ -43,7 +43,7 @@ const MainLayout = () => {
       <Header />
       <Outlet />
       <Footer />
-    </>
+    </div>
   );
 };
 
