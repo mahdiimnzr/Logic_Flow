@@ -1,11 +1,11 @@
 import {
   Login,
+  NewPassword,
   Register,
   ResetPassInFormation,
   ResetPassword,
 } from "@/components/organisms/auth";
 import { AuthLayout } from "../../templates";
-import NewPassword from "@/components/organisms/auth/ResetPassword/NewPassword";
 
 const authRoute = [
   {

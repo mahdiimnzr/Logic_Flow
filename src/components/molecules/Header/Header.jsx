@@ -21,6 +21,7 @@ import image from "../../../assets/images/coursePng.png";
 import Border from "@/components/atoms/Border/Border";
 import ArrowIcon from "@/core/icons/ArrowIcon";
 import useGetArticles from "@/core/services/api/common/useGetArticles";
+import { useI18n } from "@/i18n/useI18n";
 
 const Header = () => {
   const headerRef = useRef(null);
@@ -31,6 +32,7 @@ const Header = () => {
     RowsOfPage: 3,
     Query: null,
   });
+  const { t, lang } = useI18n();
   const { theme, setTheme } = useContext(ThemeContext);
   const {
     isLoading,
@@ -78,10 +80,11 @@ const Header = () => {
       }
     };
   });
+  console.log(lang);
   return (
     <div
       ref={headerRef}
-      className={`w-full flex justify-between items-center md:px-[2%] px-[4%] md:py-6 py-3 mx-auto absolute z-100 bg-transparent`}
+      className={`w-full flex justify-between items-center md:px-[2%] px-[4%] md:py-6 py-3 mx-auto absolute top-0 z-100 bg-transparent`}
     >
       <div className={`flex items-center xl:gap-8 gap-6`}>
         <div className={`flex items-center xl:gap-4 md:gap-3`}>
@@ -89,7 +92,7 @@ const Header = () => {
           <span
             className={`2xl:text-2xl xl:text-[20px] font-bold text-default-black hidden lg:block`}
           >
-            آکادمی بحر
+            {t("header.acName")}
           </span>
         </div>
         <div
@@ -103,7 +106,7 @@ const Header = () => {
                 `${isActive ? `text-green-primary font-bold` : `text-default-black font-normal`} 2xl:text-[20px] xl:text-[18px]`
               }
             >
-              {value?.title}
+              {lang === "en" ? value?.titleEn : value?.title}
             </NavLink>
           ))}
         </div>
@@ -120,7 +123,7 @@ const Header = () => {
         />
         <SearchHeader
           buttonClassName={`xl:size-11.5 lg:size-10`}
-          placeHolder={"جستجو کنید..."}
+          placeHolder={t("header.inputPlaceHolder")}
           haveSelect={true}
           className={`lg:w-70 hidden lg:flex relative`}
           contentClassName={`${theme ? `bg-[#1e1e1e] text-white` : `bg-white text-[#1E1E1E]`}`}
@@ -148,7 +151,9 @@ const Header = () => {
                     className={`size-5`}
                     color={theme ? `#ffffff` : `#1E1E1E`}
                   />
-                  <span className={`text-default-black text-[14px]`}>بستن</span>
+                  <span className={`text-default-black text-[14px]`}>
+                    {t("header.closeBtn")}
+                  </span>
                 </div>
                 <Border
                   width="w-full"
@@ -165,7 +170,7 @@ const Header = () => {
                       : articles?.data?.news
                     )?.length === 0 ? (
                     <span className={`text-default-black text-[14px]`}>
-                      موردی یافت نشد
+                      {t("header.notFound")}
                     </span>
                   ) : (
                     (searchValue === "courses"
@@ -202,8 +207,8 @@ const Header = () => {
                     <span>
                       {" "}
                       {searchValue === "courses"
-                        ? "مشاهده همه دوره ها"
-                        : "مشاهده همه اخبار ها"}
+                        ? t("header.seeAllCourses")
+                        : t("header.seeAllArticles")}
                     </span>
                     <ArrowIcon className={`size-3`} color={`#ffffff`} />
                   </Link>
@@ -217,7 +222,7 @@ const Header = () => {
             color={"registerBtn"}
             className={`xl:px-6 py-3 px-4 text-[14px]!`}
           >
-            ورود / ثبت نام
+            {t("header.registerBtn")}
           </Button>
         </Link>
         <DrawerComponents
@@ -260,7 +265,7 @@ const Header = () => {
                     `${isActive ? `text-[#008c78] font-bold` : theme ? `text-white font-normal` : `text-[#1e1e1e] font-normal`} 2xl:text-[20px] xl:text-[18px]`
                   }
                 >
-                  {value?.title}
+                  {lang === "en" ? value?.titleEn : value?.title}
                 </NavLink>
                 <p
                   className={`text-[#848484] font-normal text-base w-4/10 text-left truncate`}

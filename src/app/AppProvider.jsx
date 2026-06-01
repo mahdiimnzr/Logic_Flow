@@ -7,8 +7,10 @@ import queryClient from "@/config/queryClient";
 import ThemeContext from "./context/ThemeContext";
 import { Provider } from "react-redux";
 import store from "./store/store";
+import { useI18n } from "@/i18n/useI18n";
 
 const AppProvider = () => {
+  const { lang } = useI18n();
   const [theme, setTheme] = useState(false);
   return (
     <Suspense fallback={<div>IsLoading</div>}>
@@ -16,6 +18,7 @@ const AppProvider = () => {
         <QueryClientProvider client={queryClient}>
           <ThemeContext.Provider value={{ theme, setTheme }}>
             <div
+              dir={lang === "en" ? "ltr" : "rtl"}
               className={`${theme ? `dark` : `light`} bg-background-default max-w-480 mx-auto`}
             >
               <RouterProvider router={router} />

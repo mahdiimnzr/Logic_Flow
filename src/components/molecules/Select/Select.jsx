@@ -6,6 +6,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useI18n } from "@/i18n/useI18n";
 
 const SelectModal = ({
   triggerClassName,
@@ -18,9 +19,10 @@ const SelectModal = ({
   value,
   setValue,
 }) => {
+  const { lang } = useI18n();
   return (
     <Select
-      dir={"rtl"}
+      dir={lang === "en" ? "ltr" : "rtl"}
       defaultValue={defaultValue}
       value={value}
       onValueChange={setValue}
@@ -36,7 +38,7 @@ const SelectModal = ({
               value={value.name}
               className={itemClassName}
             >
-              {value.title}
+              {lang === "en" ? value?.titleEn : value?.title}
             </SelectItem>
           ))}
         </SelectGroup>

@@ -1,7 +1,9 @@
 import Badge from "@/components/atoms/Badge/Badge";
 import imgCourseDetail from "../../../assets/images/coursePng.png";
 import Button from "@/components/atoms/Buttons/Button";
+import { ThumbsUp } from "lucide-react";
 const CourseInformation = () => {
+  const isLike = false;
   return (
     <div className={`xl:w-9/10 `}>
       <div className={` border flex flex-col gap-4 text-center p-8.25`}>
@@ -14,16 +16,13 @@ const CourseInformation = () => {
       </div>
       <div className={`flex justify-center gap-12 `}>
         <div className={` border-2 w-[425px] h-[443px]`}></div>
-
         <div className={` border-2 xl:w-218.75`}>
           <img src={imgCourseDetail} className={` xl:h-110.75`} />
           <div className={` flex justify-between pt-4 `}>
             <div
-              className={`flex justify-center items-center gap-2 text-center  h-6.75 text-field-silver  `}
+              className={`flex justify-center items-center gap-2 text-center text-field-silver`}
             >
-              <Badge
-                className={`border border-field-silver rounded-full xl:w-15.25 h-6.75 text-[14px] `}
-              >
+              <Badge color={"technologyBadge"} className={`xl:w-15.25 h-6.75`}>
                 HTML
               </Badge>
               <Badge
@@ -38,13 +37,19 @@ const CourseInformation = () => {
               </Badge>
             </div>
             <div className={`flex gap-2 text-center`}>
-              <Button className={` border w-[80px] h-[44px] rounded-full `}>
+              <Button
+                color={"likeAndDisLikeBtn"}
+                className={`w-[80px] h-[44px]`}
+              >
                 150
               </Button>
               <Button
-                className={` border w-[83px] h-[44px] bg-green-primary rounded-full `}
+                color={"likeAndDisLikeBtn"}
+                className={`w-[80px] h-[44px] flex items-center justify-center gap-2`}
+                isLikeOrDislike={false}
               >
                 200
+                <ThumbsUp color={isLike ? "#ffffff" : "#848484"} />
               </Button>
             </div>
           </div>

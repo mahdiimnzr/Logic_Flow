@@ -6,3 +6,4 @@ export const ResetPassword = lazy(() => import("./ResetPassword"));
 export const ResetPassInFormation = lazy(
   () => import("./ResetPassword/ResetPassInFormation"),
 );
+export const NewPassword = lazy(() => import("./ResetPassword/NewPassword"));

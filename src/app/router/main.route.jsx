@@ -1,4 +1,4 @@
-import { CourseDetail, Landing } from "../../pages";
+import { CourseDetail, Courses, Landing } from "../../pages";
 import { MainLayout } from "../../templates";
 
 const mainRoute = [
@@ -9,6 +9,10 @@ const mainRoute = [
       {
         path: "/",
         element: <Landing />,
+      },
+      {
+        path: "/Courses",
+        element: <Courses />,
       },
       {
         path: "/Course/CourseDetail/:id",
