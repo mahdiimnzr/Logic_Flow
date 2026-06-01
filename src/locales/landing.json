@@ -1,0 +1,154 @@
+{
+  "en": {
+    "heroSection": {
+      "title": "Learning programming with experienced instructors paves the way.",
+      "titleKeyWord": "your path to success",
+      "descriptionFirstLine": "In our specialized courses, start learning programming with professional and experienced instructors.",
+      "descriptionSecondLine": "From foundational concepts to advanced skills, we take you to a level where you're ready to enter the",
+      "descriptionThirdLine": "professional world of technology. Grow rapidly with modern and effective methods!",
+      "linkBtn": "Join the professionals",
+      "bestTeachers": "Top Instructors",
+      "students": "Students",
+      "courses": "Training Courses",
+      "articles": "News & Articles"
+    },
+    "servicesSection": {
+      "modernTeaching": {
+        "title": "Stay ahead in programming with us.",
+        "description": "All our courses are up to date — learn the most modern content alongside us."
+      },
+      "workRoadMap": {
+        "title": "Build a professional career path",
+        "description": "Our goal is to ensure that learners are ready to enter the job market after completing their training."
+      },
+      "readingFeeling": {
+        "title": "Fostering a growth and continuous learning mindset",
+        "description": "Technology is always changing. We believe that learning never stops."
+      },
+      "improveSkills": {
+        "title": "Developing problem-solving skills",
+        "description": "Programming is not just about writing code; we teach our students logical thinking and challenge analysis."
+      }
+    },
+    "coursesSection": {
+      "title": "Programming Training Courses",
+      "description": "Courses for everyone: learn, practice, and build projects!",
+      "moreBtn": "View all courses"
+    },
+    "roadMapSection": {
+      "title": "From your first line of code to , we're with you",
+      "titleKeyWord": "entering the job market",
+      "description": "We make the programming learning journey simple, practical, and effective so you enter the job market faster.",
+      "step1": {
+        "title": "Learning practical skills",
+        "description": "By focusing on real-world projects and market needs, you learn skills that truly make a difference."
+      },
+      "step2": {
+        "title": "Goal-oriented learning path",
+        "description": "From beginner to expert, courses are carefully designed so your time isn't wasted and you progress step by step."
+      },
+      "step3": {
+        "title": "Support and mentoring",
+        "description": "You're never alone throughout the courses; instructors and mentors are with you to answer your questions and guide you."
+      },
+      "step4": {
+        "title": "Learning up-to-date technologies",
+        "description": "From HTML and CSS to React, Node.js, Python, and AI — you always learn the latest."
+      }
+    },
+    "teachersSection": {
+      "title": "Meet our professional instructors",
+      "description": "Learn from the best educators with experience and up-to-date knowledge",
+      "moreBtn": "View all news"
+    },
+    "experienceSection": {
+      "titleFirstLine": "Teach your experience, make an impact, and with us",
+      "titleSecondLine": "begin.",
+      "titleKeyWord": "a fresh professional path",
+      "descriptionFirstLine": "If you know programming and want to share your knowledge with others, this is the place where you can",
+      "descriptionSecondLine": "teach, make an impact, and earn income. Join our community of instructors and become part of",
+      "descriptionThirdLine": "the future of new programmers.",
+      "linkBtn": "Join our instructors"
+    },
+    "articlesSection": {
+      "title": "News & Articles",
+      "description": "Stay up to date with the latest programming news and articles"
+    }
+  },
+  "fa": {
+    "heroSection": {
+      "title": "یادگیری برنامه‌نویسی با اساتید مجرب ، شما را هموار می‌کند.",
+      "titleKeyWord": "مسیر موفقیت",
+      "descriptionFirstLine": "در دوره‌های تخصصی ما، با اساتید حرفه‌ای و با تجربه یادگیری برنامه‌نویسی را آغاز کنید.",
+      "descriptionSecondLine": "از مفاهیم پایه تا مهارت‌های پیشرفته، شما را به سطحی می‌رسانیم که آماده ورود به",
+      "descriptionThirdLine": "دنیای حرفه‌ای فناوری باشید. با روش‌های مدرن و کارآمد، به سرعت رشد کنید!",
+      "linkBtn": "به جمع حرفه‌ای‌ها بپیوندید",
+      "bestTeachers": "اساتید برتر",
+      "students": "دانشجو ها",
+      "courses": "دوره های آموزشی",
+      "articles": "اخبار و مقالات"
+    },
+    "servicesSection": {
+      "modernTeaching": {
+        "title": "با ما، در برنامه‌نویسی پیشتاز باشید.",
+        "description": "تمامی آموزش ها بروز هستند و مدرن ترین مطالب را در کنار ما یاد میگیرید."
+      },
+      "workRoadMap": {
+        "title": "ساخت مسیر شغلی حرفه‌ای",
+        "description": "هدف ما این است که افراد پس از آموزش،  آماده‌ی ورود به بازار کار شوند."
+      },
+      "readingFeeling": {
+        "title": "ایجاد روحیه‌ی رشد و یادگیری مستمر",
+        "description": "تکنولوژی همیشه در حال تغییر است.  ما باور داریم که یادگیری هیچ وقت متوقف  نمی‌شود. "
+      },
+      "improveSkills": {
+        "title": "پرورش مهارت‌های حل مسئله",
+        "description": "برنامه‌نویسی فقط نوشتن کد نیست؛  ما به دانشجویان خود تفکر منطقی،  تحلیل چالش‌ها "
+      }
+    },
+    "coursesSection": {
+      "title": "دوره‌های آموزشی برنامه‌نویسی",
+      "description": "دوره‌هایی برای همه: یاد بگیر، تمرین کن، پروژه بزن!",
+      "moreBtn": "مشاهده همه دوره ها"
+    },
+    "roadMapSection": {
+      "title": "از اولین خط کد تا ، با تو هستیم",
+      "titleKeyWord": "ورود به بازار کار",
+      "description": "ما مسیر یادگیری برنامه‌نویسی را ساده، کاربردی و اثربخش می‌کنیم تا سریع‌تر وارد بازار کار شوید.",
+      "step1": {
+        "title": "یادگیری مهارت‌های کاربردی",
+        "description": "با تمرکز بر پروژه‌های واقعی و نیاز بازار، مهارت‌هایی یاد می‌گیرید که واقعاً به کارتون میان."
+      },
+      "step2": {
+        "title": "مسیر یادگیری هدفمند",
+        "description": "از مبتدی تا متخصص، آموزش‌ها با برنامه‌ریزی دقیق طراحی شدن تا وقتتون هدر نره و قدم‌به‌قدم پیش برید."
+      },
+      "step3": {
+        "title": "پشتیبانی و منتورینگ",
+        "description": "در طول دوره‌ها تنها نیستید؛ اساتید و منتورها همراه شما هستن تا سوالاتتون رو جواب بدن و راهنمایی‌تون کنن."
+      },
+      "step4": {
+        "title": "آموزش تکنولوژی‌های به‌روز",
+        "description": "از HTML و CSS تا React، Node.js، پایتون، و هوش مصنوعی — همیشه به‌روز یاد می‌گیرید."
+      }
+    },
+    "teachersSection": {
+      "title": "آشنایی با اساتید حرفه‌ای ما",
+      "description": "یادگیری از برترین مدرسین با تجربه و دانش به‌روز",
+      "moreBtn": "مشاهده همه اخبار ها"
+    },
+    "experienceSection": {
+      "titleFirstLine": "تجربه‌ات رو آموزش بده، تأثیر بذار و با ما",
+      "titleSecondLine": "رو شروع کن.",
+      "titleKeyWord": "مسیر حرفه‌ای تازه‌ای",
+      "descriptionFirstLine": "اگه برنامه‌نویسی بلدی و دوست داری دانشت رو به دیگران منتقل کنی، اینجا جاییه که می‌تونی هم",
+      "descriptionSecondLine": "آموزش بدی، هم تاثیرگذار باشی و هم درآمد داشته باشی. به جمع مدرسین ما بپیوند و بخشی از",
+      "descriptionThirdLine": "آینده‌ی برنامه‌نویسان تازه‌کار باش.",
+      "linkBtn": "به جمع اساتید بپیوندید"
+    },
+    "articlesSection": {
+      "title": "اخبار و مقالات",
+      "description": "با تازه‌ترین اخبار و مقالات برنامه‌نویسی به‌روز بمانید"
+    }
+  }
+}

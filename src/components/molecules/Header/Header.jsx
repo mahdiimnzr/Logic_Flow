@@ -4,7 +4,7 @@ import { Link, NavLink } from "react-router-dom";
 import Button from "@/components/atoms/Buttons/Button";
 import SearchHeader from "../Inputs/SearchHeader";
 import ThemeButton from "../theme/ThemeButton";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import ThemeContext from "@/app/context/ThemeContext";
 import { Menu, Search, X } from "lucide-react";
 import DrawerComponents from "../Drawer/Drawer";
@@ -23,6 +23,7 @@ import ArrowIcon from "@/core/icons/ArrowIcon";
 import useGetArticles from "@/core/services/api/common/useGetArticles";
 
 const Header = () => {
+  const headerRef = useRef(null);
   const skeletonCount = new Array(3).fill("");
   const [modalOpen, setModalOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("courses");
@@ -62,10 +63,25 @@ const Header = () => {
   useEffect(() => {
     searchValue === "courses" ? coursesRefetch() : articlesRefetch();
   }, [params, searchValue]);
+  useEffect(() => {
+    window.onscroll = () => {
+      if (window.pageYOffset > 300) {
+        headerRef.current.classList.add("bg-background-default!");
+        headerRef.current.style.position = "fixed";
+        headerRef.current.style.right = "50%";
+        headerRef.current.style.transform = "translateX(50%)";
+      } else {
+        headerRef.current.classList.remove("bg-background-default!");
+        headerRef.current.style.position = "absolute";
+        headerRef.current.style.right = "0%";
+        headerRef.current.style.transform = "translateX(0%)";
+      }
+    };
+  });
   return (
     <div
-      onScroll={() => console.log("first")}
-      className={`w-full flex justify-between items-center md:px-[2%] px-[4%] md:py-6 py-3 mx-auto absolute z-100 bg-light-green`}
+      ref={headerRef}
+      className={`w-full flex justify-between items-center md:px-[2%] px-[4%] md:py-6 py-3 mx-auto absolute z-100 bg-transparent`}
     >
       <div className={`flex items-center xl:gap-8 gap-6`}>
         <div className={`flex items-center xl:gap-4 md:gap-3`}>

@@ -1,0 +1,34 @@
+{
+  "en": {
+    "acName": "Bahr Academy",
+    "registerBtn": "Login / Register",
+    "inputPlaceHolder": "Search...",
+    "navigation": {
+      "landing": "Home",
+      "courses": "Courses",
+      "articles": "News",
+      "teachers": "Instructors",
+      "contactUs": "Contact Us"
+    },
+    "selector": {
+      "courses": "Courses",
+      "articles": "News"
+    }
+  },
+  "fa": {
+    "acName": "آکادمی بحر",
+    "registerBtn": "ورود / ثبت نام",
+    "inputPlaceHolder": "جستجو کنید...",
+    "navigation": {
+      "landing": "صفحه اصلی",
+      "courses": "دوره ها",
+      "articles": "اخبار",
+      "teachers": "اساتید",
+      "contactUs": "تماس با ما"
+    },
+    "selector": {
+      "courses": "دوره ها",
+      "articles": "اخبار"
+    }
+  }
+}

@@ -48,7 +48,7 @@ const ResetPassInFormation = () => {
       {({ errors }) => (
         <Form>
           <div
-            className={`flex flex-col xl:gap-25 lg:gap-20 sm:gap-15 gap-10 xl:pt-19 lg:pt-15 md:pt-10 pt-2`}
+            className={`flex flex-col xl:gap-25 lg:gap-20 gap-15 xl:pt-19 lg:pt-15 md:pt-10 pt-2`}
           >
             <div className={`flex items-center justify-between w-full`}>
               <Link to={"/"} className={`flex gap-2`}>
