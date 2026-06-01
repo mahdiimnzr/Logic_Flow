@@ -59,6 +59,11 @@ const CourseInformation = () => {
             >
               مشخصات دوره
             </Button>
+            <Button
+              className={` border w-32.75 h-11.5 bg-green-primary text-default-light rounded-[50px] text-[16px]`}
+            >
+              مشخصات دوره
+            </Button>
             <span className={`text-default-black`}>نظرات کاربران</span>
           </div>
           <div className={` border w-10 h-10 pb-10 font-normal`}></div>
