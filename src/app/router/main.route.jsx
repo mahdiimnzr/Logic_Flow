@@ -11,7 +11,7 @@ const mainRoute = [
         element: <Landing />,
       },
       {
-        path: "/Course/CourseDetail:id",
+        path: "/Course/CourseDetail/:id",
         element: <CourseDetail />,
       },
     ],
