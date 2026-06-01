@@ -1,6 +1,6 @@
 import ArticlesCardLanding from "@/components/molecules/Cards/ArticlesCardLanding";
 import { Skeleton } from "@/components/ui/skeleton";
-import useGetArticles from "@/core/services/api/common/useGetArticles";
+import useGetArticles from "@/core/services/api/hooks/useGetArticles";
 import { addFavoriteArticle } from "@/core/services/api/landing/landing.service";
 import { useMemo } from "react";
 import { toast } from "react-toastify";
@@ -46,10 +46,10 @@ const ArticlesSection = () => {
                 key={index}
                 className={`w-full p-5 flex flex-col gap-5 rounded-[20px] bg-field-silver`}
               >
-                <Skeleton className={`h-7 w-1/10 mt-40`}></Skeleton>
-                <Skeleton className={`h-7 w-5/10`}></Skeleton>
-                <Skeleton className={`h-18 w-full`}></Skeleton>
-                <Skeleton className={`h-7 w-full`}></Skeleton>
+                <Skeleton className={`h-7 w-1/10 mt-40`} />
+                <Skeleton className={`h-7 w-5/10`} />
+                <Skeleton className={`h-18 w-full`} />
+                <Skeleton className={`h-7 w-full`} />
               </div>
             ))
           : articlesRow1?.map((article, index) => (
@@ -73,10 +73,10 @@ const ArticlesSection = () => {
                 key={index}
                 className={`w-full p-5 flex flex-col gap-5 rounded-[20px] bg-field-silver`}
               >
-                <Skeleton className={`h-7 w-1/10 mt-40`}></Skeleton>
-                <Skeleton className={`h-7 w-5/10`}></Skeleton>
-                <Skeleton className={`h-18 w-full`}></Skeleton>
-                <Skeleton className={`h-7 w-full`}></Skeleton>
+                <Skeleton className={`h-7 w-1/10 mt-40`} />
+                <Skeleton className={`h-7 w-5/10`} />
+                <Skeleton className={`h-18 w-full`} />
+                <Skeleton className={`h-7 w-full`} />
               </div>
             ))
           : articlesRow2?.map((article, index) => (

@@ -8,12 +8,13 @@ import ThemeContext from "./context/ThemeContext";
 import { Provider } from "react-redux";
 import store from "./store/store";
 import { useI18n } from "@/i18n/useI18n";
+import LoadingSvg from "@/core/icons/LoadingSvg";
 
 const AppProvider = () => {
   const { lang } = useI18n();
   const [theme, setTheme] = useState(false);
   return (
-    <Suspense fallback={<div>IsLoading</div>}>
+    <Suspense fallback={<LoadingSvg />}>
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
           <ThemeContext.Provider value={{ theme, setTheme }}>
