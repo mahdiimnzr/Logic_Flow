@@ -9,6 +9,18 @@
     },
     "sorting": {
       "sortBy": "مرتب سازی بر اساس :"
+    },
+    "filters": {
+      "searchPlaceHolder": "جستجو ...",
+      "startAndEndDate": "تاریخ شروع برگزاری و پایان",
+      "start": "شروع",
+      "end": "پایان",
+      "coursesLevel": "سطح دوره",
+      "teachers": "اساتید",
+      "technologies": "تکنولوژی ها",
+      "priceRange": "رنج قیمت (تومان)",
+      "showMore": "نمایش بیشتر",
+      "showLess": "نمایش کمتر"
     }
   }
 }

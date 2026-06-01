@@ -13,14 +13,14 @@ import FaceBookIcon from "@/core/icons/FaceBookIcon";
 import TwitterIcon from "@/core/icons/TwitterIcon";
 import TelegramIcon from "@/core/icons/TelegramIcon";
 import WhatsAppIcon from "@/core/icons/WhatsAppIcon";
-import useGetCourses from "@/core/services/api/common/useGetCourse";
+import useGetCourses from "@/core/services/api/hooks/useGetCourse";
 import debounce from "debounce";
 import { Skeleton } from "@/components/ui/skeleton";
 import ImageFallback from "@/components/atoms/ImageFallBack/ImageFallBack";
 import image from "../../../assets/images/coursePng.png";
 import Border from "@/components/atoms/Border/Border";
 import ArrowIcon from "@/core/icons/ArrowIcon";
-import useGetArticles from "@/core/services/api/common/useGetArticles";
+import useGetArticles from "@/core/services/api/hooks/useGetArticles";
 import { useI18n } from "@/i18n/useI18n";
 
 const Header = () => {
