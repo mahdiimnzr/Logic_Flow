@@ -5,6 +5,7 @@ import {
   DrawerHeader,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { useI18n } from "@/i18n/useI18n";
 
 const DrawerComponents = ({
   trigger,
@@ -15,10 +16,12 @@ const DrawerComponents = ({
   children,
   footer,
 }) => {
+  const { lang } = useI18n();
   return (
     <Drawer>
       <DrawerTrigger>{trigger}</DrawerTrigger>
       <DrawerContent
+        dir={lang === "en" ? "ltr" : "rtl"}
         className={contentClassName}
         primitiveClassName={primitiveClassName}
       >
