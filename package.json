@@ -29,6 +29,7 @@
     "react-parallax-tilt": "^1.7.328",
     "react-redux": "^9.3.0",
     "react-router-dom": "^7.15.1",
+    "react-simple-star-rating": "^5.1.7",
     "react-toastify": "^11.1.0",
     "shadcn": "^4.8.1",
     "swiper": "^12.2.0",
