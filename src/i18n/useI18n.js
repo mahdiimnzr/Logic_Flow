@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { getLang, setLang, t, subscribe } from "./index";
 
-export function useI18n() {
-  const [lang, setLangState] = useState(getLang());
+export const useI18n = () => {
+  const [lang, setLangState] = useState(getLang);
 
   useEffect(() => {
     const unsubscribe = subscribe((newLang) => setLangState(newLang));
@@ -14,4 +14,4 @@ export function useI18n() {
     lang,
     changeLang: setLang,
   };
-}
+};

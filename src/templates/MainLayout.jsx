@@ -7,7 +7,6 @@ import { useEffect, useRef } from "react";
 import { useI18n } from "@/i18n/useI18n";
 
 const MainLayout = () => {
-  const { t } = useI18n();
   const upBtnRef = useRef(null);
   const { lang, changeLang } = useI18n();
   useEffect(() => {
