@@ -25,7 +25,7 @@ const MainLayout = () => {
   return (
     <div className={`relative`}>
       <div
-        className={`fixed flex flex-col items-center gap-2 left-5 top-7/10 z-50 bg-green-primary py-1 px-2 rounded shadow-[0px_4px_4px_0px_#000000]/15`}
+        className={`fixed flex flex-col items-center gap-2 ${lang === "fa" ? `left-5` : `right-5`} top-7/10 z-50 bg-green-primary py-1 px-2 rounded shadow-[0px_4px_4px_0px_#000000]/15`}
       >
         <div
           ref={upBtnRef}
@@ -35,18 +35,18 @@ const MainLayout = () => {
           <ChevronsUp className={`mx-auto size-6`} color="white" />
         </div>
         <div
-          className={`flex items-center gap-2 text-white md:text-base text-[12px]`}
+          className={`flex items-center md:gap-2 gap-1 text-white md:text-base text-[12px]`}
         >
           <span
             onClick={() => changeLang("en")}
-            className={`cursor-pointer ${lang === "en" ? "font-bold" : "font-normal"}`}
+            className={`cursor-pointer size-8 rounded-full content-center text-center leading-8 ${lang === "en" ? "font-bold border border-white" : "font-normal"}`}
           >
             EN
           </span>
           <Border width="w-0.5" height="h-4" color="bg-white" />
           <span
             onClick={() => changeLang("fa")}
-            className={`cursor-pointer ${lang === "fa" ? "font-bold" : "font-normal"}`}
+            className={`cursor-pointer size-8 rounded-full content-center text-center leading-8 ${lang === "fa" ? "font-bold border border-white" : "font-normal"}`}
           >
             FA
           </span>
