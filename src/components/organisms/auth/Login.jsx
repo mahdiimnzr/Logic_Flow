@@ -5,8 +5,10 @@ import ThemeSlide from "../../../components/molecules/theme/ThemeSlide";
 import Step1 from "./Login/Step1";
 import Step2 from "./Login/Step2";
 import ThemeContext from "@/app/context/ThemeContext";
+import { useI18n } from "@/i18n/useI18n";
 
 const Login = () => {
+  const { t } = useI18n();
   const { theme, setTheme } = useContext(ThemeContext);
   const [whichStep, setWhichStep] = useState("Step1");
   const [SignUpParams, setSignUpParams] = useState({ phoneOrGmail: "" });
@@ -51,15 +53,15 @@ const Login = () => {
             className={`text-green-dark xl:text-[24px] lg:text-[20px] sm:text-base text-[14px] font-bold`}
           >
             {whichStep == "Step1"
-              ? "به دنیای یادگیری خوش آمدید!"
-              : "تنها یک قدم تا دنیای یادگیری!"}
+              ? t("auth.login.step1.imageTitle")
+              : t("auth.login.step1.imageTitle")}
           </h2>
           <p
             className={`text-default-black xl:text-base lg:text-[15px] sm:text-[13px] text-[12px] xl:w-132.5 lg:w-90 md:w-80 sm:w-ull text-center`}
           >
             {whichStep == "Step1"
-              ? " با ورود به حساب کاربری‌تان، به محتوای آموزشی، دوره‌ها و ابزارهای پیشرفته دسترسی خواهید داشت. اولین قدم برای رشد و پیشرفت همین‌جاست!"
-              : " فرصت رشد، پیشرفت و ساختن آینده‌ای بهتر همین‌جاست — همراه با ما، یک قدم جلوتر باشید!"}
+              ? t("auth.login.step1.imageDescription")
+              : t("auth.login.step1.imageDescription")}
           </p>
         </div>
       </div>

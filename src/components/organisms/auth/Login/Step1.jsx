@@ -12,15 +12,10 @@ import { postLogin } from "@/core/services/api/auth/auth.service";
 import { toast } from "react-toastify";
 import ThemeSlide from "@/components/molecules/theme/ThemeSlide";
 import ThemeContext from "@/app/context/ThemeContext";
-
-const validationSchema = Yup.object({
-  phoneOrGmail: Yup.string().required("ایمیل وارد شده معتبر نیست!"),
-  password: Yup.string()
-    .min(8, "رمز عبور حداقل باید تشکیل شده از 8 حروف باشد")
-    .required("رمز عبور وارد شده معتبر نیست!"),
-});
+import { useI18n } from "@/i18n/useI18n";
 
 const Step1 = ({ setWhichStep, setSignUpParams, SignUpParams }) => {
+  const { t } = useI18n();
   const { theme, setTheme } = useContext(ThemeContext);
   const [checked, setChecked] = useState(false);
   const navigate = useNavigate();
@@ -39,6 +34,14 @@ const Step1 = ({ setWhichStep, setSignUpParams, SignUpParams }) => {
       toast.error(result.data.message);
     }
   };
+  const validationSchema = Yup.object({
+    phoneOrGmail: Yup.string().required(
+      t("auth.login.step1.emailErrorMessage"),
+    ),
+    password: Yup.string()
+      .min(8, t("auth.login.step1.passwordMoreThan8ErrorMessage"))
+      .required(t("auth.login.step1.passwordErrorMessage")),
+  });
   return (
     <Formik
       initialValues={{
@@ -61,13 +64,13 @@ const Step1 = ({ setWhichStep, setSignUpParams, SignUpParams }) => {
             <div
               className={`flex flex-col xl:gap-10 lg:gap-15 gap-5 xl:pt-19 lg:pt-15 md:pt-10 pt-2`}
             >
-              <div className={`flex items-center justify-between w-full`}>
-                <Link to={"/"} className={`flex gap-2`}>
+              <div className={`flex items-center w-full`}>
+                <Link to={"/"} className={`flex  gap-2`}>
                   <HomeIcon className={`xl:size-6 sm:size-5 size-4`} />
                   <p
-                    className={`text-green-dark xl:text-base sm:text-[14px] text-[12px] font-bold`}
+                    className={`text-green-dark xl:text-base sm:text-[14px] text-[12px] font-bold leading-7`}
                   >
-                    صفحه اصلی
+                    {t("auth.login.step1.homeBtn")}
                   </p>
                 </Link>
                 <ThemeSlide
@@ -80,7 +83,7 @@ const Step1 = ({ setWhichStep, setSignUpParams, SignUpParams }) => {
                 <span
                   className={`text-green-primary xl:text-2xl lg:text-[18px] md:text-base text-[14px] font-bold text-center`}
                 >
-                  ورود به حساب کاربری
+                  {t("auth.login.step1.title")}
                 </span>
                 <div className={`flex flex-col xl:gap-10 lg:gap-5 gap-3`}>
                   <FormInput
@@ -88,7 +91,7 @@ const Step1 = ({ setWhichStep, setSignUpParams, SignUpParams }) => {
                     error={errors.phoneOrGmail}
                     name={"phoneOrGmail"}
                     type={"text"}
-                    placeholder={"ایمیل یا شماره تماس"}
+                    placeholder={t("auth.login.step1.emailPlaceHolder")}
                     className={`xl:h-15! lg:h-13! md:h-11! sm:h-13! h-11!`}
                     errorMessageClassName={`lg:text-[14px]! text-[12px]!`}
                   />
@@ -97,7 +100,7 @@ const Step1 = ({ setWhichStep, setSignUpParams, SignUpParams }) => {
                     error={errors.password}
                     name={"password"}
                     type={"password"}
-                    placeholder={"رمز عبور"}
+                    placeholder={t("auth.login.step1.passwordPlaceHolder")}
                     className={`xl:h-15! lg:h-13! md:h-11! sm:h-13! h-11!`}
                     errorMessageClassName={`lg:text-[14px]! text-[12px]!`}
                   />
@@ -110,13 +113,13 @@ const Step1 = ({ setWhichStep, setSignUpParams, SignUpParams }) => {
                     onChange={() => {
                       setChecked(!checked);
                     }}
-                    label={"مرا به خاطر بسپار"}
+                    label={t("auth.login.step1.rememberMe")}
                   />
                   <Link
                     to={"/Auth/ResetPassword/ResetPassInFormation"}
                     className={`text-field-silver xl:text-[14px] text-[12px] font-normal ml-3`}
                   >
-                    فراموشی رمز عبور
+                    {t("auth.login.step1.forgetPassword")}
                   </Link>
                 </div>
 
@@ -124,18 +127,18 @@ const Step1 = ({ setWhichStep, setSignUpParams, SignUpParams }) => {
                   color={"authBtn"}
                   className={`xl:h-15 lg:h-13 h-11 xl:text-base! lg:text-[14px]! text-[12px]!`}
                 >
-                  ارسال کد یکبار مصرف
+                  {t("auth.login.step1.sendVerifyCode")}
                 </Button>
                 <div
                   className={`flex gap-2 justify-center lg:text-[14px] text-[12px] font-normal cursor-pointer`}
                 >
                   <p className={`text-default-black`}>
-                    حساب کاربری ندارید؟{" "}
+                    {t("auth.login.step1.notHaveAccount")}{" "}
                     <Link
                       to={"/Auth/Register"}
                       className={`text-green-primary`}
                     >
-                      ثبت نام
+                      {t("auth.login.step1.register")}
                     </Link>
                   </p>
                 </div>
