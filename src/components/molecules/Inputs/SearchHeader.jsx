@@ -15,6 +15,7 @@ const SearchHeader = ({
   itemClassName,
   value,
   setValue,
+  onValueChange,
 }) => {
   return (
     <div
@@ -37,6 +38,7 @@ const SearchHeader = ({
             triggerClassName={`border-none! flex! items-center! gap-1! ring-0! p-0! font-normal! text-[14px]! text-default-black! cursor-pointer! bg-default-light!`}
             value={value}
             setValue={setValue}
+            onValueChange={onValueChange}
           />
         )}
         <Button color={color} className={buttonClassName}>

@@ -4,8 +4,10 @@ import FaceBookIcon from "@/core/icons/FaceBookIcon";
 import TwitterIcon from "@/core/icons/TwitterIcon";
 import TelegramIcon from "@/core/icons/TelegramIcon";
 import WhatsAppIcon from "@/core/icons/WhatsAppIcon";
+import { useI18n } from "@/i18n/useI18n";
 
 const Footer = () => {
+  const { t } = useI18n();
   return (
     <div
       className={`py-12 px-6 bg-green-primary rounded-t-[50px] flex flex-col gap-14`}
@@ -17,23 +19,22 @@ const Footer = () => {
           <h3
             className={`md:w-4/10 w-full text-white font-bold xl:text-4xl lg:text-2xl text-[20px] leading-loose`}
           >
-            از جدیدترین اخبار و دوره های برنامه ‌نویسی باخبر شوید
+            {t("footer.title")}
           </h3>
           <div
             className={`2xl:w-3/10 lg:w-4/10 md:w-5/10 w-full flex flex-col gap-5`}
           >
             <SearchHeader
-              placeHolder={"شماره تماس خود را وارد کنید"}
+              placeHolder={t("footer.inputPlaceHolder")}
               buttonClassName={`lg:px-5 lg:py-3 md:px-4 sm:py-2 sm:px-3 px-2 py-1.5 md:text-[14px]! text-[12px]! text-white!`}
               inputClassName={`xl:w-7/10 md:w-6/10 w-7/10`}
               color={"registerBtn"}
               className={`lg:w-80 md:w-70 sm:w-60 w-50`}
             >
-              ثبت نام
+              {t("footer.registerBtn")}
             </SearchHeader>
             <p className={`text-[#C8C8C8] text-[12px] font-normal`}>
-              عضویت در خبرنامه‌ی وب‌سایت برنامه‌نویسی برای اطلاع از مقالات،
-              دوره‌ها و تخفیف‌ها.
+              {t("footer.registerDescription")}
             </p>
           </div>
         </div>
@@ -44,29 +45,29 @@ const Footer = () => {
             <h3
               className={`text-base text-white font-bold pb-4 border-b border-green-primary`}
             >
-              تخصص‌ها
+              {t("footer.parts.firstPart.title")}
             </h3>
             <div className={`flex flex-col gap-4`}>
               <span className={`text-[14px] font-normal text-white`}>
-                HTML & CSS
+                {t("footer.parts.firstPart.item1")}
               </span>
               <span className={`text-[14px] font-normal text-white`}>
-                JavaScript
+                {t("footer.parts.firstPart.item2")}
               </span>
               <span className={`text-[14px] font-normal text-white`}>
-                React
+                {t("footer.parts.firstPart.item3")}
               </span>
               <span className={`text-[14px] font-normal text-white`}>
-                Next.js
+                {t("footer.parts.firstPart.item4")}
               </span>
               <span className={`text-[14px] font-normal text-white`}>
-                Node.js
+                {t("footer.parts.firstPart.item5")}
               </span>
               <span className={`text-[14px] font-normal text-white`}>
-                REST API
+                {t("footer.parts.firstPart.item6")}
               </span>
               <span className={`text-[14px] font-normal text-white`}>
-                Git & GitHub
+                {t("footer.parts.firstPart.item7")}
               </span>
             </div>
           </div>
@@ -76,29 +77,29 @@ const Footer = () => {
             <h3
               className={`text-base text-white font-bold pb-4 border-b border-green-primary`}
             >
-              درباره ما
+              {t("footer.parts.secondPart.title")}
             </h3>
             <div className={`flex flex-col gap-4`}>
               <span className={`text-[14px] font-normal text-white`}>
-                اخبار
+                {t("footer.parts.secondPart.item1")}
               </span>
               <span className={`text-[14px] font-normal text-white`}>
-                فرصت‌های شغلی
+                {t("footer.parts.secondPart.item2")}
               </span>
               <span className={`text-[14px] font-normal text-white`}>
-                تماس با ما
+                {t("footer.parts.secondPart.item3")}
               </span>
               <span className={`text-[14px] font-normal text-white`}>
-                مرکز اعتماد
+                {t("footer.parts.secondPart.item4")}
               </span>
               <span className={`text-[14px] font-normal text-white`}>
-                قوانین استفاده
+                {t("footer.parts.secondPart.item5")}
               </span>
               <span className={`text-[14px] font-normal text-white`}>
-                سیاست امنیت
+                {t("footer.parts.secondPart.item6")}
               </span>
               <span className={`text-[14px] font-normal text-white`}>
-                حریم خصوصی
+                {t("footer.parts.secondPart.item7")}
               </span>
             </div>
           </div>
@@ -108,29 +109,29 @@ const Footer = () => {
             <h3
               className={`text-base text-white font-bold pb-4 border-b border-green-primary`}
             >
-              حوزه‌های کاربردی
+              {t("footer.parts.thirdPart.title")}
             </h3>
             <div className={`flex flex-col gap-4`}>
               <span className={`text-[14px] font-normal text-white`}>
-                فرانت‌اند
+                {t("footer.parts.thirdPart.item1")}
               </span>
               <span className={`text-[14px] font-normal text-white`}>
-                بک‌اند
+                {t("footer.parts.thirdPart.item2")}
               </span>
               <span className={`text-[14px] font-normal text-white`}>
-                فول‌استک
+                {t("footer.parts.thirdPart.item3")}
               </span>
               <span className={`text-[14px] font-normal text-white`}>
-                هوش مصنوعی
+                {t("footer.parts.thirdPart.item4")}
               </span>
               <span className={`text-[14px] font-normal text-white`}>
-                سئو و بهینه‌سازی
+                {t("footer.parts.thirdPart.item5")}
               </span>
               <span className={`text-[14px] font-normal text-white`}>
-                طراحی UI/UX
+                {t("footer.parts.thirdPart.item6")}
               </span>
               <span className={`text-[14px] font-normal text-white`}>
-                موبایل
+                {t("footer.parts.thirdPart.item7")}
               </span>
             </div>
           </div>
@@ -140,20 +141,20 @@ const Footer = () => {
             <h3
               className={`text-base text-white font-bold pb-4 border-b border-green-primary`}
             >
-              آموزش و پشتیبانی
+              {t("footer.parts.fourthPart.title")}
             </h3>
             <div className={`flex flex-col gap-4`}>
               <span className={`text-[14px] font-normal text-white`}>
-                رویدادها
+                {t("footer.parts.fourthPart.item1")}
               </span>
               <span className={`text-[14px] font-normal text-white`}>
-                پنل کاربری
+                {t("footer.parts.fourthPart.item2")}
               </span>
               <span className={`text-[14px] font-normal text-white`}>
-                پشتیبانی فنی
+                {t("footer.parts.fourthPart.item3")}
               </span>
               <span className={`text-[14px] font-normal text-white`}>
-                مقالات آموزشی
+                {t("footer.parts.fourthPart.item4")}
               </span>
             </div>
           </div>
@@ -161,12 +162,12 @@ const Footer = () => {
       </div>
       <div className={`flex items-center justify-between px-4`}>
         <h1 className={`text-white lg:text-[18px] text-base font-bold`}>
-          آکادمی بحر
+          {t("footer.acName")}
         </h1>
         <p
           className={`text-white lg:text-[14px] text-[12px] font-normal hidden md:block`}
         >
-          © 2026 تمام حقوق برای آکادمی بحر محفوظ است.
+          {t("footer.copyRight")}
         </p>
         <div className={`flex items-center lg:gap-6 sm:gap-4 gap-2`}>
           <InstagramIcon />

@@ -9,6 +9,7 @@ import { Provider } from "react-redux";
 import store from "./store/store";
 import { useI18n } from "@/i18n/useI18n";
 import LoadingSvg from "@/core/icons/LoadingSvg";
+import UpBtn from "@/components/molecules/UpBtn/UpBtn";
 
 const AppProvider = () => {
   const { lang } = useI18n();
@@ -22,6 +23,7 @@ const AppProvider = () => {
               dir={lang === "en" ? "ltr" : "rtl"}
               className={`${theme ? `dark` : `light`} bg-background-default max-w-480 mx-auto`}
             >
+              <UpBtn />
               <RouterProvider router={router} />
               <ToastContainer
                 position="top-right"

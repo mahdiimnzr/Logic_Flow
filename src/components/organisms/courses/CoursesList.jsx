@@ -1,3 +1,4 @@
+import "rc-slider/assets/index.css";
 import { updateParams } from "@/app/store/actions";
 import Button from "@/components/atoms/Buttons/Button";
 import Card from "@/components/molecules/Cards/Card";
@@ -13,25 +14,37 @@ import useAddFavoriteCourse from "@/core/services/api/hooks/useAddFavoriteCourse
 import useGetCourses from "@/core/services/api/hooks/useGetCourse";
 import { useI18n } from "@/i18n/useI18n";
 import { ChevronLeft } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import Filters from "./Filters";
+import SelectModal from "@/components/molecules/Select/Select";
+import { rowsOfPages, sortingTypes } from "@/core/constants/courseSortings";
+import ThemeContext from "@/app/context/ThemeContext";
 
 const CoursesList = () => {
   const { t } = useI18n();
   const dispatch = useDispatch();
-  const [gridView, setGridView] = useState(true);
+
   const skeletonCount = new Array(8).fill("");
   const [whichPage, setWhichPage] = useState(1);
+  const [sortTypes, setSortTypes] = useState("expensive");
+  const [rowPageCount, setRowPageCount] = useState(12);
+  const [gridView, setGridView] = useState(true);
   const params = useSelector((state) => state.coursesSlice.params);
+  const { theme } = useContext(ThemeContext);
+
   const {
     isLoading,
     data: courses,
     refetch,
   } = useGetCourses("CoursesList", params);
+
   const pageCount = useMemo(
     () =>
-      courses?.data?.totalCount ? Math.ceil(courses?.data?.totalCount / 12) : 1,
+      courses?.data?.totalCount
+        ? Math.ceil(courses?.data?.totalCount / rowPageCount)
+        : 1,
     [courses?.data?.totalCount],
   );
   const pageArray = useMemo(() => {
@@ -39,6 +52,7 @@ const CoursesList = () => {
     for (let index = 1; index <= pageCount; index++) pages.push(index);
     return pages;
   }, [pageCount]);
+
   useEffect(() => {
     window.onresize = () => {
       if (window.innerWidth <= 1024) {
@@ -74,7 +88,9 @@ const CoursesList = () => {
         </div>
       </div>
       <div className={`flex justify-center gap-8 w-full`}>
-        <div className={`lg:w-2/10 flex-col gap-8 hidden lg:flex`}></div>
+        <div className={`lg:w-2/10 flex-col gap-8 hidden lg:flex`}>
+          <Filters />
+        </div>
         <div className={`lg:w-8/10 w-full flex flex-col gap-8`}>
           <div
             className={`bg-default-light rounded-[15px] shadow-[0px_2px_5px_0_#000000]/15 dark:shadow-[0px_2px_5px_0_#ffffff]/15 p-4 flex items-center justify-between`}
@@ -83,6 +99,42 @@ const CoursesList = () => {
               <span className={`text-default-black font-normal md:text-base`}>
                 {t("courses.sorting.sortBy")}
               </span>
+              <SelectModal
+                items={sortingTypes}
+                contentPosition={"popper"}
+                contentClassName={`relative! z-100! ${theme ? `bg-[#1e1e1e] text-white` : `bg-white text-[#1E1E1E]`}`}
+                defaultValue={"expensive"}
+                itemClassName={`cursor-pointer! ${theme ? `focus:bg-[oklch(0.269_0_0)]` : `focus:bg-muted`}`}
+                triggerClassName={`border! border-light-gray! rounded-[15px] flex! items-center! gap-1! ring-0! px-4! py-2! h-auto! font-normal! text-[14px]! text-default-black! cursor-pointer! bg-default-light!`}
+                value={sortTypes}
+                setValue={setSortTypes}
+                onValueChange={(event) => {
+                  setSortTypes(event);
+                  const sort = sortingTypes.find(
+                    (value) => event === value.name,
+                  );
+                  dispatch(
+                    updateParams({ key: "SortingCol", value: sort.sortCol }),
+                  );
+                  dispatch(
+                    updateParams({ key: "SortType", value: sort.sortType }),
+                  );
+                }}
+              />
+              <SelectModal
+                items={rowsOfPages}
+                contentPosition={"popper"}
+                contentClassName={`relative! z-100! ${theme ? `bg-[#1e1e1e] text-white` : `bg-white text-[#1E1E1E]`}`}
+                defaultValue={12}
+                itemClassName={`cursor-pointer! ${theme ? `focus:bg-[oklch(0.269_0_0)]` : `focus:bg-muted`}`}
+                triggerClassName={`border! border-light-gray! rounded-[15px] flex! items-center! gap-1! ring-0! px-4! py-2! h-auto! font-normal! text-[14px]! text-default-black! cursor-pointer! bg-default-light!`}
+                value={rowPageCount}
+                setValue={setRowPageCount}
+                onValueChange={(event) => {
+                  setRowPageCount(event);
+                  dispatch(updateParams({ key: "RowsOfPage", value: event }));
+                }}
+              />
             </div>
             <View view={gridView} setView={setGridView} />
             <Button
@@ -92,40 +144,53 @@ const CoursesList = () => {
               ترتیب و فیلتر
             </Button>
           </div>
-          <div
-            className={`grid ${gridView ? `2xl:grid-cols-4 xl:grid-cols-3 md:grid-cols-2 grid-cols-1` : `2xl:grid-cols-2 grid-cols-1`} gap-4`}
-          >
-            {isLoading
-              ? skeletonCount?.map(() => (
-                  <div
-                    dir="rtl"
-                    className={`w-full p-5 flex flex-col gap-5 rounded-[20px] bg-field-silver`}
-                  >
-                    <Skeleton className={`h-55 w-full`} />
-                    <Skeleton className={`h-7 w-5/10`} />
-                    <Skeleton className={`h-14 w-7/10`} />
-                    <Skeleton className={`h-7 w-full`} />
-                    <Skeleton className={`h-7 w-full`} />
-                  </div>
-                ))
-              : courses?.data?.courseFilterDtos?.map((course, index) => (
-                  <Card
-                    view={gridView}
-                    key={index}
-                    courseId={course.courseId}
-                    title={course.title}
-                    describe={course.describe}
-                    levelName={course.levelName}
-                    teacherName={course.teacherName}
-                    rate={course.courseRate.avg}
-                    cost={course.cost}
-                    image={course.imageAddress}
-                    isCourseCard={true}
-                    isFavorite={false}
-                    handleAddFavoriteCourse={useAddFavoriteCourse}
-                  />
-                ))}
-          </div>
+          {isLoading ? (
+            <div
+              className={`grid 2xl:grid-cols-4 xl:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4`}
+            >
+              {skeletonCount?.map((_, index) => (
+                <div
+                  key={index}
+                  dir="rtl"
+                  className={`w-full p-5 flex flex-col gap-5 rounded-[20px] bg-field-silver`}
+                >
+                  <Skeleton className={`h-55 w-full`} />
+                  <Skeleton className={`h-7 w-5/10`} />
+                  <Skeleton className={`h-14 w-7/10`} />
+                  <Skeleton className={`h-7 w-full`} />
+                  <Skeleton className={`h-7 w-full`} />
+                </div>
+              ))}
+            </div>
+          ) : courses?.data?.courseFilterDtos?.length === 0 ? (
+            <span
+              className={`font-bold text-4xl w-full text-center text-default-black`}
+            >
+              موردی یافت نشد
+            </span>
+          ) : (
+            <div
+              className={`grid ${gridView ? `2xl:grid-cols-4 xl:grid-cols-3 md:grid-cols-2 grid-cols-1` : `2xl:grid-cols-2 grid-cols-1`} gap-4`}
+            >
+              {courses?.data?.courseFilterDtos?.map((course, index) => (
+                <Card
+                  view={gridView}
+                  key={index}
+                  courseId={course.courseId}
+                  title={course.title}
+                  describe={course.describe}
+                  levelName={course.levelName}
+                  teacherName={course.teacherName}
+                  rate={course.courseRate.avg}
+                  cost={course.cost}
+                  image={course.imageAddress}
+                  isCourseCard={true}
+                  isFavorite={false}
+                  handleAddFavoriteCourse={useAddFavoriteCourse}
+                />
+              ))}
+            </div>
+          )}
           <PaginationComponents contentClassName={`flex gap-4`}>
             <PaginationItem
               onClick={() => {

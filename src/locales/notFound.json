@@ -1,0 +1,12 @@
+{
+  "en": {
+    "notFound": "Error Page!",
+    "description": "Sorry! This page is not available!",
+    "linkBtn": "Go to the Home Page"
+  },
+  "fa": {
+    "notFound": "صفحه خطا!",
+    "description": "متاسفم! این صفحه در دسترس نیست!",
+    "linkBtn": "به صفحه اصلی بروید"
+  }
+}

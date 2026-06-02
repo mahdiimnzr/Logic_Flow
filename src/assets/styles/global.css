@@ -8,6 +8,19 @@ html {
   scroll-behavior: smooth;
   font-family: IRANYekanXFaNum;
 }
+html body[data-scroll-locked] {
+  overflow: auto !important;
+  margin-right: 0 !important;
+  padding-right: 0 !important;
+  position: static !important;
+  pointer-events: auto !important;
+}
+[data-radix-focus-guard] {
+  display: none !important;
+}
+body > div[style*="position: fixed"][style*="inset: 0"] {
+  pointer-events: none !important;
+}
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

@@ -39,7 +39,6 @@ const Step1 = ({ setWhichStep, setSignUpParams, SignUpParams }) => {
       toast.error(result.data.message);
     }
   };
-
   return (
     <Formik
       initialValues={{
@@ -105,12 +104,11 @@ const Step1 = ({ setWhichStep, setSignUpParams, SignUpParams }) => {
                 </div>
                 <div className={`flex justify-between`}>
                   <CheckBox
+                    labelId={"rememberMe"}
                     id={"rememberMe"}
-                    name={"rememberMe"}
                     checked={checked}
-                    setChecked={() => {
+                    onChange={() => {
                       setChecked(!checked);
-                      console.log(checked);
                     }}
                     label={"مرا به خاطر بسپار"}
                   />

@@ -17,7 +17,7 @@ const SelectModal = ({
   contentPosition,
   defaultValue,
   value,
-  setValue,
+  onValueChange,
 }) => {
   const { lang } = useI18n();
   return (
@@ -25,7 +25,8 @@ const SelectModal = ({
       dir={lang === "en" ? "ltr" : "rtl"}
       defaultValue={defaultValue}
       value={value}
-      onValueChange={setValue}
+      onValueChange={onValueChange}
+      modal={false}
     >
       <SelectTrigger className={triggerClassName}>
         <SelectValue />

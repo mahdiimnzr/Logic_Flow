@@ -80,7 +80,6 @@ const Header = () => {
       }
     };
   });
-  console.log(lang);
   return (
     <div
       ref={headerRef}
@@ -133,6 +132,7 @@ const Header = () => {
           }}
           value={searchValue}
           setValue={setSearchValue}
+          onValueChange={setSearchValue}
         >
           <Search
             className={`mx-auto xl:size-6 lg:size-5`}

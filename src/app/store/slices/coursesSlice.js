@@ -6,7 +6,7 @@ const coursesSlice = createSlice({
     params: {
       PageNumber: 1,
       RowsOfPage: 12,
-      SortingCol: "active",
+      SortingCol: "cost",
       SortType: "desc",
       Query: null,
       CostDown: null,
