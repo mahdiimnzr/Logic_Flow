@@ -1,8 +1,7 @@
+import "rc-slider/assets/index.css";
 import { updateParams } from "@/app/store/actions";
 import Button from "@/components/atoms/Buttons/Button";
-import AccordionMultiple from "@/components/molecules/Accordion/Accordions";
 import Card from "@/components/molecules/Cards/Card";
-import CheckBox from "@/components/molecules/Inputs/CheckBox";
 import PaginationComponents from "@/components/molecules/Pagination/Pagination";
 import View from "@/components/molecules/View/View";
 import {
@@ -11,34 +10,41 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useGetCoursesLevels } from "@/core/services/api/courses/courses.service";
 import useAddFavoriteCourse from "@/core/services/api/hooks/useAddFavoriteCourses";
 import useGetCourses from "@/core/services/api/hooks/useGetCourse";
 import { useI18n } from "@/i18n/useI18n";
-import debounce from "debounce";
-import { ChevronLeft, Search } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { ChevronLeft } from "lucide-react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import Filters from "./Filters";
+import SelectModal from "@/components/molecules/Select/Select";
+import { rowsOfPages, sortingTypes } from "@/core/constants/courseSortings";
+import ThemeContext from "@/app/context/ThemeContext";
 
 const CoursesList = () => {
   const { t } = useI18n();
   const dispatch = useDispatch();
-  const [gridView, setGridView] = useState(true);
+
   const skeletonCount = new Array(8).fill("");
   const [whichPage, setWhichPage] = useState(1);
-  const [selectedLevel, setSelectedLevel] = useState(null);
+  const [sortTypes, setSortTypes] = useState("expensive");
+  const [rowPageCount, setRowPageCount] = useState(12);
+  const [gridView, setGridView] = useState(true);
   const params = useSelector((state) => state.coursesSlice.params);
+  const { theme } = useContext(ThemeContext);
+
   const {
     isLoading,
     data: courses,
     refetch,
   } = useGetCourses("CoursesList", params);
-  const { isLoading: levelsLoading, data: levels } =
-    useGetCoursesLevels("CourseLevels");
+
   const pageCount = useMemo(
     () =>
-      courses?.data?.totalCount ? Math.ceil(courses?.data?.totalCount / 12) : 1,
+      courses?.data?.totalCount
+        ? Math.ceil(courses?.data?.totalCount / rowPageCount)
+        : 1,
     [courses?.data?.totalCount],
   );
   const pageArray = useMemo(() => {
@@ -46,15 +52,7 @@ const CoursesList = () => {
     for (let index = 1; index <= pageCount; index++) pages.push(index);
     return pages;
   }, [pageCount]);
-  const handleSearch = debounce((value) => {
-    const searchValue = value.trim() === "" ? null : value.trim();
-    dispatch(
-      updateParams({
-        key: "Query",
-        value: searchValue,
-      }),
-    );
-  }, 1000);
+
   useEffect(() => {
     window.onresize = () => {
       if (window.innerWidth <= 1024) {
@@ -91,57 +89,7 @@ const CoursesList = () => {
       </div>
       <div className={`flex justify-center gap-8 w-full`}>
         <div className={`lg:w-2/10 flex-col gap-8 hidden lg:flex`}>
-          <div
-            className={`bg-default-light shadow-[0px_2px_5px_0px_#000000]/15 dark:shadow-[0px_2px_5px_0px_#ffffff]/15 rounded-[15px] py-4 px-2 flex items-center justify-between`}
-          >
-            <input
-              className={`text-base font-normal text-field-silver placeholder:text-field-silver outline-none w-9/10`}
-              placeholder={t("courses.filters.searchPlaceHolder")}
-              type="text"
-              onChange={(event) => handleSearch(event.target.value)}
-            />
-            <Search className={`w-1/10`} color="#848484" />
-          </div>
-          <AccordionMultiple
-            value={"coursesStartAndEndDate"}
-            className={`bg-default-light text-default-black text-[18px] font-bold p-4 rounded-[15px] shadow-[0px_2px_5px_0px_#000000]/15 dark:shadow-[0px_2px_5px_0px_#ffffff]/15`}
-            trigger={t("courses.filters.startAndEndDate")}
-            triggerClassName={`hover:no-underline! cursor-pointer`}
-          >
-            <p>"adawldmakwd</p>
-          </AccordionMultiple>
-          <AccordionMultiple
-            value={"coursesLevel"}
-            className={`bg-default-light text-default-black text-[18px] font-bold p-4 rounded-[15px] shadow-[0px_2px_5px_0px_#000000]/15 dark:shadow-[0px_2px_5px_0px_#ffffff]/15`}
-            trigger={t("courses.filters.coursesLevel")}
-            triggerClassName={`hover:no-underline! cursor-pointer`}
-          >
-            <div className={`flex flex-col gap-4`}>
-              {levels?.data.map((value, index) => (
-                <CheckBox
-                  key={index}
-                  label={value.levelName}
-                  id="courseLevels"
-                  labelId={value.id}
-                  type="radio"
-                  checked={selectedLevel === value.id}
-                  onChange={() => {
-                    setSelectedLevel(value.id);
-                    const { checked } = event.target;
-                    if (checked) {
-                      dispatch(
-                        updateParams({ key: "courseLevelId", value: value.id }),
-                      );
-                    } else {
-                      dispatch(
-                        updateParams({ key: "courseLevelId", value: null }),
-                      );
-                    }
-                  }}
-                />
-              ))}
-            </div>
-          </AccordionMultiple>
+          <Filters />
         </div>
         <div className={`lg:w-8/10 w-full flex flex-col gap-8`}>
           <div
@@ -151,6 +99,42 @@ const CoursesList = () => {
               <span className={`text-default-black font-normal md:text-base`}>
                 {t("courses.sorting.sortBy")}
               </span>
+              <SelectModal
+                items={sortingTypes}
+                contentPosition={"popper"}
+                contentClassName={`relative! z-100! ${theme ? `bg-[#1e1e1e] text-white` : `bg-white text-[#1E1E1E]`}`}
+                defaultValue={"expensive"}
+                itemClassName={`cursor-pointer! ${theme ? `focus:bg-[oklch(0.269_0_0)]` : `focus:bg-muted`}`}
+                triggerClassName={`border! border-light-gray! rounded-[15px] flex! items-center! gap-1! ring-0! px-4! py-2! h-auto! font-normal! text-[14px]! text-default-black! cursor-pointer! bg-default-light!`}
+                value={sortTypes}
+                setValue={setSortTypes}
+                onValueChange={(event) => {
+                  setSortTypes(event);
+                  const sort = sortingTypes.find(
+                    (value) => event === value.name,
+                  );
+                  dispatch(
+                    updateParams({ key: "SortingCol", value: sort.sortCol }),
+                  );
+                  dispatch(
+                    updateParams({ key: "SortType", value: sort.sortType }),
+                  );
+                }}
+              />
+              <SelectModal
+                items={rowsOfPages}
+                contentPosition={"popper"}
+                contentClassName={`relative! z-100! ${theme ? `bg-[#1e1e1e] text-white` : `bg-white text-[#1E1E1E]`}`}
+                defaultValue={12}
+                itemClassName={`cursor-pointer! ${theme ? `focus:bg-[oklch(0.269_0_0)]` : `focus:bg-muted`}`}
+                triggerClassName={`border! border-light-gray! rounded-[15px] flex! items-center! gap-1! ring-0! px-4! py-2! h-auto! font-normal! text-[14px]! text-default-black! cursor-pointer! bg-default-light!`}
+                value={rowPageCount}
+                setValue={setRowPageCount}
+                onValueChange={(event) => {
+                  setRowPageCount(event);
+                  dispatch(updateParams({ key: "RowsOfPage", value: event }));
+                }}
+              />
             </div>
             <View view={gridView} setView={setGridView} />
             <Button

@@ -2,10 +2,12 @@ import ArticlesCardLanding from "@/components/molecules/Cards/ArticlesCardLandin
 import { Skeleton } from "@/components/ui/skeleton";
 import useGetArticles from "@/core/services/api/hooks/useGetArticles";
 import { addFavoriteArticle } from "@/core/services/api/landing/landing.service";
+import { useI18n } from "@/i18n/useI18n";
 import { useMemo } from "react";
 import { toast } from "react-toastify";
 
 const ArticlesSection = () => {
+  const { t } = useI18n();
   const skeletonCount1 = new Array(2).fill("");
   const skeletonCount2 = new Array(3).fill("");
   const { isLoading, data: articles } = useGetArticles("ArticlesLanding", {
@@ -33,10 +35,10 @@ const ArticlesSection = () => {
     <div className="md:w-[95%] w-[90%] mx-auto flex flex-col gap-8 items-center">
       <div className="flex flex-col items-center text-center gap-2">
         <h3 className="font-bold xl:text-[32px] md:text-[28px] text-[20px] text-green-primary">
-          اخبار و مقالات
+          {t("landing.articlesSection.title")}
         </h3>
         <p className="xl:text-2xl md:text-[20px] text-base font-normal text-gray-subtitle">
-          با تازه‌ترین اخبار و مقالات برنامه‌نویسی به‌روز بمانید
+          {t("landing.articlesSection.description")}
         </p>
       </div>
       <div className="grid 2xl:grid-cols-[40%_58.25%] xl:grid-cols-[40%_57.5%] lg:grid-cols-[40%_56.5%] gap-8 w-full">
@@ -68,7 +70,7 @@ const ArticlesSection = () => {
       </div>
       <div className={`grid lg:grid-cols-3 gap-8 w-full`}>
         {isLoading
-          ? skeletonCount2?.map((value, index) => (
+          ? skeletonCount2?.map((_, index) => (
               <div
                 key={index}
                 className={`w-full p-5 flex flex-col gap-5 rounded-[20px] bg-field-silver`}

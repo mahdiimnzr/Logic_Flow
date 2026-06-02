@@ -8,8 +8,10 @@ import Card from "@/components/molecules/Cards/Card";
 import useGetCourses from "@/core/services/api/hooks/useGetCourse";
 import { Skeleton } from "@/components/ui/skeleton";
 import useAddFavoriteCourse from "@/core/services/api/hooks/useAddFavoriteCourses";
+import { useI18n } from "@/i18n/useI18n";
 
 const CoursesSection = () => {
+  const { t, lang } = useI18n();
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
   const skeletonCount = new Array(4).fill("");
@@ -23,15 +25,15 @@ const CoursesSection = () => {
     <div className="md:w-[95%] w-[90%] mx-auto flex flex-col gap-8 items-center">
       <div className="flex flex-col items-center text-center gap-2">
         <h3 className="font-bold xl:text-[32px] md:text-[28px] text-[20px] text-green-primary">
-          دوره‌های آموزشی برنامه‌نویسی
+          {t("landing.coursesSection.title")}
         </h3>
         <p className="xl:text-2xl md:text-[20px] text-base font-normal text-gray-subtitle">
-          دوره‌هایی برای همه: یاد بگیر، تمرین کن، پروژه بزن!
+          {t("landing.coursesSection.description")}
         </p>
       </div>
       <div className="flex flex-col gap-8 w-full">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-1">
+          <div dir="rtl" className="flex items-center gap-1">
             <button
               ref={nextRef}
               className={`${
@@ -41,7 +43,7 @@ const CoursesSection = () => {
               <ArrowRight
                 width="19"
                 height="16"
-                className="mx-auto"
+                className={`mx-auto`}
                 color={isEnd ? "#ffffff" : "#008C78"}
               />
             </button>
@@ -61,9 +63,18 @@ const CoursesSection = () => {
           </div>
           <Link to="/Courses" className="flex items-center gap-2">
             <span className="text-field-silver text-[14px] font-normal">
-              مشاهده همه دوره ها
+              {t("landing.coursesSection.moreBtn")}
             </span>
-            <ChevronLeft width="16" height="16" color="#848484" />
+            <ChevronLeft
+              width="16"
+              height="16"
+              color="#848484"
+              className={
+                lang === "en"
+                  ? "transform-[rotate(180deg)]"
+                  : "transform-[rotate(0deg)]"
+              }
+            />
           </Link>
         </div>
         <div className="w-full">

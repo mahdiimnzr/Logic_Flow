@@ -120,22 +120,22 @@ const RegisterComplete = ({ setPage, registerData }) => {
                 className={`xl:h-15! lg:h-13! md:h-11! sm:h-13! h-11!`}
                 errorMessageClassName={`lg:text-[14px]! text-[12px]!`}
               />
-            </div>
-            <Button
-              color={"authBtn"}
-              className={`xl:h-15 lg:h-13 h-11 xl:text-base! lg:text-[14px]! text-[12px]!`}
-            >
-              ثبت نام
-            </Button>
-            <div
-              className={`flex gap-2 justify-center lg:text-[14px] text-[12px] font-normal cursor-pointer`}
-            >
-              <p className={`text-default-black`}>
-                حساب کاربری دارید؟{" "}
-                <Link to={"/Auth/Login"} className={`text-green-primary`}>
-                  وارد شوید
-                </Link>
-              </p>
+              <Button
+                color={"authBtn"}
+                className={`xl:h-15 lg:h-13 h-11 xl:text-base! lg:text-[14px]! text-[12px]!`}
+              >
+                ثبت نام
+              </Button>
+              <div
+                className={`flex gap-2 justify-center lg:text-[14px] text-[12px] font-normal cursor-pointer`}
+              >
+                <p className={`text-default-black`}>
+                  حساب کاربری دارید؟{" "}
+                  <Link to={"/Auth/Login"} className={`text-green-primary`}>
+                    وارد شوید
+                  </Link>
+                </p>
+              </div>
             </div>
           </div>
         </Form>

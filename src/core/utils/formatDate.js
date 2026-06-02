@@ -1,4 +1,5 @@
 const formatDate = (date) => {
+  if (!date) return "";
   const event = new Date(date);
   const options = {
     day: "numeric",
