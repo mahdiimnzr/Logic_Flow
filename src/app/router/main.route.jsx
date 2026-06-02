@@ -18,7 +18,7 @@ const mainRoute = [
         element: <Courses />,
       },
       {
-        path: "/Course/CourseDetail/:id",
+        path: "/Courses/Detail/:id",
         element: <CourseDetail />,
         children: [
           {
