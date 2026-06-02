@@ -5,6 +5,7 @@ import { useRef, useState } from "react";
 import { Navigation } from "swiper/modules";
 import { Link } from "react-router-dom";
 import "swiper/css";
+import { useI18n } from "@/i18n/useI18n";
 
 const mockCourses = [
   {
@@ -52,6 +53,7 @@ const mockCourses = [
 ];
 
 const TeachersSection = () => {
+  const { t, lang } = useI18n();
   const prevRef = useRef(null);
   const nextRef = useRef(null);
   const [isBeginning, setIsBeginning] = useState(true);
@@ -60,15 +62,15 @@ const TeachersSection = () => {
     <div className="md:w-[95%] w-[90%] mx-auto flex flex-col gap-8 items-center">
       <div className="flex flex-col items-center text-center gap-2">
         <h3 className="font-bold xl:text-[32px] md:text-[28px] text-[20px] text-green-primary">
-          آشنایی با اساتید حرفه‌ای ما
+          {t("landing.teachersSection.title")}
         </h3>
         <p className="xl:text-2xl md:text-[20px] text-base font-normal text-gray-subtitle">
-          یادگیری از برترین مدرسین با تجربه و دانش به‌روز
+          {t("landing.teachersSection.description")}
         </p>
       </div>
       <div className="flex flex-col gap-8 w-full">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-1">
+          <div dir="rtl" className="flex items-center gap-1">
             <button
               ref={nextRef}
               className={`${
@@ -98,9 +100,18 @@ const TeachersSection = () => {
           </div>
           <Link to="/Teachers" className="flex items-center gap-2">
             <span className="text-field-silver text-[14px] font-normal">
-              مشاهده همه اساتید
+              {t("landing.teachersSection.moreBtn")}
             </span>
-            <ChevronLeft width="16" height="16" color="#848484" />
+            <ChevronLeft
+              width="16"
+              height="16"
+              color="#848484"
+              className={
+                lang === "en"
+                  ? "transform-[rotate(180deg)]"
+                  : "transform-[rotate(0deg)]"
+              }
+            />
           </Link>
         </div>
         <div className={`w-full`}>

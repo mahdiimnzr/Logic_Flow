@@ -21,7 +21,8 @@ const UpBtn = () => {
   });
   return (
     <div
-      className={`fixed flex flex-col items-center gap-2 ${lang === "fa" ? `left-5` : `right-5`} top-7/10 z-50 bg-green-primary py-1 px-2 rounded shadow-[0px_4px_4px_0px_#000000]/15`}
+      dir={lang === "en" ? "ltr" : "rtl"}
+      className={`fixed flex flex-col items-center gap-2 ${lang === "en" ? `left-5` : `right-5`} top-7/10 z-50 bg-green-primary py-1 px-2 rounded shadow-[0px_4px_4px_0px_#000000]/15`}
     >
       <div
         ref={upBtnRef}

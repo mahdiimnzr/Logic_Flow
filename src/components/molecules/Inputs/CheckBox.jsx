@@ -26,7 +26,9 @@ const CheckBox = ({
             className={`rounded-full size-5/10 bg-white mx-auto ${type === "checkbox" && "hidden"}`}
           ></div>
         ) : (
-          <CheckIcon className={`mx-auto ${type === "radio" && `hidden`}`} />
+          <CheckIcon
+            className={`mx-auto ${type === "radio" ? `hidden` : !checked && `hidden`}`}
+          />
         )}
       </div>
       <label
