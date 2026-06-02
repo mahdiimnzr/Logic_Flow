@@ -10,20 +10,10 @@ import { toast } from "react-toastify";
 import { ResetPassNewPass } from "@/core/services/api/auth/auth.service";
 import ThemeSlide from "@/components/molecules/theme/ThemeSlide";
 import ThemeContext from "@/app/context/ThemeContext";
-
-const validationSchema = Yup.object({
-  newPassword: Yup.string()
-    .trim()
-    .min(8, "رمز عبور حداقل باید تشکیل شده از 8 حروف باشد")
-    .required("رمز عبور وارد شده معتبر نیست!"),
-  repeatPassword: Yup.string()
-    .trim()
-    .min(8, "رمز عبور حداقل باید تشکیل شده از 8 حروف باشد")
-    .oneOf([Yup.ref("newPassword")], "مقدار وارد شده با رمز عبور یکسان نمیباشد")
-    .required("رمز عبور وارد شده معتبر نیست!"),
-});
+import { useI18n } from "@/i18n/useI18n";
 
 const NewPassword = () => {
+  const { t } = useI18n();
   const { theme, setTheme } = useContext(ThemeContext);
   const email = JSON.parse(localStorage.getItem("email"));
   const { verifyCode } = useParams();
@@ -42,7 +32,21 @@ const NewPassword = () => {
       navigate("/Auth/ResetPassword/ResetPassInFormation");
     }
   }, []);
-  console.log(verifyCode);
+
+  const validationSchema = Yup.object({
+    newPassword: Yup.string()
+      .trim()
+      .min(8, t("auth.resetPassword.step2.passwordMoreThan8"))
+      .required("رمز عبور وارد شده معتبر نیست!"),
+    repeatPassword: Yup.string()
+      .trim()
+      .min(8, t("auth.resetPassword.step2.repeatPasswordMoreThan8"))
+      .oneOf(
+        [Yup.ref("newPassword")],
+        t("auth.resetPassword.step2.repeatPasswordMatchError"),
+      )
+      .required(t("auth.resetPassword.step2.repeatPasswordErrorMessage")),
+  });
   return (
     <Formik
       initialValues={{
@@ -70,9 +74,9 @@ const NewPassword = () => {
               >
                 <ArrowRightIcon className={`xl:size-6 sm:size-5 size-4`} />
                 <span
-                  className={`text-green-dark xl:text-base sm:text-[14px] text-[12px] font-bold`}
+                  className={`text-green-dark xl:text-base sm:text-[14px] text-[12px] font-bold `}
                 >
-                  بازگشت
+                  {t("auth.resetPassword.step2.homeBtn")}
                 </span>
               </div>
               <ThemeSlide
@@ -86,12 +90,12 @@ const NewPassword = () => {
                 <span
                   className={`text-green-primary xl:text-2xl lg:text-[18px] md:text-base text-[14px] font-bold text-center`}
                 >
-                  فراموشی رمز عبور
+                  {t("auth.resetPassword.step2.title")}
                 </span>
                 <span
                   className={`xl:text-[16px] lg:text-[15px] md:text-[14px] text-[12px] text-default-black`}
                 >
-                  رمز عبور جدید برای خود تعیین کنید
+                  {t("auth.resetPassword.step2.description")}
                 </span>
               </div>
               <FormInput
@@ -99,7 +103,7 @@ const NewPassword = () => {
                 error={errors.newPassword}
                 name={"newPassword"}
                 type={"password"}
-                placeholder={"رمز عبور جدید"}
+                placeholder={t("auth.resetPassword.step2.passwordPlaceHolder")}
                 className={`xl:h-15! lg:h-13! md:h-11! sm:h-13! h-11!`}
                 errorMessageClassName={`lg:text-[14px]! text-[12px]!`}
               />
@@ -108,7 +112,9 @@ const NewPassword = () => {
                 error={errors.repeatPassword}
                 name={"repeatPassword"}
                 type={"password"}
-                placeholder={"تکرار رمز عبور"}
+                placeholder={t(
+                  "auth.resetPassword.step2.repeatPasswordPlaceHolder",
+                )}
                 className={`xl:h-15! lg:h-13! md:h-11! sm:h-13! h-11!`}
                 errorMessageClassName={`lg:text-[14px]! text-[12px]!`}
               />
@@ -116,7 +122,7 @@ const NewPassword = () => {
                 color={"authBtn"}
                 className={`xl:h-15 lg:h-13 h-11 xl:text-base! lg:text-[14px]! text-[12px]!`}
               >
-                ثبت رمز عبور جدید
+                {t("auth.resetPassword.step2.submitNewPassword")}
               </Button>
             </div>
           </div>
