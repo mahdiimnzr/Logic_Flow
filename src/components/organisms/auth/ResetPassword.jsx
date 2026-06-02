@@ -4,8 +4,10 @@ import ResetPassword1 from "../../../assets/images/Reset Password1.png";
 import ResetPassword2 from "../../../assets/images/Reset Password2.png";
 import { useContext } from "react";
 import { Outlet, useLocation } from "react-router-dom";
+import { useI18n } from "@/i18n/useI18n";
 
 const ResetPassword = () => {
+  const { t } = useI18n();
   const { theme, setTheme } = useContext(ThemeContext);
   const { pathname } = useLocation();
   return (
@@ -38,15 +40,15 @@ const ResetPassword = () => {
             className={`text-green-dark xl:text-[24px] lg:text-[20px] md:text-[16px] font-bold  `}
           >
             {pathname == "/Auth/ResetPassword/ResetPassInFormation"
-              ? "فراموشی رمز عبور پایان راه نیست!"
-              : "قدم آخر برای بازگشت به مسیر یادگیری!"}
+              ? t("auth.resetPassword.step1.imageTitle")
+              : t("auth.resetPassword.step1.imageTitle")}
           </h2>
           <p
             className={`text-default-black xl:text-[16px] lg:text-[15px] md:text-[13px] xl:w-132.5 md:w-80 text-center`}
           >
             {pathname == "/Auth/ResetPassword/ResetPassInFormation"
-              ? " با وارد کردن ایمیلتان، لینک تغییر رمز را دریافت می‌کنید و دوباره به دنیای یادگیری برمی‌گردید."
-              : " با تعیین یک رمز عبور جدید، دوباره به حساب کاربری خود دسترسی خواهید داشت و می‌توانید بدون توقف به یادگیری ادامه دهید."}
+              ? t("auth.resetPassword.step1.imageDescription")
+              : t("auth.resetPassword.step1.imageDescription")}
           </p>
         </div>
       </div>

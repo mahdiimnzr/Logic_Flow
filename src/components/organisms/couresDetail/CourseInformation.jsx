@@ -67,7 +67,7 @@ const CourseInformation = () => {
                   <span className={`text-default-black `}>تاریخ شروع</span>
                 </div>
                 <span className={`text-field-silver`}>
-                  {formatDate(Details?.startTime)}
+                  {Details?.startTime && formatDate(Details?.startTime)}
                 </span>
               </div>
               <div className={`flex justify-between `}>

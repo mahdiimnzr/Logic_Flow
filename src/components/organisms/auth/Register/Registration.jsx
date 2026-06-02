@@ -10,14 +10,10 @@ import EmailIcon from "@/core/icons/EmailIcon";
 import ThemeSlide from "@/components/molecules/theme/ThemeSlide";
 import ThemeContext from "@/app/context/ThemeContext";
 import { useContext } from "react";
+import { useI18n } from "@/i18n/useI18n";
 
-const validationSchema = Yup.object({
-  gmail: Yup.string()
-    .trim()
-    .email("ایمیل وارد شده معتبر نیست!")
-    .required("ایمیل وارد شده معتبر نیست!"),
-});
 const Registration = ({ setPage, setRegisterData }) => {
+  const { t } = useI18n();
   const { theme, setTheme } = useContext(ThemeContext);
   const handleSubmit = async (value) => {
     const response = await sendVerifyRegister(value);
@@ -29,6 +25,12 @@ const Registration = ({ setPage, setRegisterData }) => {
       toast.error(response.data.message);
     }
   };
+  const validationSchema = Yup.object({
+    gmail: Yup.string()
+      .trim()
+      .email(t("auth.register.step1.emailErrorMessage"))
+      .required(t("auth.register.step1.emailErrorMessage")),
+  });
   return (
     <Formik
       initialValues={{
@@ -50,7 +52,7 @@ const Registration = ({ setPage, setRegisterData }) => {
                 <p
                   className={`text-green-dark xl:text-base sm:text-[14px] text-[12px] font-bold`}
                 >
-                  صفحه اصلی
+                  {t("auth.register.step1.homeBtn")}
                 </p>
               </Link>
               <ThemeSlide
@@ -64,12 +66,12 @@ const Registration = ({ setPage, setRegisterData }) => {
                 <span
                   className={`text-green-primary xl:text-2xl lg:text-[18px] md:text-base text-[14px] font-bold text-center`}
                 >
-                  ایجاد حساب کاربری
+                  {t("auth.register.step1.title")}
                 </span>
                 <span
                   className={`xl:text-[16px] lg:text-[15px] md:text-[14px] text-[12px] text-default-black`}
                 >
-                  وارد کردن ایمیل برای ایجاد حساب کاربری
+                  {t("auth.register.step1.description")}
                 </span>
               </div>
               <FormInput
@@ -77,7 +79,7 @@ const Registration = ({ setPage, setRegisterData }) => {
                 error={errors.gmail}
                 name={"gmail"}
                 type={"text"}
-                placeholder={"ایمیل خود را وارد کنید"}
+                placeholder={t("auth.register.step1.inputPlaceHolder")}
                 className={`xl:h-15! lg:h-13! md:h-11! sm:h-13! h-11!`}
                 errorMessageClassName={`lg:text-[14px]! text-[12px]!`}
               />
@@ -85,15 +87,15 @@ const Registration = ({ setPage, setRegisterData }) => {
                 color={"authBtn"}
                 className={`xl:h-15 lg:h-13 h-11 xl:text-base! lg:text-[14px]! text-[12px]!`}
               >
-                ارسال کد یکبار مصرف
+                {t("auth.register.step1.sendVerifyCode")}
               </Button>
               <div
                 className={`flex gap-2 justify-center lg:text-[14px] text-[12px] font-normal cursor-pointer`}
               >
                 <p className={`text-default-black`}>
-                  حساب کاربری دارید؟{" "}
+                  {t("auth.register.step1.haveAccount")}
                   <Link to={"/Auth/Login"} className={`text-green-primary`}>
-                    وارد شوید
+                    {t("auth.register.step1.login")}
                   </Link>
                 </p>
               </div>

@@ -6,7 +6,9 @@ import RegisterStep1 from "../../../assets/images/registerStep1.png";
 import Register2 from "../../../assets/images/loginstep And Register2.png";
 import RegisterComplete from "./Register/RegisterComplete";
 import ThemeContext from "@/app/context/ThemeContext";
+import { useI18n } from "@/i18n/useI18n";
 const Register = () => {
+  const { t } = useI18n();
   const { theme, setTheme } = useContext(ThemeContext);
   const [page, setPage] = useState("Step1");
   const [registerData, setRegisterData] = useState({ gmail: "" });
@@ -46,19 +48,19 @@ const Register = () => {
             className={`text-green-dark xl:text-[24px] lg:text-[20px] sm:text-base text-[14px] font-bold`}
           >
             {page === "Step1"
-              ? "شروع سفر یادگیری شما از همین‌جاست!"
+              ? t("auth.register.step1.imageTitle")
               : page === "Step2"
-                ? "تنها یک قدم تا دنیای یادگیری!"
-                : "مرحله پایانی ثبت‌ نام پیش روی شماست."}
+                ? t("auth.register.step1.imageTitle")
+                : t("auth.register.step1.imageTitle")}
           </h2>
           <span
             className={`text-default-black xl:text-base lg:text-[15px] sm:text-[13px] text-[12px] xl:w-132.5 lg:w-90 md:w-80 sm:w-ull text-center`}
           >
             {page == "Step1"
-              ? " با ساخت حساب کاربری‌تان، به محتوای آموزشی، دوره‌ها و ابزارهای پیشرفته دسترسی خواهید داشت. اولین قدم برای رشد و پیشرفت همین‌جاست!"
+              ? t("auth.register.step1.imageDescription")
               : page === "Step2"
-                ? " فرصت رشد، پیشرفت و ساختن آینده‌ای بهتر همین‌جاست — همراه با ما، یک قدم جلوتر باشید!"
-                : "همه‌چیز آماده است! حالا فقط کافیه اطلاعات تکمیلی‌ات رو وارد کنی تا حساب کاربری‌ات کامل بشه."}
+                ? t("auth.register.step1.imageDescription")
+                : t("auth.register.step1.imageDescription")}
           </span>
         </div>
       </div>
