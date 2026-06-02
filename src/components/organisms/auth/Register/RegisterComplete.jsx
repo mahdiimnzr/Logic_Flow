@@ -11,23 +11,9 @@ import ThemeSlide from "@/components/molecules/theme/ThemeSlide";
 import ThemeContext from "@/app/context/ThemeContext";
 import { useContext } from "react";
 import Phone from "@/core/icons/Phone";
-
-const validationSchema = Yup.object({
-  phoneNumber: Yup.string()
-    .min(10, "شماره موبایل حداقل باید تشکیل شده از 11 رقم باشد")
-    .required("شماره موبایل وارد شده معتبر نیست!"),
-  password: Yup.string()
-    .trim()
-    .min(8, "رمز عبور حداقل باید تشکیل شده از 8 حروف باشد")
-    .required("رمز عبور وارد شده معتبر نیست!"),
-  repeatPassword: Yup.string()
-    .trim()
-    .min(8, "رمز عبور حداقل باید تشکیل شده از 8 حروف باشد")
-    .oneOf([Yup.ref("password")], "مقدار وارد شده با رمز عبور یکسان نمیباشد")
-    .required("رمز عبور وارد شده معتبر نیست!"),
-});
-
+import { useI18n } from "@/i18n/useI18n";
 const RegisterComplete = ({ setPage, registerData }) => {
+  const { t } = useI18n();
   const { theme, setTheme } = useContext(ThemeContext);
   const navigate = useNavigate();
   const handleSubmit = async (value) => {
@@ -39,6 +25,21 @@ const RegisterComplete = ({ setPage, registerData }) => {
       toast.error(response.data.message);
     }
   };
+
+  const validationSchema = Yup.object({
+    phoneNumber: Yup.string()
+      .min(10, "شماره موبایل حداقل باید تشکیل شده از 11 رقم باشد")
+      .required("شماره موبایل وارد شده معتبر نیست!"),
+    password: Yup.string()
+      .trim()
+      .min(8, "رمز عبور حداقل باید تشکیل شده از 8 حروف باشد")
+      .required("رمز عبور وارد شده معتبر نیست!"),
+    repeatPassword: Yup.string()
+      .trim()
+      .min(8, "رمز عبور حداقل باید تشکیل شده از 8 حروف باشد")
+      .oneOf([Yup.ref("password")], "مقدار وارد شده با رمز عبور یکسان نمیباشد")
+      .required("رمز عبور وارد شده معتبر نیست!"),
+  });
   return (
     <Formik
       initialValues={{
@@ -51,7 +52,6 @@ const RegisterComplete = ({ setPage, registerData }) => {
       onSubmit={(values) => {
         values.phoneNumber = values.phoneNumber.toString();
         handleSubmit(values);
-        console.log(values);
       }}
     >
       {({ errors }) => (
@@ -70,7 +70,7 @@ const RegisterComplete = ({ setPage, registerData }) => {
                 <span
                   className={`text-green-dark xl:text-base sm:text-[14px] text-[12px] font-bold`}
                 >
-                  بازگشت
+                  {t("auth.register.step3.backBtn")}
                 </span>
               </div>
               <ThemeSlide
@@ -84,12 +84,12 @@ const RegisterComplete = ({ setPage, registerData }) => {
                 <span
                   className={`text-green-primary xl:text-2xl lg:text-[18px] md:text-base text-[14px] font-bold text-center`}
                 >
-                  ایجاد حساب کاربری
+                  {t("auth.register.step3.title")}
                 </span>
                 <span
                   className={`xl:text-[16px] lg:text-[15px] md:text-[14px] text-[12px] text-default-black`}
                 >
-                  کامل کردن مشخصات
+                  {t("auth.register.step3.description")}
                 </span>
               </div>
               <FormInput
@@ -98,7 +98,7 @@ const RegisterComplete = ({ setPage, registerData }) => {
                 name={"phoneNumber"}
                 type={"number"}
                 pattern="/^[0-9]$/"
-                placeholder={"شماره موبایل خود را وارد کنید"}
+                placeholder={t("auth.register.step3.numberPlaceHolder")}
                 className={`xl:h-15! lg:h-13! md:h-11! sm:h-13! h-11!`}
                 errorMessageClassName={`lg:text-[14px]! text-[12px]!`}
               />
@@ -107,7 +107,7 @@ const RegisterComplete = ({ setPage, registerData }) => {
                 error={errors.password}
                 name={"password"}
                 type={"password"}
-                placeholder={"رمز عبور خود را وارد کنید"}
+                placeholder={t("auth.register.step3.passwordPlaceHolder")}
                 className={`xl:h-15! lg:h-13! md:h-11! sm:h-13! h-11!`}
                 errorMessageClassName={`lg:text-[14px]! text-[12px]!`}
               />
@@ -116,7 +116,7 @@ const RegisterComplete = ({ setPage, registerData }) => {
                 error={errors.repeatPassword}
                 name={"repeatPassword"}
                 type={"password"}
-                placeholder={"تکرار رمز عبور"}
+                placeholder={t("auth.register.step3.repeatPasswordPlaceHolder")}
                 className={`xl:h-15! lg:h-13! md:h-11! sm:h-13! h-11!`}
                 errorMessageClassName={`lg:text-[14px]! text-[12px]!`}
               />

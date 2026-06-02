@@ -9,15 +9,10 @@ import { verifyMessageRegister } from "@/core/services/api/auth/auth.service";
 import ThemeSlide from "@/components/molecules/theme/ThemeSlide";
 import ThemeContext from "@/app/context/ThemeContext";
 import Timer from "@/components/atoms/Timer/Timer";
-
-const validationSchema = Yup.object({
-  verifyCode: Yup.string()
-    .trim()
-    .length(6, "پرکردن فیلد ها الزامی است !")
-    .required("پرکردن فیلد ها الزامی است !"),
-});
+import { useI18n } from "@/i18n/useI18n";
 
 const RegisterCode = ({ setPage, registerData }) => {
+  const { t } = useI18n();
   const [timer, setTimer] = useState(120);
   const { theme, setTheme } = useContext(ThemeContext);
   const otp = new Array(6).fill("");
@@ -31,6 +26,12 @@ const RegisterCode = ({ setPage, registerData }) => {
       toast.error(response.data.message);
     }
   };
+  const validationSchema = Yup.object({
+    verifyCode: Yup.string()
+      .trim()
+      .length(6, t("auth.register.step2.codeErrorMessage"))
+      .required(t("auth.register.step2.backBtn")),
+  });
   return (
     <Formik
       initialValues={{
@@ -64,7 +65,7 @@ const RegisterCode = ({ setPage, registerData }) => {
                   <span
                     className={`text-green-dark xl:text-base sm:text-[14px] text-[12px] font-bold`}
                   >
-                    بازگشت
+                    {t("auth.register.step2.backBtn")}
                   </span>
                 </div>
                 <ThemeSlide
@@ -78,12 +79,12 @@ const RegisterCode = ({ setPage, registerData }) => {
                   <span
                     className={`text-green-primary xl:text-2xl lg:text-[18px] md:text-base text-[14px] font-bold text-center`}
                   >
-                    ایجاد حساب کاربری
+                    {t("auth.register.step2.title")}
                   </span>
                   <span
                     className={`xl:text-[16px] lg:text-[15px] md:text-[14px] text-[12px] text-default-black`}
                   >
-                    رمز یکبار مصرف ارسال شده را وارد کنید
+                    {t("auth.register.step2.description")}
                   </span>
                 </div>
                 <div className={`flex flex-col gap-2 w-full`}>
@@ -105,7 +106,7 @@ const RegisterCode = ({ setPage, registerData }) => {
                   color={"authBtn"}
                   className={`xl:h-15 lg:h-13 h-11 xl:text-base! lg:text-[14px]! text-[12px]!`}
                 >
-                  تایید رمز یکبار مصرف
+                  {t("auth.register.step2.submitVerifyCode")}
                 </Button>
                 <div className={`flex justify-center`}>
                   {timer === 0 ? (
@@ -115,7 +116,7 @@ const RegisterCode = ({ setPage, registerData }) => {
                       }}
                       className={`text-default-black md:text-base text-[12px]`}
                     >
-                      ارسال مجدد کد؟
+                      {t("auth.register.step2.repeatPassword")}
                     </p>
                   ) : (
                     <Timer timer={timer} setTimer={setTimer} />
