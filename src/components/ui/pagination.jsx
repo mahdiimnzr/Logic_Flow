@@ -1,5 +1,4 @@
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -9,6 +8,7 @@ import {
 function Pagination({ className, ...props }) {
   return (
     <nav
+      dir="ltr"
       role="navigation"
       aria-label="pagination"
       data-slot="pagination"
@@ -28,54 +28,35 @@ function PaginationContent({ className, ...props }) {
   );
 }
 
-function PaginationItem({ ...props }) {
-  return <li data-slot="pagination-item" {...props} />;
-}
-
-function PaginationLink({ className, isActive, size = "icon", ...props }) {
+function PaginationItem({ className, isActive, ...props }) {
   return (
-    <Button
-      asChild
-      variant={isActive ? "outline" : "ghost"}
-      size={size}
-      className={cn(className)}
-    >
-      <a
-        aria-current={isActive ? "page" : undefined}
-        data-slot="pagination-link"
-        data-active={isActive}
-        {...props}
-      />
-    </Button>
-  );
-}
-
-function PaginationPrevious({ className, text = "Previous", ...props }) {
-  return (
-    <PaginationLink
-      aria-label="Go to previous page"
-      size="default"
-      className={cn("pl-1.5!", className)}
+    <li
+      className={cn(
+        `${className} ${isActive ? `bg-green-primary text-white` : `text-default-black`}`,
+      )}
+      data-slot="pagination-item"
       {...props}
-    >
-      <ChevronLeftIcon data-icon="inline-start" />
-      <span className="hidden sm:block">{text}</span>
-    </PaginationLink>
+    />
   );
 }
 
-function PaginationNext({ className, text = "Next", ...props }) {
+function PaginationLink({ isActive, ...props }) {
   return (
-    <PaginationLink
-      aria-label="Go to next page"
-      size="default"
-      className={cn("pr-1.5!", className)}
+    <a
+      aria-current={isActive ? "page" : undefined}
+      data-slot="pagination-link"
+      data-active={isActive}
       {...props}
-    >
-      <span className="hidden sm:block">{text}</span>
-      <ChevronRightIcon data-icon="inline-end" />
-    </PaginationLink>
+    />
   );
+}
+
+function PaginationPrevious({ ...props }) {
+  return <ChevronLeftIcon data-icon="inline-start" {...props} />;
+}
+
+function PaginationNext({ ...props }) {
+  return <ChevronRightIcon data-icon="inline-end" {...props} />;
 }
 
 function PaginationEllipsis({ className, ...props }) {

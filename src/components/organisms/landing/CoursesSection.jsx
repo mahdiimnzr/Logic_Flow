@@ -5,10 +5,9 @@ import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import Card from "@/components/molecules/Cards/Card";
-import useGetCourses from "@/core/services/api/common/useGetCourse";
-import { addFavoriteCourse } from "@/core/services/api/landing/landing.service";
-import { toast } from "react-toastify";
+import useGetCourses from "@/core/services/api/hooks/useGetCourse";
 import { Skeleton } from "@/components/ui/skeleton";
+import useAddFavoriteCourse from "@/core/services/api/hooks/useAddFavoriteCourses";
 
 const CoursesSection = () => {
   const [isBeginning, setIsBeginning] = useState(true);
@@ -20,17 +19,6 @@ const CoursesSection = () => {
     RowsOfPage: "100",
     TechCount: "1",
   });
-  const handleAddFavoriteCourse = async (courseId) => {
-    const response = await addFavoriteCourse({ courseId: courseId });
-    if (response.data.success) {
-      if (response.status != 400) toast.success(response.data.message);
-      else {
-        toast.error(response.data.message);
-      }
-    } else if (!response.data.success) {
-      toast.error(response.data.message);
-    }
-  };
   return (
     <div className="md:w-[95%] w-[90%] mx-auto flex flex-col gap-8 items-center">
       <div className="flex flex-col items-center text-center gap-2">
@@ -78,7 +66,6 @@ const CoursesSection = () => {
             <ChevronLeft width="16" height="16" color="#848484" />
           </Link>
         </div>
-
         <div className="w-full">
           <Swiper
             dir="ltr"
@@ -114,17 +101,18 @@ const CoursesSection = () => {
                       dir="rtl"
                       className={`w-full p-5 flex flex-col gap-5 rounded-[20px] bg-field-silver`}
                     >
-                      <Skeleton className={`h-55 w-full`}></Skeleton>
-                      <Skeleton className={`h-7 w-5/10`}></Skeleton>
-                      <Skeleton className={`h-14 w-7/10`}></Skeleton>
-                      <Skeleton className={`h-7 w-full`}></Skeleton>
-                      <Skeleton className={`h-7 w-full`}></Skeleton>
+                      <Skeleton className={`h-55 w-full`} />
+                      <Skeleton className={`h-7 w-5/10`} />
+                      <Skeleton className={`h-14 w-7/10`} />
+                      <Skeleton className={`h-7 w-full`} />
+                      <Skeleton className={`h-7 w-full`} />
                     </div>
                   </SwiperSlide>
                 ))
               : courses?.data?.courseFilterDtos?.map((course, index) => (
                   <SwiperSlide key={index}>
                     <Card
+                      view={true}
                       courseId={course.courseId}
                       title={course.title}
                       describe={course.describe}
@@ -135,7 +123,7 @@ const CoursesSection = () => {
                       image={course.imageAddress}
                       isCourseCard={true}
                       isFavorite={false}
-                      handleAddFavoriteCourse={handleAddFavoriteCourse}
+                      handleAddFavoriteCourse={useAddFavoriteCourse}
                     />
                   </SwiperSlide>
                 ))}

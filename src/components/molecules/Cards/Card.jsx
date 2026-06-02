@@ -17,31 +17,32 @@ const Card = (props) => {
     courseId,
     image,
     handleAddFavoriteCourse,
+    view,
   } = props;
   return (
-    <Tilt>
+    <Tilt tiltAxis={!view && "disable"}>
       <div
         dir="rtl"
-        className={`rounded-[20px] relative overflow-hidden w-full transition-all shadow-[0px_4px_4px_0px_#000000]/0 hover:shadow-cards-hover`}
+        className={`rounded-[20px] ${view ? null : `flex items-center gap-8 p-4`} bg-default-light relative overflow-hidden w-full transition-all shadow-[0px_4px_4px_0px_#000000]/0 hover:shadow-cards-hover`}
       >
         <div
           onClick={() => handleAddFavoriteCourse(courseId)}
-          className={`absolute z-10 right-4 top-4 content-center bg-default-black/25 size-10 rounded-full cursor-pointer`}
+          className={`absolute z-10 ${view ? `right-4 top-4` : `right-8 top-8`} content-center bg-default-black/25 size-10 rounded-full cursor-pointer`}
         >
           <FavoriteIcon isFavorite={isFavorite} className={`mx-auto`} />
         </div>
         <Link
           to={isCourseCard ? `/Courses/Detail/${courseId}` : "/news"}
-          className={`lg:h-60 sm:h-50 h-45 group content-center block relative`}
+          className={`rounded-[12px] group content-center block relative ${view ? `lg:h-60 sm:h-50 h-45` : `2xl:w-4/10 w-3/10 2xl:h-40 h-50 overflow-hidden`}`}
         >
           <ImageFallback
             src={image}
             fallback={course}
-            className={`transform-[scale(1.5)] size-full transition-all cursor-pointer mx-auto group-hover:transform-[scale(1.2)] absolute inset-0 object-cover`}
+            className={`${!view ? `group-hover:transform-[scale(1)]` : `group-hover:transform-[scale(1.2)]`} transform-[scale(1.5)] size-full transition-all cursor-pointer mx-auto absolute inset-0 object-cover`}
           />
         </Link>
         <div
-          className={`rounded-[20px] bg-default-light flex flex-col gap-7 p-4 relative`}
+          className={`rounded-[20px] bg-default-light flex flex-col gap-7 relative ${view ? `p-4` : `2xl:w-6/10 w-7/10`}`}
         >
           {isCourseCard ? (
             <CourseCardInformation props={props} />
@@ -90,7 +91,7 @@ const CourseCardInformation = (props) => {
           </div>
           <div className={`flex items-center gap-1`}>
             <span className={`text-star-yellow text-[14px] font-normal`}>
-              {rate?.toFixed(1)}
+              {rate}
             </span>
             <StarIcon />
           </div>

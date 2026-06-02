@@ -8,12 +8,14 @@ import ThemeContext from "./context/ThemeContext";
 import { Provider } from "react-redux";
 import store from "./store/store";
 import { useI18n } from "@/i18n/useI18n";
+import LoadingSvg from "@/core/icons/LoadingSvg";
+import UpBtn from "@/components/molecules/UpBtn/UpBtn";
 
 const AppProvider = () => {
   const { lang } = useI18n();
   const [theme, setTheme] = useState(false);
   return (
-    <Suspense fallback={<div>IsLoading</div>}>
+    <Suspense fallback={<LoadingSvg />}>
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
           <ThemeContext.Provider value={{ theme, setTheme }}>
@@ -21,6 +23,7 @@ const AppProvider = () => {
               dir={lang === "en" ? "ltr" : "rtl"}
               className={`${theme ? `dark` : `light`} bg-background-default max-w-480 mx-auto`}
             >
+              <UpBtn />
               <RouterProvider router={router} />
               <ToastContainer
                 position="top-right"
