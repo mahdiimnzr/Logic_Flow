@@ -25,7 +25,6 @@ const coursesSlice = createSlice({
       const { key, value } = action.payload;
       const newParams = { ...state.params, [key]: value };
       state.params = newParams;
-      return state.params;
     },
   },
 });
