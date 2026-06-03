@@ -21,12 +21,16 @@ import Filters from "./Filters";
 import SelectModal from "@/components/molecules/Select/Select";
 import { rowsOfPages, sortingTypes } from "@/core/constants/courseSortings";
 import ThemeContext from "@/app/context/ThemeContext";
+import DrawerComponents from "@/components/molecules/Drawer/Drawer";
+import debounce from "debounce";
+import { DrawerClose } from "@/components/ui/drawer";
 
 const CoursesList = () => {
   const { t } = useI18n();
   const dispatch = useDispatch();
 
   const skeletonCount = new Array(8).fill("");
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [whichPage, setWhichPage] = useState(1);
   const [sortTypes, setSortTypes] = useState("expensive");
   const [rowPageCount, setRowPageCount] = useState(12);
@@ -45,7 +49,7 @@ const CoursesList = () => {
       courses?.data?.totalCount
         ? Math.ceil(courses?.data?.totalCount / rowPageCount)
         : 1,
-    [courses?.data?.totalCount],
+    [courses?.data?.totalCount, rowPageCount],
   );
   const pageArray = useMemo(() => {
     const pages = [];
@@ -53,9 +57,20 @@ const CoursesList = () => {
     return pages;
   }, [pageCount]);
 
+  const handleSearch = debounce((value) => {
+    const searchValue = value.trim() === "" ? null : value.trim();
+    dispatch(updateParams({ key: "Query", value: searchValue }));
+  }, 1000);
+
   useEffect(() => {
     window.onresize = () => {
       if (window.innerWidth <= 1024) {
+        setGridView(true);
+      }
+      if (window.innerWidth <= 768) {
+        setGridView(false);
+      }
+      if (window.innerWidth <= 640) {
         setGridView(true);
       }
     };
@@ -88,21 +103,21 @@ const CoursesList = () => {
         </div>
       </div>
       <div className={`flex justify-center gap-8 w-full`}>
-        <div className={`lg:w-2/10 flex-col gap-8 hidden lg:flex`}>
+        <div className={`xl:w-2/10 lg:3/10 flex-col gap-8 hidden lg:flex`}>
           <Filters />
         </div>
-        <div className={`lg:w-8/10 w-full flex flex-col gap-8`}>
+        <div className={`xl:w-8/10 lg:w-7/10 w-full flex flex-col gap-8`}>
           <div
             className={`bg-default-light rounded-[15px] shadow-[0px_2px_5px_0_#000000]/15 dark:shadow-[0px_2px_5px_0_#ffffff]/15 p-4 flex items-center justify-between`}
           >
-            <div className={`flex items-center gap-4`}>
+            <div className={`lg:flex hidden items-center gap-4`}>
               <span className={`text-default-black font-normal md:text-base`}>
                 {t("courses.sorting.sortBy")}
               </span>
               <SelectModal
                 items={sortingTypes}
                 contentPosition={"popper"}
-                contentClassName={`relative! z-100! ${theme ? `bg-[#1e1e1e] text-white` : `bg-white text-[#1E1E1E]`}`}
+                contentClassName={`min-w-full! relative! z-100! ${theme ? `bg-[#1e1e1e] text-white` : `bg-white text-[#1E1E1E]`}`}
                 defaultValue={"expensive"}
                 itemClassName={`cursor-pointer! ${theme ? `focus:bg-[oklch(0.269_0_0)]` : `focus:bg-muted`}`}
                 triggerClassName={`border! border-light-gray! rounded-[15px] flex! items-center! gap-1! ring-0! px-4! py-2! h-auto! font-normal! text-[14px]! text-default-black! cursor-pointer! bg-default-light!`}
@@ -124,7 +139,7 @@ const CoursesList = () => {
               <SelectModal
                 items={rowsOfPages}
                 contentPosition={"popper"}
-                contentClassName={`relative! z-100! ${theme ? `bg-[#1e1e1e] text-white` : `bg-white text-[#1E1E1E]`}`}
+                contentClassName={`min-w-full! relative! z-100! ${theme ? `bg-[#1e1e1e] text-white` : `bg-white text-[#1E1E1E]`}`}
                 defaultValue={12}
                 itemClassName={`cursor-pointer! ${theme ? `focus:bg-[oklch(0.269_0_0)]` : `focus:bg-muted`}`}
                 triggerClassName={`border! border-light-gray! rounded-[15px] flex! items-center! gap-1! ring-0! px-4! py-2! h-auto! font-normal! text-[14px]! text-default-black! cursor-pointer! bg-default-light!`}
@@ -137,12 +152,44 @@ const CoursesList = () => {
               />
             </div>
             <View view={gridView} setView={setGridView} />
-            <Button
-              color={"authBtn"}
-              className={`px-3 py-2 font-normal! block lg:hidden`}
-            >
-              ترتیب و فیلتر
-            </Button>
+            <div className="block lg:hidden">
+              <DrawerComponents
+                direction="bottom"
+                theme={theme}
+                trigger={
+                  <div
+                    className={`px-3 py-2 block lg:hidden bg-green-primary text-white font-bold rounded-[100px] text-base cursor-pointer`}
+                  >
+                    ترتیب و فیلتر
+                  </div>
+                }
+                contentClassName={`${theme ? `bg-[#1e1e1e] border-[#0f0f0f]` : `bg-white border-[#f5f5f5]`} w-full`}
+                primitiveClassName={`${theme ? `bg-[#0f0f0f]` : `bg-[#f5f5f5]`}`}
+              >
+                <div
+                  className={`flex flex-col gap-5 no-scrollbar overflow-y-auto p-4 lg:hidden`}
+                >
+                  <div className={`flex items-center justify-between`}>
+                    <span className={`text-default-black text-[20px]`}>
+                      ترتیب و فیلتر
+                    </span>
+                    <DrawerClose asChild>
+                      <div
+                        className={`px-2 py-1 font-bold text-red-error text-[14px] rounded-[64px] border border-red-error w-fit cursor-pointer`}
+                      >
+                        {t("courses.filters.closeBtn")}
+                      </div>
+                    </DrawerClose>
+                  </div>
+                  <Filters
+                    sortTypes={sortTypes}
+                    setSortTypes={setSortTypes}
+                    rowPageCount={rowPageCount}
+                    setRowPageCount={setRowPageCount}
+                  />
+                </div>
+              </DrawerComponents>
+            </div>
           </div>
           {isLoading ? (
             <div

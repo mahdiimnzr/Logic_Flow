@@ -255,7 +255,7 @@ const Header = () => {
             </div>
           }
         >
-          <div className={`flex flex-col gap-3`}>
+          <div className={`flex flex-col gap-3 p-4`}>
             {navigation?.map((value, index) => (
               <div className={`flex items-center justify-between`}>
                 <NavLink
