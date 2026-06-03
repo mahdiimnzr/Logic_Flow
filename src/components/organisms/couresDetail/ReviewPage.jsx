@@ -1,20 +1,11 @@
 import Person from "@/core/icons/Person";
 
-import { getCourseDetails } from "@/core/services/api/CourseDetails/CourseDetails.service";
-import { useEffect, useState } from "react";
+import { useGetCourseDetail } from "@/core/services/api/CourseDetails/CourseDetails.service";
 import { useParams } from "react-router-dom";
 
 const ReviewPage = () => {
   const { id } = useParams();
-  const [Details, setDetails] = useState();
-  const getCourseDetail = async () => {
-    const courses = await getCourseDetails(id);
-    setDetails(courses.data);
-  };
-
-  useEffect(() => {
-    getCourseDetail();
-  }, []);
+  const { isLoading, data: Details } = useGetCourseDetail(id);
   return (
     <>
       <div className={`flex flex-col gap-9 `}>
@@ -29,7 +20,7 @@ const ReviewPage = () => {
             <div className={`flex gap-2 justify-center items-center`}>
               <Person />
               <span className={`text-default-black`}>
-                {Details?.studentCount} نفر
+                {Details?.data?.studentCount} نفر
               </span>
             </div>
           </div>
@@ -41,7 +32,7 @@ const ReviewPage = () => {
               <Person />
               <span className={`text-default-black`}>
                 {" "}
-                {Details?.courseLevelName}{" "}
+                {Details?.data?.courseLevelName}{" "}
               </span>
             </div>
           </div>
@@ -53,7 +44,7 @@ const ReviewPage = () => {
               <Person />
               <span className={`text-default-black`}>
                 {" "}
-                {Details?.active === true
+                {Details?.data?.active === true
                   ? "درحال برگزاری"
                   : "پایان رسیده است"}{" "}
               </span>
@@ -65,7 +56,9 @@ const ReviewPage = () => {
         <span className={`text-[18px] text-default-black font-bold`}>
           توضیحات
         </span>
-        <p className={`text-field-silver leading-loose`}>{Details?.describe}</p>
+        <p className={`text-field-silver leading-loose`}>
+          {Details?.data?.describe}
+        </p>
       </div>
     </>
   );
