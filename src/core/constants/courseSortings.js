@@ -17,9 +17,9 @@ export const sortingTypes = [
 
 export const rowsOfPages = [
   {
-    title: "6",
-    titleEn: "6",
-    name: 6,
+    title: "8",
+    titleEn: "8",
+    name: 8,
   },
   {
     title: "12",

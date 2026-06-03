@@ -1,4 +1,4 @@
-import { updateParams } from "@/app/store/actions";
+import { updateFilters, updateParams } from "@/app/store/actions";
 import AccordionMultiple from "@/components/molecules/Accordion/Accordions";
 import DatePickerInput from "@/components/molecules/DatePicker/DatePicker";
 import CheckBox from "@/components/molecules/Inputs/CheckBox";
@@ -13,27 +13,45 @@ import { useI18n } from "@/i18n/useI18n";
 import debounce from "debounce";
 import { Minus, Plus, Search } from "lucide-react";
 import Slider from "rc-slider";
-import { useMemo, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useContext, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import SelectModal from "@/components/molecules/Select/Select";
+import { rowsOfPages, sortingTypes } from "@/core/constants/courseSortings";
+import ThemeContext from "@/app/context/ThemeContext";
 
-const Filters = () => {
+const Filters = ({
+  // ✅ این props فقط موقع زیر lg نیاز هست — از CoursesList میان
+  sortTypes,
+  setSortTypes,
+  rowPageCount,
+  setRowPageCount,
+}) => {
   const { t } = useI18n();
   const dispatch = useDispatch();
+  const { theme } = useContext(ThemeContext);
+
+  const {
+    startDate,
+    startMonth,
+    startValue,
+    endDate,
+    endMonth,
+    endValue,
+    selectedLevel,
+    isLevelsModalOpen,
+    selectedTechnology,
+    isTechnologiesModalOpen,
+    priceRange,
+  } = useSelector((state) => state.coursesSlice.filters);
+
+  const setFilter = (key, value) => dispatch(updateFilters({ key, value }));
+
+  const startDateObj = startDate ? new Date(startDate) : undefined;
+  const startMonthObj = startMonth ? new Date(startMonth) : new Date();
+  const endDateObj = endDate ? new Date(endDate) : undefined;
+  const endMonthObj = endMonth ? new Date(endMonth) : new Date();
 
   const skeletonCountCheckBox = new Array(3).fill("");
-  const [startDate, setStartDate] = useState(undefined);
-  const [startMonth, setStartMonth] = useState(new Date());
-  const [startValue, setStartValue] = useState("");
-  const [startOpen, setStartOpen] = useState(false);
-  const [endDate, setEndDate] = useState(undefined);
-  const [endMonth, setEndMonth] = useState(new Date());
-  const [endValue, setEndValue] = useState("");
-  const [endOpen, setEndOpen] = useState(false);
-  const [selectedLevel, setSelectedLevel] = useState(null);
-  const [levelsOpen, setLevelsOpen] = useState(false);
-  const [selectedTechnology, setSelectedTechnology] = useState([]);
-  const [technologiesOpen, setTechnologiesOpen] = useState(false);
-  const [priceRange, setPriceRange] = useState([0, 10000000]);
 
   const { isLoading: levelsLoading, data: levels } =
     useGetCoursesLevels("CourseLevels");
@@ -42,13 +60,9 @@ const Filters = () => {
 
   const handleSearch = debounce((value) => {
     const searchValue = value.trim() === "" ? null : value.trim();
-    dispatch(
-      updateParams({
-        key: "Query",
-        value: searchValue,
-      }),
-    );
+    dispatch(updateParams({ key: "Query", value: searchValue }));
   }, 1000);
+
   const handlePrice = useMemo(
     () =>
       debounce((newValue) => {
@@ -57,10 +71,52 @@ const Filters = () => {
       }, 1000),
     [dispatch],
   );
+
   return (
     <>
+      {sortTypes !== undefined && (
+        <div className={`flex lg:hidden items-center justify-between`}>
+          <span
+            className={`text-default-black font-normal md:text-base text-[14px]`}
+          >
+            {t("courses.sorting.sortBy")}
+          </span>
+          <SelectModal
+            items={sortingTypes}
+            contentPosition={"popper"}
+            contentClassName={`min-w-full! relative! z-100! ${theme ? `bg-[#1e1e1e] text-white` : `bg-white text-[#1E1E1E]`}`}
+            defaultValue={"expensive"}
+            itemClassName={`cursor-pointer! ${theme ? `focus:bg-[oklch(0.269_0_0)]` : `focus:bg-muted`}`}
+            triggerClassName={`border! border-light-gray! rounded-[15px] flex! items-center! gap-1! ring-0! md:px-4! px-2! py-2! h-auto! font-normal! md:text-[14px]! text-[12px]! text-default-black! cursor-pointer! bg-default-light!`}
+            value={sortTypes}
+            setValue={setSortTypes}
+            onValueChange={(event) => {
+              setSortTypes(event);
+              const sort = sortingTypes.find((value) => event === value.name);
+              dispatch(
+                updateParams({ key: "SortingCol", value: sort.sortCol }),
+              );
+              dispatch(updateParams({ key: "SortType", value: sort.sortType }));
+            }}
+          />
+          <SelectModal
+            items={rowsOfPages}
+            contentPosition={"popper"}
+            contentClassName={`min-w-full! relative! z-100! ${theme ? `bg-[#1e1e1e] text-white` : `bg-white text-[#1E1E1E]`}`}
+            defaultValue={12}
+            itemClassName={`cursor-pointer! ${theme ? `focus:bg-[oklch(0.269_0_0)]` : `focus:bg-muted`}`}
+            triggerClassName={`border! border-light-gray! rounded-[15px] flex! items-center! gap-1! ring-0! md:px-4! px-2! py-2!px-4! py-2! h-auto! font-normal! md:text-[14px]! text-[12px]! text-default-black! cursor-pointer! bg-default-light!`}
+            value={rowPageCount}
+            setValue={setRowPageCount}
+            onValueChange={(event) => {
+              setRowPageCount(event);
+              dispatch(updateParams({ key: "RowsOfPage", value: event }));
+            }}
+          />
+        </div>
+      )}
       <div
-        className={`bg-default-light shadow-[0px_2px_5px_0px_#000000]/15 dark:shadow-[0px_2px_5px_0px_#ffffff]/15 rounded-[15px] py-4 px-2 flex items-center justify-between`}
+        className={`bg-default-light shadow-[0px_2px_5px_0px_#000000]/15 dark:shadow-[0px_2px_5px_0px_#ffffff]/15 rounded-[15px] py-4 px-2 lg:flex items-center justify-between hidden`}
       >
         <input
           className={`text-base font-normal text-field-silver placeholder:text-field-silver outline-none w-9/10`}
@@ -74,72 +130,74 @@ const Filters = () => {
         value={"coursesStartAndEndDate"}
         className={`bg-default-light p-4 rounded-[15px] shadow-[0px_2px_5px_0px_#000000]/15 dark:shadow-[0px_2px_5px_0px_#ffffff]/15`}
         trigger={t("courses.filters.startAndEndDate")}
-        triggerClassName={`hover:no-underline! cursor-pointer! text-default-black! text-[18px]! font-bold!`}
+        triggerClassName={`hover:no-underline! cursor-pointer! text-default-black! 2xl:text-[18px]! lg:text-base! font-bold! text-right!`}
       >
         <div className={`flex flex-col gap-4`}>
           <DatePickerInput
             label={t("courses.filters.start")}
-            date={startDate}
-            setDate={setStartDate}
-            month={startMonth}
-            setMonth={setStartMonth}
+            date={startDateObj}
+            setDate={(val) =>
+              setFilter(
+                "startDate",
+                val instanceof Date ? val.toISOString() : null,
+              )
+            }
+            month={startMonthObj}
+            setMonth={(val) =>
+              setFilter(
+                "startMonth",
+                val instanceof Date
+                  ? val.toISOString()
+                  : new Date().toISOString(),
+              )
+            }
             value={startValue}
-            setValue={setStartValue}
-            open={startOpen}
-            setOpen={setStartOpen}
+            setValue={(val) => setFilter("startValue", val)}
             onChange={(date) => {
               if (!date) {
-                setStartDate(undefined);
-                setStartValue("");
-                dispatch(
-                  updateParams({
-                    key: "StartDate",
-                    value: null,
-                  }),
-                );
+                setFilter("startDate", null);
+                setFilter("startValue", "");
+                dispatch(updateParams({ key: "StartDate", value: null }));
                 return;
               }
-              setStartDate(date);
-              setStartValue(formatDate(date));
-              setStartOpen(false);
+              setFilter("startDate", date.toISOString());
+              setFilter("startValue", formatDate(date));
               dispatch(
-                updateParams({
-                  key: "StartDate",
-                  value: date.toISOString(),
-                }),
+                updateParams({ key: "StartDate", value: date.toISOString() }),
               );
             }}
           />
           <DatePickerInput
             label={t("courses.filters.end")}
-            date={endDate}
-            setDate={setEndDate}
-            month={endMonth}
-            setMonth={setEndMonth}
+            date={endDateObj}
+            setDate={(val) =>
+              setFilter(
+                "endDate",
+                val instanceof Date ? val.toISOString() : null,
+              )
+            }
+            month={endMonthObj}
+            setMonth={(val) =>
+              setFilter(
+                "endMonth",
+                val instanceof Date
+                  ? val.toISOString()
+                  : new Date().toISOString(),
+              )
+            }
             value={endValue}
-            setValue={setEndValue}
-            open={endOpen}
-            setOpen={setEndOpen}
+            setValue={(val) => setFilter("endValue", val)}
             onChange={(date) => {
               if (!date) {
-                setEndDate(undefined);
-                setEndValue("");
-                dispatch(
-                  updateParams({
-                    key: "EndDate",
-                    value: null,
-                  }),
-                );
+                setFilter("endDate", null);
+                setFilter("endValue", "");
+                dispatch(updateParams({ key: "EndDate", value: null }));
                 return;
               }
-              setEndDate(date);
-              setEndValue(formatDate(date));
-              setEndOpen(false);
+              setFilter("endDate", date.toISOString());
+              setFilter("endValue", formatDate(date));
               dispatch(
-                updateParams({
-                  key: "EndDate",
-                  value: date.toISOString(),
-                }),
+                updateParams({ key: "EndDate", value: date.toISOString() }),
               );
             }}
           />
@@ -149,7 +207,7 @@ const Filters = () => {
         value={"coursesLevel"}
         className={`bg-default-light p-4 rounded-[15px] shadow-[0px_2px_5px_0px_#000000]/15 dark:shadow-[0px_2px_5px_0px_#ffffff]/15`}
         trigger={t("courses.filters.coursesLevel")}
-        triggerClassName={`hover:no-underline! cursor-pointer! text-default-black! text-[18px]! font-bold!`}
+        triggerClassName={`hover:no-underline! cursor-pointer! text-default-black! 2xl:text-[18px]! lg:text-base! font-bold! text-right!`}
       >
         <div className={`flex flex-col gap-4`}>
           {levelsLoading
@@ -162,7 +220,7 @@ const Filters = () => {
                   <Skeleton className={`h-3 w-full`} />
                 </div>
               ))
-            : !levelsOpen
+            : !isLevelsModalOpen
               ? levels?.status < 400 && levels?.data
                 ? levels?.data?.slice(0, 3)?.map((value, index) => (
                     <CheckBox
@@ -173,23 +231,14 @@ const Filters = () => {
                       type="radio"
                       checked={selectedLevel === value.id}
                       onChange={(event) => {
-                        setSelectedLevel(value.id);
+                        setFilter("selectedLevel", value.id);
                         const { checked } = event.target;
-                        if (checked) {
-                          dispatch(
-                            updateParams({
-                              key: "courseLevelId",
-                              value: value.id,
-                            }),
-                          );
-                        } else {
-                          dispatch(
-                            updateParams({
-                              key: "courseLevelId",
-                              value: null,
-                            }),
-                          );
-                        }
+                        dispatch(
+                          updateParams({
+                            key: "courseLevelId",
+                            value: checked ? value.id : null,
+                          }),
+                        );
                       }}
                     />
                   ))
@@ -203,38 +252,29 @@ const Filters = () => {
                     type="radio"
                     checked={selectedLevel === value.id}
                     onChange={(event) => {
-                      setSelectedLevel(value.id);
+                      setFilter("selectedLevel", value.id);
                       const { checked } = event.target;
-                      if (checked) {
-                        dispatch(
-                          updateParams({
-                            key: "courseLevelId",
-                            value: value.id,
-                          }),
-                        );
-                      } else {
-                        dispatch(
-                          updateParams({
-                            key: "courseLevelId",
-                            value: null,
-                          }),
-                        );
-                      }
+                      dispatch(
+                        updateParams({
+                          key: "courseLevelId",
+                          value: checked ? value.id : null,
+                        }),
+                      );
                     }}
                   />
                 ))}
           {levels?.data?.length > 3 && (
             <div
-              onClick={() => setLevelsOpen(!levelsOpen)}
+              onClick={() => setFilter("isLevelsModalOpen", !isLevelsModalOpen)}
               className={`flex items-center gap-1 cursor-pointer`}
             >
-              {!levelsOpen ? (
+              {!isLevelsModalOpen ? (
                 <Plus className={`size-4`} color="#008C78" />
               ) : (
                 <Minus className={`size-4`} color="#008C78" />
               )}
-              <span className={`text-green-primary text-[14px] font-normal`}>
-                {!levelsOpen
+              <span className={`text-[#008C78] text-[14px] font-normal`}>
+                {!isLevelsModalOpen
                   ? t("courses.filters.showMore")
                   : t("courses.filters.showLess")}
               </span>
@@ -246,7 +286,7 @@ const Filters = () => {
         value={"courseTechnologies"}
         className={`bg-default-light p-4 rounded-[15px] shadow-[0px_2px_5px_0px_#000000]/15 dark:shadow-[0px_2px_5px_0px_#ffffff]/15`}
         trigger={t("courses.filters.technologies")}
-        triggerClassName={`hover:no-underline! cursor-pointer! text-default-black! text-[18px]! font-bold!`}
+        triggerClassName={`hover:no-underline! cursor-pointer! text-default-black! 2xl:text-[18px]! lg:text-base! font-bold! text-right!`}
       >
         <div className={`flex flex-col gap-4`}>
           {technologiesLoading
@@ -259,8 +299,8 @@ const Filters = () => {
                   <Skeleton className={`h-3 w-full`} />
                 </div>
               ))
-            : !technologiesOpen
-              ? technologies?.status < 400 && levels?.data
+            : !isTechnologiesModalOpen
+              ? technologies?.status < 400 && technologies?.data
                 ? technologies?.data?.slice(0, 3)?.map((value, index) => (
                     <CheckBox
                       key={index}
@@ -274,7 +314,7 @@ const Filters = () => {
                         const newList = checked
                           ? [...selectedTechnology, value.id]
                           : selectedTechnology.filter((id) => id !== value.id);
-                        setSelectedTechnology(newList);
+                        setFilter("selectedTechnology", newList);
                         dispatch(
                           updateParams({
                             key: "ListTech",
@@ -304,7 +344,7 @@ const Filters = () => {
                       const newList = checked
                         ? [...selectedTechnology, value.id]
                         : selectedTechnology.filter((id) => id !== value.id);
-                      setSelectedTechnology(newList);
+                      setFilter("selectedTechnology", newList);
                       dispatch(
                         updateParams({
                           key: "ListTech",
@@ -322,16 +362,18 @@ const Filters = () => {
                 ))}
           {technologies?.data?.length > 3 && (
             <div
-              onClick={() => setTechnologiesOpen(!technologiesOpen)}
+              onClick={() =>
+                setFilter("isTechnologiesModalOpen", !isTechnologiesModalOpen)
+              }
               className={`flex items-center gap-1 cursor-pointer`}
             >
-              {!technologiesOpen ? (
+              {!isTechnologiesModalOpen ? (
                 <Plus className={`size-4`} color="#008C78" />
               ) : (
                 <Minus className={`size-4`} color="#008C78" />
               )}
-              <span className={`text-green-primary text-[14px] font-normal`}>
-                {!technologiesOpen
+              <span className={`text-[#008C78] text-[14px] font-normal`}>
+                {!isTechnologiesModalOpen
                   ? t("courses.filters.showMore")
                   : t("courses.filters.showLess")}
               </span>
@@ -339,11 +381,12 @@ const Filters = () => {
           )}
         </div>
       </AccordionMultiple>
+
       <AccordionMultiple
         value={"coursePriceRange"}
         className={`bg-default-light p-4 rounded-[15px] shadow-[0px_2px_5px_0px_#000000]/15 dark:shadow-[0px_2px_5px_0px_#ffffff]/15`}
         trigger={t("courses.filters.priceRange")}
-        triggerClassName={`hover:no-underline! cursor-pointer! text-default-black! text-[18px]! font-bold!`}
+        triggerClassName={`hover:no-underline! cursor-pointer! text-default-black! 2xl:text-[18px]! lg:text-base! font-bold! text-right!`}
       >
         <div className={`flex flex-col gap-2 p-3 pb-0`}>
           <Slider
@@ -352,19 +395,13 @@ const Filters = () => {
             max={10000000}
             reverse={true}
             onChange={(value) => {
-              setPriceRange(value);
+              setFilter("priceRange", value);
               handlePrice(value);
             }}
             step={10000}
             defaultValue={priceRange}
-            railStyle={{
-              backgroundColor: "#A6A6A6",
-              height: 3,
-            }}
-            trackStyle={{
-              backgroundColor: "#008C78",
-              height: 3,
-            }}
+            railStyle={{ backgroundColor: "#A6A6A6", height: 3 }}
+            trackStyle={{ backgroundColor: "#008C78", height: 3 }}
             handleStyle={{
               borderColor: "#008C78",
               backgroundColor: "#008C78",

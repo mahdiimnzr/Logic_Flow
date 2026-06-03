@@ -1,4 +1,6 @@
+import { useContext } from "react";
 import CheckIcon from "../../../core/icons/CheckIcon";
+import ThemeContext from "@/app/context/ThemeContext";
 
 const CheckBox = ({
   label,
@@ -8,6 +10,7 @@ const CheckBox = ({
   labelId = id,
   checked,
 }) => {
+  const { theme } = useContext(ThemeContext);
   return (
     <div className={`flex items-center xl:gap-4 gap-3`}>
       <input
@@ -16,20 +19,35 @@ const CheckBox = ({
         id={labelId}
         checked={checked}
         onChange={onChange}
-        className="peer hidden"
+        style={{
+          position: "absolute",
+          width: 0,
+          height: 0,
+          opacity: 0,
+          pointerEvents: "none",
+        }}
       />
       <div
-        className={`xl:size-6.5 size-5.5 ${type === "radio" ? `rounded-full` : `xl:rounded-[10px] rounded-[9px]`} content-center cursor-pointer border transition-all ${checked ? `border-transparent! bg-green-primary!` : `border-[#A6A6A6]! bg-default-light!`}`}
+        className={`xl:size-6.5 size-5.5 flex items-center justify-center shrink-0 ${
+          type === "radio" ? "rounded-full" : "xl:rounded-[10px] rounded-[9px]"
+        } cursor-pointer border transition-all`}
+        style={{
+          backgroundColor: checked ? "#008C78" : theme ? "#1e1e1e" : "#ffffff",
+          borderColor: checked ? "transparent" : "#A6A6A6",
+        }}
       >
-        {checked && type === "radio" ? (
+        {type === "radio" && checked && (
           <div
-            className={`rounded-full size-5/10 bg-white mx-auto ${type === "checkbox" && "hidden"}`}
-          ></div>
-        ) : (
-          <CheckIcon
-            className={`mx-auto ${type === "radio" ? `hidden` : !checked && `hidden`}`}
+            style={{
+              width: 8,
+              height: 8,
+              borderRadius: "50%",
+              backgroundColor: "white",
+              flexShrink: 0,
+            }}
           />
         )}
+        {type === "checkbox" && checked && <CheckIcon className="mx-auto" />}
       </div>
       <label
         className={`text-default-black font-normal xl:text-[14px] text-[12px] cursor-pointer select-none`}

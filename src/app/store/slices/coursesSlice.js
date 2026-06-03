@@ -19,12 +19,30 @@ const coursesSlice = createSlice({
       ListTech: null,
       TeacherId: null,
     },
+    filters: {
+      startDate: null, // ✅ undefined نباشه، null باشه
+      startMonth: new Date().toISOString(), // ✅ string نه Date
+      startValue: "",
+      startCalenderOpen: false,
+      endDate: null,
+      endMonth: new Date().toISOString(), // ✅ string نه Date
+      endValue: "",
+      endCalenderOpen: false,
+      selectedLevel: null,
+      isLevelsModalOpen: false,
+      selectedTechnology: [],
+      isTechnologiesModalOpen: false,
+      priceRange: [0, 10000000],
+    },
   },
   reducers: {
     updateParams: (state, action) => {
       const { key, value } = action.payload;
-      const newParams = { ...state.params, [key]: value };
-      state.params = newParams;
+      state.params = { ...state.params, [key]: value };
+    },
+    updateFilters: (state, action) => {
+      const { key, value } = action.payload;
+      state.filters = { ...state.filters, [key]: value };
     },
   },
 });

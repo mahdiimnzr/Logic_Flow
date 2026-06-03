@@ -20,7 +20,8 @@
       "technologies": "تکنولوژی ها",
       "priceRange": "رنج قیمت (تومان)",
       "showMore": "نمایش بیشتر",
-      "showLess": "نمایش کمتر"
+      "showLess": "نمایش کمتر",
+      "closeBtn": "بستن"
     }
   }
 }
