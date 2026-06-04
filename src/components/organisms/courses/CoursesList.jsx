@@ -1,6 +1,5 @@
 import "rc-slider/assets/index.css";
 import { updateParams } from "@/app/store/actions";
-import Button from "@/components/atoms/Buttons/Button";
 import Card from "@/components/molecules/Cards/Card";
 import PaginationComponents from "@/components/molecules/Pagination/Pagination";
 import View from "@/components/molecules/View/View";
