@@ -20,13 +20,12 @@ import { rowsOfPages, sortingTypes } from "@/core/constants/courseSortings";
 import ThemeContext from "@/app/context/ThemeContext";
 
 const Filters = ({
-  // ✅ این props فقط موقع زیر lg نیاز هست — از CoursesList میان
   sortTypes,
   setSortTypes,
   rowPageCount,
   setRowPageCount,
 }) => {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const dispatch = useDispatch();
   const { theme } = useContext(ThemeContext);
 
@@ -124,7 +123,10 @@ const Filters = ({
           type="text"
           onChange={(event) => handleSearch(event.target.value)}
         />
-        <Search className={`w-1/10`} color="#848484" />
+        <Search
+          className={`w-1/10 ${lang === "en" ? "transform-[rotate(90deg)]" : "transform-[rotate(0deg)]"}`}
+          color="#848484"
+        />
       </div>
       <AccordionMultiple
         value={"coursesStartAndEndDate"}

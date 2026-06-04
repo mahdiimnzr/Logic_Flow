@@ -12,7 +12,7 @@ const CheckBox = ({
 }) => {
   const { theme } = useContext(ThemeContext);
   return (
-    <div className={`flex items-center xl:gap-4 gap-3`}>
+    <label htmlFor={labelId} className={`flex items-center xl:gap-4 gap-3`}>
       <input
         type={type}
         name={id}
@@ -49,13 +49,12 @@ const CheckBox = ({
         )}
         {type === "checkbox" && checked && <CheckIcon className="mx-auto" />}
       </div>
-      <label
+      <p
         className={`text-default-black font-normal xl:text-[14px] text-[12px] cursor-pointer select-none`}
-        htmlFor={labelId}
       >
         {label}
-      </label>
-    </div>
+      </p>
+    </label>
   );
 };
 

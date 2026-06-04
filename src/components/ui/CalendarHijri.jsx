@@ -14,7 +14,7 @@ import ThemeContext from "@/app/context/ThemeContext";
 
 export function CalendarHijri(props) {
   return (
-    <div>
+    <div className="w-full max-w-sm mx-auto sm:max-w-none sm:w-fit">
       <Calendar {...props} />
     </div>
   );
@@ -32,22 +32,23 @@ function Calendar({
 }) {
   const defaultClassNames = getDefaultClassNames();
   const { theme } = React.useContext(ThemeContext);
+
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
       className={cn(
-        `group/calendar ${!theme ? "bg-f3f4f6 text-[#1E1E1E]" : "bg-[#1E1E1E] text-white"} p-3 [--cell-size:--spacing(8)]`,
+        `group/calendar ${!theme ? "bg-f3f4f6 text-[#1E1E1E]" : "bg-[#1E1E1E] text-white"}`,
+        "p-2 sm:p-3 [--cell-size:--spacing(7)] sm:[--cell-size:--spacing(8)]",
         String.raw`rtl:**:[.rdp-button\_next>svg]:rotate-180`,
         String.raw`rtl:**:[.rdp-button\_previous>svg]:rotate-180`,
+        "w-full sm:w-fit",
         className,
       )}
       numerals="persian"
       captionLayout={captionLayout}
-      formatters={{
-        ...formatters,
-      }}
+      formatters={{ ...formatters }}
       classNames={{
-        root: cn("w-fit", defaultClassNames.root),
+        root: cn("w-full sm:w-fit", defaultClassNames.root),
         months: cn(
           "relative flex flex-col gap-4 md:flex-row",
           defaultClassNames.months,
@@ -59,12 +60,12 @@ function Calendar({
         ),
         button_previous: cn(
           buttonVariants({ variant: buttonVariant }),
-          "size-(--cell-size) p-0 select-none aria-disabled:opacity-50",
+          "size-7 sm:size-(--cell-size) p-0 select-none aria-disabled:opacity-50",
           defaultClassNames.button_previous,
         ),
         button_next: cn(
           buttonVariants({ variant: buttonVariant }),
-          "size-(--cell-size) p-0 select-none aria-disabled:opacity-50",
+          "size-7 sm:size-(--cell-size) p-0 select-none aria-disabled:opacity-50",
           defaultClassNames.button_next,
         ),
         month_caption: cn(
@@ -83,23 +84,23 @@ function Calendar({
         caption_label: cn(
           "font-medium select-none",
           captionLayout === "label"
-            ? "text-sm"
-            : "flex h-8 items-center gap-1 rounded-md pr-1 pl-2 text-sm [&>svg]:size-3.5 [&>svg]:text-muted-foreground",
+            ? "text-xs sm:text-sm"
+            : "flex h-8 items-center gap-1 rounded-md pr-1 pl-2 text-xs sm:text-sm [&>svg]:size-3.5 [&>svg]:text-muted-foreground",
           defaultClassNames.caption_label,
         ),
         table: "w-full border-collapse",
         weekdays: cn("flex", defaultClassNames.weekdays),
         weekday: cn(
-          "flex-1 rounded-md text-[0.8rem] font-normal text-muted-foreground select-none",
+          "flex-1 rounded-md text-[0.7rem] sm:text-[0.8rem] font-normal text-muted-foreground select-none",
           defaultClassNames.weekday,
         ),
-        week: cn("mt-2 flex w-full", defaultClassNames.week),
+        week: cn("mt-1 sm:mt-2 flex w-full", defaultClassNames.week),
         week_number_header: cn(
           "w-(--cell-size) select-none",
           defaultClassNames.week_number_header,
         ),
         week_number: cn(
-          "text-[0.8rem] text-muted-foreground select-none",
+          "text-[0.7rem] sm:text-[0.8rem] text-muted-foreground select-none",
           defaultClassNames.week_number,
         ),
         day: cn(
@@ -132,30 +133,36 @@ function Calendar({
           <div
             data-slot="calendar"
             ref={rootRef}
-            className={cn(className)}
+            className={cn("w-full sm:w-fit", className)}
             {...props}
           />
         ),
         Chevron: ({ className, orientation, ...props }) => {
           if (orientation === "left")
             return (
-              <ChevronLeftIcon className={cn("size-4", className)} {...props} />
+              <ChevronLeftIcon
+                className={cn("size-3 sm:size-4", className)}
+                {...props}
+              />
             );
           if (orientation === "right")
             return (
               <ChevronRightIcon
-                className={cn("size-4", className)}
+                className={cn("size-3 sm:size-4", className)}
                 {...props}
               />
             );
           return (
-            <ChevronDownIcon className={cn("size-4", className)} {...props} />
+            <ChevronDownIcon
+              className={cn("size-3 sm:size-4", className)}
+              {...props}
+            />
           );
         },
         DayButton: CalendarDayButton,
         WeekNumber: ({ children, ...props }) => (
           <td {...props}>
-            <div className="flex size-(--cell-size) items-center justify-center text-center">
+            <div className="flex size-(--cell-size) items-center justify-center text-center text-[0.7rem] sm:text-[0.8rem]">
               {children}
             </div>
           </td>
@@ -191,7 +198,15 @@ function CalendarDayButton({ className, day, modifiers, ...props }) {
       data-range-end={modifiers.range_end}
       data-range-middle={modifiers.range_middle}
       className={cn(
-        "flex aspect-square size-auto w-full min-w-(--cell-size) flex-col gap-1 leading-none font-normal group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 group-data-[focused=true]/day:border-ring group-data-[focused=true]/day:ring-[3px] group-data-[focused=true]/day:ring-ring/50 data-[range-end=true]:rounded-md data-[range-end=true]:rounded-r-md data-[range-end=true]:bg-primary data-[range-end=true]:text-primary-foreground data-[range-middle=true]:rounded-none data-[range-middle=true]:bg-accent data-[range-middle=true]:text-accent-foreground data-[range-start=true]:rounded-md data-[range-start=true]:rounded-l-md data-[range-start=true]:bg-primary data-[range-start=true]:text-primary-foreground data-[selected-single=true]:bg-primary data-[selected-single=true]:text-primary-foreground dark:hover:text-accent-foreground [&>span]:text-xs [&>span]:opacity-70",
+        "flex aspect-square size-auto w-full min-w-(--cell-size) flex-col gap-1 leading-none font-normal",
+        "text-[0.75rem] sm:text-sm",
+        "touch-manipulation",
+        "group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 group-data-[focused=true]/day:border-ring group-data-[focused=true]/day:ring-[3px] group-data-[focused=true]/day:ring-ring/50",
+        "data-[range-end=true]:rounded-md data-[range-end=true]:rounded-r-md data-[range-end=true]:bg-primary data-[range-end=true]:text-primary-foreground",
+        "data-[range-middle=true]:rounded-none data-[range-middle=true]:bg-accent data-[range-middle=true]:text-accent-foreground",
+        "data-[range-start=true]:rounded-md data-[range-start=true]:rounded-l-md data-[range-start=true]:bg-primary data-[range-start=true]:text-primary-foreground",
+        "data-[selected-single=true]:bg-primary data-[selected-single=true]:text-primary-foreground",
+        "dark:hover:text-accent-foreground [&>span]:text-xs [&>span]:opacity-70",
         defaultClassNames.day,
         className,
       )}

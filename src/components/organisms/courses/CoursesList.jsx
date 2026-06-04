@@ -121,7 +121,10 @@ const CoursesList = () => {
                 type="text"
                 onChange={(event) => handleSearch(event.target.value)}
               />
-              <Search className={`w-1/10`} color="#848484" />
+              <Search
+                className={`w-1/10 ${lang === "en" ? "transform-[rotate(90deg)]" : "transform-[rotate(0deg)]"}`}
+                color="#848484"
+              />
             </div>
             <div className={`lg:flex hidden items-center gap-4`}>
               <span className={`text-default-black font-normal md:text-base`}>
@@ -174,7 +177,7 @@ const CoursesList = () => {
                     <div
                       className={`px-3 py-2 sm:block lg:hidden hidden bg-green-primary text-white font-bold rounded-[100px] text-base cursor-pointer`}
                     >
-                      {t("courses.filters.filterName")}
+                      {t("courses.filters.filtersName")}
                     </div>
                     <div
                       className={`p-3 bg-green-primary rounded-full w-fit cursor-pointer sm:hidden block`}
@@ -194,7 +197,7 @@ const CoursesList = () => {
                 >
                   <div className={`flex items-center justify-between`}>
                     <span className={`text-default-black text-[20px]`}>
-                      ترتیب و فیلتر
+                      {t("courses.filters.filtersName")}
                     </span>
                     <DrawerClose asChild>
                       <div
