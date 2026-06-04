@@ -80,7 +80,7 @@ const DatePickerInput = ({
               </InputGroupButton>
             </PopoverTrigger>
             <PopoverContent
-              className="w-auto overflow-hidden p-0 z-[9999]"
+              className="w-auto overflow-hidden p-0 z-9999"
               align="end"
               alignOffset={-8}
               sideOffset={10}
