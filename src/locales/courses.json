@@ -1,5 +1,29 @@
 {
-  "en": {},
+  "en": {
+    "navigation": {
+      "homePage": "Home Page",
+      "coursesPage": "Courses",
+      "title": "Courses",
+      "result": "Result"
+    },
+    "sorting": {
+      "sortBy": "Sort By:"
+    },
+    "filters": {
+      "searchPlaceHolder": "Search...",
+      "startAndEndDate": "Start and End Date",
+      "start": "Start",
+      "end": "End",
+      "coursesLevel": "Course Level",
+      "teachers": "Instructors",
+      "technologies": "Technologies",
+      "priceRange": "Price Range (Toman)",
+      "showMore": "Show More",
+      "showLess": "Show Less",
+      "closeBtn": "Close",
+      "filtersName": "Sort & Filter"
+    }
+  },
   "fa": {
     "navigation": {
       "homePage": "صفحه اصلی",
@@ -21,7 +45,8 @@
       "priceRange": "رنج قیمت (تومان)",
       "showMore": "نمایش بیشتر",
       "showLess": "نمایش کمتر",
-      "closeBtn": "بستن"
+      "closeBtn": "بستن",
+      "filtersName": " ترتیب و فیلتر"
     }
   }
 }
