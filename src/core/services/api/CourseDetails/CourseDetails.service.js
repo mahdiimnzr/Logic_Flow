@@ -43,7 +43,7 @@ export const useGetCourseComments = (id) =>
 export const postCourseCommentLike = async (CourseCommandId) => {
   try {
     const result = await apiClient.post(
-      `Course/AddCourseCommentLike=${CourseCommandId}`,
+      `Course/AddCourseCommentLike?CourseCommandId=${CourseCommandId}`,
     );
     return result;
   } catch (error) {
