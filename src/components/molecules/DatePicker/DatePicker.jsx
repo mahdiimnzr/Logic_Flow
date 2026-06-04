@@ -12,15 +12,14 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { CalendarHijri } from "@/components/ui/CalendarHijri";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import ThemeContext from "@/app/context/ThemeContext";
 
 function isValidDate(date) {
-  if (!date) {
-    return false;
-  }
+  if (!date) return false;
   return !isNaN(date.getTime());
 }
+
 const DatePickerInput = ({
   date,
   setDate,
@@ -30,10 +29,10 @@ const DatePickerInput = ({
   setValue,
   month,
   setMonth,
-  open,
-  setOpen,
 }) => {
   const { theme } = useContext(ThemeContext);
+  const [open, setOpen] = useState(false); // ✅ local state نه Redux
+
   return (
     <Field className="mx-auto">
       <FieldLabel
@@ -49,16 +48,12 @@ const DatePickerInput = ({
           placeholder="yyyy/mm/dd"
           onChange={(e) => {
             const value = e.target.value;
-
             setValue(value);
-
             if (!value) {
               setDate(undefined);
               return;
             }
-
             const date = new Date(value);
-
             if (isValidDate(date)) {
               setDate(date);
               setMonth(date);
@@ -85,7 +80,7 @@ const DatePickerInput = ({
               </InputGroupButton>
             </PopoverTrigger>
             <PopoverContent
-              className="w-auto overflow-hidden p-0"
+              className="w-auto overflow-hidden p-0 z-9999"
               align="end"
               alignOffset={-8}
               sideOffset={10}
@@ -95,7 +90,10 @@ const DatePickerInput = ({
                 selected={date}
                 month={month}
                 onMonthChange={setMonth}
-                onSelect={onChange}
+                onSelect={(d) => {
+                  onChange(d);
+                  setOpen(false);
+                }}
                 dir="rtl"
               />
             </PopoverContent>

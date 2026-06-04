@@ -2,7 +2,6 @@ import {
   Drawer,
   DrawerContent,
   DrawerFooter,
-  DrawerHeader,
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { useI18n } from "@/i18n/useI18n";
@@ -10,22 +9,22 @@ import { useI18n } from "@/i18n/useI18n";
 const DrawerComponents = ({
   trigger,
   contentClassName,
-  headerClassName,
   footerClassName,
   primitiveClassName,
   children,
   footer,
+  direction = "bottom",
 }) => {
   const { lang } = useI18n();
   return (
-    <Drawer>
+    <Drawer direction={direction}>
       <DrawerTrigger>{trigger}</DrawerTrigger>
       <DrawerContent
         dir={lang === "en" ? "ltr" : "rtl"}
         className={contentClassName}
         primitiveClassName={primitiveClassName}
       >
-        <DrawerHeader className={headerClassName}>{children}</DrawerHeader>
+        {children}
         <DrawerFooter className={footerClassName}>{footer}</DrawerFooter>
       </DrawerContent>
     </Drawer>
