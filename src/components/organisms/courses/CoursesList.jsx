@@ -13,7 +13,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import useAddFavoriteCourse from "@/core/services/api/hooks/useAddFavoriteCourses";
 import useGetCourses from "@/core/services/api/hooks/useGetCourse";
 import { useI18n } from "@/i18n/useI18n";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, ListFilterPlus, Search } from "lucide-react";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -26,11 +26,10 @@ import debounce from "debounce";
 import { DrawerClose } from "@/components/ui/drawer";
 
 const CoursesList = () => {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const dispatch = useDispatch();
 
   const skeletonCount = new Array(8).fill("");
-  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [whichPage, setWhichPage] = useState(1);
   const [sortTypes, setSortTypes] = useState("expensive");
   const [rowPageCount, setRowPageCount] = useState(12);
@@ -79,7 +78,7 @@ const CoursesList = () => {
     refetch();
   }, [params]);
   return (
-    <div className={`flex flex-col items-center gap-32`}>
+    <div className={`flex flex-col items-center lg:gap-32 md:gap-20 gap-10`}>
       <div className={`flex flex-col items-center gap-4`}>
         <div className={`flex items-center gap-1`}>
           <Link
@@ -88,7 +87,10 @@ const CoursesList = () => {
           >
             {t("courses.navigation.homePage")}
           </Link>
-          <ChevronLeft className={`size-4`} color="#008C78" />
+          <ChevronLeft
+            className={`size-4 ${lang === "en" ? "transform-[rotate(180deg)]" : "transform-[rotate(0deg)]"}`}
+            color="#008C78"
+          />
           <Link className={`text-[14px] font-normal text-green-primary`}>
             {t("courses.navigation.coursesPage")}
           </Link>
@@ -108,8 +110,19 @@ const CoursesList = () => {
         </div>
         <div className={`xl:w-8/10 lg:w-7/10 w-full flex flex-col gap-8`}>
           <div
-            className={`bg-default-light rounded-[15px] shadow-[0px_2px_5px_0_#000000]/15 dark:shadow-[0px_2px_5px_0_#ffffff]/15 p-4 flex items-center justify-between`}
+            className={`bg-default-light rounded-[15px] shadow-[0px_2px_5px_0_#000000]/15 dark:shadow-[0px_2px_5px_0_#ffffff]/15 sm:p-4 px-4 py-1 flex items-center justify-between`}
           >
+            <div
+              className={`md:w-3/10 sm:w-4/10 w-6/10 bg-default-light shadow-[0px_2px_5px_0px_#000000]/15 dark:shadow-[0px_2px_5px_0px_#ffffff]/15 rounded-[15px] py-2 px-2 flex items-center justify-between lg:hidden`}
+            >
+              <input
+                className={`sm:text-base text-[12px] font-normal text-field-silver placeholder:text-field-silver outline-none w-9/10`}
+                placeholder={t("courses.filters.searchPlaceHolder")}
+                type="text"
+                onChange={(event) => handleSearch(event.target.value)}
+              />
+              <Search className={`w-1/10`} color="#848484" />
+            </div>
             <div className={`lg:flex hidden items-center gap-4`}>
               <span className={`text-default-black font-normal md:text-base`}>
                 {t("courses.sorting.sortBy")}
@@ -157,11 +170,21 @@ const CoursesList = () => {
                 direction="bottom"
                 theme={theme}
                 trigger={
-                  <div
-                    className={`px-3 py-2 block lg:hidden bg-green-primary text-white font-bold rounded-[100px] text-base cursor-pointer`}
-                  >
-                    ترتیب و فیلتر
-                  </div>
+                  <>
+                    <div
+                      className={`px-3 py-2 sm:block lg:hidden hidden bg-green-primary text-white font-bold rounded-[100px] text-base cursor-pointer`}
+                    >
+                      {t("courses.filters.filterName")}
+                    </div>
+                    <div
+                      className={`p-3 bg-green-primary rounded-full w-fit cursor-pointer sm:hidden block`}
+                    >
+                      <ListFilterPlus
+                        className={`size-5 sm:size-6`}
+                        color="#ffffff"
+                      />
+                    </div>
+                  </>
                 }
                 contentClassName={`${theme ? `bg-[#1e1e1e] border-[#0f0f0f]` : `bg-white border-[#f5f5f5]`} w-full`}
                 primitiveClassName={`${theme ? `bg-[#0f0f0f]` : `bg-[#f5f5f5]`}`}
@@ -249,7 +272,7 @@ const CoursesList = () => {
                   ),
                   window.scroll(0, 0));
               }}
-              className={`cursor-pointer size-12.5 bg-light-gray rounded-[15px] shadow-[0px_2px_5px_0px_#000000]/15 flex items-center justify-center text-[18px] font-normal`}
+              className={`cursor-pointer sm:size-12.5 size-10 bg-light-gray rounded-[15px] shadow-[0px_2px_5px_0px_#000000]/15 flex items-center justify-center sm:text-[18px] text-[14px] font-normal`}
             >
               <PaginationPrevious />
             </PaginationItem>
@@ -262,7 +285,7 @@ const CoursesList = () => {
                     dispatch(updateParams({ key: "PageNumber", value: value })),
                     window.scroll(0, 0));
                 }}
-                className={`cursor-pointer size-12.5 bg-light-gray rounded-[15px] shadow-[0px_2px_5px_0px_#000000]/15 flex items-center justify-center text-[18px] font-normal`}
+                className={`cursor-pointer sm:size-12.5 size-10 bg-light-gray rounded-[15px] shadow-[0px_2px_5px_0px_#000000]/15 flex items-center justify-center sm:text-[18px] text-[14px] font-normal`}
                 isActive={whichPage !== value ? false : true}
               >
                 {value}
@@ -278,7 +301,7 @@ const CoursesList = () => {
                   ),
                   window.scroll(0, 0));
               }}
-              className={`cursor-pointer size-12.5 bg-light-gray rounded-[15px] shadow-[0px_2px_5px_0px_#000000]/15 flex items-center justify-center text-[18px] font-normal`}
+              className={`cursor-pointer sm:size-12.5 size-10 bg-light-gray rounded-[15px] shadow-[0px_2px_5px_0px_#000000]/15 flex items-center justify-center sm:text-[18px] text-[14px] font-normal`}
             >
               <PaginationNext />
             </PaginationItem>

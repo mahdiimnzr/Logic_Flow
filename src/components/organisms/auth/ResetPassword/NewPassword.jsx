@@ -76,7 +76,7 @@ const NewPassword = () => {
                 <span
                   className={`text-green-dark xl:text-base sm:text-[14px] text-[12px] font-bold `}
                 >
-                  {t("auth.resetPassword.step2.homeBtn")}
+                  {t("auth.resetPassword.step2.backBtn")}
                 </span>
               </div>
               <ThemeSlide

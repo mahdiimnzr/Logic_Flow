@@ -27,13 +27,13 @@ const Card = (props) => {
       >
         <div
           onClick={() => handleAddFavoriteCourse(courseId)}
-          className={`absolute z-10 ${view ? `right-4 top-4` : `right-8 top-8`} content-center bg-default-black/25 size-10 rounded-full cursor-pointer`}
+          className={`absolute z-10 ${view ? `right-4 top-4` : `lg:right-8 lg:top-8 top-9 right-5`} content-center bg-default-black/25 size-10 rounded-full cursor-pointer`}
         >
           <FavoriteIcon isFavorite={isFavorite} className={`mx-auto`} />
         </div>
         <Link
           to={isCourseCard ? `/Courses/Detail/${courseId}` : "/news"}
-          className={`rounded-[12px] group content-center block relative ${view ? `lg:h-60 sm:h-50 h-45` : `2xl:w-4/10 w-3/10 2xl:h-40 h-50 overflow-hidden`}`}
+          className={`rounded-[12px] group content-center block relative ${view ? `lg:h-60 sm:h-50 h-45` : `2xl:w-4/10 lg:w-3/10 w-4/10 2xl:h-40 lg:h-50 h-35 overflow-hidden`}`}
         >
           <ImageFallback
             src={image}
