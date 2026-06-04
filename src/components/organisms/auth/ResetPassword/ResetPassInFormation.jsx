@@ -52,7 +52,7 @@ const ResetPassInFormation = () => {
           <div
             className={`flex flex-col xl:gap-25 lg:gap-20 gap-15 xl:pt-19 lg:pt-15 md:pt-10 pt-2`}
           >
-            <div className={`flex items-center w-full`}>
+            <div className={`flex items-center justify-between w-full`}>
               <Link to={"/"} className={`flex gap-2`}>
                 <HomeIcon className={`xl:size-6 sm:size-5 size-4`} />
                 <p
