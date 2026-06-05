@@ -314,7 +314,9 @@ const CourseInformation = () => {
       </div>
       <div className="flex flex-col gap-8 w-full">
         <div className="flex items-center justify-between">
-          <h3>bbbbbb</h3>
+          <h3 className={`text-green-primary font-bold text-[24px]`}>
+            دوره‌های مرتبط
+          </h3>
           <div dir="rtl" className="flex items-center gap-1">
             <button
               ref={nextRef}
