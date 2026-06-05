@@ -1,0 +1,46 @@
+{
+  "en": {
+    "navigation": {
+      "homePage": "Home",
+      "articlesPage": "News",
+      "title": "News & Articles",
+      "result": "Result"
+    },
+    "sorting": {
+      "sortBy": "Sort by:",
+      "rowsOf": "Rows per page:"
+    },
+    "filters": {
+      "searchPlaceHolder": "Search ...",
+      "technologies": "Categories",
+      "showMore": "Show more",
+      "showLess": "Show less",
+      "closeBtn": "Close",
+      "filtersName": "Sort & Filter",
+      "copy": "Copied!",
+      "copyFilter": "Copy filters"
+    }
+  },
+  "fa": {
+    "navigation": {
+      "homePage": "صفحه اصلی",
+      "articlesPage": "اخبار",
+      "title": "اخبار و مقالات",
+      "result": "نتیجه"
+    },
+    "sorting": {
+      "sortBy": "مرتب سازی بر اساس :",
+      "rowsOf": "تعداد در صفحه:"
+    },
+    "filters": {
+      "searchPlaceHolder": "جستجو ...",
+      "technologies": "دسته بندی ها",
+      "showMore": "نمایش بیشتر",
+      "showLess": "نمایش کمتر",
+      "closeBtn": "بستن",
+      "filtersName": " ترتیب و فیلتر",
+      "copy": "کپی شد!",
+      "copyFilter": "کپی کردن فیلتر ها"
+    }
+  }
+}

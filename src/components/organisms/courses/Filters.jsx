@@ -67,8 +67,7 @@ const Filters = ({
 
   const handleSearch = debounce((value) => {
     const search = value.trim() === "" ? null : value.trim();
-    setFilter(searchValue, search);
-    dispatch(updateParams({ key: "Query", value: searchValue }));
+    dispatch(updateParams({ key: "Query", value: search }));
   }, 1000);
 
   const handlePrice = useMemo(
@@ -173,7 +172,6 @@ const Filters = ({
           className={`text-base font-normal text-field-silver placeholder:text-field-silver outline-none w-9/10`}
           placeholder={t("courses.filters.searchPlaceHolder")}
           type="text"
-          value={searchValue}
           onChange={(event) => {
             handleSearch(event.target.value);
             setSearchParams((params) => {
@@ -320,7 +318,7 @@ const Filters = ({
                         );
                         setSearchParams((params) => {
                           checked && params.set("courseLevelId", value.id);
-                          !checked && params.set("courseLevelId", null);
+                          !checked && params.delete("courseLevelId", null);
                           return params;
                         });
                       }}

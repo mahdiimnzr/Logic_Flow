@@ -9,12 +9,14 @@ import TechnologyCardIcon from "../../../core/icons/TechnologyCardIcon";
 import formatPrice from "../../../core/utils/formatPrice";
 import ImageFallback from "@/components/atoms/ImageFallBack/ImageFallBack";
 import Tilt from "react-parallax-tilt";
+import formatDate from "@/core/utils/formatDate";
 
 const Card = (props) => {
   const {
     isCourseCard = false,
     isFavorite = false,
     courseId,
+    articleId,
     image,
     handleAddFavoriteCourse,
     view,
@@ -26,7 +28,9 @@ const Card = (props) => {
         className={`rounded-[20px] ${view ? null : `flex items-center gap-8 p-4`} bg-default-light relative overflow-hidden w-full transition-all shadow-[0px_4px_4px_0px_#000000]/0 hover:shadow-cards-hover`}
       >
         <div
-          onClick={() => handleAddFavoriteCourse(courseId)}
+          onClick={() =>
+            handleAddFavoriteCourse(isCourseCard ? courseId : articleId)
+          }
           className={`absolute z-10 ${view ? `right-4 top-4` : `lg:right-8 lg:top-8 top-9 right-5`} content-center bg-default-black/25 size-10 rounded-full cursor-pointer`}
         >
           <FavoriteIcon isFavorite={isFavorite} className={`mx-auto`} />
@@ -57,6 +61,7 @@ const Card = (props) => {
 
 const CourseCardInformation = (props) => {
   const { title, describe, cost, levelName, teacherName, rate } = props.props;
+  const formatted = rate % 1 === 0 ? rate : rate.toFixed(1);
   return (
     <>
       <div className={`flex flex-col gap-2 text-default-black`}>
@@ -91,7 +96,7 @@ const CourseCardInformation = (props) => {
           </div>
           <div className={`flex items-center gap-1`}>
             <span className={`text-star-yellow text-[14px] font-normal`}>
-              {rate}
+              {formatted}
             </span>
             <StarIcon />
           </div>
@@ -101,17 +106,16 @@ const CourseCardInformation = (props) => {
   );
 };
 
-const NewsCardInformation = () => {
+const NewsCardInformation = (props) => {
+  const { title, describe, categoryName, insertDate, currentView, rate } =
+    props.props;
+  const formatted = rate % 1 === 0 ? rate : rate.toFixed(1);
   return (
     <>
       <div className={`flex flex-col gap-2 text-default-black`}>
-        <h3 className={`text-base font-bold line-clamp-2 h-14`}>
-          پایتون + ماینکرفت = یادگیری برنامه‌ نویسی با بازی!
-        </h3>
+        <h3 className={`text-base font-bold line-clamp-2 h-14`}>{title}</h3>
         <p className={`text-[14px] font-normal h-10.5 line-clamp-2`}>
-          برنامه‌های ساده و کوتاهی که برای خودکارسازی انجام برخی از وظایف نوشته
-          می‌شود در دنیای برنامه نویسی اسکریپت نام دارد. برخلاف برنامه‌های بزرگ
-          و پیچیده...
+          {describe}
         </p>
       </div>
       <div className={`flex flex-col gap-2`}>
@@ -119,13 +123,13 @@ const NewsCardInformation = () => {
           <div className={`flex items-center gap-1`}>
             <TechnologyCardIcon />
             <span className={`text-field-silver text-[12px] font-normal`}>
-              آموزشی
+              {categoryName}
             </span>
           </div>
           <div className={`flex items-center gap-1`}>
             <EyeOpenIcon />
             <span className={`text-field-silver text-[12px] font-normal`}>
-              22
+              {currentView}
             </span>
           </div>
         </div>
@@ -133,12 +137,12 @@ const NewsCardInformation = () => {
           <div className={`flex items-center gap-1`}>
             <CalenderIcon />
             <span className={`text-field-silver text-[12px] font-normal`}>
-              1404/03/13
+              {formatDate(insertDate)}
             </span>
           </div>
           <div className={`flex items-center gap-1`}>
             <span className={`text-star-yellow text-[14px] font-normal`}>
-              {(3.111).toFixed(1)}
+              {formatted}
             </span>
             <StarIcon />
           </div>

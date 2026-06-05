@@ -1,8 +1,8 @@
-import { updateParams } from "@/app/store/actions";
+import { updateArticlesParams } from "@/app/store/actions";
 import DrawerComponents from "@/components/molecules/Drawer/Drawer";
 import SelectModal from "@/components/molecules/Select/Select";
 import { DrawerClose } from "@/components/ui/drawer";
-import { rowsOfPages, sortingTypes } from "@/core/constants/courseSortings";
+import { rowsOfPages, sortingTypes } from "@/core/constants/articlesSorting";
 import { Copy, ListFilterPlus, Search } from "lucide-react";
 import Filters from "./Filters";
 import debounce from "debounce";
@@ -27,11 +27,11 @@ const SortsSection = ({
   const { pathname, search } = useLocation();
   const dispatch = useDispatch();
   const { theme } = useContext(ThemeContext);
-  const [sortTypes, setSortTypes] = useState("expensive");
+  const [sortTypes, setSortTypes] = useState("newest");
 
   const handleSearch = debounce((value) => {
     const search = value.trim() === "" ? null : value.trim();
-    dispatch(updateParams({ key: "Query", value: search }));
+    dispatch(updateArticlesParams({ key: "Query", value: search }));
   }, 1000);
   return (
     <div
@@ -42,7 +42,7 @@ const SortsSection = ({
       >
         <input
           className={`sm:text-base text-[12px] font-normal text-field-silver placeholder:text-field-silver outline-none w-9/10`}
-          placeholder={t("courses.filters.searchPlaceHolder")}
+          placeholder={t("articles.filters.searchPlaceHolder")}
           type="text"
           onChange={(event) => {
             handleSearch(event.target.value);
@@ -61,13 +61,13 @@ const SortsSection = ({
       </div>
       <div className={`lg:flex hidden items-center gap-4`}>
         <span className={`text-default-black font-normal md:text-base`}>
-          {t("courses.sorting.sortBy")}
+          {t("articles.sorting.sortBy")}
         </span>
         <SelectModal
           items={sortingTypes}
           contentPosition={"popper"}
           contentClassName={`min-w-full! relative! z-100! ${theme ? `bg-[#1e1e1e] text-white` : `bg-white text-[#1E1E1E]`}`}
-          defaultValue={"newest"}
+          defaultValue={"expensive"}
           itemClassName={`cursor-pointer! ${theme ? `focus:bg-[oklch(0.269_0_0)]` : `focus:bg-muted`}`}
           triggerClassName={`border! border-light-gray! rounded-[15px] flex! items-center! gap-1! ring-0! px-4! py-2! h-auto! font-normal! text-[14px]! text-default-black! cursor-pointer! bg-default-light!`}
           value={sortTypes}
@@ -75,12 +75,16 @@ const SortsSection = ({
           onValueChange={(event) => {
             setSortTypes(event);
             const sort = sortingTypes.find((value) => event === value.name);
-            dispatch(updateParams({ key: "SortingCol", value: sort.sortCol }));
-            dispatch(updateParams({ key: "SortType", value: sort.sortType }));
+            dispatch(
+              updateArticlesParams({ key: "SortingCol", value: sort.sortCol }),
+            );
+            dispatch(
+              updateArticlesParams({ key: "SortType", value: sort.sortType }),
+            );
           }}
         />
         <span className={`text-default-black font-normal md:text-base`}>
-          {t("courses.sorting.rowsOf")}
+          {t("articles.sorting.rowsOf")}
         </span>
         <SelectModal
           items={rowsOfPages}
@@ -93,19 +97,21 @@ const SortsSection = ({
           setValue={setRowPageCount}
           onValueChange={(event) => {
             setRowPageCount(event);
-            dispatch(updateParams({ key: "RowsOfPage", value: event }));
+            dispatch(updateArticlesParams({ key: "RowsOfPage", value: event }));
           }}
         />
         <Button
           onClick={() => {
             const webPath = "localhost:5173" + pathname + search;
-            toast.success(t("courses.filters.copy"));
+            toast.success(t("articles.filters.copy"));
             navigator.clipboard.writeText(webPath);
           }}
           color={"authBtn"}
           className={`xl:px-3 xl:py-2 p-2`}
         >
-          <p className={`hidden xl:block`}>{t("courses.filters.copyFilter")}</p>
+          <p className={`hidden xl:block`}>
+            {t("articles.filters.copyFilter")}
+          </p>
           <Copy className={`xl:hidden block`} />
         </Button>
       </div>
@@ -119,7 +125,7 @@ const SortsSection = ({
               <div
                 className={`px-3 py-2 sm:block lg:hidden hidden bg-green-primary text-white font-bold rounded-[100px] text-base cursor-pointer`}
               >
-                {t("courses.filters.filtersName")}
+                {t("articles.filters.filtersName")}
               </div>
               <div
                 className={`p-3 bg-green-primary rounded-full w-fit cursor-pointer sm:hidden block`}
@@ -141,7 +147,7 @@ const SortsSection = ({
               <span
                 className={`text-default-black text-[20px] flex gap-2 items-center`}
               >
-                <p> {t("courses.filters.filtersName")}</p>
+                <p> {t("articles.filters.filtersName")}</p>
                 <Button
                   onClick={() => {
                     const webPath = "localhost:5173" + pathname + search;
@@ -158,7 +164,7 @@ const SortsSection = ({
                 <div
                   className={`px-2 py-1 font-bold text-red-error text-[14px] rounded-[64px] border border-red-error w-fit cursor-pointer`}
                 >
-                  {t("courses.filters.closeBtn")}
+                  {t("articles.filters.closeBtn")}
                 </div>
               </DrawerClose>
             </div>
