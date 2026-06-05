@@ -1,14 +1,21 @@
 import Badge from "@/components/atoms/Badge/Badge";
 import imgCourseDetail from "../../../assets/images/coursePng.png";
 import Button from "@/components/atoms/Buttons/Button";
-import { BadgePercent, ChevronLeft, ThumbsDown, ThumbsUp } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  BadgePercent,
+  ChevronLeft,
+  ThumbsDown,
+  ThumbsUp,
+} from "lucide-react";
 import Person from "@/core/icons/Person";
 import CalenderIcon from "@/core/icons/CalenderIcon";
 import { Rating } from "react-simple-star-rating";
 import Time from "@/core/icons/Time";
 import { Link, NavLink, Outlet, useParams } from "react-router-dom";
 import teacherDetail1 from "../../../assets/images/teacherDetail.png";
-import { useEffect } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import {
   deleteCourseLike,
   postCourseDisSLike,
@@ -22,6 +29,15 @@ import formatPrice from "@/core/utils/formatPrice";
 import formatTime from "@/core/utils/formatTime";
 import { toast } from "react-toastify";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import ThemeContext from "@/app/context/ThemeContext";
+import useGetCourses from "@/core/services/api/hooks/useGetCourse";
+import { useI18n } from "@/i18n/useI18n";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import { Navigation } from "swiper/modules";
+import { Skeleton } from "@/components/ui/skeleton";
+import Card from "@/components/molecules/Cards/Card";
+import useAddFavoriteCourse from "@/core/services/api/hooks/useAddFavoriteCourses";
 
 const menu = [
   { path: "Review", Text: " مشخصات دوره" },
@@ -31,6 +47,7 @@ const menu = [
 const CourseInformation = () => {
   const queryClient = useQueryClient();
   const { id } = useParams();
+  const { theme } = useContext(ThemeContext);
   const { isLoading, data: Details, refetch } = useGetCourseDetail(id);
   const { mutate: likeMutate } = useMutation({
     mutationFn: postCourseLike,
@@ -88,6 +105,19 @@ const CourseInformation = () => {
   useEffect(() => {
     refetch();
   }, []);
+  const { t, lang } = useI18n();
+  const [isBeginning, setIsBeginning] = useState(true);
+  const [isEnd, setIsEnd] = useState(false);
+  const skeletonCount = new Array(4).fill("");
+  const prevRef = useRef(null);
+  const nextRef = useRef(null);
+  const { isLoading: slidersLoading, data: courses } = useGetCourses(
+    "RecommendedCourses",
+    {
+      RowsOfPage: "100",
+      TechCount: "1",
+    },
+  );
   return (
     <div className={`xl:w-9/10 `}>
       <div className={` flex flex-col gap-4 text-center p-8.25`}>
@@ -149,7 +179,7 @@ const CourseInformation = () => {
               </div>
               <div className={`flex justify-between `}>
                 <div className={`flex gap-2.25 items-center`}>
-                  <Person />
+                  <Person color={!theme ? "#1E1E1E" : "#ffffff"} />
                   <span className={`text-default-black `}>ظرفیت دوره</span>
                 </div>
                 <span className={`text-field-silver`}>
@@ -280,6 +310,102 @@ const CourseInformation = () => {
             ))}
           </div>
           <Outlet />
+        </div>
+      </div>
+      <div className="flex flex-col gap-8 w-full">
+        <div className="flex items-center justify-between">
+          <h3>bbbbbb</h3>
+          <div dir="rtl" className="flex items-center gap-1">
+            <button
+              ref={nextRef}
+              className={`${
+                isEnd ? "bg-green-primary" : "bg-transparent"
+              } size-8.5 content-center rounded-full cursor-pointer transition-colors duration-200`}
+            >
+              <ArrowRight
+                width="19"
+                height="16"
+                className={`mx-auto`}
+                color={isEnd ? "#ffffff" : "#008C78"}
+              />
+            </button>
+            <button
+              ref={prevRef}
+              className={`${
+                isBeginning ? "bg-green-primary" : "bg-transparent"
+              } size-8.5 content-center rounded-full cursor-pointer transition-colors duration-200`}
+            >
+              <ArrowLeft
+                width="19"
+                height="16"
+                className="mx-auto"
+                color={isBeginning ? "#ffffff" : "#008C78"}
+              />
+            </button>
+          </div>
+        </div>
+        <div className="w-full">
+          <Swiper
+            dir="ltr"
+            modules={[Navigation]}
+            navigation={true}
+            onBeforeInit={(swiper) => {
+              swiper.params.navigation.prevEl = prevRef.current;
+              swiper.params.navigation.nextEl = nextRef.current;
+            }}
+            loop={false}
+            breakpoints={{
+              0: { slidesPerView: 1.2, spaceBetween: 12 },
+              640: { slidesPerView: 2, spaceBetween: 16 },
+              1024: { slidesPerView: 3, spaceBetween: 24 },
+              1280: { slidesPerView: 4, spaceBetween: 32 },
+            }}
+            onSlideChange={(swiper) => {
+              setIsBeginning(swiper.isBeginning);
+              setIsEnd(swiper.isEnd);
+            }}
+            onSwiper={(swiper) => {
+              if (!slidersLoading) {
+                setIsBeginning(swiper.isBeginning);
+                setIsEnd(swiper.isEnd);
+              }
+            }}
+            style={{ paddingBlock: "20px" }}
+          >
+            {slidersLoading
+              ? skeletonCount?.map((value, index) => (
+                  <SwiperSlide key={index}>
+                    <div
+                      dir="rtl"
+                      className={`w-full p-5 flex flex-col gap-5 rounded-[20px] bg-field-silver`}
+                    >
+                      <Skeleton className={`h-55 w-full`} />
+                      <Skeleton className={`h-7 w-5/10`} />
+                      <Skeleton className={`h-14 w-7/10`} />
+                      <Skeleton className={`h-7 w-full`} />
+                      <Skeleton className={`h-7 w-full`} />
+                    </div>
+                  </SwiperSlide>
+                ))
+              : courses?.data?.courseFilterDtos?.map((course, index) => (
+                  <SwiperSlide key={index}>
+                    <Card
+                      view={true}
+                      courseId={course.courseId}
+                      title={course.title}
+                      describe={course.describe}
+                      levelName={course.levelName}
+                      teacherName={course.teacherName}
+                      rate={course.courseRate.avg}
+                      cost={course.cost}
+                      image={course.imageAddress}
+                      isCourseCard={true}
+                      isFavorite={false}
+                      handleAddFavoriteCourse={useAddFavoriteCourse}
+                    />
+                  </SwiperSlide>
+                ))}
+          </Swiper>
         </div>
       </div>
     </div>
