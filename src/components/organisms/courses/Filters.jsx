@@ -13,20 +13,21 @@ import { useI18n } from "@/i18n/useI18n";
 import debounce from "debounce";
 import { Minus, Plus, Search } from "lucide-react";
 import Slider from "rc-slider";
-import { useContext, useMemo } from "react";
+import { useContext, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SelectModal from "@/components/molecules/Select/Select";
 import { rowsOfPages, sortingTypes } from "@/core/constants/courseSortings";
 import ThemeContext from "@/app/context/ThemeContext";
 
 const Filters = ({
-  // ✅ این props فقط موقع زیر lg نیاز هست — از CoursesList میان
   sortTypes,
   setSortTypes,
   rowPageCount,
   setRowPageCount,
+  searchParams,
+  setSearchParams,
 }) => {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const dispatch = useDispatch();
   const { theme } = useContext(ThemeContext);
 
@@ -61,6 +62,11 @@ const Filters = ({
   const handleSearch = debounce((value) => {
     const searchValue = value.trim() === "" ? null : value.trim();
     dispatch(updateParams({ key: "Query", value: searchValue }));
+    setSearchParams((params) => {
+      searchValue !== null && params.set("Query", searchValue);
+      searchValue === null && params.delete("Query");
+      return params;
+    });
   }, 1000);
 
   const handlePrice = useMemo(
@@ -68,10 +74,41 @@ const Filters = ({
       debounce((newValue) => {
         dispatch(updateParams({ key: "CostDown", value: newValue[0] }));
         dispatch(updateParams({ key: "CostUp", value: newValue[1] }));
+        setSearchParams((params) => {
+          params.set("CostDown", newValue[0]);
+          params.set("CostUp", newValue[1]);
+          return params;
+        });
       }, 1000),
     [dispatch],
   );
-
+  useEffect(() => {
+    const timeOut = setTimeout(() => {
+      setFilter("selectedLevel", searchParams.get("courseLevelId"));
+      setFilter(
+        "selectedTechnology",
+        searchParams.get("ListTech") === null
+          ? []
+          : Array(searchParams.get("TechCount")).fill(
+              searchParams.get("ListTech"),
+            ),
+      );
+      setFilter("priceRange", searchParams.get("CostDown") === null)
+        ? [0, 10000000]
+        : [searchParams.get("CostDown"), 10000000];
+      setFilter(
+        "priceRange",
+        searchParams.get("CostUp") === null
+          ? [0, 10000000]
+          : [0, searchParams.get("CostUp")],
+      );
+      setFilter("startValue", formatDate(searchParams.get("StartDate")));
+      setFilter("endValue", formatDate(searchParams.get("EndDate")));
+    }, 1000);
+    return () => {
+      clearTimeout(timeOut);
+    };
+  }, []);
   return (
     <>
       {sortTypes !== undefined && (
@@ -97,6 +134,11 @@ const Filters = ({
                 updateParams({ key: "SortingCol", value: sort.sortCol }),
               );
               dispatch(updateParams({ key: "SortType", value: sort.sortType }));
+              setSearchParams((params) => {
+                params.set("SortingCol", sort.sortCol);
+                params.set("SortType", sort.sortType);
+                return params;
+              });
             }}
           />
           <SelectModal
@@ -111,6 +153,10 @@ const Filters = ({
             onValueChange={(event) => {
               setRowPageCount(event);
               dispatch(updateParams({ key: "RowsOfPage", value: event }));
+              setSearchParams((params) => {
+                params.set("RowsOfPage", event);
+                return params;
+              });
             }}
           />
         </div>
@@ -124,7 +170,10 @@ const Filters = ({
           type="text"
           onChange={(event) => handleSearch(event.target.value)}
         />
-        <Search className={`w-1/10`} color="#848484" />
+        <Search
+          className={`w-1/10 ${lang === "en" ? "transform-[rotate(90deg)]" : "transform-[rotate(0deg)]"}`}
+          color="#848484"
+        />
       </div>
       <AccordionMultiple
         value={"coursesStartAndEndDate"}
@@ -158,6 +207,10 @@ const Filters = ({
                 setFilter("startDate", null);
                 setFilter("startValue", "");
                 dispatch(updateParams({ key: "StartDate", value: null }));
+                setSearchParams((params) => {
+                  params.delete("StartDate");
+                  return params;
+                });
                 return;
               }
               setFilter("startDate", date.toISOString());
@@ -165,6 +218,10 @@ const Filters = ({
               dispatch(
                 updateParams({ key: "StartDate", value: date.toISOString() }),
               );
+              setSearchParams((params) => {
+                params.set("StartDate", date.toISOString());
+                return params;
+              });
             }}
           />
           <DatePickerInput
@@ -192,6 +249,10 @@ const Filters = ({
                 setFilter("endDate", null);
                 setFilter("endValue", "");
                 dispatch(updateParams({ key: "EndDate", value: null }));
+                setSearchParams((params) => {
+                  params.delete("EndDate");
+                  return params;
+                });
                 return;
               }
               setFilter("endDate", date.toISOString());
@@ -199,6 +260,10 @@ const Filters = ({
               dispatch(
                 updateParams({ key: "EndDate", value: date.toISOString() }),
               );
+              setSearchParams((params) => {
+                params.set("EndDate", date.toISOString());
+                return params;
+              });
             }}
           />
         </div>
@@ -239,6 +304,11 @@ const Filters = ({
                             value: checked ? value.id : null,
                           }),
                         );
+                        setSearchParams((params) => {
+                          checked && params.set("courseLevelId", value.id);
+                          !checked && params.set("courseLevelId", null);
+                          return params;
+                        });
                       }}
                     />
                   ))
@@ -260,6 +330,11 @@ const Filters = ({
                           value: checked ? value.id : null,
                         }),
                       );
+                      setSearchParams((params) => {
+                        checked && params.set("courseLevelId", value.id);
+                        !checked && params.set("courseLevelId", null);
+                        return params;
+                      });
                     }}
                   />
                 ))}
@@ -327,6 +402,15 @@ const Filters = ({
                             value: newList.length > 0 ? newList.length : null,
                           }),
                         );
+                        setSearchParams((params) => {
+                          newList.length > 0 &&
+                            params.set("ListTech", String(newList));
+                          newList.length > 0 &&
+                            params.set("TechCount", newList.length);
+                          newList.length === 0 && params.delete("ListTech");
+                          newList.length === 0 && params.delete("TechCount");
+                          return params;
+                        });
                       }}
                     />
                   ))
@@ -357,6 +441,15 @@ const Filters = ({
                           value: newList.length > 0 ? newList.length : null,
                         }),
                       );
+                      setSearchParams((params) => {
+                        newList.length > 0 &&
+                          params.set("ListTech", String(newList));
+                        newList.length > 0 &&
+                          params.set("TechCount", newList.length);
+                        newList.length === 0 && params.delete("ListTech");
+                        newList.length === 0 && params.delete("TechCount");
+                        return params;
+                      });
                     }}
                   />
                 ))}
@@ -381,7 +474,6 @@ const Filters = ({
           )}
         </div>
       </AccordionMultiple>
-
       <AccordionMultiple
         value={"coursePriceRange"}
         className={`bg-default-light p-4 rounded-[15px] shadow-[0px_2px_5px_0px_#000000]/15 dark:shadow-[0px_2px_5px_0px_#ffffff]/15`}

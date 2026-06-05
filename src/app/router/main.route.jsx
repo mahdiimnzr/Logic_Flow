@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import { CourseDetail, Courses, Landing } from "../../pages";
+import { CourseDetail, Courses, Landing, NotFound } from "../../pages";
 import { MainLayout } from "../../templates";
 import ReviewPage from "@/components/organisms/couresDetail/ReviewPage";
 import CommentsPage from "@/components/organisms/couresDetail/CommentsPage";
@@ -34,6 +34,10 @@ const mainRoute = [
             element: <CommentsPage />,
           },
         ],
+      },
+      {
+        path: "*",
+        element: <NotFound />,
       },
     ],
   },

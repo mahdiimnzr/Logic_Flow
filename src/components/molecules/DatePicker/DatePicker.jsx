@@ -31,7 +31,7 @@ const DatePickerInput = ({
   setMonth,
 }) => {
   const { theme } = useContext(ThemeContext);
-  const [open, setOpen] = useState(false); // ✅ local state نه Redux
+  const [open, setOpen] = useState(false);
 
   return (
     <Field className="mx-auto">

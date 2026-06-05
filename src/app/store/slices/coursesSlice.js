@@ -15,17 +15,17 @@ const coursesSlice = createSlice({
       EndDate: null,
       courseLevelId: null,
       CourseTypeId: null,
-      TechCount: 1,
+      TechCount: null,
       ListTech: null,
       TeacherId: null,
     },
     filters: {
-      startDate: null, // ✅ undefined نباشه، null باشه
-      startMonth: new Date().toISOString(), // ✅ string نه Date
+      startDate: null,
+      startMonth: new Date().toISOString(),
       startValue: "",
       startCalenderOpen: false,
       endDate: null,
-      endMonth: new Date().toISOString(), // ✅ string نه Date
+      endMonth: new Date().toISOString(),
       endValue: "",
       endCalenderOpen: false,
       selectedLevel: null,

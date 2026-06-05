@@ -3,6 +3,7 @@ import auth from "../locales/auth.json";
 import landing from "../locales/landing.json";
 import courses from "../locales/courses.json";
 import footer from "../locales/footer.json";
+import notFound from "../locales/notFound.json";
 
 const translations = {
   en: {
@@ -11,6 +12,7 @@ const translations = {
     auth: auth.en,
     header: header.en,
     footer: footer.en,
+    notFound: notFound.en,
   },
   fa: {
     landing: landing.fa,
@@ -18,6 +20,7 @@ const translations = {
     auth: auth.fa,
     header: header.fa,
     footer: footer.fa,
+    notFound: notFound.fa,
   },
 };
 
