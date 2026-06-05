@@ -32,21 +32,10 @@ const UpBtn = () => {
         <ChevronsUp className={`mx-auto size-6`} color="white" />
       </div>
       <div
-        className={`flex items-center md:gap-2 gap-1 text-white md:text-base text-[12px]`}
+        onClick={() => (lang === "en" ? changeLang("fa") : changeLang("en"))}
+        className={`cursor-pointer size-10 rounded-full content-center text-center text-white md:text-base text-[12px] font-bold border leading-10 border-white`}
       >
-        <span
-          onClick={() => changeLang("en")}
-          className={`cursor-pointer size-8 rounded-full content-center text-center leading-8 ${lang === "en" ? "font-bold border border-white" : "font-normal"}`}
-        >
-          EN
-        </span>
-        <Border width="w-0.5" height="h-4" color="bg-white" />
-        <span
-          onClick={() => changeLang("fa")}
-          className={`cursor-pointer size-8 rounded-full content-center text-center leading-8 ${lang === "fa" ? "font-bold border border-white" : "font-normal"}`}
-        >
-          FA
-        </span>
+        {lang === "en" ? "EN" : "FA"}
       </div>
     </div>
   );

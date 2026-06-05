@@ -6,6 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import {
   useGetCoursesLevels,
   useGetCoursesTechnologies,
+  useGetCoursesTypes,
 } from "@/core/services/api/courses/courses.service";
 import formatDate from "@/core/utils/formatDate";
 import formatPrice from "@/core/utils/formatPrice";
@@ -43,6 +44,9 @@ const Filters = ({
     selectedTechnology,
     isTechnologiesModalOpen,
     priceRange,
+    isTypesModalOpen,
+    selectedTypes,
+    searchValue,
   } = useSelector((state) => state.coursesSlice.filters);
 
   const setFilter = (key, value) => dispatch(updateFilters({ key, value }));
@@ -58,15 +62,12 @@ const Filters = ({
     useGetCoursesLevels("CourseLevels");
   const { isLoading: technologiesLoading, data: technologies } =
     useGetCoursesTechnologies("CourseTechnologies");
+  const { isLoading: typesLoading, data: types } =
+    useGetCoursesTypes("CourseTypes");
 
   const handleSearch = debounce((value) => {
-    const searchValue = value.trim() === "" ? null : value.trim();
-    dispatch(updateParams({ key: "Query", value: searchValue }));
-    setSearchParams((params) => {
-      searchValue !== null && params.set("Query", searchValue);
-      searchValue === null && params.delete("Query");
-      return params;
-    });
+    const search = value.trim() === "" ? null : value.trim();
+    dispatch(updateParams({ key: "Query", value: search }));
   }, 1000);
 
   const handlePrice = useMemo(
@@ -74,91 +75,94 @@ const Filters = ({
       debounce((newValue) => {
         dispatch(updateParams({ key: "CostDown", value: newValue[0] }));
         dispatch(updateParams({ key: "CostUp", value: newValue[1] }));
-        setSearchParams((params) => {
-          params.set("CostDown", newValue[0]);
-          params.set("CostUp", newValue[1]);
-          return params;
-        });
       }, 1000),
     [dispatch],
   );
   useEffect(() => {
-    const timeOut = setTimeout(() => {
-      setFilter("selectedLevel", searchParams.get("courseLevelId"));
-      setFilter(
-        "selectedTechnology",
-        searchParams.get("ListTech") === null
-          ? []
-          : Array(searchParams.get("TechCount")).fill(
-              searchParams.get("ListTech"),
-            ),
-      );
-      setFilter("priceRange", searchParams.get("CostDown") === null)
+    !levelsLoading &&
+      !technologiesLoading &&
+      setFilter(searchValue, searchParams.get("Query"));
+    setFilter("selectedLevel", searchParams.get("courseLevelId"));
+    setFilter("selectedTypes", searchParams.get("CourseTypeId"));
+    setFilter(
+      "selectedTechnology",
+      searchParams.get("ListTech") === null
+        ? []
+        : Array(searchParams.get("TechCount")).fill(
+            searchParams.get("ListTech"),
+          ),
+    );
+    setFilter(
+      "priceRange",
+      searchParams.get("CostUp") === null &&
+        searchParams.get("CostDown") === null
         ? [0, 10000000]
-        : [searchParams.get("CostDown"), 10000000];
-      setFilter(
-        "priceRange",
-        searchParams.get("CostUp") === null
-          ? [0, 10000000]
-          : [0, searchParams.get("CostUp")],
-      );
-      setFilter("startValue", formatDate(searchParams.get("StartDate")));
-      setFilter("endValue", formatDate(searchParams.get("EndDate")));
-    }, 1000);
-    return () => {
-      clearTimeout(timeOut);
-    };
-  }, []);
+        : [searchParams.get("CostDown"), searchParams.get("CostUp")],
+    );
+    setFilter("startValue", formatDate(searchParams.get("StartDate")));
+    setFilter("endValue", formatDate(searchParams.get("EndDate")));
+  }, [levelsLoading, technologiesLoading, typesLoading]);
   return (
     <>
       {sortTypes !== undefined && (
-        <div className={`flex lg:hidden items-center justify-between`}>
-          <span
-            className={`text-default-black font-normal md:text-base text-[14px]`}
-          >
-            {t("courses.sorting.sortBy")}
-          </span>
-          <SelectModal
-            items={sortingTypes}
-            contentPosition={"popper"}
-            contentClassName={`min-w-full! relative! z-100! ${theme ? `bg-[#1e1e1e] text-white` : `bg-white text-[#1E1E1E]`}`}
-            defaultValue={"expensive"}
-            itemClassName={`cursor-pointer! ${theme ? `focus:bg-[oklch(0.269_0_0)]` : `focus:bg-muted`}`}
-            triggerClassName={`border! border-light-gray! rounded-[15px] flex! items-center! gap-1! ring-0! md:px-4! px-2! py-2! h-auto! font-normal! md:text-[14px]! text-[12px]! text-default-black! cursor-pointer! bg-default-light!`}
-            value={sortTypes}
-            setValue={setSortTypes}
-            onValueChange={(event) => {
-              setSortTypes(event);
-              const sort = sortingTypes.find((value) => event === value.name);
-              dispatch(
-                updateParams({ key: "SortingCol", value: sort.sortCol }),
-              );
-              dispatch(updateParams({ key: "SortType", value: sort.sortType }));
-              setSearchParams((params) => {
-                params.set("SortingCol", sort.sortCol);
-                params.set("SortType", sort.sortType);
-                return params;
-              });
-            }}
-          />
-          <SelectModal
-            items={rowsOfPages}
-            contentPosition={"popper"}
-            contentClassName={`min-w-full! relative! z-100! ${theme ? `bg-[#1e1e1e] text-white` : `bg-white text-[#1E1E1E]`}`}
-            defaultValue={12}
-            itemClassName={`cursor-pointer! ${theme ? `focus:bg-[oklch(0.269_0_0)]` : `focus:bg-muted`}`}
-            triggerClassName={`border! border-light-gray! rounded-[15px] flex! items-center! gap-1! ring-0! md:px-4! px-2! py-2!px-4! py-2! h-auto! font-normal! md:text-[14px]! text-[12px]! text-default-black! cursor-pointer! bg-default-light!`}
-            value={rowPageCount}
-            setValue={setRowPageCount}
-            onValueChange={(event) => {
-              setRowPageCount(event);
-              dispatch(updateParams({ key: "RowsOfPage", value: event }));
-              setSearchParams((params) => {
-                params.set("RowsOfPage", event);
-                return params;
-              });
-            }}
-          />
+        <div className={`flex flex-col gap-5 lg:hidden justify-between`}>
+          <div className={`flex justify-between items-center`}>
+            <span
+              className={`text-default-black font-normal md:text-base text-[14px]`}
+            >
+              {t("courses.sorting.sortBy")}
+            </span>
+            <SelectModal
+              items={sortingTypes}
+              contentPosition={"popper"}
+              contentClassName={`min-w-full! relative! z-100! ${theme ? `bg-[#1e1e1e] text-white` : `bg-white text-[#1E1E1E]`}`}
+              defaultValue={"expensive"}
+              itemClassName={`cursor-pointer! ${theme ? `focus:bg-[oklch(0.269_0_0)]` : `focus:bg-muted`}`}
+              triggerClassName={`border! border-light-gray! rounded-[15px] flex! items-center! gap-1! ring-0! md:px-4! px-2! py-2! h-auto! font-normal! md:text-[14px]! text-[12px]! text-default-black! cursor-pointer! bg-default-light!`}
+              value={sortTypes}
+              setValue={setSortTypes}
+              onValueChange={(event) => {
+                setSortTypes(event);
+                const sort = sortingTypes.find((value) => event === value.name);
+                dispatch(
+                  updateParams({ key: "SortingCol", value: sort.sortCol }),
+                );
+                dispatch(
+                  updateParams({ key: "SortType", value: sort.sortType }),
+                );
+                setSearchParams((params) => {
+                  params.set("SortingCol", sort.sortCol);
+                  params.set("SortType", sort.sortType);
+                  return params;
+                });
+              }}
+            />
+          </div>
+          <div className={`flex justify-between items-center`}>
+            <span
+              className={`text-default-black font-normal md:text-base text-[14px]`}
+            >
+              {t("courses.sorting.rowsOf")}
+            </span>
+            <SelectModal
+              items={rowsOfPages}
+              contentPosition={"popper"}
+              contentClassName={`min-w-full! relative! z-100! ${theme ? `bg-[#1e1e1e] text-white` : `bg-white text-[#1E1E1E]`}`}
+              defaultValue={12}
+              itemClassName={`cursor-pointer! ${theme ? `focus:bg-[oklch(0.269_0_0)]` : `focus:bg-muted`}`}
+              triggerClassName={`border! border-light-gray! rounded-[15px] flex! items-center! gap-1! ring-0! md:px-4! px-2! py-2!px-4! py-2! h-auto! font-normal! md:text-[14px]! text-[12px]! text-default-black! cursor-pointer! bg-default-light!`}
+              value={rowPageCount}
+              setValue={setRowPageCount}
+              onValueChange={(event) => {
+                setRowPageCount(event);
+                dispatch(updateParams({ key: "RowsOfPage", value: event }));
+                setSearchParams((params) => {
+                  params.set("RowsOfPage", event);
+                  return params;
+                });
+              }}
+            />
+          </div>
         </div>
       )}
       <div
@@ -168,7 +172,15 @@ const Filters = ({
           className={`text-base font-normal text-field-silver placeholder:text-field-silver outline-none w-9/10`}
           placeholder={t("courses.filters.searchPlaceHolder")}
           type="text"
-          onChange={(event) => handleSearch(event.target.value)}
+          onChange={(event) => {
+            handleSearch(event.target.value);
+            setSearchParams((params) => {
+              event.target.value.trim !== "" &&
+                params.set("Query", event.target.value);
+              event.target.value.trim() === "" && params.delete("Query");
+              return params;
+            });
+          }}
         />
         <Search
           className={`w-1/10 ${lang === "en" ? "transform-[rotate(90deg)]" : "transform-[rotate(0deg)]"}`}
@@ -306,7 +318,7 @@ const Filters = ({
                         );
                         setSearchParams((params) => {
                           checked && params.set("courseLevelId", value.id);
-                          !checked && params.set("courseLevelId", null);
+                          !checked && params.delete("courseLevelId", null);
                           return params;
                         });
                       }}
@@ -332,12 +344,33 @@ const Filters = ({
                       );
                       setSearchParams((params) => {
                         checked && params.set("courseLevelId", value.id);
-                        !checked && params.set("courseLevelId", null);
+                        !checked && params.delete("courseLevelId", null);
                         return params;
                       });
                     }}
                   />
                 ))}
+          <CheckBox
+            label={"همه"}
+            id={"courseLevels"}
+            labelId={"selectAllLevels"}
+            type="radio"
+            checked={selectedLevel === "selectAllLevels"}
+            onChange={(event) => {
+              setFilter("selectedLevel", "selectAllLevels");
+              const { checked } = event.target;
+              dispatch(
+                updateParams({
+                  key: "courseLevelId",
+                  value: checked ? null : null,
+                }),
+              );
+              setSearchParams((params) => {
+                params.delete("courseLevelId");
+                return params;
+              });
+            }}
+          />
           {levels?.data?.length > 3 && (
             <div
               onClick={() => setFilter("isLevelsModalOpen", !isLevelsModalOpen)}
@@ -350,6 +383,128 @@ const Filters = ({
               )}
               <span className={`text-[#008C78] text-[14px] font-normal`}>
                 {!isLevelsModalOpen
+                  ? t("courses.filters.showMore")
+                  : t("courses.filters.showLess")}
+              </span>
+            </div>
+          )}
+        </div>
+      </AccordionMultiple>
+      <AccordionMultiple
+        value={"courseTypes"}
+        className={`bg-default-light p-4 rounded-[15px] shadow-[0px_2px_5px_0px_#000000]/15 dark:shadow-[0px_2px_5px_0px_#ffffff]/15`}
+        trigger={t("courses.filters.courseTypes")}
+        triggerClassName={`hover:no-underline! cursor-pointer! text-default-black! 2xl:text-[18px]! lg:text-base! font-bold! text-right!`}
+      >
+        <div className={`flex flex-col gap-4`}>
+          {typesLoading
+            ? skeletonCountCheckBox?.map((_, index) => (
+                <div
+                  key={index}
+                  dir="rtl"
+                  className={`w-3/10 p-1 flex flex-col gap-5 rounded-[10px] bg-field-silver`}
+                >
+                  <Skeleton className={`h-3 w-full`} />
+                </div>
+              ))
+            : !isTypesModalOpen
+              ? types?.status < 400 && types?.data
+                ? types?.data?.slice(0, 3)?.map((value, index) => (
+                    <CheckBox
+                      key={index}
+                      label={
+                        value.typeName === "online"
+                          ? "آنلاین"
+                          : value.typeName === "online2"
+                            ? "حضوری"
+                            : value.typeName
+                      }
+                      id="courseTypes"
+                      labelId={value.id}
+                      type="radio"
+                      checked={selectedTypes === value.id}
+                      onChange={(event) => {
+                        setFilter("selectedTypes", value.id);
+                        const { checked } = event.target;
+                        dispatch(
+                          updateParams({
+                            key: "CourseTypeId",
+                            value: checked ? value.id : null,
+                          }),
+                        );
+                        setSearchParams((params) => {
+                          checked && params.set("CourseTypeId", value.id);
+                          !checked && params.delete("CourseTypeId");
+                          return params;
+                        });
+                      }}
+                    />
+                  ))
+                : null
+              : types?.data?.map((value, index) => (
+                  <CheckBox
+                    key={index}
+                    label={
+                      value.typeName === "online"
+                        ? "آنلاین"
+                        : value.typeName === "online2"
+                          ? "حضوری"
+                          : value.typeName
+                    }
+                    id="courseTypes"
+                    labelId={value.id}
+                    type="radio"
+                    checked={selectedTypes === value.id}
+                    onChange={(event) => {
+                      setFilter("selectedTypes", value.id);
+                      const { checked } = event.target;
+                      dispatch(
+                        updateParams({
+                          key: "CourseTypeId",
+                          value: checked ? value.id : null,
+                        }),
+                      );
+                      setSearchParams((params) => {
+                        checked && params.set("CourseTypeId", value.id);
+                        !checked && params.delete("CourseTypeId", null);
+                        return params;
+                      });
+                    }}
+                  />
+                ))}
+          <CheckBox
+            label={"همه"}
+            id={"courseTypes"}
+            labelId={"selectAllTypes"}
+            type="radio"
+            checked={selectedTypes === "selectAllTypes"}
+            onChange={(event) => {
+              setFilter("selectedTypes", "selectAllTypes");
+              const { checked } = event.target;
+              dispatch(
+                updateParams({
+                  key: "CourseTypeId",
+                  value: checked ? null : null,
+                }),
+              );
+              setSearchParams((params) => {
+                params.delete("CourseTypeId");
+                return params;
+              });
+            }}
+          />
+          {types?.data?.length > 3 && (
+            <div
+              onClick={() => setFilter("isLevelsModalOpen", !isTypesModalOpen)}
+              className={`flex items-center gap-1 cursor-pointer`}
+            >
+              {!isTypesModalOpen ? (
+                <Plus className={`size-4`} color="#008C78" />
+              ) : (
+                <Minus className={`size-4`} color="#008C78" />
+              )}
+              <span className={`text-[#008C78] text-[14px] font-normal`}>
+                {!isTypesModalOpen
                   ? t("courses.filters.showMore")
                   : t("courses.filters.showLess")}
               </span>
@@ -489,6 +644,11 @@ const Filters = ({
             onChange={(value) => {
               setFilter("priceRange", value);
               handlePrice(value);
+              setSearchParams((params) => {
+                params.set("CostDown", value[0]);
+                params.set("CostUp", value[1]);
+                return params;
+              });
             }}
             step={10000}
             defaultValue={priceRange}

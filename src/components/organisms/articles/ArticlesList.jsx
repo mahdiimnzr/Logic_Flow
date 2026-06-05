@@ -1,11 +1,8 @@
 import "rc-slider/assets/index.css";
-import { updateFilters, updateParams } from "@/app/store/actions";
 import Card from "@/components/molecules/Cards/Card";
 import PaginationComponents from "@/components/molecules/Pagination/Pagination";
 import { PaginationItem } from "@/components/ui/pagination";
 import { Skeleton } from "@/components/ui/skeleton";
-import useAddFavoriteCourse from "@/core/services/api/hooks/useAddFavoriteCourses";
-import useGetCourses from "@/core/services/api/hooks/useGetCourse";
 import { useI18n } from "@/i18n/useI18n";
 import { ChevronLeft } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
@@ -13,8 +10,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useSearchParams } from "react-router-dom";
 import Filters from "./Filters";
 import SortsSection from "./SortsSection";
+import useGetArticles from "@/core/services/api/hooks/useGetArticles";
+import {
+  updateArticlesFilters,
+  updateArticlesParams,
+} from "@/app/store/actions";
+import useAddFavoriteArticle from "@/core/services/api/hooks/useAddFavoriteArticle";
 
-const CoursesList = () => {
+const ArticlesList = () => {
   const { t, lang } = useI18n();
   const dispatch = useDispatch();
 
@@ -24,24 +27,25 @@ const CoursesList = () => {
   const [whichPage, setWhichPage] = useState(1);
   const [rowPageCount, setRowPageCount] = useState(12);
   const [gridView, setGridView] = useState(true);
-  const params = useSelector((state) => state.coursesSlice.params);
+  const params = useSelector((state) => state.articlesSlice.params);
 
-  const { searchValue } = useSelector((state) => state.coursesSlice.filters);
+  const { searchValue } = useSelector((state) => state.articlesSlice.filters);
 
-  const setFilter = (key, value) => dispatch(updateFilters({ key, value }));
+  const setFilter = (key, value) =>
+    dispatch(updateArticlesFilters({ key, value }));
 
   const {
     isLoading,
-    data: courses,
+    data: articles,
     refetch,
-  } = useGetCourses("CoursesList", params);
+  } = useGetArticles("ArticlesList", params);
 
   const pageCount = useMemo(
     () =>
-      courses?.data?.totalCount
-        ? Math.ceil(courses?.data?.totalCount / rowPageCount)
+      articles?.data?.totalCount
+        ? Math.ceil(articles?.data?.news?.length / rowPageCount)
         : 1,
-    [courses?.data?.totalCount, rowPageCount],
+    [articles?.data?.totalCount, rowPageCount],
   );
   const pageArray = useMemo(() => {
     const pages = [];
@@ -68,63 +72,9 @@ const CoursesList = () => {
   useEffect(() => {
     !isLoading && setFilter(searchValue, searchParams.get("Query"));
     dispatch(
-      updateParams({
+      updateArticlesParams({
         key: "Query",
         value: searchParams.get("Query"),
-      }),
-    );
-    dispatch(
-      updateParams({
-        key: "CostDown",
-        value: searchParams.get("CostDown"),
-      }),
-    );
-    dispatch(
-      updateParams({
-        key: "CostUp",
-        value: searchParams.get("CostUp"),
-      }),
-    );
-    dispatch(
-      updateParams({
-        key: "StartDate",
-        value: searchParams.get("StartDate"),
-      }),
-    );
-    dispatch(
-      updateParams({
-        key: "EndDate",
-        value: searchParams.get("EndDate"),
-      }),
-    );
-    dispatch(
-      updateParams({
-        key: "courseLevelId",
-        value: searchParams.get("courseLevelId"),
-      }),
-    );
-    dispatch(
-      updateParams({
-        key: "CourseTypeId",
-        value: searchParams.get("CourseTypeId"),
-      }),
-    );
-    dispatch(
-      updateParams({
-        key: "TechCount",
-        value: searchParams.get("TechCount"),
-      }),
-    );
-    dispatch(
-      updateParams({
-        key: "ListTech",
-        value: searchParams.get("ListTech"),
-      }),
-    );
-    dispatch(
-      updateParams({
-        key: "TeacherId",
-        value: searchParams.get("TeacherId"),
       }),
     );
   }, [isLoading]);
@@ -136,22 +86,22 @@ const CoursesList = () => {
             to={"/"}
             className={`text-[14px] font-normal text-green-primary`}
           >
-            {t("courses.navigation.homePage")}
+            {t("articles.navigation.homePage")}
           </Link>
           <ChevronLeft
             className={`size-4 ${lang === "en" ? "transform-[rotate(180deg)]" : "transform-[rotate(0deg)]"}`}
             color="#008C78"
           />
           <Link className={`text-[14px] font-normal text-green-primary`}>
-            {t("courses.navigation.coursesPage")}
+            {t("articles.navigation.articlesPage")}
           </Link>
         </div>
         <div className={`flex items-center gap-2`}>
           <p className={`text-default-black md:text-[32px] font-bold`}>
-            {t("courses.navigation.title")}
+            {t("articles.navigation.title")}
           </p>
           <span className={`text-field-silver md:text-base font-normal`}>
-            ({courses?.data?.totalCount} {t("courses.navigation.result")})
+            ({articles?.data?.totalCount} {t("articles.navigation.result")})
           </span>
         </div>
       </div>
@@ -189,7 +139,7 @@ const CoursesList = () => {
                 </div>
               ))}
             </div>
-          ) : courses?.data?.courseFilterDtos?.length === 0 ? (
+          ) : articles?.data?.news?.length === 0 ? (
             <span
               className={`font-bold text-4xl w-full text-center text-default-black`}
             >
@@ -199,21 +149,20 @@ const CoursesList = () => {
             <div
               className={`grid ${gridView ? `2xl:grid-cols-4 xl:grid-cols-3 md:grid-cols-2 grid-cols-1` : `2xl:grid-cols-2 grid-cols-1`} gap-4`}
             >
-              {courses?.data?.courseFilterDtos?.map((course, index) => (
+              {articles?.data?.news?.map((article, index) => (
                 <Card
                   view={gridView}
                   key={index}
-                  courseId={course.courseId}
-                  title={course.title}
-                  describe={course.describe}
-                  levelName={course.levelName}
-                  teacherName={course.teacherName}
-                  rate={course.courseRate.avg}
-                  cost={course.cost}
-                  image={course.imageAddress}
-                  isCourseCard={true}
-                  isFavorite={false}
-                  handleAddFavoriteCourse={useAddFavoriteCourse}
+                  articleId={article.id}
+                  title={article.title}
+                  describe={article.describe}
+                  categoryName={article.newsCatregoryName}
+                  insertDate={article.insertDate}
+                  currentView={article.currentView}
+                  rate={article.newsRate.avg}
+                  image={article.currentImageAddress}
+                  isCourseCard={false}
+                  handleAddFavoriteCourse={useAddFavoriteArticle}
                 />
               ))}
             </div>
@@ -224,7 +173,10 @@ const CoursesList = () => {
               whichPage !== firstPage &&
                 (setWhichPage(whichPage - 1),
                 dispatch(
-                  updateParams({ key: "PageNumber", value: whichPage - 1 }),
+                  updateArticlesParams({
+                    key: "PageNumber",
+                    value: whichPage - 1,
+                  }),
                 ),
                 window.scroll(0, 0));
             }}
@@ -233,7 +185,10 @@ const CoursesList = () => {
               whichPage !== lastPage &&
                 (setWhichPage(whichPage + 1),
                 dispatch(
-                  updateParams({ key: "PageNumber", value: whichPage + 1 }),
+                  updateArticlesParams({
+                    key: "PageNumber",
+                    value: whichPage + 1,
+                  }),
                 ),
                 window.scroll(0, 0));
             }}
@@ -244,7 +199,9 @@ const CoursesList = () => {
                 onClick={() => {
                   whichPage !== value &&
                     (setWhichPage(value),
-                    dispatch(updateParams({ key: "PageNumber", value: value })),
+                    dispatch(
+                      updateArticlesParams({ key: "PageNumber", value: value }),
+                    ),
                     window.scroll(0, 0));
                 }}
                 className={`cursor-pointer sm:size-12.5 size-8 bg-light-gray sm:rounded-[15px] rounded-[10px] shadow-[0px_2px_5px_0px_#000000]/15 flex items-center justify-center sm:text-[18px] text-[14px] font-normal`}
@@ -260,4 +217,4 @@ const CoursesList = () => {
   );
 };
 
-export default CoursesList;
+export default ArticlesList;
