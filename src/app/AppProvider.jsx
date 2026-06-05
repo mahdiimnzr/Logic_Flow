@@ -40,7 +40,7 @@ const AppProvider = () => {
                 autoClose={3000}
                 hideProgressBar={false}
                 closeOnClick={false}
-                rtl={true}
+                rtl={lang === "en" ? false : true}
                 pauseOnFocusLoss
                 draggable
                 pauseOnHover

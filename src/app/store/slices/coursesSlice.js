@@ -33,6 +33,9 @@ const coursesSlice = createSlice({
       selectedTechnology: [],
       isTechnologiesModalOpen: false,
       priceRange: [0, 10000000],
+      isTypesModalOpen: false,
+      selectedTypes: null,
+      searchValue: null,
     },
   },
   reducers: {

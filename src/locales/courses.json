@@ -7,7 +7,8 @@
       "result": "Result"
     },
     "sorting": {
-      "sortBy": "Sort By:"
+      "sortBy": "Sort By:",
+      "rowsOf": "Rows Of Page:"
     },
     "filters": {
       "searchPlaceHolder": "Search...",
@@ -15,13 +16,16 @@
       "start": "Start",
       "end": "End",
       "coursesLevel": "Course Level",
+      "courseTypes": "Course Format",
       "teachers": "Instructors",
       "technologies": "Technologies",
       "priceRange": "Price Range (Toman)",
       "showMore": "Show More",
       "showLess": "Show Less",
       "closeBtn": "Close",
-      "filtersName": "Sort & Filter"
+      "filtersName": "Sort & Filter",
+      "copy": "Copied!",
+      "copyFilter": "Copied the Filters"
     }
   },
   "fa": {
@@ -32,7 +36,8 @@
       "result": "نتیجه"
     },
     "sorting": {
-      "sortBy": "مرتب سازی بر اساس :"
+      "sortBy": "مرتب سازی بر اساس :",
+      "rowsOf": "تعداد در صفحه:"
     },
     "filters": {
       "searchPlaceHolder": "جستجو ...",
@@ -40,13 +45,16 @@
       "start": "شروع",
       "end": "پایان",
       "coursesLevel": "سطح دوره",
+      "courseTypes": "نحوه برگزاری",
       "teachers": "اساتید",
       "technologies": "تکنولوژی ها",
       "priceRange": "رنج قیمت (تومان)",
       "showMore": "نمایش بیشتر",
       "showLess": "نمایش کمتر",
       "closeBtn": "بستن",
-      "filtersName": " ترتیب و فیلتر"
+      "filtersName": " ترتیب و فیلتر",
+      "copy": "کپی شد!",
+      "copyFilter": "کپی کردن فیلتر ها"
     }
   }
 }
