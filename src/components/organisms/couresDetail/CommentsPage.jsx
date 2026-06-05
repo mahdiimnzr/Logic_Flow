@@ -58,7 +58,7 @@ const CommentsPage = () => {
       {({ errors }) => (
         <Form>
           <div
-            className={` bg-default-light w-[877px] p-10 flex flex-col rounded-[25px] shadow-[0px_2px_5px_0px_#000000]/15 dark:shadow-[0px_2px_5px_0px_#ffffff]/15`}
+            className={` bg-default-light xl:w-9/10 p-10 flex flex-col rounded-[25px] shadow-[0px_2px_5px_0px_#000000]/15 dark:shadow-[0px_2px_5px_0px_#ffffff]/15`}
           >
             <div className={`flex gap-2`}>
               <span className={`text-field-silver`}>همه ی نظرات</span>

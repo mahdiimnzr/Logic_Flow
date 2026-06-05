@@ -8,7 +8,7 @@ const ReviewPage = () => {
   const { isLoading, data: Details } = useGetCourseDetail(id);
   return (
     <>
-      <div className={`flex flex-col gap-9 `}>
+      <div className={`flex flex-col gap-9 w-9/10 `}>
         <span className={`size-4.5 font-bold text-default-black`}>جزئیات</span>
         <div className={`flex justify-center items-center gap-[50px] `}>
           <div
