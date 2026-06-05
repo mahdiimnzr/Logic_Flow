@@ -15,7 +15,7 @@ const coursesSlice = createSlice({
       EndDate: null,
       courseLevelId: null,
       CourseTypeId: null,
-      TechCount: 1,
+      TechCount: null,
       ListTech: null,
       TeacherId: null,
     },

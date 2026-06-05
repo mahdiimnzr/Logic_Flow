@@ -15,7 +15,7 @@ import { useI18n } from "@/i18n/useI18n";
 import { ChevronLeft, ListFilterPlus, Search } from "lucide-react";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import Filters from "./Filters";
 import SelectModal from "@/components/molecules/Select/Select";
 import { rowsOfPages, sortingTypes } from "@/core/constants/courseSortings";
@@ -27,6 +27,8 @@ import { DrawerClose } from "@/components/ui/drawer";
 const CoursesList = () => {
   const { t, lang } = useI18n();
   const dispatch = useDispatch();
+
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const skeletonCount = new Array(8).fill("");
   const [whichPage, setWhichPage] = useState(1);
@@ -58,6 +60,10 @@ const CoursesList = () => {
   const handleSearch = debounce((value) => {
     const searchValue = value.trim() === "" ? null : value.trim();
     dispatch(updateParams({ key: "Query", value: searchValue }));
+    setSearchParams((params) => {
+      params.set("Query", searchValue);
+      return params;
+    });
   }, 1000);
 
   useEffect(() => {
@@ -76,6 +82,73 @@ const CoursesList = () => {
   useEffect(() => {
     refetch();
   }, [params]);
+  useEffect(() => {
+    const timeOut = setTimeout(() => {
+      dispatch(
+        updateParams({
+          key: "Query",
+          value: searchParams.get("Query"),
+        }),
+      );
+      dispatch(
+        updateParams({
+          key: "CostDown",
+          value: searchParams.get("CostDown"),
+        }),
+      );
+      dispatch(
+        updateParams({
+          key: "CostUp",
+          value: searchParams.get("CostUp"),
+        }),
+      );
+      dispatch(
+        updateParams({
+          key: "StartDate",
+          value: searchParams.get("StartDate"),
+        }),
+      );
+      dispatch(
+        updateParams({
+          key: "EndDate",
+          value: searchParams.get("EndDate"),
+        }),
+      );
+      dispatch(
+        updateParams({
+          key: "courseLevelId",
+          value: searchParams.get("courseLevelId"),
+        }),
+      );
+      dispatch(
+        updateParams({
+          key: "CourseTypeId",
+          value: searchParams.get("CourseTypeId"),
+        }),
+      );
+      dispatch(
+        updateParams({
+          key: "TechCount",
+          value: searchParams.get("TechCount"),
+        }),
+      );
+      dispatch(
+        updateParams({
+          key: "ListTech",
+          value: searchParams.get("ListTech"),
+        }),
+      );
+      dispatch(
+        updateParams({
+          key: "TeacherId",
+          value: searchParams.get("TeacherId"),
+        }),
+      );
+    }, 1000);
+    return () => {
+      clearTimeout(timeOut);
+    };
+  }, []);
   return (
     <div className={`flex flex-col items-center lg:gap-32 md:gap-20 gap-10`}>
       <div className={`flex flex-col items-center gap-4`}>
@@ -105,7 +178,10 @@ const CoursesList = () => {
       </div>
       <div className={`flex justify-center gap-8 w-full`}>
         <div className={`xl:w-2/10 lg:3/10 flex-col gap-8 hidden lg:flex`}>
-          <Filters />
+          <Filters
+            searchParams={searchParams}
+            setSearchParams={setSearchParams}
+          />
         </div>
         <div className={`xl:w-8/10 lg:w-7/10 w-full flex flex-col gap-8`}>
           <div
@@ -211,6 +287,8 @@ const CoursesList = () => {
                     setSortTypes={setSortTypes}
                     rowPageCount={rowPageCount}
                     setRowPageCount={setRowPageCount}
+                    searchParams={searchParams}
+                    setSearchParams={setSearchParams}
                   />
                 </div>
               </DrawerComponents>
