@@ -2,6 +2,11 @@ import useGetQuery from "../../common/useGetQuery";
 import apiClient from "../../interceptor/interceptor.service";
 export const useGetCourseDetail = (id) =>
   useGetQuery(`courseDetail${id}`, `Home/GetCourseDetails?CourseId=${id}`);
+export const useGetCourseReplyComment = (params, id) =>
+  useGetQuery(
+    `CourseReplyComment${id}`,
+    `Course/GetCourseReplyCommnets/${params.CourseId}/${params.CommentId}`,
+  );
 export const postCourseLike = async (id) => {
   try {
     const result = await apiClient.post(`Course/AddCourseLike?CourseId=${id}`);
@@ -40,6 +45,7 @@ export const postReserveAdd = async (courseId) => {
 };
 export const useGetCourseComments = (id) =>
   useGetQuery(`courseComment${id}`, `Course/GetCourseCommnets/${id}`);
+
 export const postCourseCommentLike = async (CourseCommandId) => {
   try {
     const result = await apiClient.post(
@@ -53,7 +59,7 @@ export const postCourseCommentLike = async (CourseCommandId) => {
 export const deleteCourseCommentLike = async (CourseCommandId) => {
   try {
     const result = await apiClient.delete(
-      `Course/DeleteCourseCommentLike=${CourseCommandId}`,
+      `Course/DeleteCourseCommentLike?CourseCommandId=${CourseCommandId}`,
     );
     return result;
   } catch (error) {
@@ -63,8 +69,16 @@ export const deleteCourseCommentLike = async (CourseCommandId) => {
 export const postCourseCommentDisSLike = async (CourseCommandId) => {
   try {
     const result = await apiClient.post(
-      `Course/AddCourseCommentDissLike=${CourseCommandId}`,
+      `Course/AddCourseCommentDissLike?CourseCommandId=${CourseCommandId}`,
     );
+    return result;
+  } catch (error) {
+    return error;
+  }
+};
+export const postAddCommentCourse = async (params) => {
+  try {
+    const result = await apiClient.post(`Course/AddCommentCourse`, params);
     return result;
   } catch (error) {
     return error;
