@@ -184,7 +184,7 @@ export const Comments = ({
         {CourseReplyComments?.data.map((value, index) => (
           <ReplyComment
             key={index}
-            courseId={value.courseId}
+            commentId={value.courseId}
             author={value.author}
             pictureAddress={value.pictureAddress}
             title={value.title}

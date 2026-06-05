@@ -2,7 +2,7 @@ import CourseInformation from "@/components/organisms/couresDetail/CourseInforma
 
 const CourseDetail = () => {
   return (
-    <div className={`flex flex-col items-center pt-24`}>
+    <div className={`w-full flex flex-col items-center pt-24`}>
       <CourseInformation />
     </div>
   );

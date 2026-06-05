@@ -119,7 +119,7 @@ const CourseInformation = () => {
     },
   );
   return (
-    <div className={`xl:w-9/10 `}>
+    <div className={` xl:w-9/10 `}>
       <div className={` flex flex-col gap-4 text-center p-8.25`}>
         <div className={`flex justify-center text-[14px] text-green-primary`}>
           <Link to={"/"}> صفحه اصلی</Link>
@@ -134,21 +134,23 @@ const CourseInformation = () => {
           {Details?.data?.title}
         </span>
       </div>
-      <div className={`flex justify-center gap-12 `}>
-        <div className=" flex flex-col gap-[48px]">
+      <div className={`flex justify-center 2xl:gap-15 xl:gap-6.5 lg:gap-4 `}>
+        <div className=" flex flex-col xl:gap-12 lg:gap-10">
           <div
-            className={` xl:w-[425px] flex flex-col items-center p-3  gap-[35px] rounded-[25px] shadow-[0px_2px_5px_0px_#000000]/15 dark:shadow-[0px_2px_5px_0px_#ffffff]/15`}
+            className={`flex flex-col 2xl:h-[443px] xl:w-[425px] xl:h-[423px] lg:w-[370px] lg:h-[310px]  2xl:p-5.5 xl:p-4 lg:p-3 2xl:gap-8.75 xl:gap-6 lg:gap-5 rounded-[25px] shadow-[0px_2px_5px_0px_#000000]/15 dark:shadow-[0px_2px_5px_0px_#ffffff]/15`}
           >
             <span
-              className={`text-[20px] text-default-black font-bold self-start pt-4 pr-4`}
+              className={`xl:text-[20px] lg:text-[15px] text-default-black font-bold md:pt-4 md:pr-4`}
             >
-              {Details?.data?.miniDescribe}
+              {Details?.data?.title}
             </span>
-            <div className={` border-t-2 w-[393px] flex flex-col gap-6 pt-2 `}>
+            <div
+              className={` border-t-2  flex flex-col xl:gap-6 lg:gap-2.5 pt-2 `}
+            >
               <div className={`flex justify-between `}>
                 <div className={`flex gap-2.25 items-center`}>
                   <CalenderIcon
-                    className={`xl:w-[20.13px] xl:h-[23px]`}
+                    className={`xl:size-6 lg:size-4`}
                     color={`#1E1E1E`}
                   />
                   <span className={`text-default-black `}>تاریخ شروع</span>
@@ -160,7 +162,7 @@ const CourseInformation = () => {
               </div>
               <div className={`flex justify-between `}>
                 <div className={`flex gap-2 items-center`}>
-                  <Time />
+                  <Time className={`xl:size-6 lg:size-4`} />
                   <span className={`text-default-black `}>ساعت شروع</span>
                 </div>
                 <span className={`text-field-silver`}>
@@ -170,7 +172,7 @@ const CourseInformation = () => {
               </div>
               <div className={`flex justify-between `}>
                 <div className={`flex gap-2.25 items-center`}>
-                  <Time />
+                  <Time className={`xl:size-6 lg:size-4`} />
                   <span className={`text-default-black `}>ساعت پایان</span>
                 </div>
                 <span className={`text-field-silver`}>
@@ -179,7 +181,10 @@ const CourseInformation = () => {
               </div>
               <div className={`flex justify-between `}>
                 <div className={`flex gap-2.25 items-center`}>
-                  <Person color={!theme ? "#1E1E1E" : "#ffffff"} />
+                  <Person
+                    color={!theme ? "#1E1E1E" : "#ffffff"}
+                    className={`xl:size-6 lg:size-4`}
+                  />
                   <span className={`text-default-black `}>ظرفیت دوره</span>
                 </div>
                 <span className={`text-field-silver`}>
@@ -190,7 +195,7 @@ const CourseInformation = () => {
 
               <div className={`flex justify-between `}>
                 <div className={`flex gap-2.25 items-center`}>
-                  <BadgePercent />
+                  <BadgePercent className={`xl:size-6 lg:size-4`} />
                   <span className={`text-default-black `}>قیمت</span>
                 </div>
                 <span className={`text-green-primary text-[18px] font-bold`}>
@@ -198,7 +203,7 @@ const CourseInformation = () => {
                 </span>
               </div>
               <Button
-                className={`xl:w-[393px] xl:h-[64px] text-default-light text-[18px]`}
+                className={`xl:w-full xl:h-[64px] lg:h-[45px]   text-default-light text-[18px]`}
                 color={`reserveBtn`}
                 onClick={() =>
                   ReserveAddMutate({
@@ -213,14 +218,14 @@ const CourseInformation = () => {
             </div>
           </div>
           <div
-            className={` xl:w-[425px] xl:h-[117px] flex flex-col justify-center  gap-5 pr-4 rounded-[25px] shadow-[0px_2px_5px_0px_#000000]/15 dark:shadow-[0px_2px_5px_0px_#ffffff]/15`}
+            className={` xl:w-[425px] xl:h-[117px] lg:w-[370px] xl:h-[117px] flex flex-col justify-center  xl:gap-5  pr-4 lg:pt-2 rounded-[25px] shadow-[0px_2px_5px_0px_#000000]/15 dark:shadow-[0px_2px_5px_0px_#ffffff]/15`}
           >
             <span
-              className={`text-[18px] text-default-black font-bold self-start`}
+              className={`xl:text-[18px] lg:text-[14px] text-default-black font-bold self-start`}
             >
               رضایت کاربران از دوره
             </span>
-            <div className={`flex items-center gap-[146px]  `}>
+            <div className={`flex items-center xl:gap-[146px] lg:gap-[120px]`}>
               <div>
                 {" "}
                 <Rating
@@ -231,13 +236,15 @@ const CourseInformation = () => {
                   size={35}
                 />
               </div>
-              <span className={`text-field-silver`}>
+              <span
+                className={`text-field-silver xl:text-[18px] lg:text-[14px]`}
+              >
                 {Details?.data?.courseRate} امتیاز
               </span>
             </div>
           </div>
           <div
-            className={` border-2 w-[425px] h-[366px] flex flex-col gap-[48px] items-center justify-center rounded-[25px] shadow-[0px_2px_5px_0px_#000000]/15 dark:shadow-[0px_2px_5px_0px_#ffffff]/15`}
+            className={` border-2 xl:w-[425px] xl:h-[366px] lg:w-[370px] lg:h-[350px]  flex flex-col gap-[48px] items-center justify-center rounded-[25px] shadow-[0px_2px_5px_0px_#000000]/15 dark:shadow-[0px_2px_5px_0px_#ffffff]/15`}
           >
             <div className={`flex flex-col gap-2`}>
               <ImageFallback
@@ -253,18 +260,18 @@ const CourseInformation = () => {
             </div>
             <Button
               color={`teachersBtn`}
-              className={`xl:w-[393px] xl:h-[46px]`}
+              className={`xl:w-[393px] xl:h-[46px]  lg:w-[315px] lg:h-[40px]`}
             >
               مشاهده اطلاعات بیشتر
             </Button>
           </div>
         </div>
 
-        <div className={` xl:w-5.5/10`}>
+        <div className={` 2xl:w-full xl:w-7/10 lg:w-6/10`}>
           <ImageFallback
             src={Details?.data?.imageAddress}
             fallback={imgCourseDetail}
-            className={` xl:h-110.75`}
+            className={``}
           />
           <div className={` flex justify-between pt-4 `}>
             <div
@@ -312,7 +319,7 @@ const CourseInformation = () => {
           <Outlet />
         </div>
       </div>
-      <div className="flex flex-col gap-8 w-full">
+      {/* <div className="flex flex-col gap-8 w-full py-12">
         <div className="flex items-center justify-between">
           <h3 className={`text-green-primary font-bold text-[24px]`}>
             دوره‌های مرتبط
@@ -409,7 +416,7 @@ const CourseInformation = () => {
                 ))}
           </Swiper>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
