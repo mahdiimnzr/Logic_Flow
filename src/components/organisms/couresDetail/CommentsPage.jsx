@@ -77,7 +77,7 @@ const CommentsPage = () => {
             }}
           >
             {({ errors }) => (
-              <Form>
+              <Form className={`flex flex-col gap-4`}>
                 <div className={`flex flex-col xl:gap-4 gap-3`}>
                   <span
                     className={`xl:text-base text-[14px] font-bold text-default-black`}
@@ -115,57 +115,59 @@ const CommentsPage = () => {
             )}
           </Formik>
         </div>
-        <div className={`flex flex-col xl:gap-4 gap-3`}>
-          {!isLoading && CourseComments?.data?.length > 3 && !isCommentOpen
-            ? CourseComments?.data?.slice(0, 3)?.map((value, index) => (
-                <>
-                  <Comments
-                    key={index}
-                    author={value.author}
-                    commentId={value.id}
-                    title={value.title}
-                    pictureAddress={value.pictureAddress}
-                    describe={value.describe}
-                    likeCount={value.likeCount}
-                    disslikeCount={value.disslikeCount}
-                    insertDate={value.insertDate}
-                    currentUserIsDissLike={value.currentUserIsDissLike}
-                    currentUserIsLike={value.currentUserIsLike}
-                  />
-                  {index !== CourseComments?.data?.length - 1 && (
-                    <Border
-                      width="w-full"
-                      height="h-0.5"
-                      backgroundColor="bg-light-gray"
+        {!isLoading && CourseComments?.data?.length !== 0 && (
+          <div className={`flex flex-col xl:gap-4 gap-3`}>
+            {!isLoading && CourseComments?.data?.length > 3 && !isCommentOpen
+              ? CourseComments?.data?.slice(0, 3)?.map((value, index) => (
+                  <>
+                    <Comments
+                      key={index}
+                      author={value.author}
+                      commentId={value.id}
+                      title={value.title}
+                      pictureAddress={value.pictureAddress}
+                      describe={value.describe}
+                      likeCount={value.likeCount}
+                      disslikeCount={value.disslikeCount}
+                      insertDate={value.insertDate}
+                      currentUserIsDissLike={value.currentUserIsDissLike}
+                      currentUserIsLike={value.currentUserIsLike}
                     />
-                  )}
-                </>
-              ))
-            : CourseComments?.data?.map((value, index) => (
-                <>
-                  <Comments
-                    key={index}
-                    author={value.author}
-                    commentId={value.id}
-                    title={value.title}
-                    pictureAddress={value.pictureAddress}
-                    describe={value.describe}
-                    likeCount={value.likeCount}
-                    disslikeCount={value.disslikeCount}
-                    insertDate={value.insertDate}
-                    currentUserIsDissLike={value.currentUserIsDissLike}
-                    currentUserIsLike={value.currentUserIsLike}
-                  />
-                  {index !== CourseComments?.data?.length - 1 && (
-                    <Border
-                      width="w-full"
-                      height="h-0.5"
-                      backgroundColor="bg-light-gray"
+                    {index !== CourseComments?.data?.length - 1 && (
+                      <Border
+                        width="w-full"
+                        height="h-0.5"
+                        backgroundColor="bg-light-gray"
+                      />
+                    )}
+                  </>
+                ))
+              : CourseComments?.data?.map((value, index) => (
+                  <>
+                    <Comments
+                      key={index}
+                      author={value.author}
+                      commentId={value.id}
+                      title={value.title}
+                      pictureAddress={value.pictureAddress}
+                      describe={value.describe}
+                      likeCount={value.likeCount}
+                      disslikeCount={value.disslikeCount}
+                      insertDate={value.insertDate}
+                      currentUserIsDissLike={value.currentUserIsDissLike}
+                      currentUserIsLike={value.currentUserIsLike}
                     />
-                  )}
-                </>
-              ))}
-        </div>
+                    {index !== CourseComments?.data?.length - 1 && (
+                      <Border
+                        width="w-full"
+                        height="h-0.5"
+                        backgroundColor="bg-light-gray"
+                      />
+                    )}
+                  </>
+                ))}
+          </div>
+        )}
       </div>
       {CourseComments?.data?.length > 3 && (
         <Button

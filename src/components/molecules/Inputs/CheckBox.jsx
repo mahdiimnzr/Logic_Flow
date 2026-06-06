@@ -36,18 +36,7 @@ const CheckBox = ({
           borderColor: checked ? "transparent" : "#A6A6A6",
         }}
       >
-        {type === "radio" && checked && (
-          <div
-            style={{
-              width: 8,
-              height: 8,
-              borderRadius: "50%",
-              backgroundColor: "white",
-              flexShrink: 0,
-            }}
-          />
-        )}
-        {type === "checkbox" && checked && <CheckIcon className="mx-auto" />}
+        {checked && <CheckIcon className="mx-auto" />}
       </div>
       <p
         className={`text-default-black font-normal xl:text-[14px] text-[12px] cursor-pointer select-none`}
