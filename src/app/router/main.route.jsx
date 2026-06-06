@@ -3,11 +3,14 @@ import {
   CourseDetail,
   Courses,
   Landing,
+  NewsDetail,
   NotFound,
 } from "../../pages";
 import { MainLayout } from "../../templates";
 import ReviewPage from "@/components/organisms/couresDetail/ReviewPage";
 import CommentsPage from "@/components/organisms/couresDetail/CommentsPage";
+import NewsReview from "@/components/organisms/NewsDetail/NewsReview";
+import NewsComments from "@/components/organisms/NewsDetail/NewsComments";
 
 const mainRoute = [
   {
@@ -39,6 +42,20 @@ const mainRoute = [
       {
         path: "/Articles",
         element: <Articles />,
+      },
+      {
+        path: "/Articles/Detail/:id",
+        element: <NewsDetail />,
+        children: [
+          {
+            path: "Review",
+            element: <NewsReview />,
+          },
+          {
+            path: "Comments",
+            element: <NewsComments />,
+          },
+        ],
       },
       {
         path: "*",
