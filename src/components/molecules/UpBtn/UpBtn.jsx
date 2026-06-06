@@ -22,18 +22,18 @@ const UpBtn = () => {
   return (
     <div
       dir={lang === "en" ? "ltr" : "rtl"}
-      className={`fixed flex flex-col items-center gap-2 ${lang === "en" ? `left-5` : `right-5`} top-7/10 z-50 bg-green-primary py-1 px-2 rounded shadow-[0px_4px_4px_0px_#000000]/15`}
+      className={`fixed flex flex-col items-center gap-2 ${lang === "en" ? `left-5` : `right-5`} top-7/10 z-50 bg-transparent py-1 px-2 rounded `}
     >
       <div
         ref={upBtnRef}
         onClick={() => scroll(0, 0)}
-        className={`rounded-full border border-white w-10 h-0 opacity-0 mx-auto cursor-pointer content-center transition-all transform-[rotate(180deg)]`}
+        className={`rounded-full border bg-green-primary border-white w-10 h-0 opacity-0 mx-auto cursor-pointer content-center transition-all transform-[rotate(180deg)]`}
       >
         <ChevronsUp className={`mx-auto size-6`} color="white" />
       </div>
       <div
         onClick={() => (lang === "en" ? changeLang("fa") : changeLang("en"))}
-        className={`cursor-pointer size-10 rounded-full content-center text-center text-white md:text-base text-[12px] font-bold border leading-10 border-white`}
+        className={`cursor-pointer size-10 rounded-full bg-green-primary content-center text-center text-white md:text-base text-[12px] font-bold border leading-10 border-white`}
       >
         {lang === "en" ? "EN" : "FA"}
       </div>

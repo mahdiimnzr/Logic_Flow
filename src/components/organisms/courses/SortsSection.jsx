@@ -103,10 +103,9 @@ const SortsSection = ({
             navigator.clipboard.writeText(webPath);
           }}
           color={"authBtn"}
-          className={`xl:px-3 xl:py-2 p-2`}
+          className={`p-2`}
         >
-          <p className={`hidden xl:block`}>{t("courses.filters.copyFilter")}</p>
-          <Copy className={`xl:hidden block`} />
+          <Copy className={`hidden xl:block`} />
         </Button>
       </div>
       <View view={gridView} setView={setGridView} />
