@@ -1,58 +1,33 @@
-import { useRef } from "react";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
+import { REGEXP_ONLY_DIGITS } from "input-otp";
 
-const OtpInput = ({ otp, setOtp, error }) => {
-  const otpBoxReference = useRef([]);
-
-  const handleChange = (value, index) => {
-    if (value >= "0" && value <= "9") {
-      let newArr = [...otp];
-      newArr[index] = value;
-      setOtp(newArr);
-      if (index < otp.length - 1) {
-        otpBoxReference.current[index + 1].focus();
-      }
-    } else if (value === "") {
-      let newArr = [...otp];
-      newArr[index] = "";
-      setOtp(newArr);
-    }
-  };
-
-  const handleKeyDown = (e, index) => {
-    if (e.key === "Backspace") {
-      if (!otp[index] && index > 0) {
-        let newArr = [...otp];
-        newArr[index - 1] = "";
-        setOtp(newArr);
-        otpBoxReference.current[index - 1].focus();
-      } else if (otp[index]) {
-        let newArr = [...otp];
-        newArr[index] = "";
-        setOtp(newArr);
-      }
-    }
-  };
-
-  return otp.map((value, index) => (
-    <input
-      key={index}
-      value={value}
-      className={`rounded-[15px] bg-background-default xl:size-13.5 lg:size-11.5 size-9.5 text-[20px] text-default-black text-center box-content outline-none content-center transition-all focus:scale-115 ${
-        value ? "border-2 border-[#008C78]" : ""
-      } ${error && !value ? `border-2 border-red-error` : ``}`}
-      type="text"
-      name="confirmCode"
-      maxLength={1}
-      inputMode="numeric"
-      onChange={(e) => {
-        handleChange(e.target.value, index);
+const OtpInput = ({ otp, setOtpValue, otpValue, error }) => {
+  return (
+    <InputOTP
+      name="verifyCode"
+      id="digits-only"
+      maxLength={6}
+      pattern={REGEXP_ONLY_DIGITS}
+      containerClassName={`w-full!`}
+      onChange={(value) => {
+        setOtpValue(value);
       }}
-      onKeyDown={(e) => {
-        handleKeyDown(e, index);
-      }}
-      ref={(reference) => (otpBoxReference.current[index] = reference)}
-    />
-  ));
+    >
+      <InputOTPGroup className={`flex! items-center! justify-between! w-full!`}>
+        {otp?.map((value, index) => (
+          <InputOTPSlot
+            className={`lg:text-[20px] md:text-base text-[18px] box-border xl:size-15 lg:size-13 md:size-10 sm:size-15 size-9 border-transparent border-2 outline-none ring-0 shadow-none bg-background-default xl:rounded-[15px] md:rounded-[10px] sm:rounded-[15px] rounded-[10px] data-[active=true]:transform-[scale(1.25)] ${otpValue[index] && "border-green-primary"} ${error && !otpValue[index] && "border-red-error"}`}
+            key={index}
+            index={index}
+          />
+        ))}
+      </InputOTPGroup>
+    </InputOTP>
+  );
 };
 
 export default OtpInput;

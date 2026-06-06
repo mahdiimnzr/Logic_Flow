@@ -1,0 +1,96 @@
+{
+  "en": {
+    "title": "Stay informed about the latest programming news and courses",
+    "registerBtn": "Subscribe",
+    "inputPlaceHolder": "Enter your phone number",
+    "registerDescription": "Subscribe to our programming website newsletter to stay informed about articles, courses, and discounts.",
+    "copyRight": "© 2026 All rights reserved for Bahr Academy.",
+    "acName": "Bahr Academy",
+    "parts": {
+      "firstPart": {
+        "title": "Specializations",
+        "item1": "HTML & CSS",
+        "item2": "JavaScript",
+        "item3": "React",
+        "item4": "Next.js",
+        "item5": "Node.js",
+        "item6": "REST API",
+        "item7": "Git & GitHub"
+      },
+      "secondPart": {
+        "title": "About Us",
+        "item1": "News",
+        "item2": "Career Opportunities",
+        "item3": "Contact Us",
+        "item4": "Trust Center",
+        "item5": "Terms of Use",
+        "item6": "Security Policy",
+        "item7": "Privacy Policy"
+      },
+      "thirdPart": {
+        "title": "Application Areas",
+        "item1": "Frontend",
+        "item2": "Backend",
+        "item3": "Full Stack",
+        "item4": "Artificial Intelligence",
+        "item5": "SEO & Optimization",
+        "item6": "UI/UX Design",
+        "item7": "Mobile"
+      },
+      "fourthPart": {
+        "title": "Education & Support",
+        "item1": "Events",
+        "item2": "User Panel",
+        "item3": "Technical Support",
+        "item4": "Educational Articles"
+      }
+    }
+  },
+  "fa": {
+    "title": "از جدیدترین اخبار و دوره های برنامه ‌نویسی باخبر شوید",
+    "registerBtn": "ثبت نام",
+    "inputPlaceHolder": "شماره تماس خود را وارد کنید",
+    "registerDescription": "عضویت در خبرنامه‌ی وب‌سایت برنامه‌نویسی برای اطلاع از مقالات، دوره‌ها و تخفیف‌ها.",
+    "copyRight": "© 2026 تمام حقوق برای آکادمی بحر محفوظ است.",
+    "acName": "آکادمی بحر",
+    "parts": {
+      "firstPart": {
+        "title": "تخصص‌ها",
+        "item1": "HTML & CSS",
+        "item2": "JavaScript",
+        "item3": "React",
+        "item4": "Next.js",
+        "item5": "Node.js",
+        "item6": "REST API",
+        "item7": "Git & GitHub"
+      },
+      "secondPart": {
+        "title": "درباره ما",
+        "item1": "اخبار",
+        "item2": "فرصت‌های شغلی",
+        "item3": "تماس با ما",
+        "item4": "مرکز اعتماد",
+        "item5": "قوانین استفاده",
+        "item6": "سیاست امنیت",
+        "item7": "حریم خصوصی"
+      },
+      "thirdPart": {
+        "title": "حوزه‌های کاربردی",
+        "item1": "فرانت‌اند",
+        "item2": "بک‌اند",
+        "item3": "فول‌استک",
+        "item4": "هوش مصنوعی",
+        "item5": "سئو و بهینه‌سازی",
+        "item6": "طراحی UI/UX",
+        "item7": "موبایل"
+      },
+      "fourthPart": {
+        "title": "آموزش و پشتیبانی",
+        "item1": "رویدادها",
+        "item2": "پنل کاربری",
+        "item3": "پشتیبانی فنی",
+        "item4": "مقالات آموزشی"
+      }
+    }
+  }
+}

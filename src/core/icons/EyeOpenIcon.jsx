@@ -3,11 +3,13 @@ const EyeOpenIcon = ({
   height = "11",
   color = "#848484",
   className,
+  onClick,
 }) => {
   return (
     <svg
       width={width}
       height={height}
+      onClick={onClick}
       viewBox="0 0 13 11"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

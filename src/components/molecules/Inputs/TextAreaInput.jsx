@@ -24,7 +24,7 @@ const TextAreaInput = ({
         />
       </div>
       <ErrorMessage
-        name="text"
+        name={name}
         component={"span"}
         className="text-red-error text-[14px] font-normal"
       />

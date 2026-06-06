@@ -5,9 +5,30 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 html {
-  direction: rtl;
   scroll-behavior: smooth;
   font-family: IRANYekanXFaNum;
+}
+html body[data-scroll-locked] {
+  overflow: auto !important;
+  margin-right: 0 !important;
+  padding-right: 0 !important;
+  position: static !important;
+  pointer-events: auto !important;
+}
+[data-radix-focus-guard] {
+  display: none !important;
+}
+body > div[style*="position: fixed"][style*="inset: 0"] {
+  pointer-events: none !important;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 
 .light {
@@ -18,6 +39,7 @@ html {
   --color-red-error: #ef5350;
   --color-field-silver: #848484;
   --color-light-gray: #eaeaea;
+  --color-gray-subtitle: #353535;
   --color-dark-gray: #626262;
   --color-default-black: #1e1e1e;
   --color-default-light: #ffffff;
@@ -25,16 +47,18 @@ html {
   --color-sun-background: #ffdf9b;
   --color-moon-background: #455a64;
   --color-light-green: #eefffc;
+  --shadow-cards-hover: 0px 4px 4px 0px #00000025;
 }
 
 .dark {
   --color-green-primary: #008c78;
-  --color-lightly-green: #0a4138;
+  --color-lightly-green: #24d0b7;
   --color-green-dark: #017497;
   --color-star-yellow: #f8bc24;
   --color-red-error: #ef5350;
   --color-field-silver: #848484;
-  --color-light-gray: #3d3d3d;
+  --color-light-gray: #313131;
+  --color-gray-subtitle: #dbdbdb;
   --color-dark-gray: #adadad;
   --color-default-black: #ffffff;
   --color-default-light: #1e1e1e;
@@ -42,6 +66,7 @@ html {
   --color-sun-background: #ffdf9b;
   --color-moon-background: #455a64;
   --color-light-green: #292727;
+  --shadow-cards-hover: 0px 4px 4px 0px #ffffff25;
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
@@ -83,6 +108,7 @@ html {
   --color-red-error: var(--color-red-error);
   --color-field-silver: var(--color-field-silver);
   --color-light-gray: var(--color-light-gray);
+  --color-gray-subtitle: var(--color-gray-subtitle);
   --color-dark-gray: var(--color-dark-gray);
   --color-default-black: var(--color-default-black);
   --color-default-light: var(--color-default-light);
@@ -90,11 +116,13 @@ html {
   --color-sun-background: var(--color-sun-background);
   --color-moon-background: var(--color-moon-background);
   --color-light-green: var(--color-light-green);
+  --shadow-cards-hover: var(--shadow-cards-hover);
+  --breakpoint-3xl: 1600px;
 }
 
 @theme inline {
   --font-heading: var(--font-sans);
-  --font-sans: 'Geist Variable', sans-serif;
+  --font-sans: "Geist Variable", sans-serif;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);

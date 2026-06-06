@@ -2,100 +2,140 @@ import { Formik, Form } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import FormInput from "../../../molecules/Inputs/FormInput";
-import EmailIcon from "../../../../core/icons/EmailIcon";
 import Button from "../../../atoms/Buttons/Button";
 import ArrowRightIcon from "../../../../core/icons/ArrowRightIcon";
 import KeyIcon from "../../../../core/icons/KeyIcon";
-
-const validationSchema = Yup.object({
-  phoneOrGmail: Yup.string()
-    .min(8, " ایمیل حداقل باید تشکیل شده از 8 حروف باشد")
-    .required("ایمیل وارد شده معتبر نیست!"),
-  password: Yup.string()
-    .min(8, "رمز عبور حداقل باید تشکیل شده از 8 حروف باشد")
-    .required("رمز عبور وارد شده معتبر نیست!"),
-  passwordd: Yup.string()
-    .min(8, "رمز عبور حداقل باید تشکیل شده از 8 حروف باشد")
-    .required("رمز عبور وارد شده معتبر نیست!"),
-});
-
-const RegisterComplete = ({ setPage }) => {
-  const Navigate = useNavigate();
-  const handleSubmit = () => {
-    Navigate("/Auth/Login");
+import { toast } from "react-toastify";
+import { completeRegister } from "@/core/services/api/auth/auth.service";
+import ThemeSlide from "@/components/molecules/theme/ThemeSlide";
+import ThemeContext from "@/app/context/ThemeContext";
+import { useContext } from "react";
+import Phone from "@/core/icons/Phone";
+import { useI18n } from "@/i18n/useI18n";
+const RegisterComplete = ({ setPage, registerData }) => {
+  const { t } = useI18n();
+  const { theme, setTheme } = useContext(ThemeContext);
+  const navigate = useNavigate();
+  const handleSubmit = async (value) => {
+    const response = await completeRegister(value);
+    if (response.data.success) {
+      toast.success("حساب کاربری شما با موفقیت ایجاد شد.");
+      navigate("/Auth/Login");
+    } else {
+      toast.error(response.data.message);
+    }
   };
+
+  const validationSchema = Yup.object({
+    phoneNumber: Yup.string()
+      .min(10, "شماره موبایل حداقل باید تشکیل شده از 11 رقم باشد")
+      .required("شماره موبایل وارد شده معتبر نیست!"),
+    password: Yup.string()
+      .trim()
+      .min(8, "رمز عبور حداقل باید تشکیل شده از 8 حروف باشد")
+      .required("رمز عبور وارد شده معتبر نیست!"),
+    repeatPassword: Yup.string()
+      .trim()
+      .min(8, "رمز عبور حداقل باید تشکیل شده از 8 حروف باشد")
+      .oneOf([Yup.ref("password")], "مقدار وارد شده با رمز عبور یکسان نمیباشد")
+      .required("رمز عبور وارد شده معتبر نیست!"),
+  });
   return (
     <Formik
       initialValues={{
-        phoneOrGmail: "",
+        gmail: registerData?.gmail,
+        password: "",
+        repeatPassword: "",
+        phoneNumber: "",
       }}
       validationSchema={validationSchema}
       onSubmit={(values) => {
-        handleSubmit();
-        console.log(values);
+        values.phoneNumber = values.phoneNumber.toString();
+        handleSubmit(values);
       }}
     >
       {({ errors }) => (
         <Form>
-          <div className={`flex flex-col gap-10`}>
-            <div
-              onClick={() => {
-                setPage("Step2");
-              }}
-              className={`flex gap-2 cursor-pointer`}
-            >
-              <ArrowRightIcon />
-              <span className={`text-green-dark text-3.5 font-bold `}>
-                بازگشت
-              </span>
-            </div>
-            <div className={`flex flex-col gap-2 cursor-pointer`}>
-              <span
-                className={`text-green-primary xl:text-[24px] lg:text-[20px] text-[16px] font-bold text-center  `}
+          <div
+            className={`flex flex-col xl:gap-25 lg:gap-20 sm:gap-15 gap-6 xl:pt-19 lg:pt-15 md:pt-10 pt-2`}
+          >
+            <div className={`flex items-center justify-between w-full`}>
+              <div
+                onClick={() => {
+                  setPage("Step2");
+                }}
+                className={`flex gap-2 cursor-pointer `}
               >
-                ایجاد حساب کاربری
-              </span>
-              <span
-                className={`xl:text-[16px] lg:text-[14px] text-[13px] text-default-black text-center`}
-              >
-                کامل کردن مشخصات
-              </span>
+                <ArrowRightIcon className={`xl:size-6 sm:size-5 size-4`} />
+                <span
+                  className={`text-green-dark xl:text-base sm:text-[14px] text-[12px] font-bold`}
+                >
+                  {t("auth.register.step3.backBtn")}
+                </span>
+              </div>
+              <ThemeSlide
+                theme={theme}
+                setTheme={setTheme}
+                className={`flex md:hidden`}
+              />
             </div>
-            <div className={`flex flex-col gap-10 `}>
+            <div className={`flex flex-col xl:gap-8 lg:gap-4 gap-5`}>
+              <div className={`flex flex-col gap-2 text-center`}>
+                <span
+                  className={`text-green-primary xl:text-2xl lg:text-[18px] md:text-base text-[14px] font-bold text-center`}
+                >
+                  {t("auth.register.step3.title")}
+                </span>
+                <span
+                  className={`xl:text-[16px] lg:text-[15px] md:text-[14px] text-[12px] text-default-black`}
+                >
+                  {t("auth.register.step3.description")}
+                </span>
+              </div>
               <FormInput
-                icon={<EmailIcon />}
-                error={errors.phoneOrGmail}
-                name={"phoneOrGmail"}
-                type={"text"}
-                placeholder={"ایمیل خود را وارد کنید"}
+                icon={<Phone />}
+                error={errors.phoneNumber}
+                name={"phoneNumber"}
+                type={"number"}
+                pattern="/^[0-9]$/"
+                placeholder={t("auth.register.step3.numberPlaceHolder")}
+                className={`xl:h-15! lg:h-13! md:h-11! sm:h-13! h-11!`}
+                errorMessageClassName={`lg:text-[14px]! text-[12px]!`}
               />
               <FormInput
                 icon={<KeyIcon />}
-                error={errors.phoneOrGmail}
+                error={errors.password}
                 name={"password"}
                 type={"password"}
-                placeholder={"رمز عبور خود را وارد کنید"}
+                placeholder={t("auth.register.step3.passwordPlaceHolder")}
+                className={`xl:h-15! lg:h-13! md:h-11! sm:h-13! h-11!`}
+                errorMessageClassName={`lg:text-[14px]! text-[12px]!`}
               />
               <FormInput
                 icon={<KeyIcon />}
-                error={errors.phoneOrGmail}
-                name={"passwordd"}
+                error={errors.repeatPassword}
+                name={"repeatPassword"}
                 type={"password"}
-                placeholder={"تکرار رمز عبور"}
+                placeholder={t("auth.register.step3.repeatPasswordPlaceHolder")}
+                className={`xl:h-15! lg:h-13! md:h-11! sm:h-13! h-11!`}
+                errorMessageClassName={`lg:text-[14px]! text-[12px]!`}
               />
-            </div>
-            <Button color={"authBtn"} className={`h-15 `}>
-              ارسال کد یکبار مصرف
-            </Button>
-            <div
-              className={`flex gap-2 justify-center text-[14px] font-normal cursor-pointer`}
-            >
-              <p className={`text-default-black`}>
-                حساب کاربری دارید؟{" "}
-                <Link to={"/Auth/Login"} className={`text-green-primary`}>
-                  وارد شوید
-                </Link>
-              </p>
+              <Button
+                color={"authBtn"}
+                className={`xl:h-15 lg:h-13 h-11 xl:text-base! lg:text-[14px]! text-[12px]!`}
+              >
+                ثبت نام
+              </Button>
+              <div
+                className={`flex gap-2 justify-center lg:text-[14px] text-[12px] font-normal cursor-pointer`}
+              >
+                <p className={`text-default-black`}>
+                  حساب کاربری دارید؟{" "}
+                  <Link to={"/Auth/Login"} className={`text-green-primary`}>
+                    وارد شوید
+                  </Link>
+                </p>
+              </div>
             </div>
           </div>
         </Form>

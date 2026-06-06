@@ -2,8 +2,10 @@ import { Outlet } from "react-router-dom";
 
 const AuthLayout = () => {
   return (
-    <div className={`min-h-screen xl:pt-20 md:pt-30 pt-10 `}>
-      <div className={`bg-default-light w-9/10 mx-auto rounded-[60px]`}>
+    <div className={`min-h-screen xl:py-20 lg:py-30 md:py-20 py-5`}>
+      <div
+        className={`min-h-[calc(100vh-40px)] md:min-h-auto bg-default-light w-9/10 mx-auto md:rounded-[60px] rounded-[30px] shadow-[2px_4px_8px_0px_#000000]/15 dark:shadow-[2px_4px_8px_0px_#ffffff]/15`}
+      >
         <Outlet />
       </div>
     </div>

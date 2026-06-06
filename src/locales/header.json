@@ -1,0 +1,20 @@
+{
+  "en": {
+    "acName": "Bahr Academy",
+    "registerBtn": "Login / Register",
+    "inputPlaceHolder": "Search...",
+    "closeBtn": "Close",
+    "seeAllCourses": "Check all courses",
+    "seeAllArticles": "Check all news",
+    "notFound": "Not found"
+  },
+  "fa": {
+    "acName": "آکادمی بحر",
+    "registerBtn": "ورود / ثبت نام",
+    "inputPlaceHolder": "جستجو کنید...",
+    "closeBtn": "بستن",
+    "seeAllCourses": "مشاهده همه دوره ها",
+    "seeAllArticles": "مشاهده همه اخبار ها",
+    "notFound": "موردی یافت نشد"
+  }
+}
