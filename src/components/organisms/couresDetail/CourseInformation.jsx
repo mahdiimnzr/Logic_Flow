@@ -334,7 +334,10 @@ const CourseInformation = () => {
               <span
                 className={`text-field-silver xl:text-base text-[14px] font-normal`}
               >
-                {Details?.data?.courseRate} امتیاز
+                {Details?.data?.courseRate % 1 === 0
+                  ? Details?.data?.courseRate
+                  : Details?.data?.courseRate.toFixed(1)}{" "}
+                امتیاز
               </span>
             </div>
           </div>
