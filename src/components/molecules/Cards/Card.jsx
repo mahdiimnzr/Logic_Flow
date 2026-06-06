@@ -36,7 +36,11 @@ const Card = (props) => {
           <FavoriteIcon isFavorite={isFavorite} className={`mx-auto`} />
         </div>
         <Link
-          to={isCourseCard ? `/Courses/Detail/${courseId}` : "/news"}
+          to={
+            isCourseCard
+              ? `/Courses/Detail/${courseId}/Review`
+              : `/Articles/Detail/${articleId}/Review`
+          }
           className={`rounded-[12px] group content-center block relative ${view ? `lg:h-60 sm:h-50 h-45` : `2xl:w-4/10 lg:w-3/10 w-4/10 2xl:h-40 lg:h-50 h-35 overflow-hidden`}`}
         >
           <ImageFallback

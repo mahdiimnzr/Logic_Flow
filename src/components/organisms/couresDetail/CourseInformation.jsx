@@ -17,13 +17,14 @@ import { Link, NavLink, Outlet, useParams } from "react-router-dom";
 import teacherDetail1 from "../../../assets/images/teacherDetail.png";
 import { useContext, useEffect, useRef, useState } from "react";
 import {
+  deleteCourseDisLike,
   deleteCourseLike,
   postCourseDisSLike,
   postCourseLike,
+  postCourseRating,
   postReserveAdd,
   useGetCourseDetail,
 } from "@/core/services/api/CourseDetails/CourseDetails.service";
-import formatDate from "@/core/utils/formatDate";
 import ImageFallback from "@/components/atoms/ImageFallBack/ImageFallBack";
 import formatPrice from "@/core/utils/formatPrice";
 import formatTime from "@/core/utils/formatTime";
@@ -38,6 +39,10 @@ import { Navigation } from "swiper/modules";
 import { Skeleton } from "@/components/ui/skeleton";
 import Card from "@/components/molecules/Cards/Card";
 import useAddFavoriteCourse from "@/core/services/api/hooks/useAddFavoriteCourses";
+import Border from "@/components/atoms/Border/Border";
+import FavoriteIcon from "@/core/icons/FavoriteIcon";
+import formatHour from "@/core/utils/formatHour";
+import formatDate from "@/core/utils/formatDate";
 
 const menu = [
   { path: "Review", Text: " مشخصات دوره" },
@@ -93,6 +98,29 @@ const CourseInformation = () => {
       }
     },
   });
+  const { mutate: deleteDisLikeMutate } = useMutation({
+    mutationFn: deleteCourseDisLike,
+    onSuccess: (result) => {
+      if (result.data.success) {
+        toast.success(result.data.message);
+        queryClient.invalidateQueries({ queryKey: [`courseDetail${id}`] });
+      } else {
+        toast.error(result.data.message);
+      }
+    },
+  });
+  const { mutate: addRateForCourse } = useMutation({
+    mutationFn: postCourseRating,
+    onSuccess: (result) => {
+      if (result.data.success) {
+        toast.success(result.data.message);
+        queryClient.invalidateQueries({ queryKey: [`courseDetail${id}`] });
+      } else {
+        toast.error(result.data.message);
+      }
+    },
+  });
+
   const handleLike = () => {
     if (Details?.data?.userIsLiked) {
       const formData = new FormData();
@@ -102,9 +130,20 @@ const CourseInformation = () => {
       likeMutate(id);
     }
   };
+  const handleDisLike = () => {
+    if (Details?.data?.userIsDissLike) {
+      const formData = new FormData();
+      formData.append("CourseDissLikeId", Details?.data?.userDissLikeId);
+      deleteDisLikeMutate(formData);
+    } else if (!Details?.data?.userIsDissLike) {
+      disLikeMutate(id);
+    }
+  };
+  const handleAddFavoriteCourse = (id) => useAddFavoriteCourse(id);
   useEffect(() => {
     refetch();
   }, []);
+
   const { t, lang } = useI18n();
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
@@ -119,91 +158,145 @@ const CourseInformation = () => {
     },
   );
   return (
-    <div className={` xl:w-9/10 `}>
-      <div className={` flex flex-col gap-4 text-center p-8.25`}>
-        <div className={`flex justify-center text-[14px] text-green-primary`}>
-          <Link to={"/"}> صفحه اصلی</Link>
-          <ChevronLeft className={`size-4`} color="#008C78" />
-          <Link to={"/Courses"}> دوره های آموزشی </Link>
-          <ChevronLeft className={`size-4`} color="#008C78" />
-          <Link>دوره آموزش جامع HTML5</Link>
+    <div className={`flex flex-col gap-10 items-center`}>
+      <div className={`flex flex-col gap-4 items-center`}>
+        <div className={`flex sm:flex-row flex-col items-center gap-1`}>
+          <Link
+            className={`text-[14px] font-normal text-green-primary`}
+            to={"/"}
+          >
+            صفحه اصلی
+          </Link>
+          <ChevronLeft
+            className={`size-4 ${lang === "en" ? "sm:transform-[rotate(180deg)] transform-[rotate(270deg)]" : "sm:transform-[rotate(0deg)] transform-[rotate(270deg)]"}`}
+            color="#008C78"
+          />
+          <Link
+            className={`text-[14px] font-normal text-green-primary`}
+            to={"/Courses"}
+          >
+            دوره های آموزشی
+          </Link>
+          <ChevronLeft
+            className={`size-4 ${lang === "en" ? "sm:transform-[rotate(180deg)] transform-[rotate(270deg)]" : "sm:transform-[rotate(0deg)] transform-[rotate(270deg)]"}`}
+            color="#008C78"
+          />
+          <Link className={`text-[14px] font-normal text-green-primary`}>
+            {Details?.data?.title}
+          </Link>
         </div>
-        <span
-          className={`text-[32px] text-default-black font-bold cursor-pointer`}
-        >
+        <span className={`text-default-black md:text-[32px] font-bold`}>
           {Details?.data?.title}
         </span>
       </div>
-      <div className={`flex justify-center 2xl:gap-15 xl:gap-6.5 lg:gap-4 `}>
-        <div className=" flex flex-col xl:gap-12 lg:gap-10">
+      <div className={`w-full flex flex-col lg:flex-row gap-12`}>
+        <div className={`xl:w-3/10 lg:w-4/10 w-full flex flex-col gap-12`}>
           <div
-            className={`flex flex-col 2xl:h-[443px] xl:w-[425px] xl:h-[423px] lg:w-[370px] lg:h-[310px]  2xl:p-5.5 xl:p-4 lg:p-3 2xl:gap-8.75 xl:gap-6 lg:gap-5 rounded-[25px] shadow-[0px_2px_5px_0px_#000000]/15 dark:shadow-[0px_2px_5px_0px_#ffffff]/15`}
+            className={`bg-default-light flex flex-col p-4 xl:gap-12.5 gap-8 rounded-[25px] shadow-[0px_2px_5px_0px_#000000]/15 dark:shadow-[0px_2px_5px_0px_#ffffff]/15`}
           >
             <span
-              className={`xl:text-[20px] lg:text-[15px] text-default-black font-bold md:pt-4 md:pr-4`}
+              className={`xl:text-[20px] lg:text-[18px] text-default-black font-bold`}
             >
               {Details?.data?.title}
             </span>
-            <div
-              className={` border-t-2  flex flex-col xl:gap-6 lg:gap-2.5 pt-2 `}
-            >
-              <div className={`flex justify-between `}>
+            <div className={`flex flex-col gap-4`}>
+              <Border
+                width="w-full"
+                height="h-0.5"
+                backgroundColor="bg-light-gray"
+              />
+              <div className={`flex justify-between`}>
                 <div className={`flex gap-2.25 items-center`}>
                   <CalenderIcon
                     className={`xl:size-6 lg:size-4`}
-                    color={`#1E1E1E`}
+                    color={!theme ? "#1E1E1E" : "#ffffff"}
                   />
-                  <span className={`text-default-black `}>تاریخ شروع</span>
+                  <span
+                    className={`text-default-black xl:text-base text-[14px]`}
+                  >
+                    تاریخ شروع
+                  </span>
                 </div>
-                <span className={`text-field-silver`}>
-                  {Details?.data?.startTime &&
-                    formatDate(Details?.data?.startTime)}
+                <span
+                  className={`text-field-silver xl:text-[14px] text-[12px]`}
+                >
+                  {formatDate(Details?.data?.startTime)}
                 </span>
               </div>
-              <div className={`flex justify-between `}>
+              <div className={`flex justify-between`}>
                 <div className={`flex gap-2 items-center`}>
-                  <Time className={`xl:size-6 lg:size-4`} />
-                  <span className={`text-default-black `}>ساعت شروع</span>
+                  <Time
+                    color={!theme ? "#1E1E1E" : "#ffffff"}
+                    className={`xl:size-6 lg:size-4`}
+                  />
+                  <span
+                    className={`text-default-black xl:text-base text-[14px]`}
+                  >
+                    ساعت شروع
+                  </span>
                 </div>
-                <span className={`text-field-silver`}>
-                  {" "}
-                  {formatTime(Details?.data?.startTime)}{" "}
+                <span
+                  className={`text-field-silver xl:text-[14px] text-[12px]`}
+                >
+                  {formatHour(Details?.data?.startTime)}
                 </span>
               </div>
-              <div className={`flex justify-between `}>
+              <div className={`flex justify-between`}>
                 <div className={`flex gap-2.25 items-center`}>
-                  <Time className={`xl:size-6 lg:size-4`} />
-                  <span className={`text-default-black `}>ساعت پایان</span>
+                  <Time
+                    color={!theme ? "#1E1E1E" : "#ffffff"}
+                    className={`xl:size-6 lg:size-4`}
+                  />
+                  <span
+                    className={`text-default-black xl:text-base text-[14px]`}
+                  >
+                    ساعت پایان
+                  </span>
                 </div>
-                <span className={`text-field-silver`}>
-                  {formatTime(Details?.data?.endTime)}
+                <span
+                  className={`text-field-silver xl:text-[14px] text-[12px]`}
+                >
+                  {formatHour(Details?.data?.endTime)}
                 </span>
               </div>
-              <div className={`flex justify-between `}>
+              <div className={`flex justify-between`}>
                 <div className={`flex gap-2.25 items-center`}>
                   <Person
                     color={!theme ? "#1E1E1E" : "#ffffff"}
                     className={`xl:size-6 lg:size-4`}
                   />
-                  <span className={`text-default-black `}>ظرفیت دوره</span>
+                  <span
+                    className={`text-default-black xl:text-base text-[14px]`}
+                  >
+                    ظرفیت دوره
+                  </span>
                 </div>
-                <span className={`text-field-silver`}>
-                  {" "}
+                <span
+                  className={`text-field-silver xl:text-[14px] text-[12px]`}
+                >
                   {Details?.data?.capacity} نفر
                 </span>
               </div>
-
-              <div className={`flex justify-between `}>
+              <div className={`flex justify-between`}>
                 <div className={`flex gap-2.25 items-center`}>
-                  <BadgePercent className={`xl:size-6 lg:size-4`} />
-                  <span className={`text-default-black `}>قیمت</span>
+                  <BadgePercent
+                    color={!theme ? "#1E1E1E" : "#ffffff"}
+                    className={`xl:size-6 lg:size-4`}
+                  />
+                  <span
+                    className={`text-default-black xl:text-base text-[14px]`}
+                  >
+                    قیمت
+                  </span>
                 </div>
-                <span className={`text-green-primary text-[18px] font-bold`}>
+                <span
+                  className={`text-green-primary xl:text-[18px] text-base font-bold`}
+                >
                   {formatPrice(Details?.data?.cost)} تومان
                 </span>
               </div>
               <Button
-                className={`xl:w-full xl:h-[64px] lg:h-[45px]   text-default-light text-[18px]`}
+                className={`xl:h-16 h-12 xl:text-base! text-[14px]! xl:rounded-[20px]! rounded-[15px]!`}
                 color={`reserveBtn`}
                 onClick={() =>
                   ReserveAddMutate({
@@ -218,98 +311,126 @@ const CourseInformation = () => {
             </div>
           </div>
           <div
-            className={` xl:w-[425px] xl:h-[117px] lg:w-[370px] xl:h-[117px] flex flex-col justify-center  xl:gap-5  pr-4 lg:pt-2 rounded-[25px] shadow-[0px_2px_5px_0px_#000000]/15 dark:shadow-[0px_2px_5px_0px_#ffffff]/15`}
+            className={`bg-default-light flex flex-col gap-5 p-4 rounded-[25px] shadow-[0px_2px_5px_0px_#000000]/15 dark:shadow-[0px_2px_5px_0px_#ffffff]/15`}
           >
             <span
-              className={`xl:text-[18px] lg:text-[14px] text-default-black font-bold self-start`}
+              className={`xl:text-[18px] lg:text-base text-default-black font-bold`}
             >
               رضایت کاربران از دوره
             </span>
-            <div className={`flex items-center xl:gap-[146px] lg:gap-[120px]`}>
+            <div className={`flex items-center justify-between`}>
               <div>
-                {" "}
                 <Rating
                   initialValue={Details?.data?.courseRate}
                   SVGstyle={{ display: "inline-block" }}
                   allowFraction={true}
                   transition={true}
-                  size={35}
+                  SVGclassName={`xl:size-9 size-7`}
+                  onClick={(event) => {
+                    addRateForCourse({ courseId: id, rateNumber: event });
+                  }}
                 />
               </div>
               <span
-                className={`text-field-silver xl:text-[18px] lg:text-[14px]`}
+                className={`text-field-silver xl:text-base text-[14px] font-normal`}
               >
                 {Details?.data?.courseRate} امتیاز
               </span>
             </div>
           </div>
           <div
-            className={` border-2 xl:w-[425px] xl:h-[366px] lg:w-[370px] lg:h-[350px]  flex flex-col gap-[48px] items-center justify-center rounded-[25px] shadow-[0px_2px_5px_0px_#000000]/15 dark:shadow-[0px_2px_5px_0px_#ffffff]/15`}
+            className={`bg-default-light flex flex-col xl:gap-12 gap-6 p-4 items-center justify-center rounded-[25px] shadow-[0px_2px_5px_0px_#000000]/15 dark:shadow-[0px_2px_5px_0px_#ffffff]/15`}
           >
             <div className={`flex flex-col gap-2`}>
               <ImageFallback
                 src={Details?.data?.imageAddress}
                 fallback={teacherDetail1}
+                className={`2xl:size-68 size-42 rounded-full`}
               />
               <div className={`text-center`}>
-                <p className={`text-field-silver`}>مدرس دوره :</p>
-                <p className={`text-default-black text-[18pxs]`}>
+                <p
+                  className={`text-field-silver xl:text-base text-[14px] font-normal`}
+                >
+                  مدرس دوره :
+                </p>
+                <p
+                  className={`xl:text-[18px] text-base font-bold text-default-black`}
+                >
                   {Details?.data?.teacherName}
                 </p>
               </div>
             </div>
             <Button
               color={`teachersBtn`}
-              className={`xl:w-[393px] xl:h-[46px]  lg:w-[315px] lg:h-[40px]`}
+              className={`h-11.5! w-full! xl:rounded-[20px]! rounded-[15px]! xl:text-base! text-[14px]!`}
             >
               مشاهده اطلاعات بیشتر
             </Button>
           </div>
         </div>
-
-        <div className={` 2xl:w-full xl:w-7/10 lg:w-6/10`}>
-          <ImageFallback
-            src={Details?.data?.imageAddress}
-            fallback={imgCourseDetail}
-            className={``}
-          />
-          <div className={` flex justify-between pt-4 `}>
-            <div
-              className={`flex justify-center items-center gap-2 text-center text-field-silver`}
-            >
-              {Details?.data?.courseTech.map((value, index) => (
-                <Badge color={"technologyBadge"} className={`xl:px-2 py-0.5`}>
-                  {value?.tech?.techName}
-                </Badge>
-              ))}
+        <div className={`xl:w-7/10 lg:w-6/10 w-full flex flex-col gap-10`}>
+          <div className={`flex flex-col gap-4`}>
+            <div className={`relative`}>
+              <div
+                onClick={() => handleAddFavoriteCourse(id)}
+                className={`content-center bg-default-black/25 size-10 rounded-full cursor-pointer absolute right-4 top-4`}
+              >
+                <FavoriteIcon
+                  className={`mx-auto`}
+                  isFavorite={Details?.data?.isUserFavorite}
+                />
+              </div>
+              <ImageFallback
+                src={Details?.data?.imageAddress}
+                fallback={imgCourseDetail}
+                className={`w-full xl:h-110 sm:h-90 h-60 sm:rounded-[25px] rounded-[20px]`}
+              />
             </div>
-            <div className={`flex gap-2 text-center`}>
-              <Button
-                color={"likeAndDisLikeBtn"}
-                className={`xl:w-20 xl:h-11 xl:flex items-center justify-center gap-2`}
-                isLikeOrDislike={Details?.data?.userIsDissLike ? true : false}
+            <div
+              className={`flex sm:flex-row flex-col sm:items-center gap-5 sm:gap-0 justify-between`}
+            >
+              <div
+                className={`flex sm:justify-center justify-start items-center gap-2`}
               >
-                {Details?.data?.dissLikeCount}
-                <ThumbsDown onClick={() => disLikeMutate(id)} />
-              </Button>
-              <Button
-                onClick={handleLike}
-                color={"likeAndDisLikeBtn"}
-                className={`xl:w-20.75 xl:h-11 flex items-center justify-center gap-2`}
-                isLikeOrDislike={Details?.data?.userIsLiked ? true : false}
-              >
-                {Details?.data?.likeCount}
-                <ThumbsUp />
-              </Button>
+                {Details?.data?.courseTech.map((value, index) => (
+                  <Badge
+                    key={index}
+                    color={"technologyBadge"}
+                    className={`px-2 xl:py-0.5 py-1`}
+                  >
+                    {value?.tech?.techName}
+                  </Badge>
+                ))}
+              </div>
+              <div className={`flex gap-2 text-center`}>
+                <Button
+                  onClick={handleDisLike}
+                  color={"likeAndDisLikeBtn"}
+                  className={`xl:w-21 w-18 xl:h-11 h-10 flex items-center justify-center gap-2 cursor-pointer`}
+                  isLikeOrDislike={Details?.data?.userIsDissLike ? true : false}
+                >
+                  {Details?.data?.dissLikeCount}
+                  <ThumbsDown className={`xl:size-6 size-5`} />
+                </Button>
+                <Button
+                  onClick={handleLike}
+                  color={"likeAndDisLikeBtn"}
+                  className={`xl:w-21 w-18 xl:h-11 h-10 flex items-center justify-center gap-2 cursor-pointer`}
+                  isLikeOrDislike={Details?.data?.userIsLiked ? true : false}
+                >
+                  {Details?.data?.likeCount}
+                  <ThumbsUp className={`xl:size-6 size-5`} />
+                </Button>
+              </div>
             </div>
           </div>
-          <div className={`flex gap-8 items-center pt-6 pb-8`}>
+          <div className={`flex gap-4 items-center`}>
             {menu?.map((value, index) => (
               <NavLink
                 key={index}
                 to={value.path}
                 className={({ isActive }) =>
-                  `${isActive ? `text-default-light bg-green-primary w-[131px] h-[46px] rounded-[50px]` : `text-default-black`} text-center leading-12 `
+                  `${isActive ? `text-default-light xl:text-base text-[14px] bg-green-primary xl:px-4 xl:py-3 px-3 py-2 rounded-[50px]` : `text-default-black`} text-center`
                 }
               >
                 {value.Text}
@@ -319,7 +440,7 @@ const CourseInformation = () => {
           <Outlet />
         </div>
       </div>
-      {/* <div className="flex flex-col gap-8 w-full py-12">
+      <div className="flex flex-col gap-8 w-full py-12">
         <div className="flex items-center justify-between">
           <h3 className={`text-green-primary font-bold text-[24px]`}>
             دوره‌های مرتبط
@@ -416,7 +537,7 @@ const CourseInformation = () => {
                 ))}
           </Swiper>
         </div>
-      </div> */}
+      </div>
     </div>
   );
 };

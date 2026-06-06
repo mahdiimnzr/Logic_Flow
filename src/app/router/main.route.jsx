@@ -1,4 +1,3 @@
-import { Navigate } from "react-router-dom";
 import {
   Articles,
   CourseDetail,
@@ -27,10 +26,6 @@ const mainRoute = [
         path: "/Courses/Detail/:id",
         element: <CourseDetail />,
         children: [
-          {
-            path: "",
-            element: <Navigate to={`Review`} />,
-          },
           {
             path: "Review",
             element: <ReviewPage />,

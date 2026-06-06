@@ -35,6 +35,16 @@ export const deleteCourseLike = async (likeId) => {
     return error;
   }
 };
+export const deleteCourseDisLike = async (dislikeId) => {
+  try {
+    const result = await apiClient.delete(`Course/DeleteCourseDissLike`, {
+      data: dislikeId,
+    });
+    return result;
+  } catch (error) {
+    return error;
+  }
+};
 export const postReserveAdd = async (courseId) => {
   try {
     const result = await apiClient.post(`CourseReserve/ReserveAdd`, courseId);
@@ -79,6 +89,24 @@ export const postCourseCommentDisSLike = async (CourseCommandId) => {
 export const postAddCommentCourse = async (params) => {
   try {
     const result = await apiClient.post(`Course/AddCommentCourse`, params);
+    return result;
+  } catch (error) {
+    return error;
+  }
+};
+export const postAddReplyCommentCourse = async (params) => {
+  try {
+    const result = await apiClient.post(`Course/AddReplyCourseComment`, params);
+    return result;
+  } catch (error) {
+    return error;
+  }
+};
+export const postCourseRating = async (params) => {
+  try {
+    const result = await apiClient.post(
+      `Course/SetCourseRating?CourseId=${params.courseId}&RateNumber=${params.rateNumber}`,
+    );
     return result;
   } catch (error) {
     return error;

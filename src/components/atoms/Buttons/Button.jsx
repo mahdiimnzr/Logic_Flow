@@ -11,7 +11,7 @@ const Button = ({
     primaryBtn:
       "bg-green-dark text-white rounded-[50px] text-base font-bold cursor-pointer",
     reserveBtn:
-      "bg-lightly-green text-default-light rounded-[20px] text-base  font-normal text-[18px] cursor-pointer",
+      "bg-lightly-green text-white rounded-[20px] text-base  font-normal text-[18px] cursor-pointer",
     teachersBtn:
       "bg-default-black text-default-light rounded-[20px] cursor-pointer text-base font-normal",
     searchBtn:

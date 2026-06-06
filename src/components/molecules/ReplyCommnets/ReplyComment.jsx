@@ -2,7 +2,6 @@ import { ThumbsDown, ThumbsUp } from "lucide-react";
 import teacherDetail3 from "../../../assets/images/teacherDetail3.png";
 import ImageFallback from "@/components/atoms/ImageFallBack/ImageFallBack";
 import formatDate from "@/core/utils/formatDate";
-import { useParams } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useContext } from "react";
 import ThemeContext from "@/app/context/ThemeContext";
@@ -15,6 +14,7 @@ import { toast } from "react-toastify";
 
 const ReplyComment = ({
   author,
+  parentCommentId,
   pictureAddress,
   insertDate,
   title,
@@ -22,10 +22,9 @@ const ReplyComment = ({
   likeCount,
   disslikeCount,
   currentUserIsLike,
+  currentUserIsDissLike,
   commentId,
 }) => {
-  const { id } = useParams();
-
   const queryClient = useQueryClient();
   const { theme } = useContext(ThemeContext);
 
@@ -35,7 +34,7 @@ const ReplyComment = ({
       if (result.data.success) {
         toast.success(result.data.message);
         queryClient.invalidateQueries({
-          queryKey: [`courseComment${id}`],
+          queryKey: [`CourseReplyComment${parentCommentId}`],
         });
       } else {
         toast.error(result.data.message);
@@ -49,7 +48,7 @@ const ReplyComment = ({
       if (result.data.success) {
         toast.success(result.data.message);
         queryClient.invalidateQueries({
-          queryKey: [`courseComment${id}`],
+          queryKey: [`CourseReplyComment${parentCommentId}`],
         });
       } else {
         toast.error(result.data.message);
@@ -64,7 +63,7 @@ const ReplyComment = ({
       if (result.data.success) {
         toast.success(result.data.message);
         queryClient.invalidateQueries({
-          queryKey: [`courseComment${id}`],
+          queryKey: [`CourseReplyComment${parentCommentId}`],
         });
       } else {
         toast.error(result.data.message);
@@ -79,42 +78,67 @@ const ReplyComment = ({
     }
   };
   return (
-    <div className={`flex flex-col pr-12`}>
-      <div className={`flex gap-4 `}>
-        <ImageFallback src={pictureAddress} fallback={teacherDetail3} />
+    <div className={`flex flex-col md:pr-12 pr-5`}>
+      <div className={`flex gap-4`}>
+        <ImageFallback
+          src={pictureAddress}
+          fallback={teacherDetail3}
+          className={`rounded-full md:size-14 sm:size-12 size-10`}
+        />
 
-        <div>
-          {" "}
-          <p className={`text-default-black font-bold`}>{author}</p>
-          <p className={`text-field-silver text-[14px] `}>
-            {" "}
+        <div className={`flex flex-col gap-0.5`}>
+          <p
+            className={`text-default-black font-bold md:text-base text-[14px]`}
+          >
+            {author}
+          </p>
+          <p
+            className={`text-field-silver md:text-[14px] text-[12px] font-normal`}
+          >
             {formatDate(insertDate)}
           </p>
         </div>
       </div>
       <div>
-        {" "}
-        <span className={`text-[14px] text-default-black`}>{title}</span>
-        <p className={`text-[14px] text-field-silver leading-loose`}>
+        <span
+          className={`md:text-[14px] text-[12px] text-default-black font-normal`}
+        >
+          {title}
+        </span>
+        <p
+          className={`md:text-[14px] text-[12px] text-field-silver leading-loose font-normal`}
+        >
           {describe}
         </p>
       </div>
-      <div className={`h-5.25 flex gap-6 cursor-pointer`}>
+      <div className={`flex items-center md:gap-6 gap-3`}>
         <div className={`flex justify-center items-center gap-1`}>
           <ThumbsDown
-            className={`size-5`}
+            className={`cursor-pointer`}
             onClick={() => disLikeCommentMutate(commentId)}
+            color={
+              currentUserIsDissLike ? `#008C78` : !theme ? `#1e1e1e` : "#FFFFFF"
+            }
+            width={"18"}
           />
-          <span className={`text-[14px] text-default-black`}>
+          <span
+            className={`md:text-[12px] text-[10px] text-default-black font-normal`}
+          >
             {disslikeCount}
           </span>
         </div>
         <div className={`flex justify-center items-center gap-1 `}>
           <ThumbsUp
-            className={`size-5`}
+            className={`cursor-pointer`}
             onClick={() => handleLike(commentId)}
+            color={
+              currentUserIsLike ? `#008C78` : !theme ? `#1e1e1e` : "#FFFFFF"
+            }
+            width={"18"}
           />
-          <span className={`text-[14px] text-default-black`}>{likeCount}</span>
+          <span className={`text-[12px] text-default-black font-normal`}>
+            {likeCount}
+          </span>
         </div>
       </div>
     </div>
