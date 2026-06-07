@@ -15,6 +15,7 @@ import { Rating } from "react-simple-star-rating";
 import Time from "@/core/icons/Time";
 import { Link, NavLink, Outlet, useParams } from "react-router-dom";
 import teacherDetail1 from "../../../assets/images/teacherDetail.png";
+import newsDetail from "../../../assets/images/newsDetail.png";
 import { useContext, useEffect, useRef, useState } from "react";
 import {
   deleteCourseDisLike,
@@ -252,33 +253,37 @@ const NewsDetailInformation = () => {
             </div>
           </div>
           <div
-            className={`bg-default-light flex flex-col xl:gap-12 gap-6 p-4 items-center justify-center rounded-[25px] shadow-[0px_2px_5px_0px_#000000]/15 dark:shadow-[0px_2px_5px_0px_#ffffff]/15`}
+            className={`bg-default-light flex flex-col xl:gap-4 gap-2 p-4 rounded-[20px] shadow-[0px_2px_5px_0px_#000000]/15 dark:shadow-[0px_2px_5px_0px_#ffffff]/15`}
           >
-            <div className={`flex flex-col gap-2`}>
+            <span className={` text-[18px] text-default-black font-bold`}>
+              جدید ترین اخبار
+            </span>
+            <div
+              className={`border-2 border-light-gray flex justify-between p-2 items-center gap-2 rounded-[20px]`}
+            >
               <ImageFallback
-                src={Details?.data?.imageAddress}
-                fallback={teacherDetail1}
-                className={`2xl:size-68 size-42 rounded-full`}
+                // src={Details?.data?.imageAddress}
+                fallback={newsDetail}
+                className={`2xl:size-23 size-18 rounded-[12px]`}
               />
-              <div className={`text-center`}>
-                <p
-                  className={`text-field-silver xl:text-base text-[14px] font-normal`}
-                >
-                  نویسنده :
-                </p>
-                <p
-                  className={`xl:text-[18px] text-base font-bold text-default-black`}
-                >
-                  {Details?.data?.teacherName}
-                </p>
+              <div className={`flex flex-col gap-2`}>
+                <span className={` text-[14px] text-default-black font-bold`}>
+                  برنامه نویسی چیست؟‌ – همه چیز هایی که باید بدانید + کاربردها
+                </span>
+                <div className={`flex justify-between`}>
+                  <span
+                    className={`xl:text-[16px] lg:text-[13px] text-field-silver`}
+                  >
+                    ادوارد جانسون
+                  </span>
+                  <span
+                    className={`xl:text-[16px] lg:text-[13px] text-field-silver`}
+                  >
+                    1404/03/18
+                  </span>
+                </div>
               </div>
             </div>
-            <Button
-              color={`teachersBtn`}
-              className={`h-11.5! w-full! xl:rounded-[20px]! rounded-[15px]! xl:text-base! text-[14px]!`}
-            >
-              مشاهده اطلاعات بیشتر
-            </Button>
           </div>
         </div>
         <div className={`xl:w-7/10 lg:w-6/10 w-full flex flex-col gap-10`}>
