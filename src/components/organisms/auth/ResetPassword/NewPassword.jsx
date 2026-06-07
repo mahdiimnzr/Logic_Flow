@@ -13,7 +13,7 @@ import ThemeContext from "@/app/context/ThemeContext";
 import { useI18n } from "@/i18n/useI18n";
 
 const NewPassword = () => {
-  const { t } = useI18n();
+  const { t, lang, changeLang } = useI18n();
   const { theme, setTheme } = useContext(ThemeContext);
   const email = JSON.parse(localStorage.getItem("email"));
   const { verifyCode } = useParams();
@@ -79,11 +79,21 @@ const NewPassword = () => {
                   {t("auth.resetPassword.step2.backBtn")}
                 </span>
               </div>
-              <ThemeSlide
-                theme={theme}
-                setTheme={setTheme}
-                className={`flex md:hidden`}
-              />
+              <div className={`flex items-center lg:gap-2 gap-1`}>
+                <div
+                  onClick={() =>
+                    lang === "en" ? changeLang("fa") : changeLang("en")
+                  }
+                  className={`cursor-pointer lg:size-10 size-8 rounded-full bg-green-primary content-center text-center text-white md:text-base text-[12px] font-bold border lg:leading-10 leading-8 border-green-primary`}
+                >
+                  {lang === "en" ? "EN" : "FA"}
+                </div>
+                <ThemeSlide
+                  theme={theme}
+                  setTheme={setTheme}
+                  className={`flex md:hidden`}
+                />
+              </div>
             </div>
             <div className={`flex flex-col xl:gap-8 lg:gap-4 gap-5`}>
               <div className={`flex flex-col gap-2 text-center`}>

@@ -7,7 +7,7 @@ import "swiper/css";
 import Card from "@/components/molecules/Cards/Card";
 import useGetCourses from "@/core/services/api/hooks/useGetCourse";
 import { Skeleton } from "@/components/ui/skeleton";
-import useAddFavoriteCourse from "@/core/services/api/hooks/useAddFavoriteCourses";
+import useAddFavoriteCourse from "@/core/services/api/hooks/useFavoriteCourses";
 import { useI18n } from "@/i18n/useI18n";
 
 const CoursesSection = () => {
@@ -21,6 +21,7 @@ const CoursesSection = () => {
     RowsOfPage: "100",
     TechCount: "1",
   });
+  const { addFavoriteCourseMutate } = useAddFavoriteCourse();
   return (
     <div className="md:w-[95%] w-[90%] mx-auto flex flex-col gap-8 items-center">
       <div className="flex flex-col items-center text-center gap-2">
@@ -134,7 +135,7 @@ const CoursesSection = () => {
                       image={course.imageAddress}
                       isCourseCard={true}
                       isFavorite={false}
-                      handleAddFavoriteCourse={useAddFavoriteCourse}
+                      handleAddFavoriteCourse={addFavoriteCourseMutate}
                     />
                   </SwiperSlide>
                 ))}

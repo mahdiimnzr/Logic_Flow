@@ -67,7 +67,6 @@ const Step2 = ({ setWhichStep }) => {
                 <div
                   className={`flex flex-col gap-2 text-center cursor-pointer`}
                 >
-                  {" "}
                   <span
                     className={`text-green-primary xl:text-[24px] lg:text-[20px] md:text-[16px] font-bold  `}
                   >

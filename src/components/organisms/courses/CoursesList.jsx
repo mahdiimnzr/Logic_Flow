@@ -4,7 +4,7 @@ import Card from "@/components/molecules/Cards/Card";
 import PaginationComponents from "@/components/molecules/Pagination/Pagination";
 import { PaginationItem } from "@/components/ui/pagination";
 import { Skeleton } from "@/components/ui/skeleton";
-import useAddFavoriteCourse from "@/core/services/api/hooks/useAddFavoriteCourses";
+import useFavoriteCourses from "@/core/services/api/hooks/useFavoriteCourses";
 import useGetCourses from "@/core/services/api/hooks/useGetCourse";
 import { useI18n } from "@/i18n/useI18n";
 import { ChevronLeft } from "lucide-react";
@@ -35,6 +35,8 @@ const CoursesList = () => {
     data: courses,
     refetch,
   } = useGetCourses("CoursesList", params);
+
+  const { addFavoriteCourseMutate } = useFavoriteCourses();
 
   const pageCount = useMemo(
     () =>
@@ -213,7 +215,7 @@ const CoursesList = () => {
                   image={course.imageAddress}
                   isCourseCard={true}
                   isFavorite={false}
-                  handleAddFavoriteCourse={useAddFavoriteCourse}
+                  handleAddFavoriteCourse={addFavoriteCourseMutate}
                 />
               ))}
             </div>
