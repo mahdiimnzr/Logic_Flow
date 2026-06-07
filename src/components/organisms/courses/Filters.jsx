@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import SelectModal from "@/components/molecules/Select/Select";
 import { rowsOfPages, sortingTypes } from "@/core/constants/courseSortings";
 import ThemeContext from "@/app/context/ThemeContext";
+import useGetTeachers from "@/core/services/api/hooks/useGetTeachers";
 
 const Filters = ({
   sortTypes,
@@ -46,7 +47,9 @@ const Filters = ({
     priceRange,
     isTypesModalOpen,
     selectedTypes,
+    selectedTeachers,
     searchValue,
+    isTeachersModalOpen,
   } = useSelector((state) => state.coursesSlice.filters);
 
   const setFilter = (key, value) => dispatch(updateFilters({ key, value }));
@@ -64,6 +67,8 @@ const Filters = ({
     useGetCoursesTechnologies("CourseTechnologies");
   const { isLoading: typesLoading, data: types } =
     useGetCoursesTypes("CourseTypes");
+  const { isLoading: teachersLoading, data: teachers } =
+    useGetTeachers("CourseTeachers");
 
   const handleSearch = debounce((value) => {
     const search = value.trim() === "" ? null : value.trim();
@@ -84,6 +89,7 @@ const Filters = ({
       setFilter(searchValue, searchParams.get("Query"));
     setFilter("selectedLevel", searchParams.get("courseLevelId"));
     setFilter("selectedTypes", searchParams.get("CourseTypeId"));
+    setFilter("selectedTeachers", searchParams.get("TeacherId"));
     setFilter(
       "selectedTechnology",
       searchParams.get("ListTech") === null
@@ -101,7 +107,7 @@ const Filters = ({
     );
     setFilter("startValue", formatDate(searchParams.get("StartDate")));
     setFilter("endValue", formatDate(searchParams.get("EndDate")));
-  }, [levelsLoading, technologiesLoading, typesLoading]);
+  }, [levelsLoading, technologiesLoading, typesLoading, teachersLoading]);
   return (
     <>
       {sortTypes !== undefined && (
@@ -304,7 +310,7 @@ const Filters = ({
                       key={index}
                       label={value.levelName}
                       id="courseLevels"
-                      labelId={value.id}
+                      labelId={`courseLevel${value.id}`}
                       type="radio"
                       checked={selectedLevel === value.id}
                       onChange={(event) => {
@@ -330,7 +336,7 @@ const Filters = ({
                     key={index}
                     label={value.levelName}
                     id="courseLevels"
-                    labelId={value.id}
+                    labelId={`courseLevel${value.id}`}
                     type="radio"
                     checked={selectedLevel === value.id}
                     onChange={(event) => {
@@ -420,7 +426,7 @@ const Filters = ({
                             : value.typeName
                       }
                       id="courseTypes"
-                      labelId={value.id}
+                      labelId={`courseType${value.id}`}
                       type="radio"
                       checked={selectedTypes === value.id}
                       onChange={(event) => {
@@ -452,7 +458,7 @@ const Filters = ({
                           : value.typeName
                     }
                     id="courseTypes"
-                    labelId={value.id}
+                    labelId={`courseType${value.id}`}
                     type="radio"
                     checked={selectedTypes === value.id}
                     onChange={(event) => {
@@ -495,7 +501,7 @@ const Filters = ({
           />
           {types?.data?.length > 3 && (
             <div
-              onClick={() => setFilter("isLevelsModalOpen", !isTypesModalOpen)}
+              onClick={() => setFilter("isTypesModalOpen", !isTypesModalOpen)}
               className={`flex items-center gap-1 cursor-pointer`}
             >
               {!isTypesModalOpen ? (
@@ -505,6 +511,118 @@ const Filters = ({
               )}
               <span className={`text-[#008C78] text-[14px] font-normal`}>
                 {!isTypesModalOpen
+                  ? t("courses.filters.showMore")
+                  : t("courses.filters.showLess")}
+              </span>
+            </div>
+          )}
+        </div>
+      </AccordionMultiple>
+      <AccordionMultiple
+        value={"courseTeachers"}
+        className={`bg-default-light p-4 rounded-[15px] shadow-[0px_2px_5px_0px_#000000]/15 dark:shadow-[0px_2px_5px_0px_#ffffff]/15`}
+        trigger={t("courses.filters.teachers")}
+        triggerClassName={`hover:no-underline! cursor-pointer! text-default-black! 2xl:text-[18px]! lg:text-base! font-bold! text-right!`}
+      >
+        <div className={`flex flex-col gap-4`}>
+          {teachersLoading
+            ? skeletonCountCheckBox?.map((_, index) => (
+                <div
+                  key={index}
+                  dir="rtl"
+                  className={`w-3/10 p-1 flex flex-col gap-5 rounded-[10px] bg-field-silver`}
+                >
+                  <Skeleton className={`h-3 w-full`} />
+                </div>
+              ))
+            : !isTeachersModalOpen
+              ? teachers?.status < 400 && teachers?.data
+                ? teachers?.data?.slice(0, 3)?.map((value, index) => (
+                    <CheckBox
+                      key={index}
+                      label={value.fullName}
+                      id="courseTeachers"
+                      labelId={`teacher${value.teacherId}`}
+                      type="radio"
+                      checked={selectedTeachers === value.teacherId}
+                      onChange={(event) => {
+                        setFilter("selectedTeachers", value.teacherId);
+                        const { checked } = event.target;
+                        dispatch(
+                          updateParams({
+                            key: "TeacherId",
+                            value: checked ? value.teacherId : null,
+                          }),
+                        );
+                        setSearchParams((params) => {
+                          checked && params.set("TeacherId", value.teacherId);
+                          !checked && params.delete("TeacherId");
+                          return params;
+                        });
+                      }}
+                    />
+                  ))
+                : null
+              : teachers?.data?.map((value, index) => (
+                  <CheckBox
+                    key={index}
+                    label={value.fullName}
+                    id="courseTeachers"
+                    labelId={`teacher${value.teacherId}`}
+                    type="radio"
+                    checked={selectedTeachers === value.teacherId}
+                    onChange={(event) => {
+                      setFilter("selectedTeachers", value.teacherId);
+                      const { checked } = event.target;
+                      dispatch(
+                        updateParams({
+                          key: "TeacherId",
+                          value: checked ? value.teacherId : null,
+                        }),
+                      );
+                      setSearchParams((params) => {
+                        checked && params.set("TeacherId", value.teacherId);
+                        !checked && params.delete("TeacherId", null);
+                        return params;
+                      });
+                    }}
+                  />
+                ))}
+          <CheckBox
+            label={"همه"}
+            id={"courseTeachers"}
+            labelId={"selectAllTeachers"}
+            type="radio"
+            checked={selectedTeachers === "selectAllTeachers"}
+            onChange={(event) => {
+              setFilter("selectedTeachers", "selectAllTeachers");
+              const { checked } = event.target;
+              dispatch(
+                updateParams({
+                  key: "TeacherId",
+                  value: checked ? null : null,
+                }),
+              );
+              setSearchParams((params) => {
+                params.delete("TeacherId");
+                return params;
+              });
+            }}
+          />
+          {teachers?.data?.length > 3 && (
+            <div
+              onClick={() =>
+                setFilter("isTeachersModalOpen", !isTeachersModalOpen)
+              }
+              className={`flex items-center gap-1 cursor-pointer`}
+            >
+              {!isTeachersModalOpen ? (
+                <Plus className={`size-4`} color="#008C78" />
+              ) : (
+                <Minus className={`size-4`} color="#008C78" />
+              )}
+              <span className={`text-[#008C78] text-[14px] font-normal`}>
+                {!isTeachersModalOpen
                   ? t("courses.filters.showMore")
                   : t("courses.filters.showLess")}
               </span>
@@ -536,7 +654,7 @@ const Filters = ({
                       key={index}
                       label={value.techName}
                       id={value.id}
-                      labelId={value.id}
+                      labelId={`courseTechnology${value.id}`}
                       type="checkbox"
                       checked={selectedTechnology.includes(value.id)}
                       onChange={(event) => {
@@ -575,7 +693,7 @@ const Filters = ({
                     key={index}
                     label={value.techName}
                     id={value.id}
-                    labelId={value.id}
+                    labelId={`courseTechnology${value.id}`}
                     type="checkbox"
                     checked={selectedTechnology.includes(value.id)}
                     onChange={(event) => {

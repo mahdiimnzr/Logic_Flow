@@ -14,7 +14,6 @@ const articlesSlice = createSlice({
     filters: {
       selectedTechnology: null,
       isTechnologiesModalOpen: false,
-      searchValue: null,
     },
   },
   reducers: {

@@ -1,9 +1,12 @@
-import { updateArticlesParams } from "@/app/store/actions";
+import {
+  updateArticlesFilters,
+  updateArticlesParams,
+} from "@/app/store/actions";
 import DrawerComponents from "@/components/molecules/Drawer/Drawer";
 import SelectModal from "@/components/molecules/Select/Select";
 import { DrawerClose } from "@/components/ui/drawer";
 import { rowsOfPages, sortingTypes } from "@/core/constants/articlesSorting";
-import { Copy, ListFilterPlus, Search } from "lucide-react";
+import { Copy, ListFilterPlus, Search, X } from "lucide-react";
 import Filters from "./Filters";
 import debounce from "debounce";
 import ThemeContext from "@/app/context/ThemeContext";
@@ -29,6 +32,20 @@ const SortsSection = ({
   const { theme } = useContext(ThemeContext);
   const [sortTypes, setSortTypes] = useState("newest");
 
+  const setParams = (key, value) =>
+    dispatch(updateArticlesParams({ key: [key], value: value }));
+  const setFilters = (key, value) =>
+    dispatch(updateArticlesFilters({ key: [key], value: value }));
+
+  const handleDeleteFilters = () => {
+    setFilters("selectedTechnology", null);
+    setSearchParams(() => {
+      searchParams.delete("Query");
+      searchParams.delete("NewsCategoryId");
+    });
+    setParams("Query", null);
+    setParams("NewsCategoryId", null);
+  };
   const handleSearch = debounce((value) => {
     const search = value.trim() === "" ? null : value.trim();
     dispatch(updateArticlesParams({ key: "Query", value: search }));
@@ -59,7 +76,7 @@ const SortsSection = ({
           color="#848484"
         />
       </div>
-      <div className={`lg:flex hidden items-center gap-4`}>
+      <div className={`lg:flex hidden items-center xl:gap-4 lg:gap-2`}>
         <span className={`text-default-black font-normal md:text-base`}>
           {t("articles.sorting.sortBy")}
         </span>
@@ -107,12 +124,19 @@ const SortsSection = ({
             navigator.clipboard.writeText(webPath);
           }}
           color={"authBtn"}
-          className={`xl:px-3 xl:py-2 p-2`}
+          className={`p-2`}
+        >
+          <Copy className={`hidden lg:block`} />
+        </Button>
+        <Button
+          onClick={handleDeleteFilters}
+          color={"authBtn"}
+          className={`p-2 flex items-center justify-center gap-1`}
         >
           <p className={`hidden xl:block`}>
-            {t("articles.filters.copyFilter")}
+            {t("courses.filters.deleteFilter")}
           </p>
-          <Copy className={`xl:hidden block`} />
+          <X className={`hidden lg:block`} />
         </Button>
       </div>
       <View view={gridView} setView={setGridView} />
@@ -158,6 +182,13 @@ const SortsSection = ({
                   className={`xl:px-3 xl:py-2 p-2 block lg:hidden`}
                 >
                   <Copy />
+                </Button>
+                <Button
+                  onClick={handleDeleteFilters}
+                  color={"authBtn"}
+                  className={`p-2 flex items-center justify-center gap-1`}
+                >
+                  <X className={`block lg:hidden`} />
                 </Button>
               </span>
               <DrawerClose asChild>

@@ -18,7 +18,8 @@
       "closeBtn": "Close",
       "filtersName": "Sort & Filter",
       "copy": "Copied!",
-      "copyFilter": "Copy filters"
+      "copyFilter": "Copy filters",
+      "deleteFilter": "Delete Filters"
     }
   },
   "fa": {
@@ -40,7 +41,8 @@
       "closeBtn": "بستن",
       "filtersName": " ترتیب و فیلتر",
       "copy": "کپی شد!",
-      "copyFilter": "کپی کردن فیلتر ها"
+      "copyFilter": "کپی کردن فیلتر ها",
+      "deleteFilter": "حذف فیلتر ها"
     }
   }
 }

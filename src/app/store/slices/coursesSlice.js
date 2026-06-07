@@ -35,7 +35,8 @@ const coursesSlice = createSlice({
       priceRange: [0, 10000000],
       isTypesModalOpen: false,
       selectedTypes: null,
-      searchValue: null,
+      isTeachersModalOpen: false,
+      selectedTeachers: null,
     },
   },
   reducers: {

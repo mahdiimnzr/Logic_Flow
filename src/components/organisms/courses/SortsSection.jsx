@@ -1,14 +1,14 @@
-import { updateParams } from "@/app/store/actions";
+import { updateFilters, updateParams } from "@/app/store/actions";
 import DrawerComponents from "@/components/molecules/Drawer/Drawer";
 import SelectModal from "@/components/molecules/Select/Select";
 import { DrawerClose } from "@/components/ui/drawer";
 import { rowsOfPages, sortingTypes } from "@/core/constants/courseSortings";
-import { Copy, ListFilterPlus, Search } from "lucide-react";
+import { Copy, ListFilterPlus, Search, X } from "lucide-react";
 import Filters from "./Filters";
 import debounce from "debounce";
 import ThemeContext from "@/app/context/ThemeContext";
 import { useContext, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useI18n } from "@/i18n/useI18n";
 import View from "@/components/molecules/View/View";
 import Button from "@/components/atoms/Buttons/Button";
@@ -28,6 +28,45 @@ const SortsSection = ({
   const dispatch = useDispatch();
   const { theme } = useContext(ThemeContext);
   const [sortTypes, setSortTypes] = useState("expensive");
+
+  const setParams = (key, value) =>
+    dispatch(updateParams({ key: [key], value: value }));
+  const setFilters = (key, value) =>
+    dispatch(updateFilters({ key: [key], value: value }));
+
+  const handleDeleteFilters = () => {
+    setFilters("startValue", "");
+    setFilters("startDate", null);
+    setFilters("endValue", "");
+    setFilters("selectedLevel", null);
+    setFilters("selectedTeachers", null);
+    setFilters("selectedTechnology", []);
+    setFilters("priceRange", [0, 10000000]);
+    setFilters("selectedTypes", null);
+    setFilters("selectedTeachers", null);
+    setSearchParams(() => {
+      searchParams.delete("Query");
+      searchParams.delete("StartDate");
+      searchParams.delete("EndDate");
+      searchParams.delete("CostUp");
+      searchParams.delete("CostDown");
+      searchParams.delete("courseLevelId");
+      searchParams.delete("CourseTypeId");
+      searchParams.delete("TechCount");
+      searchParams.delete("ListTech");
+      searchParams.delete("TeacherId");
+    });
+    setParams("Query", null);
+    setParams("StartDate", null);
+    setParams("EndDate", null);
+    setParams("CostUp", null);
+    setParams("CostDown", null);
+    setParams("courseLevelId", null);
+    setParams("CourseTypeId", null);
+    setParams("TechCount", null);
+    setParams("ListTech", null);
+    setParams("TeacherId", null);
+  };
 
   const handleSearch = debounce((value) => {
     const search = value.trim() === "" ? null : value.trim();
@@ -59,7 +98,7 @@ const SortsSection = ({
           color="#848484"
         />
       </div>
-      <div className={`lg:flex hidden items-center gap-4`}>
+      <div className={`lg:flex hidden items-center xl:gap-4 lg:gap-2`}>
         <span className={`text-default-black font-normal md:text-base`}>
           {t("courses.sorting.sortBy")}
         </span>
@@ -105,7 +144,17 @@ const SortsSection = ({
           color={"authBtn"}
           className={`p-2`}
         >
-          <Copy className={`hidden xl:block`} />
+          <Copy className={`hidden lg:block`} />
+        </Button>
+        <Button
+          onClick={handleDeleteFilters}
+          color={"authBtn"}
+          className={`p-2 flex items-center justify-center gap-1`}
+        >
+          <p className={`hidden xl:block`}>
+            {t("courses.filters.deleteFilter")}
+          </p>
+          <X className={`hidden lg:block`} />
         </Button>
       </div>
       <View view={gridView} setView={setGridView} />
@@ -151,6 +200,13 @@ const SortsSection = ({
                   className={`xl:px-3 xl:py-2 p-2 block lg:hidden`}
                 >
                   <Copy />
+                </Button>
+                <Button
+                  onClick={handleDeleteFilters}
+                  color={"authBtn"}
+                  className={`p-2 flex items-center justify-center gap-1`}
+                >
+                  <X className={`block lg:hidden`} />
                 </Button>
               </span>
               <DrawerClose asChild>
