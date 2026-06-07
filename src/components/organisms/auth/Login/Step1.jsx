@@ -15,7 +15,7 @@ import ThemeContext from "@/app/context/ThemeContext";
 import { useI18n } from "@/i18n/useI18n";
 
 const Step1 = ({ setWhichStep, setSignUpParams, SignUpParams }) => {
-  const { t } = useI18n();
+  const { t, lang, changeLang } = useI18n();
   const { theme, setTheme } = useContext(ThemeContext);
   const [checked, setChecked] = useState(false);
   const navigate = useNavigate();
@@ -73,11 +73,21 @@ const Step1 = ({ setWhichStep, setSignUpParams, SignUpParams }) => {
                     {t("auth.login.step1.homeBtn")}
                   </p>
                 </Link>
-                <ThemeSlide
-                  theme={theme}
-                  setTheme={setTheme}
-                  className={`flex md:hidden`}
-                />
+                <div className={`flex items-center lg:gap-2 gap-1`}>
+                  <div
+                    onClick={() =>
+                      lang === "en" ? changeLang("fa") : changeLang("en")
+                    }
+                    className={`cursor-pointer lg:size-10 size-8 rounded-full bg-green-primary content-center text-center text-white md:text-base text-[12px] font-bold border lg:leading-10 leading-8 border-green-primary`}
+                  >
+                    {lang === "en" ? "EN" : "FA"}
+                  </div>
+                  <ThemeSlide
+                    theme={theme}
+                    setTheme={setTheme}
+                    className={`flex md:hidden`}
+                  />
+                </div>
               </div>
               <div className={`flex flex-col xl:gap-8 lg:gap-4 gap-5`}>
                 <span

@@ -27,7 +27,6 @@ import {
 } from "@/core/services/api/CourseDetails/CourseDetails.service";
 import ImageFallback from "@/components/atoms/ImageFallBack/ImageFallBack";
 import formatPrice from "@/core/utils/formatPrice";
-import formatTime from "@/core/utils/formatTime";
 import { toast } from "react-toastify";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import ThemeContext from "@/app/context/ThemeContext";
@@ -38,7 +37,7 @@ import "swiper/css";
 import { Navigation } from "swiper/modules";
 import { Skeleton } from "@/components/ui/skeleton";
 import Card from "@/components/molecules/Cards/Card";
-import useAddFavoriteCourse from "@/core/services/api/hooks/useAddFavoriteCourses";
+import useAddFavoriteCourse from "@/core/services/api/hooks/useFavoriteCourses";
 import Border from "@/components/atoms/Border/Border";
 import FavoriteIcon from "@/core/icons/FavoriteIcon";
 import formatHour from "@/core/utils/formatHour";
@@ -54,6 +53,8 @@ const CourseInformation = () => {
   const { id } = useParams();
   const { theme } = useContext(ThemeContext);
   const { isLoading, data: Details, refetch } = useGetCourseDetail(id);
+  const { addFavoriteCourseMutate, removeFavoriteCourseMutate } =
+    useAddFavoriteCourse();
   const { mutate: likeMutate } = useMutation({
     mutationFn: postCourseLike,
     onSuccess: (result) => {
@@ -139,7 +140,15 @@ const CourseInformation = () => {
       disLikeMutate(id);
     }
   };
-  const handleAddFavoriteCourse = (id) => useAddFavoriteCourse(id);
+  const handleFavorite = () => {
+    if (Details?.data?.userFavorite) {
+      const formData = new FormData();
+      formData.append("CourseFavoriteId", Details?.data?.userFavoriteId);
+      removeFavoriteCourseMutate({ formData, key: `courseDetail${id}` });
+    } else if (!Details?.data?.userFavorite) {
+      addFavoriteCourseMutate({ courseId: id, key: `courseDetail${id}` });
+    }
+  };
   useEffect(() => {
     refetch();
   }, []);
@@ -375,7 +384,7 @@ const CourseInformation = () => {
           <div className={`flex flex-col gap-4`}>
             <div className={`relative`}>
               <div
-                onClick={() => handleAddFavoriteCourse(id)}
+                onClick={handleFavorite}
                 className={`content-center bg-default-black/25 size-10 rounded-full cursor-pointer absolute right-4 top-4`}
               >
                 <FavoriteIcon

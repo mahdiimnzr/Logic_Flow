@@ -44,7 +44,7 @@ import Border from "@/components/atoms/Border/Border";
 import FavoriteIcon from "@/core/icons/FavoriteIcon";
 import formatHour from "@/core/utils/formatHour";
 import formatDate from "@/core/utils/formatDate";
-import useAddFavoriteCourse from "@/core/services/api/hooks/useAddFavoriteCourses";
+import useAddFavoriteCourse from "@/core/services/api/hooks/useFavoriteCourses";
 
 const menu = [
   { path: "Review", Text: " جزئیات خبر" },

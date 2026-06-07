@@ -27,13 +27,13 @@ const UpBtn = () => {
       <div
         ref={upBtnRef}
         onClick={() => scroll(0, 0)}
-        className={`rounded-full border bg-green-primary border-white w-10 h-0 opacity-0 mx-auto cursor-pointer content-center transition-all transform-[rotate(180deg)]`}
+        className={`rounded-full border bg-green-primary border-green-primary w-10 h-0 opacity-0 mx-auto cursor-pointer content-center transition-all transform-[rotate(180deg)]`}
       >
         <ChevronsUp className={`mx-auto size-6`} color="white" />
       </div>
       <div
         onClick={() => (lang === "en" ? changeLang("fa") : changeLang("en"))}
-        className={`cursor-pointer size-10 rounded-full bg-green-primary content-center text-center text-white md:text-base text-[12px] font-bold border leading-10 border-white`}
+        className={`cursor-pointer size-10 rounded-full bg-green-primary content-center text-center text-white md:text-base text-[12px] font-bold border leading-10 border-green-primary`}
       >
         {lang === "en" ? "EN" : "FA"}
       </div>
