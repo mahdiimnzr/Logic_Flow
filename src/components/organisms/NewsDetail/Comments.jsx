@@ -4,18 +4,11 @@ import ImageFallback from "@/components/atoms/ImageFallBack/ImageFallBack";
 import formatDate from "@/core/utils/formatDate";
 import { useContext, useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  deleteCourseCommentLike,
-  postAddReplyCommentCourse,
-  postCourseCommentDisSLike,
-  postCourseCommentLike,
-} from "@/core/services/api/CourseDetails/CourseDetails.service";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 import ThemeContext from "@/app/context/ThemeContext";
 import Button from "@/components/atoms/Buttons/Button";
 import * as Yup from "yup";
-import formDataConverter from "@/core/utils/formDataConvertor";
 import FormInput from "@/components/molecules/Inputs/FormInput";
 import TextAreaInput from "@/components/molecules/Inputs/TextAreaInput";
 import { Form, Formik } from "formik";
@@ -26,6 +19,7 @@ import {
   postNewsCommentLikeAndDisLike,
   useGetNewsReplyComments,
 } from "@/core/services/api/newsDetails/newsDetails.service";
+import { useI18n } from "@/i18n/useI18n";
 
 const Comments = ({
   author,
@@ -40,9 +34,10 @@ const Comments = ({
   currentUserIsDissLike,
   currentUserLikeId,
 }) => {
+  const { t } = useI18n();
   const validationSchema = Yup.object({
-    title: Yup.string().required("فیلد خالی است"),
-    describe: Yup.string().required("فیلد خالی است"),
+    title: Yup.string().required(t("newsDetail.inputsError")),
+    describe: Yup.string().required(t("newsDetail.inputsError")),
   });
 
   const { id } = useParams();
@@ -202,7 +197,9 @@ const Comments = ({
                       <span
                         className={`md:text-[12px] text-[10px] text-default-black font-normal`}
                       >
-                        {Open ? `بستن پاسخ ها ` : `باز کردن پاسخ ها`}
+                        {Open
+                          ? t("newsDetail.closeAnswers")
+                          : t("newsDetail.openAnswers")}
                       </span>
                     </div>
                   )}
@@ -253,7 +250,9 @@ const Comments = ({
                     className={`md:text-[12px] text-[10px] text-green-primary underline cursor-pointer font-normal`}
                     onClick={() => setIsOpen(!isOpen)}
                   >
-                    {!isOpen ? `پاسخ دادن` : `بستن پاسخ`}
+                    {!isOpen
+                      ? t("newsDetail.answer")
+                      : t("newsDetail.closeAnswer")}
                   </span>
                 </div>
               </div>
@@ -262,22 +261,22 @@ const Comments = ({
               >
                 <FormInput
                   isComment={true}
-                  error={errors.Title}
+                  error={errors.title}
                   name={"title"}
                   type={"text"}
-                  placeholder={"عنوان پاسخ را بنویسید"}
+                  placeholder={t("newsDetail.commentTitlePlaceHolder")}
                   className={`h-10!`}
                   errorMessageClassName={`lg:text-[14px]! text-[12px]!`}
                 />
                 <TextAreaInput
                   name={"describe"}
-                  error={errors.Describe}
+                  error={errors.describe}
                   type={"text"}
-                  placeholder={"متن دیدگاه خود را بنویسید"}
+                  placeholder={t("newsDetail.commentDescribePlaceHolder")}
                   fieldClassName={`xl:min-h-29.25! xl:max-h-35 lg:min-h-22.25! lg:max-h-30 min-h-20 max-h-25`}
                 />
                 <Button color={"authBtn"} className={`w-full py-3`}>
-                  اضافه کردن نظر
+                  {t("newsDetail.addComment")}
                 </Button>
               </div>
             </div>

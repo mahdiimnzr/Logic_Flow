@@ -13,11 +13,13 @@ import {
   useGetNewsComments,
 } from "@/core/services/api/newsDetails/newsDetails.service";
 import Comments from "./Comments";
+import { useI18n } from "@/i18n/useI18n";
 
 const NewsComments = () => {
+  const { t } = useI18n();
   const validationSchema = Yup.object({
-    title: Yup.string().required("فیلد خالی است"),
-    describe: Yup.string().required("فیلد خالی است"),
+    title: Yup.string().required(t("newsDetail.inputsError")),
+    describe: Yup.string().required(t("newsDetail.inputsError")),
   });
 
   const { id } = useParams();
@@ -53,7 +55,7 @@ const NewsComments = () => {
             <span
               className={`text-default-black xl:text-[18px] text-base font-bold`}
             >
-              همه ی نظرات
+              {t("newsDetail.allComments")}
             </span>
             <div className={`xl:size-6 size-5 rounded-full bg-light-gray`}>
               <p
@@ -82,14 +84,14 @@ const NewsComments = () => {
                   <span
                     className={`xl:text-base text-[14px] font-bold text-default-black`}
                   >
-                    عنوان دیدگاه
+                    {t("newsDetail.commentTitle")}
                   </span>
                   <FormInput
                     isComment={true}
                     error={errors.title}
                     name={"title"}
                     type={"text"}
-                    placeholder={"عنوان دیدگاه خود را بنویسید"}
+                    placeholder={t("newsDetail.commentTitlePlaceHolder")}
                     className={`xl:h-15! lg:h-13! md:h-11! sm:h-13! h-11!`}
                     errorMessageClassName={`lg:text-[14px]! text-[12px]!`}
                   />
@@ -98,18 +100,18 @@ const NewsComments = () => {
                   <span
                     className={`xl:text-base text-[14px] font-bold text-default-black`}
                   >
-                    متن دیدگاه
+                    {t("newsDetail.commentDescribe")}
                   </span>
                   <TextAreaInput
                     name={"describe"}
                     error={errors.describe}
                     type={"text"}
-                    placeholder={"متن دیدگاه خود را بنویسید"}
+                    placeholder={t("newsDetail.commentDescribePlaceHolder")}
                     fieldClassName={`xl:min-h-51! lg:min-h-40! min-h-20 xl:max-h-55 lg:max-h-45 max-h-30`}
                   />
                 </div>
                 <Button color={"authBtn"} className={`w-full py-3`}>
-                  اضافه کردن نظر
+                  {t("newsDetail.addComment")}
                 </Button>
               </Form>
             )}

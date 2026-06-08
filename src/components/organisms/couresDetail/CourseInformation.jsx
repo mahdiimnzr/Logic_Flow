@@ -216,7 +216,9 @@ const CourseInformation = () => {
           <div className={`flex flex-col gap-4 lg:hidden`}>
             {isLoading ? (
               <div className={`p-1 rounded-[5px] bg-field-silver`}>
-                <Skeleton className={`w-full md:h-110 sm:h-90 h-50 rounded-[5px]`} />
+                <Skeleton
+                  className={`w-full md:h-110 sm:h-90 h-50 rounded-[5px]`}
+                />
               </div>
             ) : (
               <div className={`relative`}>

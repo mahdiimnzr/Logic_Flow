@@ -36,8 +36,8 @@ import formatDate from "@/core/utils/formatDate";
 import EyeOpenIcon from "@/core/icons/EyeOpenIcon";
 
 const menu = [
-  { path: "Review", Text: " جزئیات خبر" },
-  { path: "Comments", Text: "نظرات کاربران" },
+  { path: "Review", Text: " جزئیات خبر", textEn: "News Detail" },
+  { path: "Comments", Text: "نظرات کاربران", textEn: "Peoples Comments" },
 ];
 
 const NewsDetailInformation = () => {
@@ -145,7 +145,7 @@ const NewsDetailInformation = () => {
             className={`text-[14px] font-normal text-green-primary`}
             to={"/"}
           >
-            صفحه اصلی
+            {t("newsDetail.home")}
           </Link>
           <ChevronLeft
             className={`size-4 ${lang === "en" ? "sm:transform-[rotate(180deg)] transform-[rotate(270deg)]" : "sm:transform-[rotate(0deg)] transform-[rotate(270deg)]"}`}
@@ -155,7 +155,7 @@ const NewsDetailInformation = () => {
             className={`text-[14px] font-normal text-green-primary`}
             to={"/Articles"}
           >
-            اخبار
+            {t("newsDetail.articles")}
           </Link>
           <ChevronLeft
             className={`size-4 ${lang === "en" ? "sm:transform-[rotate(180deg)] transform-[rotate(270deg)]" : "sm:transform-[rotate(0deg)] transform-[rotate(270deg)]"}`}
@@ -186,7 +186,9 @@ const NewsDetailInformation = () => {
           <div className={`flex flex-col gap-4 lg:hidden`}>
             {isLoading ? (
               <div className={`p-1 rounded-[5px] bg-field-silver`}>
-                <Skeleton className={`w-full md:h-110 sm:h-90 h-50 rounded-[5px]`} />
+                <Skeleton
+                  className={`w-full md:h-110 sm:h-90 h-50 rounded-[5px]`}
+                />
               </div>
             ) : (
               <div className={`relative`}>
@@ -273,7 +275,7 @@ const NewsDetailInformation = () => {
                 <p
                   className={`text-field-silver xl:text-base text-[14px] font-normal`}
                 >
-                  نویسنده :
+                  {t("newsDetail.writer")}
                 </p>
                 <p
                   className={`xl:text-[18px] text-base font-bold text-default-black`}
@@ -290,7 +292,7 @@ const NewsDetailInformation = () => {
                 color={`teachersBtn`}
                 className={`h-11.5! w-full! xl:rounded-[20px]! rounded-[15px]! xl:text-base! text-[14px]!`}
               >
-                مشاهده اطلاعات بیشتر
+                {t("newsDetail.showMoreInfo")}
               </Button>
             </Link>
           </div>
@@ -300,7 +302,7 @@ const NewsDetailInformation = () => {
             <span
               className={`xl:text-[18px] lg:text-base text-default-black font-bold`}
             >
-              رضایت کاربران از دوره
+              {t("newsDetail.peopleRate")}
             </span>
             <div className={`flex items-center justify-between`}>
               <div>
@@ -321,7 +323,7 @@ const NewsDetailInformation = () => {
                 {details?.data?.detailsNewsDto?.newsRate?.avg % 1 === 0
                   ? details?.data?.detailsNewsDto?.newsRate?.avg
                   : details?.data?.detailsNewsDto?.newsRate?.avg.toFixed(1)}
-                {""} امتیاز
+                {""} {t("newsDetail.rate")}
               </span>
             </div>
           </div>
@@ -329,7 +331,7 @@ const NewsDetailInformation = () => {
             className={`bg-default-light hidden lg:flex flex-col xl:gap-4 gap-2 p-4 rounded-[20px] shadow-[0px_2px_5px_0px_#000000]/15 dark:shadow-[0px_2px_5px_0px_#ffffff]/15`}
           >
             <span className={` text-[18px] text-default-black font-bold`}>
-              جدید ترین اخبار
+              {t("newsDetail.newestArticles")}
             </span>
             <div className={`flex flex-col gap-4`}>
               {slidersLoading ? (
@@ -466,7 +468,7 @@ const NewsDetailInformation = () => {
                   `${isActive ? `text-default-light xl:text-base text-[14px] bg-green-primary xl:px-4 xl:py-3 px-3 py-2 rounded-[50px]` : `text-default-black`} text-center`
                 }
               >
-                {value.Text}
+                {lang === "en" ? value.textEn : value.Text}
               </NavLink>
             ))}
           </div>
@@ -476,7 +478,7 @@ const NewsDetailInformation = () => {
       <div className="flex flex-col gap-8 w-full py-12">
         <div className="flex items-center justify-between">
           <h3 className={`text-green-primary font-bold text-[24px]`}>
-            اخبار مرتبط
+            {t("newsDetail.connectedArticles")}
           </h3>
           <div dir="rtl" className="flex items-center gap-1">
             <button
