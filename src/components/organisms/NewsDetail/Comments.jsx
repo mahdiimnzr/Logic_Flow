@@ -9,11 +9,9 @@ import {
   postAddReplyCommentCourse,
   postCourseCommentDisSLike,
   postCourseCommentLike,
-  useGetCourseReplyComment,
 } from "@/core/services/api/CourseDetails/CourseDetails.service";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
-import ReplyComment from "../ReplyCommnets/ReplyComment";
 import ThemeContext from "@/app/context/ThemeContext";
 import Button from "@/components/atoms/Buttons/Button";
 import * as Yup from "yup";
@@ -21,6 +19,13 @@ import formDataConverter from "@/core/utils/formDataConvertor";
 import FormInput from "@/components/molecules/Inputs/FormInput";
 import TextAreaInput from "@/components/molecules/Inputs/TextAreaInput";
 import { Form, Formik } from "formik";
+import ReplyComment from "./ReplyComment";
+import {
+  deleteNewsCommentLike,
+  postAddReplyCommentNews,
+  postNewsCommentLikeAndDisLike,
+  useGetNewsReplyComments,
+} from "@/core/services/api/newsDetails/newsDetails.service";
 
 const Comments = ({
   author,
@@ -33,10 +38,11 @@ const Comments = ({
   commentId,
   currentUserIsLike,
   currentUserIsDissLike,
+  currentUserLikeId,
 }) => {
   const validationSchema = Yup.object({
-    Title: Yup.string().required("فیلد خالی است"),
-    Describe: Yup.string().required("فیلد خالی است"),
+    title: Yup.string().required("فیلد خالی است"),
+    describe: Yup.string().required("فیلد خالی است"),
   });
 
   const { id } = useParams();
@@ -46,13 +52,15 @@ const Comments = ({
   const { theme } = useContext(ThemeContext);
 
   const { mutate: likeCommentMutate } = useMutation({
-    mutationFn: postCourseCommentLike,
+    mutationFn: postNewsCommentLikeAndDisLike,
     onSuccess: (result) => {
       if (result.data.success) {
-        toast.success(result.data.message);
-        queryClient.invalidateQueries({
-          queryKey: [`courseComment${id}`],
-        });
+        if (result.status != 400) {
+          toast.success(result.data.message);
+          queryClient.invalidateQueries({ queryKey: [`newsComments${id}`] });
+        } else {
+          toast.error(result.data.message);
+        }
       } else {
         toast.error(result.data.message);
       }
@@ -60,13 +68,15 @@ const Comments = ({
   });
 
   const { mutate: deleteLikeCommentMutate } = useMutation({
-    mutationFn: deleteCourseCommentLike,
+    mutationFn: deleteNewsCommentLike,
     onSuccess: (result) => {
       if (result.data.success) {
-        toast.success(result.data.message);
-        queryClient.invalidateQueries({
-          queryKey: [`courseComment${id}`],
-        });
+        if (result.status != 400) {
+          toast.success(result.data.message);
+          queryClient.invalidateQueries({ queryKey: [`newsComments${id}`] });
+        } else {
+          toast.error(result.data.message);
+        }
       } else {
         toast.error(result.data.message);
       }
@@ -74,14 +84,16 @@ const Comments = ({
   });
 
   const { mutate: disLikeCommentMutate } = useMutation({
-    mutationFn: postCourseCommentDisSLike,
+    mutationFn: postNewsCommentLikeAndDisLike,
 
     onSuccess: (result) => {
       if (result.data.success) {
-        toast.success(result.data.message);
-        queryClient.invalidateQueries({
-          queryKey: [`courseComment${id}`],
-        });
+        if (result.status != 400) {
+          toast.success(result.data.message);
+          queryClient.invalidateQueries({ queryKey: [`newsComments${id}`] });
+        } else {
+          toast.error(result.data.message);
+        }
       } else {
         toast.error(result.data.message);
       }
@@ -89,20 +101,27 @@ const Comments = ({
   });
   const handleLike = (CourseCommandId) => {
     if (currentUserIsLike) {
-      deleteLikeCommentMutate(CourseCommandId);
+      deleteLikeCommentMutate({
+        deleteEntityId: currentUserLikeId,
+      });
     } else if (!currentUserIsLike) {
-      likeCommentMutate(CourseCommandId);
+      likeCommentMutate({
+        CourseCommandId: CourseCommandId,
+        likeOrDisLike: true,
+      });
     }
   };
 
   const { mutate: AddCommentCourse } = useMutation({
-    mutationFn: postAddReplyCommentCourse,
-    onSuccess: (result) => {
+    mutationFn: postAddReplyCommentNews,
+    onSuccess: (result, values) => {
       if (result.data.success) {
         toast.success(result.data.message);
         queryClient.invalidateQueries({
-          queryKey: [`CourseReplyComment${commentId}`],
+          queryKey: [`NewsReplyComment${commentId}`],
         });
+        values.title = "";
+        values.describe = "";
       } else {
         toast.error(result.data.message);
       }
@@ -111,12 +130,10 @@ const Comments = ({
 
   const {
     isLoading,
-    data: CourseReplyComments,
+    data: NewsReplyComments,
     refetch,
-  } = useGetCourseReplyComment(
-    { CourseId: id, CommentId: commentId },
-    commentId,
-  );
+  } = useGetNewsReplyComments(commentId);
+
   useEffect(() => {
     refetch();
   }, []);
@@ -124,17 +141,16 @@ const Comments = ({
   return (
     <Formik
       initialValues={{
-        CommentId: commentId,
-        CourseId: id,
-        Title: "",
-        Describe: "",
+        newsId: id,
+        userIpAddress: null,
+        title: "",
+        describe: "",
+        userId: null,
+        parentId: commentId,
       }}
       validationSchema={validationSchema}
       onSubmit={(values) => {
-        const formData = formDataConverter(values);
-        AddCommentCourse(formData);
-        values.Title = "";
-        values.Describe = "";
+        AddCommentCourse(values);
       }}
     >
       {({ errors }) => (
@@ -174,12 +190,15 @@ const Comments = ({
                   </p>
                 </div>
                 <div className={`flex items-center md:gap-6 gap-3`}>
-                  {CourseReplyComments?.data?.length > 0 && (
+                  {NewsReplyComments?.data?.length > 0 && (
                     <div
                       onClick={() => setOpen(!Open)}
                       className={`flex items-center gap-1 cursor-pointer`}
                     >
-                      <MessageCircle width={"18"} />
+                      <MessageCircle
+                        width={"18"}
+                        color={!theme ? "#1E1E1E" : "#FFFFFF"}
+                      />
                       <span
                         className={`md:text-[12px] text-[10px] text-default-black font-normal`}
                       >
@@ -190,7 +209,12 @@ const Comments = ({
                   <div className={`flex justify-center items-center gap-1`}>
                     <ThumbsDown
                       width={"18"}
-                      onClick={() => disLikeCommentMutate(commentId)}
+                      onClick={() =>
+                        disLikeCommentMutate({
+                          CourseCommandId: commentId,
+                          likeOrDisLike: false,
+                        })
+                      }
                       color={
                         currentUserIsDissLike
                           ? `#008C78`
@@ -239,14 +263,14 @@ const Comments = ({
                 <FormInput
                   isComment={true}
                   error={errors.Title}
-                  name={"Title"}
+                  name={"title"}
                   type={"text"}
                   placeholder={"عنوان پاسخ را بنویسید"}
                   className={`h-10!`}
                   errorMessageClassName={`lg:text-[14px]! text-[12px]!`}
                 />
                 <TextAreaInput
-                  name={"Describe"}
+                  name={"describe"}
                   error={errors.Describe}
                   type={"text"}
                   placeholder={"متن دیدگاه خود را بنویسید"}
@@ -258,20 +282,21 @@ const Comments = ({
               </div>
             </div>
             <div className={`flex flex-col gap-8 ${Open ? `block` : `hidden`}`}>
-              {CourseReplyComments?.data.map((value, index) => (
+              {NewsReplyComments?.data.map((value, index) => (
                 <ReplyComment
                   key={index}
-                  parentCommentId={commentId}
+                  author={value.userFullName}
                   commentId={value.id}
-                  author={value.author}
-                  pictureAddress={value.pictureAddress}
                   title={value.title}
+                  pictureAddress={value.userPicture}
                   describe={value.describe}
+                  likeCount={value.likeCount}
+                  disslikeCount={value.dissLikeCount}
+                  parentCommentId={commentId}
+                  insertDate={value.inserDate}
                   currentUserIsDissLike={value.currentUserIsDissLike}
                   currentUserIsLike={value.currentUserIsLike}
-                  insertDate={value.insertDate}
-                  likeCount={value.likeCount}
-                  disslikeCount={value.disslikeCount}
+                  currentUserLikeId={value.currentUserLikeId}
                 />
               ))}
             </div>

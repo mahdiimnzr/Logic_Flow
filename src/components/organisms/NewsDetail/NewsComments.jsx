@@ -2,36 +2,38 @@ import FormInput from "@/components/molecules/Inputs/FormInput";
 import TextAreaInput from "@/components/molecules/Inputs/TextAreaInput";
 import { Form, Formik } from "formik";
 import { useParams } from "react-router-dom";
-import {
-  postAddCommentCourse,
-  useGetCourseComments,
-} from "@/core/services/api/CourseDetails/CourseDetails.service";
 import { useEffect, useState } from "react";
-import Comments from "@/components/molecules/comments/Comments";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import Button from "@/components/atoms/Buttons/Button";
-import formDataConverter from "@/core/utils/formDataConvertor";
 import Border from "@/components/atoms/Border/Border";
+import {
+  postAddCommentsNews,
+  useGetNewsComments,
+} from "@/core/services/api/newsDetails/newsDetails.service";
+import Comments from "./Comments";
+
 const NewsComments = () => {
   const validationSchema = Yup.object({
-    Title: Yup.string().required("فیلد خالی است"),
-    Describe: Yup.string().required("فیلد خالی است"),
+    title: Yup.string().required("فیلد خالی است"),
+    describe: Yup.string().required("فیلد خالی است"),
   });
 
   const { id } = useParams();
-  const { isLoading, data: CourseComments, refetch } = useGetCourseComments(id);
+  const { isLoading, data: newsComments, refetch } = useGetNewsComments(id);
   const queryClient = useQueryClient();
 
   const [isCommentOpen, setIsCommentOpen] = useState(false);
 
-  const { mutate: AddCommentCourse } = useMutation({
-    mutationFn: postAddCommentCourse,
-    onSuccess: (result) => {
+  const { mutate: addNewsCommentMutate } = useMutation({
+    mutationFn: postAddCommentsNews,
+    onSuccess: (result, values) => {
       if (result.data.success) {
         toast.success(result.data.message);
-        queryClient.invalidateQueries({ queryKey: [`courseDetail${id}`] });
+        queryClient.invalidateQueries({ queryKey: [`newsComments${id}`] });
+        values.title = "";
+        values.describe = "";
       } else {
         toast.error(result.data.message);
       }
@@ -57,26 +59,25 @@ const NewsComments = () => {
               <p
                 className={`size-fit mx-auto xl:text-base text-[14px] font-normal text-default-black`}
               >
-                {CourseComments?.data?.length}
+                {newsComments?.data?.length}
               </p>
             </div>
           </div>
           <Formik
             initialValues={{
-              CourseId: id,
-              Title: "",
-              Describe: "",
+              newsId: id,
+              userIpAddress: null,
+              title: "",
+              describe: "",
+              userId: null,
             }}
             validationSchema={validationSchema}
             onSubmit={(values) => {
-              const formData = formDataConverter(values);
-              AddCommentCourse(formData);
-              values.Title = "";
-              values.Describe = "";
+              addNewsCommentMutate(values);
             }}
           >
             {({ errors }) => (
-              <Form>
+              <Form className={`flex flex-col gap-4`}>
                 <div className={`flex flex-col xl:gap-4 gap-3`}>
                   <span
                     className={`xl:text-base text-[14px] font-bold text-default-black`}
@@ -85,8 +86,8 @@ const NewsComments = () => {
                   </span>
                   <FormInput
                     isComment={true}
-                    error={errors.Title}
-                    name={"Title"}
+                    error={errors.title}
+                    name={"title"}
                     type={"text"}
                     placeholder={"عنوان دیدگاه خود را بنویسید"}
                     className={`xl:h-15! lg:h-13! md:h-11! sm:h-13! h-11!`}
@@ -100,8 +101,8 @@ const NewsComments = () => {
                     متن دیدگاه
                   </span>
                   <TextAreaInput
-                    name={"Describe"}
-                    error={errors.Describe}
+                    name={"describe"}
+                    error={errors.describe}
                     type={"text"}
                     placeholder={"متن دیدگاه خود را بنویسید"}
                     fieldClassName={`xl:min-h-51! lg:min-h-40! min-h-20 xl:max-h-55 lg:max-h-45 max-h-30`}
@@ -115,23 +116,24 @@ const NewsComments = () => {
           </Formik>
         </div>
         <div className={`flex flex-col xl:gap-4 gap-3`}>
-          {!isLoading && CourseComments?.data?.length > 3 && !isCommentOpen
-            ? CourseComments?.data?.slice(0, 3)?.map((value, index) => (
+          {!isLoading && newsComments?.data?.length > 3 && !isCommentOpen
+            ? newsComments?.data?.slice(0, 3)?.map((value, index) => (
                 <>
                   <Comments
                     key={index}
-                    author={value.author}
+                    author={value.userFullName}
                     commentId={value.id}
                     title={value.title}
-                    pictureAddress={value.pictureAddress}
+                    pictureAddress={value.userPicture}
                     describe={value.describe}
                     likeCount={value.likeCount}
-                    disslikeCount={value.disslikeCount}
-                    insertDate={value.insertDate}
+                    disslikeCount={value.dissLikeCount}
+                    insertDate={value.inserDate}
                     currentUserIsDissLike={value.currentUserIsDissLike}
                     currentUserIsLike={value.currentUserIsLike}
+                    currentUserLikeId={value.currentUserLikeId}
                   />
-                  {index !== CourseComments?.data?.length - 1 && (
+                  {index !== newsComments?.data?.length - 1 && (
                     <Border
                       width="w-full"
                       height="h-0.5"
@@ -140,22 +142,23 @@ const NewsComments = () => {
                   )}
                 </>
               ))
-            : CourseComments?.data?.map((value, index) => (
+            : newsComments?.data?.map((value, index) => (
                 <>
                   <Comments
                     key={index}
-                    author={value.author}
+                    author={value.userFullName}
                     commentId={value.id}
                     title={value.title}
-                    pictureAddress={value.pictureAddress}
+                    pictureAddress={value.userPicture}
                     describe={value.describe}
                     likeCount={value.likeCount}
-                    disslikeCount={value.disslikeCount}
-                    insertDate={value.insertDate}
+                    disslikeCount={value.dissLikeCount}
+                    insertDate={value.inserDate}
                     currentUserIsDissLike={value.currentUserIsDissLike}
                     currentUserIsLike={value.currentUserIsLike}
+                    currentUserLikeId={value.currentUserLikeId}
                   />
-                  {index !== CourseComments?.data?.length - 1 && (
+                  {index !== newsComments?.data?.length - 1 && (
                     <Border
                       width="w-full"
                       height="h-0.5"
@@ -166,7 +169,7 @@ const NewsComments = () => {
               ))}
         </div>
       </div>
-      {CourseComments?.data?.length > 3 && (
+      {newsComments?.data?.length > 3 && (
         <Button
           color={"moreBtn"}
           onClick={() => setIsCommentOpen(!isCommentOpen)}

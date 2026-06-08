@@ -7,13 +7,13 @@ import {
   useGetCourseComments,
 } from "@/core/services/api/CourseDetails/CourseDetails.service";
 import { useEffect, useState } from "react";
-import Comments from "@/components/molecules/comments/Comments";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import Button from "@/components/atoms/Buttons/Button";
 import formDataConverter from "@/core/utils/formDataConvertor";
 import Border from "@/components/atoms/Border/Border";
+import Comments from "./Comments";
 
 const CommentsPage = () => {
   const validationSchema = Yup.object({
@@ -32,7 +32,7 @@ const CommentsPage = () => {
     onSuccess: (result) => {
       if (result.data.success) {
         toast.success(result.data.message);
-        queryClient.invalidateQueries({ queryKey: [`courseDetail${id}`] });
+        queryClient.invalidateQueries({ queryKey: [`courseComment${id}`] });
       } else {
         toast.error(result.data.message);
       }

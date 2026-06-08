@@ -52,9 +52,24 @@ const CourseInformation = () => {
   const queryClient = useQueryClient();
   const { id } = useParams();
   const { theme } = useContext(ThemeContext);
+  const { t, lang } = useI18n();
+  const [isBeginning, setIsBeginning] = useState(true);
+  const [isEnd, setIsEnd] = useState(false);
+  const skeletonCount = new Array(4).fill("");
+  const prevRef = useRef(null);
+  const nextRef = useRef(null);
+  const { isLoading: slidersLoading, data: courses } = useGetCourses(
+    "RecommendedCourses",
+    {
+      RowsOfPage: "100",
+      TechCount: "1",
+    },
+  );
   const { isLoading, data: Details, refetch } = useGetCourseDetail(id);
+
   const { addFavoriteCourseMutate, removeFavoriteCourseMutate } =
     useAddFavoriteCourse();
+
   const { mutate: likeMutate } = useMutation({
     mutationFn: postCourseLike,
     onSuccess: (result) => {
@@ -152,20 +167,6 @@ const CourseInformation = () => {
   useEffect(() => {
     refetch();
   }, []);
-
-  const { t, lang } = useI18n();
-  const [isBeginning, setIsBeginning] = useState(true);
-  const [isEnd, setIsEnd] = useState(false);
-  const skeletonCount = new Array(4).fill("");
-  const prevRef = useRef(null);
-  const nextRef = useRef(null);
-  const { isLoading: slidersLoading, data: courses } = useGetCourses(
-    "RecommendedCourses",
-    {
-      RowsOfPage: "100",
-      TechCount: "1",
-    },
-  );
   return (
     <div className={`flex flex-col gap-10 items-center`}>
       <div className={`flex flex-col gap-4 items-center`}>
@@ -190,16 +191,89 @@ const CourseInformation = () => {
             className={`size-4 ${lang === "en" ? "sm:transform-[rotate(180deg)] transform-[rotate(270deg)]" : "sm:transform-[rotate(0deg)] transform-[rotate(270deg)]"}`}
             color="#008C78"
           />
-          <Link className={`text-[14px] font-normal text-green-primary`}>
-            {Details?.data?.title}
-          </Link>
+          {isLoading ? (
+            <div className={`p-1 rounded-[5px] bg-field-silver`}>
+              <Skeleton className={`w-50 h-4 rounded-[5px]`} />
+            </div>
+          ) : (
+            <Link className={`text-[14px] font-normal text-green-primary`}>
+              {Details?.data?.title}
+            </Link>
+          )}
         </div>
-        <span className={`text-default-black md:text-[32px] font-bold`}>
-          {Details?.data?.title}
-        </span>
+        {isLoading ? (
+          <div className={`p-1 rounded-[5px] bg-field-silver`}>
+            <Skeleton className={`w-100 h-10 rounded-[5px]`} />
+          </div>
+        ) : (
+          <span className={`text-default-black md:text-[32px] font-bold`}>
+            {Details?.data?.title}
+          </span>
+        )}
       </div>
       <div className={`w-full flex flex-col lg:flex-row gap-12`}>
         <div className={`xl:w-3/10 lg:w-4/10 w-full flex flex-col gap-12`}>
+          <div className={`flex flex-col gap-4 lg:hidden`}>
+            {isLoading ? (
+              <div className={`p-1 rounded-[5px] bg-field-silver`}>
+                <Skeleton className={`w-full md:h-110 sm:h-90 h-50 rounded-[5px]`} />
+              </div>
+            ) : (
+              <div className={`relative`}>
+                <div
+                  onClick={handleFavorite}
+                  className={`content-center bg-default-black/25 size-10 rounded-full cursor-pointer absolute right-4 top-4`}
+                >
+                  <FavoriteIcon
+                    className={`mx-auto`}
+                    isFavorite={Details?.data?.isUserFavorite}
+                  />
+                </div>
+                <ImageFallback
+                  src={Details?.data?.imageAddress}
+                  fallback={imgCourseDetail}
+                  className={`w-full md:h-110 sm:h-90 sm:rounded-[25px] rounded-[20px]`}
+                />
+              </div>
+            )}
+            <div
+              className={`flex sm:flex-row flex-col sm:items-center gap-5 sm:gap-0 justify-between`}
+            >
+              <div
+                className={`flex sm:justify-center justify-start items-center gap-2`}
+              >
+                {Details?.data?.courseTech.map((value, index) => (
+                  <Badge
+                    key={index}
+                    color={"technologyBadge"}
+                    className={`px-2 xl:py-0.5 py-1`}
+                  >
+                    {value?.tech?.techName}
+                  </Badge>
+                ))}
+              </div>
+              <div className={`flex gap-2 text-center`}>
+                <Button
+                  onClick={handleDisLike}
+                  color={"likeAndDisLikeBtn"}
+                  className={`xl:w-21 w-18 xl:h-11 h-10 flex items-center justify-center gap-2 cursor-pointer`}
+                  isLikeOrDislike={Details?.data?.userIsDissLike ? true : false}
+                >
+                  {Details?.data?.dissLikeCount}
+                  <ThumbsDown className={`xl:size-6 size-5`} />
+                </Button>
+                <Button
+                  onClick={handleLike}
+                  color={"likeAndDisLikeBtn"}
+                  className={`xl:w-21 w-18 xl:h-11 h-10 flex items-center justify-center gap-2 cursor-pointer`}
+                  isLikeOrDislike={Details?.data?.userIsLiked ? true : false}
+                >
+                  {Details?.data?.likeCount}
+                  <ThumbsUp className={`xl:size-6 size-5`} />
+                </Button>
+              </div>
+            </div>
+          </div>
           <div
             className={`bg-default-light flex flex-col p-4 xl:gap-12.5 gap-8 rounded-[25px] shadow-[0px_2px_5px_0px_#000000]/15 dark:shadow-[0px_2px_5px_0px_#ffffff]/15`}
           >
@@ -381,28 +455,34 @@ const CourseInformation = () => {
           </div>
         </div>
         <div className={`xl:w-7/10 lg:w-6/10 w-full flex flex-col gap-10`}>
-          <div className={`flex flex-col gap-4`}>
-            <div className={`relative`}>
-              <div
-                onClick={handleFavorite}
-                className={`content-center bg-default-black/25 size-10 rounded-full cursor-pointer absolute right-4 top-4`}
-              >
-                <FavoriteIcon
-                  className={`mx-auto`}
-                  isFavorite={Details?.data?.isUserFavorite}
+          <div className={`lg:flex flex-col gap-4 hidden`}>
+            {isLoading ? (
+              <div className={`p-1 rounded-[5px] bg-field-silver`}>
+                <Skeleton className={`w-full md:h-110 sm:h-90 rounded-[5px]`} />
+              </div>
+            ) : (
+              <div className={`relative`}>
+                <div
+                  onClick={handleFavorite}
+                  className={`content-center bg-default-black/25 size-10 rounded-full cursor-pointer absolute right-4 top-4`}
+                >
+                  <FavoriteIcon
+                    className={`mx-auto`}
+                    isFavorite={Details?.data?.isUserFavorite}
+                  />
+                </div>
+                <ImageFallback
+                  src={Details?.data?.imageAddress}
+                  fallback={imgCourseDetail}
+                  className={`w-full xl:h-140 lg:h-87 sm:rounded-[25px] rounded-[20px]`}
                 />
               </div>
-              <ImageFallback
-                src={Details?.data?.imageAddress}
-                fallback={imgCourseDetail}
-                className={`w-full xl:h-110 sm:h-90 h-60 sm:rounded-[25px] rounded-[20px]`}
-              />
-            </div>
+            )}
             <div
               className={`flex sm:flex-row flex-col sm:items-center gap-5 sm:gap-0 justify-between`}
             >
               <div
-                className={`flex sm:justify-center justify-start items-center gap-2`}
+                className={`flex sm:justify-center justify-start items-center lg:gap-2 gap-1`}
               >
                 {Details?.data?.courseTech.map((value, index) => (
                   <Badge
@@ -543,7 +623,7 @@ const CourseInformation = () => {
                       image={course.imageAddress}
                       isCourseCard={true}
                       isFavorite={false}
-                      handleAddFavoriteCourse={useAddFavoriteCourse}
+                      handleAddFavoriteCourse={addFavoriteCourseMutate}
                     />
                   </SwiperSlide>
                 ))}

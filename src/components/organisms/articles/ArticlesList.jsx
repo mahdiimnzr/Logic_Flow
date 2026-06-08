@@ -23,6 +23,8 @@ const ArticlesList = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
 
+  const { addFavoriteNewsMutate } = useAddFavoriteArticle();
+
   const skeletonCount = new Array(8).fill("");
   const [whichPage, setWhichPage] = useState(1);
   const [rowPageCount, setRowPageCount] = useState(12);
@@ -162,7 +164,7 @@ const ArticlesList = () => {
                   rate={article.newsRate.avg}
                   image={article.currentImageAddress}
                   isCourseCard={false}
-                  handleAddFavoriteCourse={useAddFavoriteArticle}
+                  handleAddFavoriteCourse={addFavoriteNewsMutate}
                 />
               ))}
             </div>

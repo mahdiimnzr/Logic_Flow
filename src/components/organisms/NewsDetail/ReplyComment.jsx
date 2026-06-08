@@ -5,12 +5,11 @@ import formatDate from "@/core/utils/formatDate";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useContext } from "react";
 import ThemeContext from "@/app/context/ThemeContext";
-import {
-  deleteCourseCommentLike,
-  postCourseCommentDisSLike,
-  postCourseCommentLike,
-} from "@/core/services/api/CourseDetails/CourseDetails.service";
 import { toast } from "react-toastify";
+import {
+  deleteNewsCommentLike,
+  postNewsCommentLikeAndDisLike,
+} from "@/core/services/api/newsDetails/newsDetails.service";
 
 const ReplyComment = ({
   author,
@@ -23,19 +22,24 @@ const ReplyComment = ({
   disslikeCount,
   currentUserIsLike,
   currentUserIsDissLike,
+  currentUserLikeId,
   commentId,
 }) => {
   const queryClient = useQueryClient();
   const { theme } = useContext(ThemeContext);
 
   const { mutate: likeCommentMutate } = useMutation({
-    mutationFn: postCourseCommentLike,
+    mutationFn: postNewsCommentLikeAndDisLike,
     onSuccess: (result) => {
       if (result.data.success) {
-        toast.success(result.data.message);
-        queryClient.invalidateQueries({
-          queryKey: [`CourseReplyComment${parentCommentId}`],
-        });
+        if (result.status != 400) {
+          toast.success(result.data.message);
+          queryClient.invalidateQueries({
+            queryKey: [`NewsReplyComment${parentCommentId}`],
+          });
+        } else {
+          toast.error(result.data.message);
+        }
       } else {
         toast.error(result.data.message);
       }
@@ -43,13 +47,17 @@ const ReplyComment = ({
   });
 
   const { mutate: deleteLikeCommentMutate } = useMutation({
-    mutationFn: deleteCourseCommentLike,
+    mutationFn: deleteNewsCommentLike,
     onSuccess: (result) => {
       if (result.data.success) {
-        toast.success(result.data.message);
-        queryClient.invalidateQueries({
-          queryKey: [`CourseReplyComment${parentCommentId}`],
-        });
+        if (result.status != 400) {
+          toast.success(result.data.message);
+          queryClient.invalidateQueries({
+            queryKey: [`NewsReplyComment${parentCommentId}`],
+          });
+        } else {
+          toast.error(result.data.message);
+        }
       } else {
         toast.error(result.data.message);
       }
@@ -57,14 +65,18 @@ const ReplyComment = ({
   });
 
   const { mutate: disLikeCommentMutate } = useMutation({
-    mutationFn: postCourseCommentDisSLike,
+    mutationFn: postNewsCommentLikeAndDisLike,
 
     onSuccess: (result) => {
       if (result.data.success) {
-        toast.success(result.data.message);
-        queryClient.invalidateQueries({
-          queryKey: [`CourseReplyComment${parentCommentId}`],
-        });
+        if (result.status != 400) {
+          toast.success(result.data.message);
+          queryClient.invalidateQueries({
+            queryKey: [`NewsReplyComment${parentCommentId}`],
+          });
+        } else {
+          toast.error(result.data.message);
+        }
       } else {
         toast.error(result.data.message);
       }
@@ -72,9 +84,14 @@ const ReplyComment = ({
   });
   const handleLike = (CourseCommandId) => {
     if (currentUserIsLike) {
-      deleteLikeCommentMutate(CourseCommandId);
+      deleteLikeCommentMutate({
+        deleteEntityId: currentUserLikeId,
+      });
     } else if (!currentUserIsLike) {
-      likeCommentMutate(CourseCommandId);
+      likeCommentMutate({
+        CourseCommandId: CourseCommandId,
+        likeOrDisLike: true,
+      });
     }
   };
   return (
@@ -115,7 +132,14 @@ const ReplyComment = ({
         <div className={`flex justify-center items-center gap-1`}>
           <ThumbsDown
             className={`cursor-pointer`}
-            onClick={() => disLikeCommentMutate(commentId)}
+            onClick={() =>
+              disLikeCommentMutate(
+                disLikeCommentMutate({
+                  CourseCommandId: commentId,
+                  likeOrDisLike: false,
+                }),
+              )
+            }
             color={
               currentUserIsDissLike ? `#008C78` : !theme ? `#1e1e1e` : "#FFFFFF"
             }
