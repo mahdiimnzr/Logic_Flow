@@ -5,6 +5,7 @@ import {
   Landing,
   NewsDetail,
   NotFound,
+  TeacherDetail,
   Teachers,
 } from "../../pages";
 import { MainLayout } from "../../templates";
@@ -61,6 +62,10 @@ const mainRoute = [
       {
         path: "/Teachers",
         element: <Teachers />,
+      },
+      {
+        path: "/Teachers/Detail/:id",
+        element: <TeacherDetail />,
       },
       {
         path: "*",
