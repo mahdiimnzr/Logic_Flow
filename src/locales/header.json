@@ -6,7 +6,8 @@
     "closeBtn": "Close",
     "seeAllCourses": "Check all courses",
     "seeAllArticles": "Check all news",
-    "notFound": "Not found"
+    "notFound": "Not found",
+    "dashboard": "Dashboard"
   },
   "fa": {
     "acName": "آکادمی بحر",
@@ -15,6 +16,7 @@
     "closeBtn": "بستن",
     "seeAllCourses": "مشاهده همه دوره ها",
     "seeAllArticles": "مشاهده همه اخبار ها",
-    "notFound": "موردی یافت نشد"
+    "notFound": "موردی یافت نشد",
+    "dashboard": "داشبورد"
   }
 }

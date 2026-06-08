@@ -24,6 +24,7 @@ import useGetArticles from "@/core/services/api/hooks/useGetArticles";
 import { useI18n } from "@/i18n/useI18n";
 
 const Header = () => {
+  const token = JSON.parse(localStorage.getItem("token"));
   const headerRef = useRef(null);
   const skeletonCount = new Array(3).fill("");
   const [modalOpen, setModalOpen] = useState(false);
@@ -217,12 +218,15 @@ const Header = () => {
             </div>
           )}
         </SearchHeader>
-        <Link to={"/Auth/Login"} className={`rounded-[50px]`}>
+        <Link
+          to={token ? "/UserPanel/Dashboard" : "/Auth/Login"}
+          className={`rounded-[50px]`}
+        >
           <Button
             color={"registerBtn"}
             className={`xl:px-6 py-3 px-4 text-[14px]!`}
           >
-            {t("header.registerBtn")}
+            {token ? t("header.dashboard") : t("header.registerBtn")}
           </Button>
         </Link>
         <DrawerComponents
