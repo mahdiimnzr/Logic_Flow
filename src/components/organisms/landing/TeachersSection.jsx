@@ -142,7 +142,10 @@ const TeachersSection = () => {
           >
             {mockCourses.map((teachers, index) => (
               <SwiperSlide key={index}>
-                <TeachersCard isCourseCard={true} image={teachers.image} />
+                <TeachersCard
+                  isCourseCard={true}
+                  pictureAddress={teachers.image}
+                />
               </SwiperSlide>
             ))}
           </Swiper>
