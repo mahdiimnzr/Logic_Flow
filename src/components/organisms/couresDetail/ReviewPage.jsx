@@ -2,7 +2,6 @@ import ThemeContext from "@/app/context/ThemeContext";
 import Person from "@/core/icons/Person";
 import TechnologyCardIcon from "@/core/icons/TechnologyCardIcon";
 import Time from "@/core/icons/Time";
-
 import { useGetCourseDetail } from "@/core/services/api/CourseDetails/CourseDetails.service";
 import { useContext } from "react";
 import { useParams } from "react-router-dom";

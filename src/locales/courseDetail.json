@@ -1,0 +1,24 @@
+{
+  "fa": {
+    "home": "صفحه اصلی",
+    "articles": "اخبار",
+    "writer": "نویسنده",
+    "showMoreInfo": "مشاهده اطلاعات بیشتر",
+    "peopleRate": "رضایت کاربران از دوره",
+    "newestArticles": "جدید ترین اخبار",
+    "connectedArticles": "اخبار مرتبط",
+    "describe": "توضیحات",
+    "allComments": "همه نظرات",
+    "commentTitle": "عنوان دیدگاه",
+    "commentDescribe": "متن دیدگاه",
+    "commentTitlePlaceHolder": "عنوان دیدگاه خود را بنویسید",
+    "commentDescribePlaceHolder": "متن دیدگاه خود را بنویسید",
+    "inputsError": "فیلد خالی است!",
+    "addComment": "اضافه کردن نظر",
+    "answer": "پاسخ دادن",
+    "closeAnswer": "بستن پاسخ",
+    "openAnswers": "باز کردن پاسخ ها",
+    "closeAnswers": "بستن پاسخ ها",
+    "rate": "امتیاز"
+  }
+}

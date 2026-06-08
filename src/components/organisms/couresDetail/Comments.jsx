@@ -13,7 +13,6 @@ import {
 } from "@/core/services/api/CourseDetails/CourseDetails.service";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
-import ReplyComment from "../ReplyCommnets/ReplyComment";
 import ThemeContext from "@/app/context/ThemeContext";
 import Button from "@/components/atoms/Buttons/Button";
 import * as Yup from "yup";
@@ -21,6 +20,7 @@ import formDataConverter from "@/core/utils/formDataConvertor";
 import FormInput from "@/components/molecules/Inputs/FormInput";
 import TextAreaInput from "@/components/molecules/Inputs/TextAreaInput";
 import { Form, Formik } from "formik";
+import ReplyComment from "./ReplyComment";
 
 const Comments = ({
   author,
@@ -78,10 +78,12 @@ const Comments = ({
 
     onSuccess: (result) => {
       if (result.data.success) {
-        toast.success(result.data.message);
-        queryClient.invalidateQueries({
-          queryKey: [`courseComment${id}`],
-        });
+        if (result.status != 400) {
+          toast.success(result.data.message);
+          queryClient.invalidateQueries({ queryKey: [`courseComment${id}`] });
+        } else {
+          toast.error(result.data.message);
+        }
       } else {
         toast.error(result.data.message);
       }
@@ -111,12 +113,13 @@ const Comments = ({
 
   const {
     isLoading,
-    data: CourseReplyComments,
+    data: NewsReplyComments,
     refetch,
   } = useGetCourseReplyComment(
     { CourseId: id, CommentId: commentId },
     commentId,
   );
+
   useEffect(() => {
     refetch();
   }, []);
@@ -174,12 +177,15 @@ const Comments = ({
                   </p>
                 </div>
                 <div className={`flex items-center md:gap-6 gap-3`}>
-                  {CourseReplyComments?.data?.length > 0 && (
+                  {NewsReplyComments?.data?.length > 0 && (
                     <div
                       onClick={() => setOpen(!Open)}
                       className={`flex items-center gap-1 cursor-pointer`}
                     >
-                      <MessageCircle width={"18"} />
+                      <MessageCircle
+                        width={"18"}
+                        color={!theme ? "#1E1E1E" : "#FFFFFF"}
+                      />
                       <span
                         className={`md:text-[12px] text-[10px] text-default-black font-normal`}
                       >
@@ -258,7 +264,7 @@ const Comments = ({
               </div>
             </div>
             <div className={`flex flex-col gap-8 ${Open ? `block` : `hidden`}`}>
-              {CourseReplyComments?.data.map((value, index) => (
+              {NewsReplyComments?.data.map((value, index) => (
                 <ReplyComment
                   key={index}
                   parentCommentId={commentId}

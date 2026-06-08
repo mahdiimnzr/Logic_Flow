@@ -19,6 +19,7 @@ const ArticlesSection = () => {
   const articlesRow2 = useMemo(() => {
     return articles?.data?.news?.slice(2, 5);
   }, [articles]);
+  const { addFavoriteNewsMutate } = useAddFavoriteArticle();
   return (
     <div className="md:w-[95%] w-[90%] mx-auto flex flex-col gap-8 items-center">
       <div className="flex flex-col items-center text-center gap-2">
@@ -52,7 +53,7 @@ const ArticlesSection = () => {
                 categoryName={article.newsCatregoryName}
                 currentView={article.currentView}
                 image={article.currentImageAddress}
-                handleAddFavoriteArticle={useAddFavoriteArticle}
+                handleAddFavoriteArticle={addFavoriteNewsMutate}
               />
             ))}
       </div>
@@ -79,7 +80,7 @@ const ArticlesSection = () => {
                 categoryName={article.newsCatregoryName}
                 currentView={article.currentView}
                 image={article.currentImageAddress}
-                handleAddFavoriteArticle={useAddFavoriteArticle}
+                handleAddFavoriteArticle={addFavoriteNewsMutate}
               />
             ))}
       </div>

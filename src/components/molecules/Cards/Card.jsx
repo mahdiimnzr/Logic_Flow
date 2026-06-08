@@ -31,7 +31,7 @@ const Card = (props) => {
           onClick={() =>
             isCourseCard
               ? handleAddFavoriteCourse({ courseId: courseId })
-              : handleAddFavoriteCourse(articleId)
+              : handleAddFavoriteCourse({ id: articleId })
           }
           className={`absolute z-10 ${view ? `right-4 top-4` : `lg:right-8 lg:top-8 top-9 right-5`} content-center bg-default-black/25 size-10 rounded-full cursor-pointer`}
         >

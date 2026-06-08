@@ -64,7 +64,7 @@ const ArticlesCardLanding = ({
         </div>
       </Link>
       <div
-        onClick={() => handleAddFavoriteArticle(articleId)}
+        onClick={() => handleAddFavoriteArticle({ id: articleId })}
         className={`absolute z-10 right-4 top-4 content-center bg-default-light/50 md:size-10 size-8 rounded-full cursor-pointer`}
       >
         <FavoriteIcon

@@ -1,5 +1,7 @@
+import deleteParams from "../../common/deleteParams";
+import postParams from "../../common/postParams";
 import useGetQuery from "../../common/useGetQuery";
-import apiClient from "../../interceptor/interceptor.service";
+
 export const useGetCourseDetail = (id) =>
   useGetQuery(`courseDetail${id}`, `Home/GetCourseDetails?CourseId=${id}`);
 export const useGetCourseReplyComment = (params, id) =>
@@ -7,108 +9,34 @@ export const useGetCourseReplyComment = (params, id) =>
     `CourseReplyComment${id}`,
     `Course/GetCourseReplyCommnets/${params.CourseId}/${params.CommentId}`,
   );
-export const postCourseLike = async (id) => {
-  try {
-    const result = await apiClient.post(`Course/AddCourseLike?CourseId=${id}`);
-    return result;
-  } catch (error) {
-    return error;
-  }
-};
-export const postCourseDisSLike = async (id) => {
-  try {
-    const result = await apiClient.post(
-      `Course/AddCourseDissLike?CourseId=${id}`,
-    );
-    return result;
-  } catch (error) {
-    return error;
-  }
-};
-export const deleteCourseLike = async (likeId) => {
-  try {
-    const result = await apiClient.delete(`Course/DeleteCourseLike`, {
-      data: likeId,
-    });
-    return result;
-  } catch (error) {
-    return error;
-  }
-};
-export const deleteCourseDisLike = async (dislikeId) => {
-  try {
-    const result = await apiClient.delete(`Course/DeleteCourseDissLike`, {
-      data: dislikeId,
-    });
-    return result;
-  } catch (error) {
-    return error;
-  }
-};
-export const postReserveAdd = async (courseId) => {
-  try {
-    const result = await apiClient.post(`CourseReserve/ReserveAdd`, courseId);
-    return result;
-  } catch (error) {
-    return error;
-  }
-};
 export const useGetCourseComments = (id) =>
   useGetQuery(`courseComment${id}`, `Course/GetCourseCommnets/${id}`);
+export const postCourseLike = (id) =>
+  postParams(`Course/AddCourseLike?CourseId=${id}`);
+export const postCourseDisSLike = (id) =>
+  postParams(`Course/AddCourseDissLike?CourseId=${id}`);
+export const deleteCourseLike = async (likeId) =>
+  deleteParams(`Course/DeleteCourseLike`, likeId);
+export const deleteCourseDisLike = (dislikeId) =>
+  deleteParams(`Course/DeleteCourseDissLike`, dislikeId);
+export const postReserveAdd = (courseId) =>
+  postParams(`CourseReserve/ReserveAdd`, courseId);
 
-export const postCourseCommentLike = async (CourseCommandId) => {
-  try {
-    const result = await apiClient.post(
-      `Course/AddCourseCommentLike?CourseCommandId=${CourseCommandId}`,
-    );
-    return result;
-  } catch (error) {
-    return error;
-  }
-};
-export const deleteCourseCommentLike = async (CourseCommandId) => {
-  try {
-    const result = await apiClient.delete(
-      `Course/DeleteCourseCommentLike?CourseCommandId=${CourseCommandId}`,
-    );
-    return result;
-  } catch (error) {
-    return error;
-  }
-};
-export const postCourseCommentDisSLike = async (CourseCommandId) => {
-  try {
-    const result = await apiClient.post(
-      `Course/AddCourseCommentDissLike?CourseCommandId=${CourseCommandId}`,
-    );
-    return result;
-  } catch (error) {
-    return error;
-  }
-};
-export const postAddCommentCourse = async (params) => {
-  try {
-    const result = await apiClient.post(`Course/AddCommentCourse`, params);
-    return result;
-  } catch (error) {
-    return error;
-  }
-};
-export const postAddReplyCommentCourse = async (params) => {
-  try {
-    const result = await apiClient.post(`Course/AddReplyCourseComment`, params);
-    return result;
-  } catch (error) {
-    return error;
-  }
-};
-export const postCourseRating = async (params) => {
-  try {
-    const result = await apiClient.post(
-      `Course/SetCourseRating?CourseId=${params.courseId}&RateNumber=${params.rateNumber}`,
-    );
-    return result;
-  } catch (error) {
-    return error;
-  }
-};
+export const postCourseCommentLike = (CourseCommandId) =>
+  postParams(`Course/AddCourseCommentLike?CourseCommandId=${CourseCommandId}`);
+export const deleteCourseCommentLike = (CourseCommandId) =>
+  deleteParams(
+    `Course/DeleteCourseCommentLike?CourseCommandId=${CourseCommandId}`,
+  );
+export const postCourseCommentDisSLike = (CourseCommandId) =>
+  postParams(
+    `Course/AddCourseCommentDissLike?CourseCommandId=${CourseCommandId}`,
+  );
+export const postAddCommentCourse = (params) =>
+  postParams(`Course/AddCommentCourse`, params);
+export const postAddReplyCommentCourse = (params) =>
+  postParams(`Course/AddReplyCourseComment`, params);
+export const postCourseRating = (params) =>
+  postParams(
+    `Course/SetCourseRating?CourseId=${params.courseId}&RateNumber=${params.rateNumber}`,
+  );
