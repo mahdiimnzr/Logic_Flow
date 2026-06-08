@@ -19,7 +19,9 @@
     "closeAnswer": "Close Reply",
     "openAnswers": "Open Replies",
     "closeAnswers": "Close Replies",
-    "rate": "Rating"
+    "rate": "Rating",
+    "showMore": "Show More",
+    "showLess": "Show Less"
   },
   "fa": {
     "home": "صفحه اصلی",
@@ -41,6 +43,8 @@
     "closeAnswer": "بستن پاسخ",
     "openAnswers": "باز کردن پاسخ ها",
     "closeAnswers": "بستن پاسخ ها",
-    "rate": "امتیاز"
+    "rate": "امتیاز",
+    "showMore": "نمایش بیشتر",
+    "showLess": "نمایش کمتر"
   }
 }

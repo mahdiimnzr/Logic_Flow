@@ -21,6 +21,7 @@ import FormInput from "@/components/molecules/Inputs/FormInput";
 import TextAreaInput from "@/components/molecules/Inputs/TextAreaInput";
 import { Form, Formik } from "formik";
 import ReplyComment from "./ReplyComment";
+import { useI18n } from "@/i18n/useI18n";
 
 const Comments = ({
   author,
@@ -34,9 +35,11 @@ const Comments = ({
   currentUserIsLike,
   currentUserIsDissLike,
 }) => {
+  const { t } = useI18n();
+
   const validationSchema = Yup.object({
-    Title: Yup.string().required("فیلد خالی است"),
-    Describe: Yup.string().required("فیلد خالی است"),
+    Title: Yup.string().required(t("courseDetail.inputsError")),
+    Describe: Yup.string().required(t("courseDetail.inputsError")),
   });
 
   const { id } = useParams();
@@ -189,7 +192,9 @@ const Comments = ({
                       <span
                         className={`md:text-[12px] text-[10px] text-default-black font-normal`}
                       >
-                        {Open ? `بستن پاسخ ها ` : `باز کردن پاسخ ها`}
+                        {Open
+                          ? t("courseDetail.closeAnswers")
+                          : t("courseDetail.openAnswers")}
                       </span>
                     </div>
                   )}
@@ -235,7 +240,9 @@ const Comments = ({
                     className={`md:text-[12px] text-[10px] text-green-primary underline cursor-pointer font-normal`}
                     onClick={() => setIsOpen(!isOpen)}
                   >
-                    {!isOpen ? `پاسخ دادن` : `بستن پاسخ`}
+                    {!isOpen
+                      ? t("courseDetail.answer")
+                      : t("courseDetail.closeAnswer")}
                   </span>
                 </div>
               </div>
@@ -247,7 +254,7 @@ const Comments = ({
                   error={errors.Title}
                   name={"Title"}
                   type={"text"}
-                  placeholder={"عنوان پاسخ را بنویسید"}
+                  placeholder={t("courseDetail.commentTitlePlaceHolder")}
                   className={`h-10!`}
                   errorMessageClassName={`lg:text-[14px]! text-[12px]!`}
                 />
@@ -255,11 +262,11 @@ const Comments = ({
                   name={"Describe"}
                   error={errors.Describe}
                   type={"text"}
-                  placeholder={"متن دیدگاه خود را بنویسید"}
+                  placeholder={t("courseDetail.commentDescribePlaceHolder")}
                   fieldClassName={`xl:min-h-29.25! xl:max-h-35 lg:min-h-22.25! lg:max-h-30 min-h-20 max-h-25`}
                 />
                 <Button color={"authBtn"} className={`w-full py-3`}>
-                  اضافه کردن نظر
+                  {t("courseDetail.addComment")}
                 </Button>
               </div>
             </div>
