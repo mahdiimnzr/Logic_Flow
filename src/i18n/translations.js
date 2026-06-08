@@ -8,6 +8,7 @@ import articles from "../locales/articles.json";
 import newsDetail from "../locales/newsDetail.json";
 import courseDetail from "../locales/courseDetail.json";
 import userPanel from "../locales/userPanel.json";
+import teachers from "../locales/teachers.json";
 
 const translations = {
   en: {
@@ -21,6 +22,7 @@ const translations = {
     newsDetail: newsDetail.en,
     courseDetail: courseDetail.en,
     userPanel: userPanel.en,
+    teachers: teachers.en,
   },
   fa: {
     landing: landing.fa,
@@ -33,6 +35,7 @@ const translations = {
     newsDetail: newsDetail.fa,
     courseDetail: courseDetail.fa,
     userPanel: userPanel.fa,
+    teachers: teachers.fa,
   },
 };
 
