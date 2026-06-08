@@ -5,6 +5,7 @@ import {
   Landing,
   NewsDetail,
   NotFound,
+  Teachers,
 } from "../../pages";
 import { MainLayout } from "../../templates";
 import ReviewPage from "@/components/organisms/couresDetail/ReviewPage";
@@ -56,6 +57,10 @@ const mainRoute = [
             element: <NewsComments />,
           },
         ],
+      },
+      {
+        path: "/Teachers",
+        element: <Teachers />,
       },
       {
         path: "*",
