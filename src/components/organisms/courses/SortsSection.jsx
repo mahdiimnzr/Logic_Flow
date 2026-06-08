@@ -8,7 +8,7 @@ import Filters from "./Filters";
 import debounce from "debounce";
 import ThemeContext from "@/app/context/ThemeContext";
 import { useContext, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useI18n } from "@/i18n/useI18n";
 import View from "@/components/molecules/View/View";
 import Button from "@/components/atoms/Buttons/Button";

@@ -13,9 +13,14 @@ const AccordionMultiple = ({
   triggerClassName,
   contentClassName,
   value,
+  defaultValue = value,
 }) => {
   return (
-    <Accordion type="multiple" className={className} defaultValue={[value]}>
+    <Accordion
+      type="multiple"
+      className={className}
+      defaultValue={[defaultValue]}
+    >
       <AccordionItem value={value} className={itemClassName} defaultValue>
         <AccordionTrigger className={triggerClassName}>
           {trigger}

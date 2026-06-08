@@ -1,0 +1,20 @@
+{
+  "fa": {
+    "menu": "منو",
+    "dashboard": "داشبورد",
+    "userInfo": "مشخصات کاربری",
+    "myCourses": "دوره های من",
+    "reservedCourses": "دوره های رزرو شده",
+    "myPayments": "پرداختی های من",
+    "myComments": "دیدگاه های من",
+    "courseComments": "دیدگاه های من در دوره ها",
+    "articlesComments": "دیدگاه های من در اخبار",
+    "myFavorite": "علاقه مندی های من",
+    "coursesFavorite": "دوره های مرود علاقه من",
+    "articlesFavorite": "اخبار مورد علاقه من",
+    "public": "عمومی",
+    "securitySetting": "تنظیمات امنیتی",
+    "logout": "خروج از حساب",
+    "brand": "آکادمی بحر"
+  }
+}
