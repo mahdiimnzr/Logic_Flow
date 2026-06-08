@@ -6,6 +6,7 @@ import footer from "../locales/footer.json";
 import notFound from "../locales/notFound.json";
 import articles from "../locales/articles.json";
 import newsDetail from "../locales/newsDetail.json";
+import courseDetail from "../locales/courseDetail.json";
 
 const translations = {
   en: {
@@ -17,6 +18,7 @@ const translations = {
     notFound: notFound.en,
     articles: articles.en,
     newsDetail: newsDetail.en,
+    courseDetail: courseDetail.en,
   },
   fa: {
     landing: landing.fa,
@@ -27,6 +29,7 @@ const translations = {
     notFound: notFound.fa,
     articles: articles.fa,
     newsDetail: newsDetail.fa,
+    courseDetail: courseDetail.fa,
   },
 };
 

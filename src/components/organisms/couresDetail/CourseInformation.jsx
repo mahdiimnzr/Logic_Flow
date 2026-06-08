@@ -44,8 +44,8 @@ import formatHour from "@/core/utils/formatHour";
 import formatDate from "@/core/utils/formatDate";
 
 const menu = [
-  { path: "Review", Text: " مشخصات دوره" },
-  { path: "Comments", Text: "نظرات کاربران" },
+  { path: "Review", Text: " مشخصات دوره", textEn: "Course Detail" },
+  { path: "Comments", Text: "نظرات کاربران", textEn: "people Comments" },
 ];
 
 const CourseInformation = () => {
@@ -175,7 +175,7 @@ const CourseInformation = () => {
             className={`text-[14px] font-normal text-green-primary`}
             to={"/"}
           >
-            صفحه اصلی
+            {t("courseDetail.home")}
           </Link>
           <ChevronLeft
             className={`size-4 ${lang === "en" ? "sm:transform-[rotate(180deg)] transform-[rotate(270deg)]" : "sm:transform-[rotate(0deg)] transform-[rotate(270deg)]"}`}
@@ -185,7 +185,7 @@ const CourseInformation = () => {
             className={`text-[14px] font-normal text-green-primary`}
             to={"/Courses"}
           >
-            دوره های آموزشی
+            {t("courseDetail.courses")}
           </Link>
           <ChevronLeft
             className={`size-4 ${lang === "en" ? "sm:transform-[rotate(180deg)] transform-[rotate(270deg)]" : "sm:transform-[rotate(0deg)] transform-[rotate(270deg)]"}`}
@@ -279,11 +279,17 @@ const CourseInformation = () => {
           <div
             className={`bg-default-light flex flex-col p-4 xl:gap-12.5 gap-8 rounded-[25px] shadow-[0px_2px_5px_0px_#000000]/15 dark:shadow-[0px_2px_5px_0px_#ffffff]/15`}
           >
-            <span
-              className={`xl:text-[20px] lg:text-[18px] text-default-black font-bold`}
-            >
-              {Details?.data?.title}
-            </span>
+            {isLoading ? (
+              <div className={`p-1 rounded-[5px] bg-field-silver`}>
+                <Skeleton className={`w-full h-10 rounded-[5px]`} />
+              </div>
+            ) : (
+              <span
+                className={`xl:text-[20px] lg:text-[18px] text-default-black font-bold`}
+              >
+                {Details?.data?.title}
+              </span>
+            )}
             <div className={`flex flex-col gap-4`}>
               <Border
                 width="w-full"
@@ -299,14 +305,20 @@ const CourseInformation = () => {
                   <span
                     className={`text-default-black xl:text-base text-[14px]`}
                   >
-                    تاریخ شروع
+                    {t("courseDetail.startDate")}
                   </span>
                 </div>
-                <span
-                  className={`text-field-silver xl:text-[14px] text-[12px]`}
-                >
-                  {formatDate(Details?.data?.startTime)}
-                </span>
+                {isLoading ? (
+                  <div className={`p-1 rounded-[5px] bg-field-silver`}>
+                    <Skeleton className={`w-20 h-4 rounded-[5px]`} />
+                  </div>
+                ) : (
+                  <span
+                    className={`text-field-silver xl:text-[14px] text-[12px]`}
+                  >
+                    {formatDate(Details?.data?.startTime)}
+                  </span>
+                )}
               </div>
               <div className={`flex justify-between`}>
                 <div className={`flex gap-2 items-center`}>
@@ -317,14 +329,20 @@ const CourseInformation = () => {
                   <span
                     className={`text-default-black xl:text-base text-[14px]`}
                   >
-                    ساعت شروع
+                    {t("courseDetail.startHour")}
                   </span>
                 </div>
-                <span
-                  className={`text-field-silver xl:text-[14px] text-[12px]`}
-                >
-                  {formatHour(Details?.data?.startTime)}
-                </span>
+                {isLoading ? (
+                  <div className={`p-1 rounded-[5px] bg-field-silver`}>
+                    <Skeleton className={`w-20 h-4 rounded-[5px]`} />
+                  </div>
+                ) : (
+                  <span
+                    className={`text-field-silver xl:text-[14px] text-[12px]`}
+                  >
+                    {formatHour(Details?.data?.startTime)}
+                  </span>
+                )}
               </div>
               <div className={`flex justify-between`}>
                 <div className={`flex gap-2.25 items-center`}>
@@ -335,14 +353,20 @@ const CourseInformation = () => {
                   <span
                     className={`text-default-black xl:text-base text-[14px]`}
                   >
-                    ساعت پایان
+                    {t("courseDetail.endHour")}
                   </span>
                 </div>
-                <span
-                  className={`text-field-silver xl:text-[14px] text-[12px]`}
-                >
-                  {formatHour(Details?.data?.endTime)}
-                </span>
+                {isLoading ? (
+                  <div className={`p-1 rounded-[5px] bg-field-silver`}>
+                    <Skeleton className={`w-20 h-4 rounded-[5px]`} />
+                  </div>
+                ) : (
+                  <span
+                    className={`text-field-silver xl:text-[14px] text-[12px]`}
+                  >
+                    {formatHour(Details?.data?.endTime)}
+                  </span>
+                )}
               </div>
               <div className={`flex justify-between`}>
                 <div className={`flex gap-2.25 items-center`}>
@@ -353,14 +377,20 @@ const CourseInformation = () => {
                   <span
                     className={`text-default-black xl:text-base text-[14px]`}
                   >
-                    ظرفیت دوره
+                    {t("courseDetail.courseCapacity")}
                   </span>
                 </div>
-                <span
-                  className={`text-field-silver xl:text-[14px] text-[12px]`}
-                >
-                  {Details?.data?.capacity} نفر
-                </span>
+                {isLoading ? (
+                  <div className={`p-1 rounded-[5px] bg-field-silver`}>
+                    <Skeleton className={`w-20 h-4 rounded-[5px]`} />
+                  </div>
+                ) : (
+                  <span
+                    className={`text-field-silver xl:text-[14px] text-[12px]`}
+                  >
+                    {Details?.data?.capacity} {t("courseDetail.studentNumbers")}
+                  </span>
+                )}
               </div>
               <div className={`flex justify-between`}>
                 <div className={`flex gap-2.25 items-center`}>
@@ -371,14 +401,20 @@ const CourseInformation = () => {
                   <span
                     className={`text-default-black xl:text-base text-[14px]`}
                   >
-                    قیمت
+                    {t("courseDetail.price")}
                   </span>
                 </div>
-                <span
-                  className={`text-green-primary xl:text-[18px] text-base font-bold`}
-                >
-                  {formatPrice(Details?.data?.cost)} تومان
-                </span>
+                {isLoading ? (
+                  <div className={`p-1 rounded-[5px] bg-field-silver`}>
+                    <Skeleton className={`w-20 h-4 rounded-[5px]`} />
+                  </div>
+                ) : (
+                  <span
+                    className={`text-green-primary xl:text-[18px] text-base font-bold`}
+                  >
+                    {formatPrice(Details?.data?.cost)} {t("courseDetail.toman")}
+                  </span>
+                )}
               </div>
               <Button
                 className={`xl:h-16 h-12 xl:text-base! text-[14px]! xl:rounded-[20px]! rounded-[15px]!`}
@@ -390,8 +426,8 @@ const CourseInformation = () => {
                 }
               >
                 {Details?.data?.isCourseReseve == false
-                  ? ` همین حالا رزرو کنید`
-                  : `دوره رزرو شده است`}
+                  ? t("courseDetail.reserveCourse")
+                  : t("courseDetail.courseReserved")}
               </Button>
             </div>
           </div>
@@ -401,7 +437,7 @@ const CourseInformation = () => {
             <span
               className={`xl:text-[18px] lg:text-base text-default-black font-bold`}
             >
-              رضایت کاربران از دوره
+              {t("courseDetail.peoplesRating")}
             </span>
             <div className={`flex items-center justify-between`}>
               <div>
@@ -422,7 +458,7 @@ const CourseInformation = () => {
                 {Details?.data?.courseRate % 1 === 0
                   ? Details?.data?.courseRate
                   : Details?.data?.courseRate.toFixed(1)}{" "}
-                امتیاز
+                {t("courseDetail.rate")}
               </span>
             </div>
           </div>
@@ -439,7 +475,7 @@ const CourseInformation = () => {
                 <p
                   className={`text-field-silver xl:text-base text-[14px] font-normal`}
                 >
-                  مدرس دوره :
+                  {t("courseDetail.courseTeacher")}
                 </p>
                 <p
                   className={`xl:text-[18px] text-base font-bold text-default-black`}
@@ -448,12 +484,17 @@ const CourseInformation = () => {
                 </p>
               </div>
             </div>
-            <Button
-              color={`teachersBtn`}
-              className={`h-11.5! w-full! xl:rounded-[20px]! rounded-[15px]! xl:text-base! text-[14px]!`}
+            <Link
+              className={`w-full`}
+              to={`/Teachers/Detail/${Details?.data?.teacherId}`}
             >
-              مشاهده اطلاعات بیشتر
-            </Button>
+              <Button
+                color={`teachersBtn`}
+                className={`h-11.5! w-full! xl:rounded-[20px]! rounded-[15px]! xl:text-base! text-[14px]!`}
+              >
+                {t("courseDetail.showMoreInformation")}
+              </Button>
+            </Link>
           </div>
         </div>
         <div className={`xl:w-7/10 lg:w-6/10 w-full flex flex-col gap-10`}>
@@ -527,7 +568,7 @@ const CourseInformation = () => {
                   `${isActive ? `text-default-light xl:text-base text-[14px] bg-green-primary xl:px-4 xl:py-3 px-3 py-2 rounded-[50px]` : `text-default-black`} text-center`
                 }
               >
-                {value.Text}
+                {lang === "en" ? value.textEn : value.Text}
               </NavLink>
             ))}
           </div>
@@ -537,7 +578,7 @@ const CourseInformation = () => {
       <div className="flex flex-col gap-8 w-full py-12">
         <div className="flex items-center justify-between">
           <h3 className={`text-green-primary font-bold text-[24px]`}>
-            دوره‌های مرتبط
+            {t("courseDetail.connectedCourses")}
           </h3>
           <div dir="rtl" className="flex items-center gap-1">
             <button

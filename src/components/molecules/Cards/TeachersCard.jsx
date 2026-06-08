@@ -13,7 +13,9 @@ const TeachersCard = (props) => {
         dir="rtl"
         className={`border border-light-gray bg-default-light rounded-[20px] p-4 flex flex-col items-center gap-2 transition-all shadow-[0px_4px_4px_0px_#000000]/0 hover:shadow-cards-hover`}
       >
-        <Link className={`block sm:h-45 h-35 ${isFromDetail ? "w-45" : "w-full"}`}>
+        <Link
+          className={`block sm:h-45 h-35 ${isFromDetail ? "w-45" : "w-full"}`}
+        >
           <ImageFallback
             src={image}
             fallback={teacher}

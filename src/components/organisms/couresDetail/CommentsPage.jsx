@@ -14,11 +14,14 @@ import Button from "@/components/atoms/Buttons/Button";
 import formDataConverter from "@/core/utils/formDataConvertor";
 import Border from "@/components/atoms/Border/Border";
 import Comments from "./Comments";
+import { useI18n } from "@/i18n/useI18n";
 
 const CommentsPage = () => {
+  const { t } = useI18n();
+
   const validationSchema = Yup.object({
-    Title: Yup.string().required("فیلد خالی است"),
-    Describe: Yup.string().required("فیلد خالی است"),
+    Title: Yup.string().required(t("courseDetail.inputsError")),
+    Describe: Yup.string().required(t("courseDetail.inputsError")),
   });
 
   const { id } = useParams();
@@ -52,7 +55,7 @@ const CommentsPage = () => {
             <span
               className={`text-default-black xl:text-[18px] text-base font-bold`}
             >
-              همه ی نظرات
+              {t("courseDetail.allComments")}
             </span>
             <div className={`xl:size-6 size-5 rounded-full bg-light-gray`}>
               <p
@@ -82,14 +85,14 @@ const CommentsPage = () => {
                   <span
                     className={`xl:text-base text-[14px] font-bold text-default-black`}
                   >
-                    عنوان دیدگاه
+                    {t("courseDetail.commentTitle")}
                   </span>
                   <FormInput
                     isComment={true}
                     error={errors.Title}
                     name={"Title"}
                     type={"text"}
-                    placeholder={"عنوان دیدگاه خود را بنویسید"}
+                    placeholder={t("courseDetail.commentTitlePlaceHolder")}
                     className={`xl:h-15! lg:h-13! md:h-11! sm:h-13! h-11!`}
                     errorMessageClassName={`lg:text-[14px]! text-[12px]!`}
                   />
@@ -98,18 +101,18 @@ const CommentsPage = () => {
                   <span
                     className={`xl:text-base text-[14px] font-bold text-default-black`}
                   >
-                    متن دیدگاه
+                    {t("courseDetail.commentDescribe")}
                   </span>
                   <TextAreaInput
                     name={"Describe"}
                     error={errors.Describe}
                     type={"text"}
-                    placeholder={"متن دیدگاه خود را بنویسید"}
+                    placeholder={t("courseDetail.commentDescribePlaceHolder")}
                     fieldClassName={`xl:min-h-51! lg:min-h-40! min-h-20 xl:max-h-55 lg:max-h-45 max-h-30`}
                   />
                 </div>
                 <Button color={"authBtn"} className={`w-full py-3`}>
-                  اضافه کردن نظر
+                  {t("courseDetail.addComment")}
                 </Button>
               </Form>
             )}
@@ -175,7 +178,9 @@ const CommentsPage = () => {
           onClick={() => setIsCommentOpen(!isCommentOpen)}
           className={`h-10 w-fit px-2 mx-auto cursor-pointer`}
         >
-          {!isCommentOpen ? "نمایش بیشتر" : "نمایش کمتر"}
+          {!isCommentOpen
+            ? t("courseDetail.showMore")
+            : t("courseDetail.showLess")}
         </Button>
       )}
     </>

@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 const NewsReview = () => {
   const { id } = useParams();
   const { t } = useI18n();
-  const { isLoading, data: Details } = useGetNewsDetails(id);
+  const { data: Details } = useGetNewsDetails(id);
   return (
     <div className={`flex flex-col xl:gap-10 gap-8`}>
       <div>
