@@ -15,7 +15,12 @@
     "public": "Public",
     "securitySetting": "Security Settings",
     "logout": "Log Out",
-    "brand": "Bahr Academy"
+    "brand": "Bahr Academy",
+    "dashboardSection": {
+      "myCourses": "My Courses",
+      "notPayCourses": "Unpaid Courses",
+      "profileCompleted": "Profile Completed"
+    }
   },
   "fa": {
     "menu": "منو",
@@ -33,6 +38,11 @@
     "public": "عمومی",
     "securitySetting": "تنظیمات امنیتی",
     "logout": "خروج از حساب",
-    "brand": "آکادمی بحر"
+    "brand": "آکادمی بحر",
+    "dashboardSection": {
+      "myCourses": "دوره های من",
+      "notPayCourses": "دوره های پرداخت نشده",
+      "profileCompleted": "پروفایل تکمیل شده"
+    }
   }
 }
