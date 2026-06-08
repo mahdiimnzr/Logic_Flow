@@ -1,4 +1,22 @@
 {
+  "en": {
+    "menu": "Menu",
+    "dashboard": "Dashboard",
+    "userInfo": "User Information",
+    "myCourses": "My Courses",
+    "reservedCourses": "Reserved Courses",
+    "myPayments": "My Payments",
+    "myComments": "My Comments",
+    "courseComments": "My Comments on Courses",
+    "articlesComments": "My Comments on News",
+    "myFavorite": "My Favorites",
+    "coursesFavorite": "My Favorite Courses",
+    "articlesFavorite": "My Favorite News",
+    "public": "Public",
+    "securitySetting": "Security Settings",
+    "logout": "Log Out",
+    "brand": "Bahr Academy"
+  },
   "fa": {
     "menu": "منو",
     "dashboard": "داشبورد",

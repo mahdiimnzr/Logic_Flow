@@ -44,7 +44,7 @@ const UserPanelSideBar = () => {
           >
             {pathname === "/UserPanel/Dashboard" && (
               <div
-                className={`h-11 w-2 rounded-l-[8px] bg-green-primary absolute -top-1.5 -right-6`}
+                className={`h-11 w-2 bg-green-primary absolute -top-1.5 ${lang === "en" ? `-left-6 rounded-r-[8px]` : `-right-6 rounded-l-[8px]`}`}
               ></div>
             )}
             <DashboardIcon
@@ -64,7 +64,7 @@ const UserPanelSideBar = () => {
           >
             {pathname === "/UserPanel/UserInformation" && (
               <div
-                className={`h-11 w-2 rounded-l-[8px] bg-green-primary absolute -top-1.5 -right-6`}
+                className={`h-11 w-2 bg-green-primary absolute -top-1.5 ${lang === "en" ? `-left-6 rounded-r-[8px]` : `-right-6 rounded-l-[8px]`}`}
               ></div>
             )}
             <UserInfoIcon
@@ -86,7 +86,7 @@ const UserPanelSideBar = () => {
           >
             {pathname === "/UserPanel/MyCourses" && (
               <div
-                className={`h-11 w-2 rounded-l-[8px] bg-green-primary absolute -top-1.5 -right-6`}
+                className={`h-11 w-2 bg-green-primary absolute -top-1.5 ${lang === "en" ? `-left-6 rounded-r-[8px]` : `-right-6 rounded-l-[8px]`}`}
               ></div>
             )}
             <MyCoursesIcon
@@ -106,7 +106,7 @@ const UserPanelSideBar = () => {
           >
             {pathname === "/UserPanel/ReservedCourses" && (
               <div
-                className={`h-11 w-2 rounded-l-[8px] bg-green-primary absolute -top-1.5 -right-6`}
+                className={`h-11 w-2 bg-green-primary absolute -top-1.5 ${lang === "en" ? `-left-6 rounded-r-[8px]` : `-right-6 rounded-l-[8px]`}`}
               ></div>
             )}
             <ReserveCoursesIcon
@@ -128,7 +128,7 @@ const UserPanelSideBar = () => {
           >
             {pathname === "/UserPanel/MyPayments" && (
               <div
-                className={`h-11 w-2 rounded-l-[8px] bg-green-primary absolute -top-1.5 -right-6`}
+                className={`h-11 w-2 bg-green-primary absolute -top-1.5 ${lang === "en" ? `-left-6 rounded-r-[8px]` : `-right-6 rounded-l-[8px]`}`}
               ></div>
             )}
             <PaymentsIcon
@@ -154,7 +154,7 @@ const UserPanelSideBar = () => {
                 {(pathname === "/UserPanel/MyComments/Course" ||
                   pathname === "/UserPanel/MyComments/Articles") && (
                   <div
-                    className={`h-11 w-2 rounded-l-[8px] bg-green-primary absolute -top-1.5 -right-6`}
+                    className={`h-11 w-2 bg-green-primary absolute -top-1.5 ${lang === "en" ? `-left-6 rounded-r-[8px]` : `-right-6 rounded-l-[8px]`}`}
                   ></div>
                 )}
                 <CommentsIcon
@@ -186,7 +186,7 @@ const UserPanelSideBar = () => {
               >
                 {pathname === "/UserPanel/MyComments/Course" && (
                   <div
-                    className={`h-11 w-2 rounded-l-[8px] bg-green-primary absolute -top-1.5 -right-6`}
+                    className={`h-11 w-2 bg-green-primary absolute -top-1.5 ${lang === "en" ? `-left-6 rounded-r-[8px]` : `-right-6 rounded-l-[8px]`}`}
                   ></div>
                 )}
                 <div
@@ -208,7 +208,7 @@ const UserPanelSideBar = () => {
               >
                 {pathname === "/UserPanel/MyComments/Articles" && (
                   <div
-                    className={`h-11 w-2 rounded-l-[8px] bg-green-primary absolute -top-1.5 -right-6`}
+                    className={`h-11 w-2 bg-green-primary absolute -top-1.5 ${lang === "en" ? `-left-6 rounded-r-[8px]` : `-right-6 rounded-l-[8px]`}`}
                   ></div>
                 )}
                 <div
@@ -238,7 +238,7 @@ const UserPanelSideBar = () => {
                 {(pathname === "/UserPanel/MyFavorite/Course" ||
                   pathname === "/UserPanel/MyFavorite/Articles") && (
                   <div
-                    className={`h-11 w-2 rounded-l-[8px] bg-green-primary absolute -top-1.5 -right-6`}
+                    className={`h-11 w-2 bg-green-primary absolute -top-1.5 ${lang === "en" ? `-left-6 rounded-r-[8px]` : `-right-6 rounded-l-[8px]`}`}
                   ></div>
                 )}
                 <FavoritePanelIcon
@@ -270,7 +270,7 @@ const UserPanelSideBar = () => {
               >
                 {pathname === "/UserPanel/MyFavorite/Course" && (
                   <div
-                    className={`h-11 w-2 rounded-l-[8px] bg-green-primary absolute -top-1.5 -right-6`}
+                    className={`h-11 w-2 bg-green-primary absolute -top-1.5 ${lang === "en" ? `-left-6 rounded-r-[8px]` : `-right-6 rounded-l-[8px]`}`}
                   ></div>
                 )}
                 <div
@@ -292,7 +292,7 @@ const UserPanelSideBar = () => {
               >
                 {pathname === "/UserPanel/MyFavorite/Articles" && (
                   <div
-                    className={`h-11 w-2 rounded-l-[8px] bg-green-primary absolute -top-1.5 -right-6`}
+                    className={`h-11 w-2 bg-green-primary absolute -top-1.5 ${lang === "en" ? `-left-6 rounded-r-[8px]` : `-right-6 rounded-l-[8px]`}`}
                   ></div>
                 )}
                 <div
@@ -323,7 +323,7 @@ const UserPanelSideBar = () => {
           >
             {pathname === "/UserPanel/SecuritySetting" && (
               <div
-                className={`h-11 w-2 rounded-l-[8px] bg-green-primary absolute -top-1.5 -right-6`}
+                className={`h-11 w-2 bg-green-primary absolute -top-1.5 ${lang === "en" ? `-left-6 rounded-r-[8px]` : `-right-6 rounded-l-[8px]`}`}
               ></div>
             )}
             <SecuritySettingIcon

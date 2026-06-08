@@ -8,8 +8,10 @@ import { useContext } from "react";
 import { Link, Outlet } from "react-router-dom";
 import userProfile from "../assets/images/userProfile.png";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useI18n } from "@/i18n/useI18n";
 
 const UserPanelLayout = () => {
+  const { lang, changeLang } = useI18n();
   const { theme, setTheme } = useContext(ThemeContext);
 
   const { isLoading, data: userDetail } = useGetUserDetail();
@@ -47,6 +49,14 @@ const UserPanelLayout = () => {
               )}
             </div>
             <div className={`flex items-center gap-7`}>
+              <div
+                onClick={() =>
+                  lang === "en" ? changeLang("fa") : changeLang("en")
+                }
+                className={`cursor-pointer size-14 rounded-full bg-green-primary content-center text-center text-white text-[18px] font-bold border leading-14 border-green-primary`}
+              >
+                {lang === "en" ? "EN" : "FA"}
+              </div>
               <ThemeButton theme={theme} setTheme={setTheme} />
               <Link
                 to={"/"}
