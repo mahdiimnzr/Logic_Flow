@@ -197,6 +197,11 @@ const Dashboard = () => {
                   </div>
                 </div>
               ))}
+            {reservedCourses?.data?.length == 0 && (
+              <span className={`text-[14px] font-semibold text-default-black`}>
+                {t("userPanel.dashboardSection.notFound")}
+              </span>
+            )}
             {reservedCourses?.data?.length >= 4 && (
               <Link
                 to={"/UserPanel/ReservedCourses"}
@@ -256,7 +261,12 @@ const Dashboard = () => {
                   </div>
                 </div>
               ))}
-            {reservedCourses?.data?.length >= 4 && (
+            {articles?.data?.news?.length == 0 && (
+              <span className={`text-[14px] font-semibold text-default-black`}>
+                {t("userPanel.dashboardSection.notFound")}
+              </span>
+            )}
+            {articles?.data?.news?.length >= 4 && (
               <Link
                 to={"/Articles"}
                 className={`md:text-base text-[14px] font-normal text-field-silver`}

@@ -25,7 +25,8 @@
       "status": "Status:",
       "reservedDone": "Reserved",
       "unReserved": "Pending Approval",
-      "newArticles": "Latest News"
+      "newArticles": "Latest News",
+      "notFound": "Didn`t Found Any Thing!"
     }
   },
   "fa": {
@@ -54,7 +55,8 @@
       "status": "وضعیت :",
       "reservedDone": "رزرو شده",
       "unReserved": "در انتظار تایید",
-      "newArticles": "جدید ترین اخبار"
+      "newArticles": "جدید ترین اخبار",
+      "notFound": "موردی یافت نشد!"
     }
   }
 }
