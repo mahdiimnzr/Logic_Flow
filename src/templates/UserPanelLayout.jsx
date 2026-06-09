@@ -19,7 +19,7 @@ const UserPanelLayout = () => {
 
   return (
     <div
-      className={`min-h-screen bg-default-light content-center md:py-8 sm:py-5 py-2`}
+      className={`min-h-screen bg-default-light content-center md:py-4 py-2`}
     >
       <DrawerComponents
         trigger={

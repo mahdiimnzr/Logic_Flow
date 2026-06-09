@@ -77,7 +77,7 @@ const SortsSection = ({
         />
       </div>
       <div className={`lg:flex hidden items-center xl:gap-4 lg:gap-2`}>
-        <span className={`text-default-black font-normal md:text-base`}>
+        <span className={`text-default-black font-normal md:text-base lg:text-[14px] xl:text-base`}>
           {t("articles.sorting.sortBy")}
         </span>
         <SelectModal
@@ -100,7 +100,7 @@ const SortsSection = ({
             );
           }}
         />
-        <span className={`text-default-black font-normal md:text-base`}>
+        <span className={`text-default-black font-normal md:text-base lg:text-[14px] xl:text-base`}>
           {t("articles.sorting.rowsOf")}
         </span>
         <SelectModal
