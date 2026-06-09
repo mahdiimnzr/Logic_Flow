@@ -1,6 +1,8 @@
 import ThemeContext from "@/app/context/ThemeContext";
 import Button from "@/components/atoms/Buttons/Button";
 import TeachersCard from "@/components/molecules/Cards/TeachersCard";
+import SelectModal from "@/components/molecules/Select/Select";
+import { rowsOfPages } from "@/core/constants/articlesSorting";
 import { useGetTeachers } from "@/core/services/api/teachers/teacher.service";
 import { useI18n } from "@/i18n/useI18n";
 import { ChevronLeft, Search } from "lucide-react";
@@ -41,7 +43,7 @@ const TeachersInformation = () => {
       </div>
       <div className={`  w-full flex flex-col gap-8`}>
         <div
-          className={` bg-default-light rounded-[15px] shadow-[0px_2px_5px_0_#000000]/15 dark:shadow-[0px_2px_5px_0_#ffffff]/15 p-2 flex items-center justify-between`}
+          className={` bg-default-light rounded-[15px] shadow-[0px_2px_5px_0_#000000]/15 dark:shadow-[0px_2px_5px_0_#ffffff]/15 p-3 flex items-center justify-between`}
         >
           <div className={`flex items-center lg:gap-5.5 gap-4 `}>
             <div
@@ -57,7 +59,7 @@ const TeachersInformation = () => {
                 color="#848484"
               />
             </div>
-            {/* <div className={`flex items-center lg:gap-4 gap-2`}>
+            <div className={`flex items-center lg:gap-4 gap-2`}>
               <span
                 className={`text-default-black font-normal lg:text-base md:text-[14px]`}
               >
@@ -79,7 +81,7 @@ const TeachersInformation = () => {
                   //   );
                 }}
               />
-            </div> */}
+            </div>
           </div>
           <Button
             color={"searchBtn"}
