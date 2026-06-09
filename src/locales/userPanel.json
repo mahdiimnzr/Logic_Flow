@@ -46,6 +46,7 @@
     "securitySetting": "تنظیمات امنیتی",
     "logout": "خروج از حساب",
     "brand": "آکادمی بحر",
+    "changes": "تغییرات",
     "dashboardSection": {
       "myCourses": "دوره های من",
       "notPayCourses": "دوره های پرداخت نشده",
@@ -57,6 +58,21 @@
       "unReserved": "در انتظار تایید",
       "newArticles": "جدید ترین اخبار",
       "notFound": "موردی یافت نشد!"
+    },
+    "userInfoSection": {
+      "totalInfo": "اطلاعات کلی",
+      "userLocation": "موقعیت مکانی",
+      "socialNetwork": "شبکه اجتماعی",
+      "userName": "نام",
+      "fNamePlaceHolder": "نام خود را وارد کنید",
+      "userLastName": "نام خانوادگی",
+      "lNamePlaceHolder": "نام خانوادگی خود را وارد کنید",
+      "nationalCode": "کد ملی",
+      "nationalPlaceHolder": "کد ملی 10 رقمی را وارد کنید",
+      "gender": "جنسیت",
+      "birthDate": "تاریخ تولد",
+      "aboutMe": "درباره من",
+      "aboutMePlaceHolder": "توضیحات بیشتر راجب خود وارد کنید"
     }
   }
 }

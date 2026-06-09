@@ -27,7 +27,7 @@ const FormInput = ({
   return (
     <div className={`flex flex-col lg:gap-2 gap-1`}>
       <div
-        className={`${lightTheme ? `bg-default-light rounded-2xl border border-light-gray` : null} bg-background-default ${isComment ? `rounded-[25px]` : `rounded-[100px]`} w-full h-15 px-5 flex items-center gap-4 box-border ${error && `border border-red-error`} ${className}`}
+        className={`${lightTheme ? `bg-default-light rounded-2xl! border border-light-gray` : null} bg-background-default ${isComment ? `rounded-[25px]` : `rounded-[100px]`} w-full h-15 px-5 flex items-center gap-4 box-border ${error && `border border-red-error`} ${className}`}
       >
         {icon && icon}
         <Field
