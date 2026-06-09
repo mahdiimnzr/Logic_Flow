@@ -8,7 +8,7 @@ const token = JSON.parse(localStorage.getItem("token"));
 const router = createBrowserRouter([
   ...mainRoute,
   ...authRoute,
-  ...(token && panelRoute),
+  ...(token ? panelRoute : []),
 ]);
 
 export default router;
