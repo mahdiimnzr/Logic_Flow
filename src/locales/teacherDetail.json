@@ -2,14 +2,14 @@
   "en": {
     "home": "Home",
     "teacher": "Professors",
-    "inputPlaceHolder": "Search...",
+    "inputPlaceHolder": "Course name...",
     "searchBtn": "Search",
     "pagination": "Items per page :"
   },
   "fa": {
     "home": "صفحه اصلی",
     "teacher": "اساتید",
-    "inputPlaceHolder": "جستجو کنید...",
+    "inputPlaceHolder": "نام دوره ...",
     "searchBtn": "جستجو کنید",
     "pagination": "تعداد در صفحه :"
   }

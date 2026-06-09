@@ -9,7 +9,7 @@ import newsDetail from "../locales/newsDetail.json";
 import courseDetail from "../locales/courseDetail.json";
 import userPanel from "../locales/userPanel.json";
 import teachers from "../locales/teachers.json";
-
+import teacherDetail from "../locales/teacherDetail.json";
 const translations = {
   en: {
     landing: landing.en,
@@ -23,6 +23,7 @@ const translations = {
     courseDetail: courseDetail.en,
     userPanel: userPanel.en,
     teachers: teachers.en,
+    teacherDetail: teacherDetail.en,
   },
   fa: {
     landing: landing.fa,
@@ -36,6 +37,7 @@ const translations = {
     courseDetail: courseDetail.fa,
     userPanel: userPanel.fa,
     teachers: teachers.fa,
+    teacherDetail: teacherDetail.fa,
   },
 };
 

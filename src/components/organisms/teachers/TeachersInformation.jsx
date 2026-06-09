@@ -41,18 +41,18 @@ const TeachersInformation = () => {
           {t("teachers.teacher")}
         </span>
       </div>
-      <div className={`  w-full flex flex-col gap-8`}>
+      <div className={`w-full flex flex-col gap-8`}>
         <div
           className={` bg-default-light rounded-[15px] shadow-[0px_2px_5px_0_#000000]/15 dark:shadow-[0px_2px_5px_0_#ffffff]/15 p-3 flex items-center justify-between`}
         >
           <div className={`flex items-center lg:gap-5.5 gap-4 `}>
             <div
-              className={` xl:w-162 lg:w-150 md:w-120 sm:w-100  flex justify-between border border-light-gray p-3 rounded-[15px]`}
+              className={` xl:w-162 lg:w-140 sm:w-118  flex justify-between border border-light-gray p-3 rounded-[15px]`}
             >
               <input
                 type="text"
                 placeholder={t("teachers.inputPlaceHolder")}
-                className={`text-base font-normal text-field-silver placeholder:text-field-silver outline-none w-9/10`}
+                className={`text-base font-normal text-field-silver placeholder:text-field-silver outline-none w-8/10`}
               />
               <Search
                 className={`w-0.5/10 ${lang === "en" ? "transform-[rotate(90deg)]" : "transform-[rotate(0deg)]"}`}
@@ -61,9 +61,9 @@ const TeachersInformation = () => {
             </div>
             <div className={`flex items-center lg:gap-4 gap-2`}>
               <span
-                className={`text-default-black font-normal lg:text-base md:text-[14px]`}
+                className={`text-default-black font-normal lg:text-base md:text-[14px] lg:block hidden`}
               >
-                تعداد در صفحه:
+                {t("teachers.pagination")}
               </span>
               <SelectModal
                 items={rowsOfPages}
@@ -85,7 +85,7 @@ const TeachersInformation = () => {
           </div>
           <Button
             color={"searchBtn"}
-            className={`w-[125px] h-[46px] text-[14px] text-default-light sm:block hidden `}
+            className={`lg:w-[125px] lg:h-[46px]  w-[90px] h-[45px] lg:text-[14px] md:text-[12px] text-default-light md:block hidden `}
           >
             {t("teachers.searchBtn")}
           </Button>
