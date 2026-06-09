@@ -1,10 +1,14 @@
 {
   "en": {
     "home": "Home",
-    "teacher": "Professors"
+    "teacher": "Professors",
+    "inputPlaceHolder": "Search...",
+    "searchBtn": "Search"
   },
   "fa": {
     "home": "صفحه اصلی",
-    "teacher": "اساتید"
+    "teacher": "اساتید",
+    "inputPlaceHolder": "جستجو کنید...",
+    "searchBtn": "جستجو کنید"
   }
 }
