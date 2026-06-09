@@ -13,6 +13,7 @@ import "react-circular-progressbar/dist/styles.css";
 import ImageFallback from "@/components/atoms/ImageFallBack/ImageFallBack";
 import useGetArticles from "@/core/services/api/hooks/useGetArticles";
 import formatDate from "@/core/utils/formatDate";
+import fallback from "../../../assets/images/coursePng.png";
 
 const Dashboard = () => {
   const { t, lang } = useI18n();
@@ -172,6 +173,7 @@ const Dashboard = () => {
                     <ImageFallback
                       className={`size-full rounded-[12px]`}
                       src={value.image}
+                      fallback={fallback}
                     />
                   </Link>
                   <div className={`flex flex-col justify-between gap-2 w-8/10`}>
@@ -245,6 +247,7 @@ const Dashboard = () => {
                     <ImageFallback
                       className={`size-full rounded-[12px]`}
                       src={value.currentImageAddress}
+                      fallback={fallback}
                     />
                   </Link>
                   <div className={`flex flex-col justify-between gap-2 w-8/10`}>
