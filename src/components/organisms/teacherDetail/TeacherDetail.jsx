@@ -37,7 +37,7 @@ const TeacherDetail = () => {
   };
   console.log(searchList);
   return (
-    <div className={`flex flex-col gap-8.5 items-center`}>
+    <div className={`flex flex-col gap-8.5  items-center`}>
       <div className={`flex flex-col items-center gap-4`}>
         <div className={`flex items-center justify-center gap-1`}>
           <Link
@@ -55,7 +55,7 @@ const TeacherDetail = () => {
             className={`text-[14px] font-normal text-green-primary`}
             to={"/Teachers"}
           >
-            {t("teachers.teacher")}
+            {t("teacherDetail.teacher")}
           </Link>
           <ChevronLeft
             className={`size-4 ${lang === "en" ? "transform-[rotate(180deg)]" : "transform-[rotate(0deg)]"}`}
@@ -69,8 +69,10 @@ const TeacherDetail = () => {
           {TeachersDetail?.data?.fullName}
         </span>
       </div>
-      <div className={`flex w-full gap-12`}>
-        <div className={` w-2/12`}>
+      <div
+        className={`flex lg:flex-row flex-col lg:items-start items-center w-full xl:gap-12 gap-8`}
+      >
+        <div className={` lg:w-2/11 w-9/11 `}>
           <TeachersCard
             isFromDetail={true}
             fullName={TeachersDetail?.data?.fullName}
@@ -80,18 +82,18 @@ const TeacherDetail = () => {
             linkdinProfileLink={TeachersDetail?.data?.linkdinProfileLink}
           />
         </div>
-        <div className={` w-10/12 flex flex-col gap-7`}>
+        <div className={` lg:w-9/11 w-full flex flex-col gap-7`}>
           <div
-            className={` bg-default-light rounded-[15px] shadow-[0px_2px_5px_0_#000000]/15 dark:shadow-[0px_2px_5px_0_#ffffff]/15 sm:p-4 px-2 py-1 flex items-center justify-between`}
+            className={` bg-default-light rounded-[15px] shadow-[0px_2px_5px_0_#000000]/15 dark:shadow-[0px_2px_5px_0_#ffffff]/15 p-3 flex items-center justify-between`}
           >
             <div className={`flex items-center lg:gap-5.5 gap-4 `}>
               <div
-                className={` xl:w-162 lg:w-135 md:w-95  flex justify-between border border-light-gray p-3 rounded-[15px]`}
+                className={` xl:w-130 lg:w-95 sm:w-85  flex justify-between border border-light-gray p-3 rounded-[15px]`}
               >
                 <input
                   type="text"
-                  placeholder="نام دوره ..."
-                  className={`text-base font-normal text-field-silver placeholder:text-field-silver outline-none w-3/10`}
+                  placeholder={t("teacherDetail.inputPlaceHolder")}
+                  className={`text-base font-normal text-field-silver placeholder:text-field-silver outline-none w-8/10`}
                   onChange={(event) => handleSearch(event.target.value)}
                 />
                 <Search
@@ -99,11 +101,11 @@ const TeacherDetail = () => {
                   color="#848484"
                 />
               </div>
-              <div className={`flex items-center lg:gap-4 gap-2`}>
+              <div className={`flex items-center xl:gap-4 gap-2`}>
                 <span
-                  className={`text-default-black font-normal lg:text-base md:text-[14px]`}
+                  className={`text-default-black font-normal lg:text-base md:text-[14px] md:block hidden`}
                 >
-                  تعداد در صفحه:
+                  {t("teacherDetail.pagination")}
                 </span>
                 <SelectModal
                   items={rowsOfPages}
@@ -125,13 +127,13 @@ const TeacherDetail = () => {
             </div>
             <Button
               color={"searchBtn"}
-              className={`w-31.25 h-11.5 text-[14px] text-default-light`}
+              className={`lg:w-[125px] lg:h-[46px] w-[90px] h-[45px] lg:text-[14px] md:text-[12px] text-default-light sm:block hidden `}
             >
-              جستجو
+              {t("teacherDetail.searchBtn")}
             </Button>
           </div>
           <div
-            className={`grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3  sm:grid-cols-2 grid-cols-1 gap-8`}
+            className={`w-full grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2  grid-cols-1 gap-8`}
           >
             {TeachersDetail?.data?.courses?.map((value, index) => (
               <Tilt key={index} tiltAxis={!view && "disable"}>
