@@ -37,6 +37,7 @@ input[type="number"] {
   --color-green-dark: #005b77;
   --color-star-yellow: #f8bc24;
   --color-red-error: #ef5350;
+  --color-red-danger: #e7000b;
   --color-field-silver: #848484;
   --color-light-gray: #eaeaea;
   --color-gray-subtitle: #353535;
@@ -56,6 +57,7 @@ input[type="number"] {
   --color-green-dark: #017497;
   --color-star-yellow: #f8bc24;
   --color-red-error: #ef5350;
+  --color-red-danger: #e7000b;
   --color-field-silver: #848484;
   --color-light-gray: #313131;
   --color-gray-subtitle: #dbdbdb;
@@ -106,6 +108,7 @@ input[type="number"] {
   --color-green-dark: var(--color-green-dark);
   --color-star-yellow: var(--color-star-yellow);
   --color-red-error: var(--color-red-error);
+  --color-red-danger: var(--color-red-danger);
   --color-field-silver: var(--color-field-silver);
   --color-light-gray: var(--color-light-gray);
   --color-gray-subtitle: var(--color-gray-subtitle);

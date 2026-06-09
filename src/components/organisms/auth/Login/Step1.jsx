@@ -13,8 +13,10 @@ import { toast } from "react-toastify";
 import ThemeSlide from "@/components/molecules/theme/ThemeSlide";
 import ThemeContext from "@/app/context/ThemeContext";
 import { useI18n } from "@/i18n/useI18n";
+import LoginContext from "@/app/context/LoginContext";
 
 const Step1 = ({ setWhichStep, setSignUpParams, SignUpParams }) => {
+  const { setIsLogin } = useContext(LoginContext);
   const { t, lang, changeLang } = useI18n();
   const { theme, setTheme } = useContext(ThemeContext);
   const [checked, setChecked] = useState(false);
@@ -26,6 +28,7 @@ const Step1 = ({ setWhichStep, setSignUpParams, SignUpParams }) => {
       if (result.data.token) {
         navigate("/");
         localStorage.setItem("token", JSON.stringify(result.data.token));
+        setIsLogin(true);
       } else {
         setWhichStep("Step2");
         setSignUpParams({ ...SignUpParams, phoneOrGmail: value.phoneOrGmail });

@@ -6,3 +6,5 @@ export const useGetMyCourses = (key, params) => {
   const queryString = new URLSearchParams(params).toString();
   return useGetQuery(key, `SharePanel/GetMyCourses?${queryString}`);
 };
+export const useGetMyReserveCourses = () =>
+  useGetQuery("MyReserveCourses", `SharePanel/GetMyCoursesReserve`);

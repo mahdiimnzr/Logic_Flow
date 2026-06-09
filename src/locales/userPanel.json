@@ -19,7 +19,13 @@
     "dashboardSection": {
       "myCourses": "My Courses",
       "notPayCourses": "Unpaid Courses",
-      "profileCompleted": "Profile Completed"
+      "profileCompleted": "Profile Completed",
+      "reservedCourses": "Reserved Courses",
+      "showAll": "Show All",
+      "status": "Status:",
+      "reservedDone": "Reserved",
+      "unReserved": "Pending Approval",
+      "newArticles": "Latest News"
     }
   },
   "fa": {
@@ -33,7 +39,7 @@
     "courseComments": "دیدگاه های من در دوره ها",
     "articlesComments": "دیدگاه های من در اخبار",
     "myFavorite": "علاقه مندی های من",
-    "coursesFavorite": "دوره های مرود علاقه من",
+    "coursesFavorite": "دوره های مورد علاقه من",
     "articlesFavorite": "اخبار مورد علاقه من",
     "public": "عمومی",
     "securitySetting": "تنظیمات امنیتی",
@@ -42,7 +48,13 @@
     "dashboardSection": {
       "myCourses": "دوره های من",
       "notPayCourses": "دوره های پرداخت نشده",
-      "profileCompleted": "پروفایل تکمیل شده"
+      "profileCompleted": "پروفایل تکمیل شده",
+      "reservedCourses": "دوره های رزرو شده",
+      "showAll": "مشاهده همه",
+      "status": "وضعیت :",
+      "reservedDone": "رزرو شده",
+      "unReserved": "در انتظار تایید",
+      "newArticles": "جدید ترین اخبار"
     }
   }
 }

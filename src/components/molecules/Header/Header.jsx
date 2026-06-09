@@ -22,9 +22,10 @@ import Border from "@/components/atoms/Border/Border";
 import ArrowIcon from "@/core/icons/ArrowIcon";
 import useGetArticles from "@/core/services/api/hooks/useGetArticles";
 import { useI18n } from "@/i18n/useI18n";
+import LoginContext from "@/app/context/LoginContext";
 
 const Header = () => {
-  const token = JSON.parse(localStorage.getItem("token"));
+  const { isLogin } = useContext(LoginContext);
   const headerRef = useRef(null);
   const skeletonCount = new Array(3).fill("");
   const [modalOpen, setModalOpen] = useState(false);
@@ -219,14 +220,14 @@ const Header = () => {
           )}
         </SearchHeader>
         <Link
-          to={token ? "/UserPanel/Dashboard" : "/Auth/Login"}
+          to={isLogin ? "/UserPanel/Dashboard" : "/Auth/Login"}
           className={`rounded-[50px]`}
         >
           <Button
             color={"registerBtn"}
             className={`xl:px-6 py-3 px-4 text-[14px]!`}
           >
-            {token ? t("header.dashboard") : t("header.registerBtn")}
+            {isLogin ? t("header.dashboard") : t("header.registerBtn")}
           </Button>
         </Link>
         <DrawerComponents

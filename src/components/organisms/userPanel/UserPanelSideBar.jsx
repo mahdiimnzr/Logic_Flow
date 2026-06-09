@@ -12,24 +12,28 @@ import { useI18n } from "@/i18n/useI18n";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import logo from "/logoIcon.png";
+import { useContext } from "react";
+import LoginContext from "@/app/context/LoginContext";
 
 const UserPanelSideBar = () => {
+  const { setIsLogin } = useContext(LoginContext);
   const { t, lang } = useI18n();
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    setIsLogin(false);
     toast.success("شما از حساب خود خارج شدید!");
     navigate("/");
   };
   return (
-    <div
-      className={`w-2/10 bg-background-default rounded-[40px] p-6 flex flex-col gap-8`}
-    >
+    <>
       <div className={`flex items-center gap-4`}>
         <img className={`rounded-full size-11.5`} src={logo} />
-        <span className={`text-default-black text-2xl font-bold`}>
+        <span
+          className={`text-default-black lg:text-2xl text-[18px] font-bold`}
+        >
           {t("userPanel.brand")}
         </span>
       </div>
@@ -44,7 +48,7 @@ const UserPanelSideBar = () => {
           >
             {pathname === "/UserPanel/Dashboard" && (
               <div
-                className={`h-11 w-2 bg-green-primary absolute -top-1.5 ${lang === "en" ? `-left-6 rounded-r-[8px]` : `-right-6 rounded-l-[8px]`}`}
+                className={`2xl:h-11 h-10 xl:w-2 w-1.5 bg-green-primary absolute md:block hidden 2xl:-top-1.5 -top-2 ${lang === "en" ? `lg:-left-6 -left-4 rounded-r-[8px]` : `lg:-right-6 -right-4 rounded-l-[8px]`}`}
               ></div>
             )}
             <DashboardIcon
@@ -53,7 +57,7 @@ const UserPanelSideBar = () => {
               }
             />
             <span
-              className={`text-[20px] ${pathname !== "/UserPanel/Dashboard" ? "font-normal text-field-silver" : "font-semibold text-default-black"}`}
+              className={`2xl:text-[18px] lg:text-base text-[14px] ${pathname !== "/UserPanel/Dashboard" ? "font-normal text-field-silver" : "font-semibold text-default-black"}`}
             >
               {t("userPanel.dashboard")}
             </span>
@@ -64,7 +68,7 @@ const UserPanelSideBar = () => {
           >
             {pathname === "/UserPanel/UserInformation" && (
               <div
-                className={`h-11 w-2 bg-green-primary absolute -top-1.5 ${lang === "en" ? `-left-6 rounded-r-[8px]` : `-right-6 rounded-l-[8px]`}`}
+                className={`2xl:h-11 h-10 xl:w-2 w-1.5 bg-green-primary absolute md:block hidden 2xl:-top-1.5 -top-2 ${lang === "en" ? `lg:-left-6 -left-4 rounded-r-[8px]` : `lg:-right-6 -right-4 rounded-l-[8px]`}`}
               ></div>
             )}
             <UserInfoIcon
@@ -75,7 +79,7 @@ const UserPanelSideBar = () => {
               }
             />
             <span
-              className={`text-[20px] ${pathname !== "/UserPanel/UserInformation" ? "font-normal text-field-silver" : "font-semibold text-default-black"}`}
+              className={`2xl:text-[18px] lg:text-base text-[14px] ${pathname !== "/UserPanel/UserInformation" ? "font-normal text-field-silver" : "font-semibold text-default-black"}`}
             >
               {t("userPanel.userInfo")}
             </span>
@@ -86,7 +90,7 @@ const UserPanelSideBar = () => {
           >
             {pathname === "/UserPanel/MyCourses" && (
               <div
-                className={`h-11 w-2 bg-green-primary absolute -top-1.5 ${lang === "en" ? `-left-6 rounded-r-[8px]` : `-right-6 rounded-l-[8px]`}`}
+                className={`2xl:h-11 h-10 xl:w-2 w-1.5 bg-green-primary absolute md:block hidden 2xl:-top-1.5 -top-2 ${lang === "en" ? `lg:-left-6 -left-4 rounded-r-[8px]` : `lg:-right-6 -right-4 rounded-l-[8px]`}`}
               ></div>
             )}
             <MyCoursesIcon
@@ -95,7 +99,7 @@ const UserPanelSideBar = () => {
               }
             />
             <span
-              className={`text-[20px] ${pathname !== "/UserPanel/MyCourses" ? "font-normal text-field-silver" : "font-semibold text-default-black"}`}
+              className={`2xl:text-[18px] lg:text-base text-[14px] ${pathname !== "/UserPanel/MyCourses" ? "font-normal text-field-silver" : "font-semibold text-default-black"}`}
             >
               {t("userPanel.myCourses")}
             </span>
@@ -106,7 +110,7 @@ const UserPanelSideBar = () => {
           >
             {pathname === "/UserPanel/ReservedCourses" && (
               <div
-                className={`h-11 w-2 bg-green-primary absolute -top-1.5 ${lang === "en" ? `-left-6 rounded-r-[8px]` : `-right-6 rounded-l-[8px]`}`}
+                className={`2xl:h-11 h-10 xl:w-2 w-1.5 bg-green-primary absolute md:block hidden 2xl:-top-1.5 -top-2 ${lang === "en" ? `lg:-left-6 -left-4 rounded-r-[8px]` : `lg:-right-6 -right-4 rounded-l-[8px]`}`}
               ></div>
             )}
             <ReserveCoursesIcon
@@ -117,7 +121,7 @@ const UserPanelSideBar = () => {
               }
             />
             <span
-              className={`text-[20px] ${pathname !== "/UserPanel/ReservedCourses" ? "font-normal text-field-silver" : "font-semibold text-default-black"}`}
+              className={`2xl:text-[18px] lg:text-base text-[14px] ${pathname !== "/UserPanel/ReservedCourses" ? "font-normal text-field-silver" : "font-semibold text-default-black"}`}
             >
               {t("userPanel.reservedCourses")}
             </span>
@@ -128,7 +132,7 @@ const UserPanelSideBar = () => {
           >
             {pathname === "/UserPanel/MyPayments" && (
               <div
-                className={`h-11 w-2 bg-green-primary absolute -top-1.5 ${lang === "en" ? `-left-6 rounded-r-[8px]` : `-right-6 rounded-l-[8px]`}`}
+                className={`2xl:h-11 h-10 xl:w-2 w-1.5 bg-green-primary absolute md:block hidden 2xl:-top-1.5 -top-2 ${lang === "en" ? `lg:-left-6 -left-4 rounded-r-[8px]` : `lg:-right-6 -right-4 rounded-l-[8px]`}`}
               ></div>
             )}
             <PaymentsIcon
@@ -137,7 +141,7 @@ const UserPanelSideBar = () => {
               }
             />
             <span
-              className={`text-[20px] ${pathname !== "/UserPanel/MyPayments" ? "font-normal text-field-silver" : "font-semibold text-default-black"}`}
+              className={`2xl:text-[18px] lg:text-base text-[14px] ${pathname !== "/UserPanel/MyPayments" ? "font-normal text-field-silver" : "font-semibold text-default-black"}`}
             >
               {t("userPanel.myPayments")}
             </span>
@@ -154,7 +158,7 @@ const UserPanelSideBar = () => {
                 {(pathname === "/UserPanel/MyComments/Course" ||
                   pathname === "/UserPanel/MyComments/Articles") && (
                   <div
-                    className={`h-11 w-2 bg-green-primary absolute -top-1.5 ${lang === "en" ? `-left-6 rounded-r-[8px]` : `-right-6 rounded-l-[8px]`}`}
+                    className={`2xl:h-11 h-10 xl:w-2 w-1.5 bg-green-primary absolute md:block hidden 2xl:-top-1.5 -top-2 ${lang === "en" ? `lg:-left-6 -left-4 rounded-r-[8px]` : `lg:-right-6 -right-4 rounded-l-[8px]`}`}
                   ></div>
                 )}
                 <CommentsIcon
@@ -166,7 +170,7 @@ const UserPanelSideBar = () => {
                   }
                 />
                 <span
-                  className={`text-[20px] ${
+                  className={`2xl:text-[18px] lg:text-base text-[14px] ${
                     pathname === "/UserPanel/MyComments/Course" ||
                     pathname === "/UserPanel/MyComments/Articles"
                       ? "font-semibold text-default-black"
@@ -177,7 +181,7 @@ const UserPanelSideBar = () => {
                 </span>
               </NavLink>
             }
-            triggerClassName={`hover:no-underline! p-0! items-center! cursor-pointer! text-field-silver! text-[20px]! font-semibold! text-right!`}
+            triggerClassName={`hover:no-underline! p-0! items-center! cursor-pointer! text-field-silver! 2xl:text-[18px] lg:text-base text-[14px]! font-semibold! text-right!`}
           >
             <div className={`flex flex-col gap-4 mt-4`}>
               <NavLink
@@ -186,7 +190,7 @@ const UserPanelSideBar = () => {
               >
                 {pathname === "/UserPanel/MyComments/Course" && (
                   <div
-                    className={`h-11 w-2 bg-green-primary absolute -top-1.5 ${lang === "en" ? `-left-6 rounded-r-[8px]` : `-right-6 rounded-l-[8px]`}`}
+                    className={`2xl:h-11 h-10 xl:w-2 w-1.5 bg-green-primary absolute md:block hidden 2xl:-top-1.5 -top-2 ${lang === "en" ? `lg:-left-6 -left-4 rounded-r-[8px]` : `lg:-right-6 -right-4 rounded-l-[8px]`}`}
                   ></div>
                 )}
                 <div
@@ -197,7 +201,7 @@ const UserPanelSideBar = () => {
                   }
                 />
                 <span
-                  className={`text-[20px] ${pathname !== "/UserPanel/MyComments/Course" ? "font-normal text-field-silver" : "font-semibold text-default-black"}`}
+                  className={`2xl:text-[18px] text-[14px] ${pathname !== "/UserPanel/MyComments/Course" ? "font-normal text-field-silver" : "font-semibold text-default-black"}`}
                 >
                   {t("userPanel.courseComments")}
                 </span>
@@ -208,7 +212,7 @@ const UserPanelSideBar = () => {
               >
                 {pathname === "/UserPanel/MyComments/Articles" && (
                   <div
-                    className={`h-11 w-2 bg-green-primary absolute -top-1.5 ${lang === "en" ? `-left-6 rounded-r-[8px]` : `-right-6 rounded-l-[8px]`}`}
+                    className={`2xl:h-11 h-10 xl:w-2 w-1.5 bg-green-primary absolute md:block hidden 2xl:-top-1.5 -top-2 ${lang === "en" ? `lg:-left-6 -left-4 rounded-r-[8px]` : `lg:-right-6 -right-4 rounded-l-[8px]`}`}
                   ></div>
                 )}
                 <div
@@ -219,7 +223,7 @@ const UserPanelSideBar = () => {
                   }
                 />
                 <span
-                  className={`text-[20px] ${pathname !== "/UserPanel/MyComments/Articles" ? "font-normal text-field-silver" : "font-semibold text-default-black"}`}
+                  className={`2xl:text-[18px] text-[14px] ${pathname !== "/UserPanel/MyComments/Articles" ? "font-normal text-field-silver" : "font-semibold text-default-black"}`}
                 >
                   {t("userPanel.articlesComments")}
                 </span>
@@ -238,7 +242,7 @@ const UserPanelSideBar = () => {
                 {(pathname === "/UserPanel/MyFavorite/Course" ||
                   pathname === "/UserPanel/MyFavorite/Articles") && (
                   <div
-                    className={`h-11 w-2 bg-green-primary absolute -top-1.5 ${lang === "en" ? `-left-6 rounded-r-[8px]` : `-right-6 rounded-l-[8px]`}`}
+                    className={`2xl:h-11 h-10 xl:w-2 w-1.5 bg-green-primary absolute md:block hidden 2xl:-top-1.5 -top-2 ${lang === "en" ? `lg:-left-6 -left-4 rounded-r-[8px]` : `lg:-right-6 -right-4 rounded-l-[8px]`}`}
                   ></div>
                 )}
                 <FavoritePanelIcon
@@ -250,7 +254,7 @@ const UserPanelSideBar = () => {
                   }
                 />
                 <span
-                  className={`text-[20px] ${
+                  className={`2xl:text-[18px] lg:text-base text-[14px] ${
                     pathname === "/UserPanel/MyFavorite/Course" ||
                     pathname === "/UserPanel/MyFavorite/Articles"
                       ? "font-semibold text-default-black"
@@ -261,7 +265,7 @@ const UserPanelSideBar = () => {
                 </span>
               </NavLink>
             }
-            triggerClassName={`hover:no-underline! p-0! items-center! cursor-pointer! text-field-silver! text-[20px]! font-semibold! text-right!`}
+            triggerClassName={`hover:no-underline! p-0! items-center! cursor-pointer! text-field-silver! 2xl:text-[18px] lg:text-base text-[14px]! font-semibold! text-right!`}
           >
             <div className={`flex flex-col gap-4 mt-4`}>
               <NavLink
@@ -270,7 +274,7 @@ const UserPanelSideBar = () => {
               >
                 {pathname === "/UserPanel/MyFavorite/Course" && (
                   <div
-                    className={`h-11 w-2 bg-green-primary absolute -top-1.5 ${lang === "en" ? `-left-6 rounded-r-[8px]` : `-right-6 rounded-l-[8px]`}`}
+                    className={`2xl:h-11 h-10 xl:w-2 w-1.5 bg-green-primary absolute md:block hidden 2xl:-top-1.5 -top-2 ${lang === "en" ? `lg:-left-6 -left-4 rounded-r-[8px]` : `lg:-right-6 -right-4 rounded-l-[8px]`}`}
                   ></div>
                 )}
                 <div
@@ -281,7 +285,7 @@ const UserPanelSideBar = () => {
                   }
                 />
                 <span
-                  className={`text-[20px] ${pathname !== "/UserPanel/MyFavorite/Course" ? "font-normal text-field-silver" : "font-semibold text-default-black"}`}
+                  className={`2xl:text-[18px] text-[14px] ${pathname !== "/UserPanel/MyFavorite/Course" ? "font-normal text-field-silver" : "font-semibold text-default-black"}`}
                 >
                   {t("userPanel.coursesFavorite")}
                 </span>
@@ -292,7 +296,7 @@ const UserPanelSideBar = () => {
               >
                 {pathname === "/UserPanel/MyFavorite/Articles" && (
                   <div
-                    className={`h-11 w-2 bg-green-primary absolute -top-1.5 ${lang === "en" ? `-left-6 rounded-r-[8px]` : `-right-6 rounded-l-[8px]`}`}
+                    className={`2xl:h-11 h-10 xl:w-2 w-1.5 bg-green-primary absolute md:block hidden 2xl:-top-1.5 -top-2 ${lang === "en" ? `lg:-left-6 -left-4 rounded-r-[8px]` : `lg:-right-6 -right-4 rounded-l-[8px]`}`}
                   ></div>
                 )}
                 <div
@@ -303,7 +307,7 @@ const UserPanelSideBar = () => {
                   }
                 />
                 <span
-                  className={`text-[20px] ${pathname !== "/UserPanel/MyFavorite/Articles" ? "font-normal text-field-silver" : "font-semibold text-default-black"}`}
+                  className={`2xl:text-[18px] text-[14px] ${pathname !== "/UserPanel/MyFavorite/Articles" ? "font-normal text-field-silver" : "font-semibold text-default-black"}`}
                 >
                   {t("userPanel.articlesFavorite")}
                 </span>
@@ -323,7 +327,7 @@ const UserPanelSideBar = () => {
           >
             {pathname === "/UserPanel/SecuritySetting" && (
               <div
-                className={`h-11 w-2 bg-green-primary absolute -top-1.5 ${lang === "en" ? `-left-6 rounded-r-[8px]` : `-right-6 rounded-l-[8px]`}`}
+                className={`2xl:h-11 h-10 xl:w-2 w-1.5 bg-green-primary absolute md:block hidden 2xl:-top-1.5 -top-2 ${lang === "en" ? `lg:-left-6 -left-4 rounded-r-[8px]` : `lg:-right-6 -right-4 rounded-l-[8px]`}`}
               ></div>
             )}
             <SecuritySettingIcon
@@ -334,7 +338,7 @@ const UserPanelSideBar = () => {
               }
             />
             <span
-              className={`text-[20px] ${pathname !== "/UserPanel/SecuritySetting" ? "font-normal text-field-silver" : "font-semibold text-default-black"}`}
+              className={`2xl:text-[18px] lg:text-base text-[14px] ${pathname !== "/UserPanel/SecuritySetting" ? "font-normal text-field-silver" : "font-semibold text-default-black"}`}
             >
               {t("userPanel.securitySetting")}
             </span>
@@ -344,13 +348,15 @@ const UserPanelSideBar = () => {
             className={`flex items-center gap-4 relative cursor-pointer`}
           >
             <LogOutIcon color={"#848484"} />
-            <span className={`text-[20px] font-normal text-field-silver`}>
+            <span
+              className={`2xl:text-[18px] lg:text-base text-[14px] font-normal text-field-silver`}
+            >
               {t("userPanel.logout")}
             </span>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
