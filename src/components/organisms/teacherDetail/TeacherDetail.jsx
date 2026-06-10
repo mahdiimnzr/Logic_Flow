@@ -20,22 +20,13 @@ const TeacherDetail = () => {
   const [rowPageCount, setRowPageCount] = useState(12);
   const [view, setView] = useState(true);
   const { theme } = useContext(ThemeContext);
-
   const { addFavoriteCourseMutate } = useFavoriteCourse();
   const { isLoading, data: TeachersDetail, refetch } = useGetTeachersDetail(id);
+  const [search, setSearch] = useState("");
+
   useEffect(() => {
     refetch;
   }, []);
-  const [searchList, setSearchList] = useState([]);
-
-  const handleSearch = (search) => {
-    const list = TeacherDetail?.data?.courses?.filter((value) =>
-      value.title.indexOf(search),
-    );
-
-    setSearchList(list);
-  };
-  console.log(searchList);
   return (
     <div className={`flex flex-col gap-8.5  items-center`}>
       <div className={`flex flex-col items-center gap-4`}>
@@ -94,7 +85,7 @@ const TeacherDetail = () => {
                   type="text"
                   placeholder={t("teacherDetail.inputPlaceHolder")}
                   className={`text-base font-normal text-field-silver placeholder:text-field-silver outline-none w-8/10`}
-                  onChange={(event) => handleSearch(event.target.value)}
+                  onChange={(event) => setSearch(event.target.value)}
                 />
                 <Search
                   className={`w-0.5/10 ${lang === "en" ? "transform-[rotate(90deg)]" : "transform-[rotate(0deg)]"}`}
@@ -135,47 +126,53 @@ const TeacherDetail = () => {
           <div
             className={`w-full grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2  grid-cols-1 gap-8`}
           >
-            {TeachersDetail?.data?.courses?.map((value, index) => (
-              <Tilt key={index} tiltAxis={!view && "disable"}>
-                <div
-                  dir="rtl"
-                  className={`rounded-[20px] ${view ? null : `flex items-center gap-8 p-4`} bg-default-light relative overflow-hidden w-full transition-all shadow-[0px_4px_4px_0px_#000000]/0 hover:shadow-cards-hover`}
-                >
+            {TeachersDetail?.data?.courses
+              ?.filter((value) => {
+                return search.toLowerCase() === ""
+                  ? value
+                  : value.title.toLowerCase().includes(search.toLowerCase());
+              })
+              .map((value, index) => (
+                <Tilt key={index} tiltAxis={!view && "disable"}>
                   <div
-                    onClick={() =>
-                      addFavoriteCourseMutate({ courseId: value.courseId })
-                    }
-                    className={`absolute z-10 ${view ? `right-4 top-4` : `lg:right-8 lg:top-8 top-9 right-5`} content-center bg-default-black/25 size-10 rounded-full cursor-pointer`}
+                    dir="rtl"
+                    className={`rounded-[20px] ${view ? null : `flex items-center gap-8 p-4`} bg-default-light relative overflow-hidden w-full transition-all shadow-[0px_4px_4px_0px_#000000]/0 hover:shadow-cards-hover`}
                   >
-                    <FavoriteIcon isFavorite={false} className={`mx-auto`} />
-                  </div>
-                  <Link
-                    to={`/Courses/Detail/${value.courseId}/Review`}
-                    className={`rounded-[12px] group content-center block relative ${view ? `lg:h-60 sm:h-50 h-45` : `2xl:w-4/10 lg:w-3/10 w-4/10 2xl:h-40 lg:h-50 h-35 overflow-hidden`}`}
-                  >
-                    <ImageFallback
-                      src={value.imageAddress}
-                      fallback={course}
-                      className={`${!view ? `group-hover:transform-[scale(1)]` : `group-hover:transform-[scale(1.2)]`} transform-[scale(1.5)] size-full transition-all cursor-pointer mx-auto absolute inset-0 object-cover`}
-                    />
-                  </Link>
-                  <div
-                    className={`rounded-[20px] bg-default-light flex flex-col gap-7 relative ${view ? `p-4` : `2xl:w-6/10 w-7/10`}`}
-                  >
-                    <div className={`flex flex-col gap-2 text-default-black`}>
-                      <h3 className={`text-base font-bold truncate`}>
-                        {value.title}
-                      </h3>
-                      <p
-                        className={`text-[14px] font-normal h-10.5 line-clamp-2`}
-                      >
-                        {value.miniDescribe}
-                      </p>
+                    <div
+                      onClick={() =>
+                        addFavoriteCourseMutate({ courseId: value.courseId })
+                      }
+                      className={`absolute z-10 ${view ? `right-4 top-4` : `lg:right-8 lg:top-8 top-9 right-5`} content-center bg-default-black/25 size-10 rounded-full cursor-pointer`}
+                    >
+                      <FavoriteIcon isFavorite={false} className={`mx-auto`} />
+                    </div>
+                    <Link
+                      to={`/Courses/Detail/${value.courseId}/Review`}
+                      className={`rounded-[12px] group content-center block relative ${view ? `lg:h-60 sm:h-50 h-45` : `2xl:w-4/10 lg:w-3/10 w-4/10 2xl:h-40 lg:h-50 h-35 overflow-hidden`}`}
+                    >
+                      <ImageFallback
+                        src={value.imageAddress}
+                        fallback={course}
+                        className={`${!view ? `group-hover:transform-[scale(1)]` : `group-hover:transform-[scale(1.2)]`} transform-[scale(1.5)] size-full transition-all cursor-pointer mx-auto absolute inset-0 object-cover`}
+                      />
+                    </Link>
+                    <div
+                      className={`rounded-[20px] bg-default-light flex flex-col gap-7 relative ${view ? `p-4` : `2xl:w-6/10 w-7/10`}`}
+                    >
+                      <div className={`flex flex-col gap-2 text-default-black`}>
+                        <h3 className={`text-base font-bold truncate`}>
+                          {value.title}
+                        </h3>
+                        <p
+                          className={`text-[14px] font-normal h-10.5 line-clamp-2`}
+                        >
+                          {value.miniDescribe}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Tilt>
-            ))}
+                </Tilt>
+              ))}
           </div>
         </div>
       </div>
