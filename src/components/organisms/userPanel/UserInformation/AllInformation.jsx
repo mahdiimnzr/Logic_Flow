@@ -183,7 +183,7 @@ const AllInformation = () => {
                   contentClassName={`${theme ? `bg-[#1e1e1e] text-white` : `bg-white text-[#1E1E1E]`}`}
                   itemClassName={`${theme ? `focus:bg-[oklch(0.269_0_0)]` : `focus:bg-muted`} h-10! cursor-pointer!`}
                   value={gender ?? undefined}
-                  triggerClassName={`w-full! h-15! rounded-2xl! cursor-pointer bg-default-light! text-default-black! ring-0! border border-light-gray`}
+                  triggerClassName={`px-5! font-normal text-base! w-full! h-15! rounded-2xl! cursor-pointer bg-default-light! text-field-gray! ring-0! border border-light-gray`}
                   setValue={setGender}
                   onValueChange={setGender}
                   placeHolder={t("userPanel.userInfoSection.chooseGender")}
