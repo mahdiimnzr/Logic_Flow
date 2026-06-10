@@ -186,7 +186,7 @@ const AllInformation = () => {
                   triggerClassName={`w-full! h-15! rounded-2xl! cursor-pointer bg-default-light! text-default-black! ring-0! border border-light-gray`}
                   setValue={setGender}
                   onValueChange={setGender}
-                  placeHolder="انتخاب کنید"
+                  placeHolder={t("userPanel.userInfoSection.chooseGender")}
                 />
               </div>
               <div className={`flex flex-col gap-4`}>
