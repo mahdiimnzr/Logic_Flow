@@ -14,6 +14,7 @@ const TeachersInformation = () => {
   const [rowPageCount, setRowPageCount] = useState(12);
   const { theme } = useContext(ThemeContext);
   const { isLoading, data: Teachers, refetch } = useGetTeachers();
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     refetch();
@@ -53,6 +54,9 @@ const TeachersInformation = () => {
                 type="text"
                 placeholder={t("teachers.inputPlaceHolder")}
                 className={`text-base font-normal text-field-silver placeholder:text-field-silver outline-none w-8/10`}
+                onChange={(event) => {
+                  setSearch(event.target.value);
+                }}
               />
               <Search
                 className={`w-0.5/10 ${lang === "en" ? "transform-[rotate(90deg)]" : "transform-[rotate(0deg)]"}`}
@@ -74,12 +78,12 @@ const TeachersInformation = () => {
                 triggerClassName={`border! border-light-gray! rounded-[15px] flex! items-center! gap-1! ring-0! px-4! py-2! h-auto! font-normal! text-[14px]! text-default-black! cursor-pointer! bg-default-light!`}
                 value={rowPageCount}
                 setValue={setRowPageCount}
-                onValueChange={(event) => {
-                  setRowPageCount(event);
-                  //   dispatch(
-                  //     updateArticlesParams({ key: "RowsOfPage", value: event }),
-                  //   );
-                }}
+                // onValueChange={(event) => {
+                //   setRowPageCount(event);
+                //     dispatch(
+                //       updateArticlesParams({ key: "RowsOfPage", value: event }),
+                //     );
+                // }}
               />
             </div>
           </div>
@@ -94,16 +98,22 @@ const TeachersInformation = () => {
       <div
         className={`w-full grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3  sm:grid-cols-2 grid-cols-1 gap-8`}
       >
-        {Teachers?.data?.map((value, index) => (
-          <TeachersCard
-            key={index}
-            fullName={value.fullName}
-            courseCounts={value.courseCounts}
-            teacherId={value.teacherId}
-            pictureAddress={value.pictureAddress}
-            linkdinProfileLink={value.linkdinProfileLink}
-          />
-        ))}
+        {Teachers?.data
+          ?.filter((value) => {
+            return search.toLowerCase() === ""
+              ? value
+              : value.fullName.toLowerCase().includes(search.toLowerCase());
+          })
+          .map((value, index) => (
+            <TeachersCard
+              key={index}
+              fullName={value.fullName}
+              courseCounts={value.courseCounts}
+              teacherId={value.teacherId}
+              pictureAddress={value.pictureAddress}
+              linkdinProfileLink={value.linkdinProfileLink}
+            />
+          ))}
       </div>
     </div>
   );

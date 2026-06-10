@@ -10,6 +10,7 @@ import courseDetail from "../locales/courseDetail.json";
 import userPanel from "../locales/userPanel.json";
 import teachers from "../locales/teachers.json";
 import teacherDetail from "../locales/teacherDetail.json";
+import contactUs from "../locales/contactUs.json";
 const translations = {
   en: {
     landing: landing.en,
@@ -24,6 +25,7 @@ const translations = {
     userPanel: userPanel.en,
     teachers: teachers.en,
     teacherDetail: teacherDetail.en,
+    contactUs: contactUs.en,
   },
   fa: {
     landing: landing.fa,
@@ -38,6 +40,7 @@ const translations = {
     userPanel: userPanel.fa,
     teachers: teachers.fa,
     teacherDetail: teacherDetail.fa,
+    contactUs: contactUs.fa,
   },
 };
 
