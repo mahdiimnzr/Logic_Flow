@@ -27,6 +27,28 @@
       "unReserved": "Pending Approval",
       "newArticles": "Latest News",
       "notFound": "Didn`t Found Any Thing!"
+    },
+    "userInfoSection": {
+      "totalInfo": "General Information",
+      "userLocation": "Location",
+      "socialNetwork": "Social Network",
+      "userName": "First Name",
+      "fNamePlaceHolder": "Enter your first name",
+      "fNameErrorMessage": "Please enter your first name!",
+      "userLastName": "Last Name",
+      "lNamePlaceHolder": "Enter your last name",
+      "lNameErrorMessage": "Please enter your last name!",
+      "nationalCode": "National ID",
+      "nationalPlaceHolder": "Enter your 10-digit national ID",
+      "nationalErrorMessage": "Please enter your 10-digit national ID!",
+      "nationalErrorMessage10": "Your national ID must be 10 digits",
+      "gender": "Gender",
+      "chooseGender": "Select",
+      "birthErrorMessage": "Please select your date of birth!",
+      "birthDate": "Date of Birth",
+      "aboutMe": "About Me",
+      "aboutMePlaceHolder": "Enter more information about yourself",
+      "aboutMeErrorMessage": "Please provide some information about yourself!"
     }
   },
   "fa": {
@@ -65,14 +87,21 @@
       "socialNetwork": "شبکه اجتماعی",
       "userName": "نام",
       "fNamePlaceHolder": "نام خود را وارد کنید",
+      "fNameErrorMessage": "لطفا نام خود را وارد کنید!",
       "userLastName": "نام خانوادگی",
       "lNamePlaceHolder": "نام خانوادگی خود را وارد کنید",
+      "lNameErrorMessage": "لطفا نام خانوادگی خود را وارد کنید!",
       "nationalCode": "کد ملی",
       "nationalPlaceHolder": "کد ملی 10 رقمی را وارد کنید",
+      "nationalErrorMessage": "لطفا کد ملی 10 رقمی خود را وارد کنید!",
+      "nationalErrorMessage10": "کد ملی شما باید 10 رقم باشد",
       "gender": "جنسیت",
+      "chooseGender": "انتخاب کنید",
+      "birthErrorMessage": "لطفا تاریخ تولد خود را انتخاب کنید!",
       "birthDate": "تاریخ تولد",
       "aboutMe": "درباره من",
-      "aboutMePlaceHolder": "توضیحات بیشتر راجب خود وارد کنید"
+      "aboutMePlaceHolder": "توضیحات بیشتر راجب خود وارد کنید",
+      "aboutMeErrorMessage": "لطفا درباره خود اطلاعاتی وارد کنید!"
     }
   }
 }

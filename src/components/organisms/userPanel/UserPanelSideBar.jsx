@@ -66,20 +66,33 @@ const UserPanelSideBar = () => {
             to={"/UserPanel/UserInformation"}
             className={`flex items-center gap-4 relative`}
           >
-            {pathname === "/UserPanel/UserInformation" && (
+            {(pathname === "/UserPanel/UserInformation/AllInformation" ||
+              pathname === "/UserPanel/UserInformation/LocationInformation" ||
+              pathname ===
+                "/UserPanel/UserInformation/SocialNetworkInformation") && (
               <div
                 className={`2xl:h-11 h-10 xl:w-2 w-1.5 bg-green-primary absolute md:block hidden 2xl:-top-1.5 -top-2 ${lang === "en" ? `lg:-left-6 -left-4 rounded-r-[8px]` : `lg:-right-6 -right-4 rounded-l-[8px]`}`}
               ></div>
             )}
             <UserInfoIcon
               color={
-                pathname === "/UserPanel/UserInformation"
+                pathname === "/UserPanel/UserInformation/AllInformation" ||
+                pathname === "/UserPanel/UserInformation/LocationInformation" ||
+                pathname ===
+                  "/UserPanel/UserInformation/SocialNetworkInformation"
                   ? "#008C78"
                   : "#848484"
               }
             />
             <span
-              className={`2xl:text-[18px] lg:text-base text-[14px] ${pathname !== "/UserPanel/UserInformation" ? "font-normal text-field-silver" : "font-semibold text-default-black"}`}
+              className={`2xl:text-[18px] lg:text-base text-[14px] ${
+                pathname === "/UserPanel/UserInformation/AllInformation" ||
+                pathname === "/UserPanel/UserInformation/LocationInformation" ||
+                pathname ===
+                  "/UserPanel/UserInformation/SocialNetworkInformation"
+                  ? "font-semibold text-default-black"
+                  : "font-normal text-field-silver"
+              }`}
             >
               {t("userPanel.userInfo")}
             </span>

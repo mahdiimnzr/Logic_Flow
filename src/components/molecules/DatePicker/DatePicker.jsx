@@ -29,19 +29,23 @@ const DatePickerInput = ({
   setValue,
   month,
   setMonth,
+  className,
+  ...rest
 }) => {
   const { theme } = useContext(ThemeContext);
   const [open, setOpen] = useState(false);
 
   return (
     <Field className="mx-auto">
-      <FieldLabel
-        className={`text-base! font-normal! text-default-black!`}
-        htmlFor="date-required"
-      >
-        {label}
-      </FieldLabel>
-      <InputGroup>
+      {label && (
+        <FieldLabel
+          className={`text-base! font-normal! text-default-black!`}
+          htmlFor="date-required"
+        >
+          {label}
+        </FieldLabel>
+      )}
+      <InputGroup className={className}>
         <InputGroupInput
           id="date-required"
           value={value}
@@ -95,6 +99,7 @@ const DatePickerInput = ({
                   setOpen(false);
                 }}
                 dir="rtl"
+                {...rest}
               />
             </PopoverContent>
           </Popover>
