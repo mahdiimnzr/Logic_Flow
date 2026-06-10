@@ -1,3 +1,4 @@
+import putParams from "../../common/putParams";
 import useGetQuery from "../../common/useGetQuery";
 
 export const useGetUserDetail = () =>
@@ -8,3 +9,5 @@ export const useGetMyCourses = (key, params) => {
 };
 export const useGetMyReserveCourses = () =>
   useGetQuery("MyReserveCourses", `SharePanel/GetMyCoursesReserve`);
+export const updateProfileDetail = (params) =>
+  putParams(`SharePanel/UpdateProfileInfo`, params);

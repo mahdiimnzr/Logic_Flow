@@ -18,6 +18,7 @@ const SelectModal = ({
   defaultValue,
   value,
   onValueChange,
+  placeHolder
 }) => {
   const { lang } = useI18n();
   return (
@@ -29,7 +30,7 @@ const SelectModal = ({
       modal={false}
     >
       <SelectTrigger className={triggerClassName}>
-        <SelectValue />
+        <SelectValue placeholder={placeHolder} />
       </SelectTrigger>
       <SelectContent position={contentPosition} className={contentClassName}>
         <SelectGroup className={groupClassName}>
