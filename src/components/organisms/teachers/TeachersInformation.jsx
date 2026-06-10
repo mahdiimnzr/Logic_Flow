@@ -5,8 +5,9 @@ import SelectModal from "@/components/molecules/Select/Select";
 import { rowsOfPages } from "@/core/constants/articlesSorting";
 import { useGetTeachers } from "@/core/services/api/teachers/teacher.service";
 import { useI18n } from "@/i18n/useI18n";
+import debounce from "debounce";
 import { ChevronLeft, Search } from "lucide-react";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 
 const TeachersInformation = () => {
@@ -14,7 +15,13 @@ const TeachersInformation = () => {
   const [rowPageCount, setRowPageCount] = useState(12);
   const { theme } = useContext(ThemeContext);
   const { isLoading, data: Teachers, refetch } = useGetTeachers();
-  const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+
+  const debouncedFn = useMemo(() => {
+    return debounce((value) => {
+      setDebouncedSearch(value);
+    }, 1000);
+  }, []);
 
   useEffect(() => {
     refetch();
@@ -55,7 +62,7 @@ const TeachersInformation = () => {
                 placeholder={t("teachers.inputPlaceHolder")}
                 className={`text-base font-normal text-field-silver placeholder:text-field-silver outline-none w-8/10`}
                 onChange={(event) => {
-                  setSearch(event.target.value);
+                  debouncedFn(event.target.value);
                 }}
               />
               <Search
@@ -100,9 +107,11 @@ const TeachersInformation = () => {
       >
         {Teachers?.data
           ?.filter((value) => {
-            return search.toLowerCase() === ""
+            return debouncedSearch.toLowerCase() === ""
               ? value
-              : value.fullName.toLowerCase().includes(search.toLowerCase());
+              : value.fullName
+                  .toLowerCase()
+                  .includes(debouncedSearch.toLowerCase());
           })
           .map((value, index) => (
             <TeachersCard
