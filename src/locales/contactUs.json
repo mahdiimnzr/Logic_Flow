@@ -1,0 +1,32 @@
+{
+  "en": {
+    "titleImage1": "Contact Us",
+    "titleImage2": "You can send us your message using the contact form on this page.",
+    "title": "Need help? We're here for you! Fill out the form below and we will",
+    "spanTitle": "get in touch with you",
+    "description": "We're here to help you make the best decision. If you're looking for professional services, transparent pricing, and fast support, simply fill out the form and our experts will contact you as soon as possible.\nWhether you have a question, need guidance, or want to know the exact cost of our services, our team is ready to assist you with free consultation and help you move forward with confidence.\nBy completing the form below, you can receive the information you need with no obligation and make your choice with peace of mind.",
+    "phone": "011-123-45-678",
+    "email": "yourEmailAddress@gmail.com",
+    "namePlaceHolder": "Full Name",
+    "emailPlaceHolder": "Enter your email",
+    "phonePlaceHolder": "Phone Number",
+    "massagesPlaceHolder": "Message",
+    "send": "Send"
+  },
+  "fa": {
+    "titleImage1": "تماس با ما",
+    "titleImage2": "می‌توانید از طریق فرم تماس در همین صفحه پیام خود را برای ما ارسال کنید. ",
+    "title": "به کمک نیاز دارید؟ ما اینجاییم! فرم زیر را پر کنید تا سریعاً با شما",
+    "spanTitle": "تماس بگیریم",
+
+    "description": "ما اینجاییم تا به شما کمک کنیم بهترین تصمیم را بگیرید.  اگر به دنبال خدمات حرفه‌ای، قیمت‌گذاری شفاف و پشتیبانی سریع هستید، کافیست فرم  را تکمیل کنید تا کارشناسان ما در سریع‌ترین زمان ممکن با شما تماس بگیرند.فرقی نمی‌کند که سوال دارید، نیاز به راهنمایی دارید یا می‌خواهید قیمت دقیق خدمات ما را بدانید — تیم ما آماده است تا با ارائه مشاوره رایگان، مسیر را برایتان روشن‌تر کند.با تکمیل فرم زیر، بدون هیچ‌گونه تعهدی می‌توانید اطلاعات لازم را دریافت کرده و با خیال راحت انتخاب کنید.",
+
+    "phone": "011-123-45-678",
+    "email": "yourEmailAddress@gmail.com",
+    "namePlaceHolder": "نام و نام خانوادگی",
+    "emailPlaceHolder": "ایمیل خود را وارد کنید",
+    "phonePlaceHolder": "شماره تماس",
+    "massagesPlaceHolder": "متن پیام",
+    "send": "ارسال"
+  }
+}

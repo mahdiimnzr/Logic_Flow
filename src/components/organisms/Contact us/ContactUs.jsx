@@ -9,99 +9,126 @@ import EmailContacts from "@/core/icons/EmailContacts";
 import PhoneCantcats2 from "@/core/icons/PhoneCantcats2";
 import Messages from "@/core/icons/Messages";
 import Button from "@/components/atoms/Buttons/Button";
+import { useI18n } from "@/i18n/useI18n";
 const ContactUs = () => {
+  const { t } = useI18n();
   return (
-    <div className={` flex flex-col gap-[52px]`}>
-      <div className=" relative">
-        <img src={image} className={`size-full`} />
-        <div className={` flex flex-col gap-2 absolute top-40 right-40`}>
-          <span className={` text-[32px] text-default-light font-bold`}>
-            تماس با ما
+    <div className={` flex flex-col gap-13`}>
+      <div className="relative">
+        <img src={image} className={`size-full lg:h-full sm:h-50 h-40`} />
+        <div
+          className={`lg:px-20 md:px-10 px-8 flex flex-col justify-center gap-2 absolute top-0 right-0 size-full bg-black/50`}
+        >
+          <span
+            className={`text-white lg:text-[32px] md:text-[25px] text-[19px] font-bold`}
+          >
+            {t("contactUs.titleImage1")}
           </span>
-          <p className={`text-default-light font-light`}>
-            می‌توانید از طریق فرم تماس در همین صفحه پیام خود را برای ما ارسال
-            کنید.{" "}
-          </p>
+          <span
+            className={`text-white font-light lg:text-base md:text-[14px] sm:text-[12px] text-[10px]`}
+          >
+            {t("contactUs.titleImage2")}
+          </span>
         </div>
       </div>
-      <div className={`flex justify-center gap-[190px]`}>
+      <div
+        className={`flex lg:flex-row flex-col justify-center items-center xl:gap-47.5 lg:gap-22 gap-12`}
+      >
         <div className={`flex flex-col gap-5`}>
           <div>
-            <p className={`text-[36px] text-default-black font-bold w-145`}>
-              به کمک نیاز دارید؟ ما اینجاییم! فرم زیر را پر کنید تا سریعاً با
-              شما <span className={`text-green-primary`}>تماس بگیریم</span>
+            <p
+              className={`md:text-[36px] sm:text-[32px] text-[17px] text-default-black font-bold md:w-145 sm:w-125 w-75 `}
+            >
+              {t("contactUs.title")}
+              شما{" "}
+              <span className={`text-green-primary`}>
+                {" "}
+                {t("contactUs.spanTitle")}
+              </span>
             </p>
-            <p className={`text-default-black w-146 leading-10`}>
-              ما اینجاییم تا به شما کمک کنیم بهترین تصمیم را بگیرید. اگر به
-              دنبال خدمات حرفه‌ای، قیمت‌گذاری شفاف و پشتیبانی سریع هستید، کافیست
-              فرم را تکمیل کنید تا کارشناسان ما در سریع‌ترین زمان ممکن با شما
-              تماس بگیرند. فرقی نمی‌کند که سوال دارید، نیاز به راهنمایی دارید یا
-              می‌خواهید قیمت دقیق خدمات ما را بدانید — تیم ما آماده است تا با
-              ارائه مشاوره رایگان، مسیر را برایتان روشن‌تر کند. با تکمیل فرم
-              زیر، بدون هیچ‌گونه تعهدی می‌توانید اطلاعات لازم را دریافت کرده و
-              با خیال راحت انتخاب کنید.
+            <p
+              className={`text-default-black md:w-146 sm:w-130 w-73 md:leading-10 sm:leading-9 leading-7 sm:text-base text-[14px]   `}
+            >
+              {t("contactUs.description")}
             </p>
           </div>
           <div className={`flex flex-col gap-4`}>
             <div className={`flex items-center gap-4`}>
-              <div className={`size-11.25 bg-green-primary rounded-full`}>
-                <PhoneContacts className={` m-auto mt-3 `} />
+              <div
+                className={`md:size-11.25 size-10 bg-green-primary rounded-full`}
+              >
+                <PhoneContacts className={`m-auto mt-3 md:size-5 size-4.5`} />
               </div>
-              <span className={`text-default-black text-[18px] font-bold`}>
-                011-123-45-678
+              <span
+                className={`text-default-black md:text-[18px] text-[16px] font-bold`}
+              >
+                {t("contactUs.phone")}
               </span>
             </div>
             <div className={`flex items-center gap-4`}>
-              <div className={`size-11.25 bg-green-primary rounded-full`}>
-                <EmailContacts className={` m-auto mt-3 `} />
+              <div
+                className={`md:size-11.25 size-10 bg-green-primary rounded-full`}
+              >
+                <EmailContacts className={`m-auto mt-3 md:size-5 size-4.5`} />
               </div>
-              <span className={`text-default-black text-[18px] font-bold`}>
-                yourEmailAddress@gmail.com
+              <span
+                className={`text-default-black md:text-[18px] text-[16px] font-bold`}
+              >
+                {t("contactUs.email")}
               </span>
             </div>
           </div>
         </div>
         <div
-          className={`md:min-h-auto bg-default-light w-3/11 p-9  md:rounded-[25px] rounded-[30px] shadow-[2px_4px_8px_0px_#000000]/15 dark:shadow-[2px_4px_8px_0px_#ffffff]/15`}
+          className={`h-fit bg-default-light lg:w-3/11 sm:w-8/11 w-10/11 xl:p-9 lg:p-6 md:p-9 sm:p-5 p-4 md:rounded-[25px] rounded-[30px] shadow-[2px_4px_8px_0px_#000000]/15 dark:shadow-[2px_4px_8px_0px_#ffffff]/15`}
         >
           <Formik>
             <Form>
-              <div className={`flex flex-col xl:gap-10 lg:gap-5 gap-3`}>
+              <div
+                className={`flex flex-col xl:gap-10 lg:gap-5 md:gap-10 sm:gap-5 gap-2.5 `}
+              >
                 <FormInput
-                  icon={<HumanIcon className={`lg:size-5 size-3`} />}
+                  icon={<HumanIcon className={``} />}
                   name={"phoneOrGmail"}
                   type={"text"}
-                  placeholder="نام و نام خانوادگی"
-                  className={`xl:h-15! lg:h-13! md:h-11! sm:h-13! h-11!`}
+                  placeholder={t("contactUs.namePlaceHolder")}
+                  className={`xl:h-15! lg:h-13! sm:h-15! h-13!`}
                   errorMessageClassName={`lg:text-[14px]! text-[12px]!`}
+                  inputClassName={` sm:text-[14px]! text-[12px]! `}
                 />
                 <FormInput
-                  icon={<EmailIcon className={`lg:size-5 size-3`} />}
+                  icon={<EmailIcon className={``} />}
                   name={"phoneOrGmail"}
                   type={"text"}
-                  placeholder="ایمیل خود را وارد کنید"
-                  className={`xl:h-15! lg:h-13! md:h-11! sm:h-13! h-11!`}
+                  placeholder={t("contactUs.emailPlaceHolder")}
+                  className={`xl:h-15! lg:h-13! sm:h-15! h-13!`}
                   errorMessageClassName={`lg:text-[14px]! text-[12px]!`}
+                  inputClassName={` sm:text-[14px]! text-[12px]! `}
                 />
                 <FormInput
-                  icon={<PhoneCantcats2 className={`lg:size-5 size-3`} />}
+                  icon={<PhoneCantcats2 className={``} />}
                   name={"phoneOrGmail"}
                   type={"text"}
-                  placeholder="شماره تماس"
-                  className={`xl:h-15! lg:h-13! md:h-11! sm:h-13! h-11!`}
+                  placeholder={t("contactUs.phonePlaceHolder")}
+                  className={`xl:h-15! lg:h-13! sm:h-15! h-13!`}
                   errorMessageClassName={`lg:text-[14px]! text-[12px]!`}
+                  inputClassName={` sm:text-[14px]! text-[12px]! `}
                 />
                 <FormInput
-                  icon={<Messages className={`lg:size-5 size-3`} />}
+                  icon={<Messages className={``} />}
                   name={"phoneOrGmail"}
                   type={"text"}
-                  placeholder="متن پیام"
-                  className={`xl:h-15! lg:h-13! md:h-11! sm:h-13! h-11!`}
+                  placeholder={t("contactUs.massagesPlaceHolder")}
+                  className={`xl:h-15! lg:h-13! sm:h-15! h-13!`}
                   errorMessageClassName={`lg:text-[14px]! text-[12px]!`}
+                  inputClassName={` sm:text-[14px]! text-[12px]! `}
                 />
 
-                <Button color={"authBtn"} className={`h-[60px]`}>
-                  ارسال
+                <Button
+                  color={"authBtn"}
+                  className={`xl:h-15! lg:h-13! sm:h-15! h-10!`}
+                >
+                  {t("contactUs.send")}
                 </Button>
               </div>
             </Form>

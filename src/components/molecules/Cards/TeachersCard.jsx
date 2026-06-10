@@ -22,7 +22,7 @@ const TeachersCard = (props) => {
       >
         <Link
           to={`/Teachers/Detail/${teacherId}`}
-          className={`block ${isFromDetail ? "  xl:size-40 lg:size-30 md:size-75 size-40  " : "w-full 2xl:h-45 xl:h-35 sm:h-45 h-35"}`}
+          className={`block ${isFromDetail ? "  xl:size-40 lg:size-30 md:size-73 sm:size-50 size-40  " : "w-full 2xl:h-45 xl:h-35 sm:h-45 h-35"}`}
         >
           <ImageFallback
             src={pictureAddress}
