@@ -13,6 +13,7 @@ import ReviewPage from "@/components/organisms/couresDetail/ReviewPage";
 import CommentsPage from "@/components/organisms/couresDetail/CommentsPage";
 import NewsReview from "@/components/organisms/NewsDetail/NewsReview";
 import NewsComments from "@/components/organisms/NewsDetail/NewsComments";
+import ContactUs from "@/pages/Contacts";
 
 const mainRoute = [
   {
@@ -66,6 +67,10 @@ const mainRoute = [
       {
         path: "/Teachers/Detail/:id",
         element: <TeacherDetail />,
+      },
+      {
+        path: "/ContactUs",
+        element: <ContactUs />,
       },
       {
         path: "*",

@@ -8,3 +8,4 @@ export const NewsDetail = lazy(() => import("./NewsDetail"));
 export const NotFound = lazy(() => import("./NotFound"));
 export const Teachers = lazy(() => import("./Teachers"));
 export const TeacherDetail = lazy(() => import("./TeachersDetail"));
+export const ContactUs = lazy(() => import("./Articles"));
