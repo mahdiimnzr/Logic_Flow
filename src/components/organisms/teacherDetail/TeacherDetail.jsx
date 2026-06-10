@@ -72,7 +72,7 @@ const TeacherDetail = () => {
       <div
         className={`flex lg:flex-row flex-col lg:items-start items-center w-full xl:gap-12 gap-8`}
       >
-        <div className={` lg:w-2/11 w-9/11 `}>
+        <div className={` lg:w-2/11 md:w-9/11 w-full `}>
           <TeachersCard
             isFromDetail={true}
             fullName={TeachersDetail?.data?.fullName}
@@ -116,12 +116,12 @@ const TeacherDetail = () => {
                   triggerClassName={`border! border-light-gray! rounded-[15px] flex! items-center! gap-1! ring-0! px-4! py-2! h-auto! font-normal! text-[14px]! text-default-black! cursor-pointer! bg-default-light!`}
                   value={rowPageCount}
                   setValue={setRowPageCount}
-                  onValueChange={(event) => {
-                    setRowPageCount(event);
-                    //   dispatch(
-                    //     updateArticlesParams({ key: "RowsOfPage", value: event }),
-                    //   );
-                  }}
+                  // onValueChange={(event) => {
+                  //   setRowPageCount(event);
+                  //     dispatch(
+                  //       updateArticlesParams({ key: "RowsOfPage", value: event }),
+                  //     );
+                  // }}
                 />
               </div>
             </div>
