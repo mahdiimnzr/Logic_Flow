@@ -6,13 +6,14 @@ import { rowsOfPages } from "@/core/constants/articlesSorting";
 import { useGetTeachersDetail } from "@/core/services/api/techerDetail/techerDetail.service";
 import { useI18n } from "@/i18n/useI18n";
 import { ChevronLeft, Search } from "lucide-react";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Tilt from "react-parallax-tilt";
 import useFavoriteCourse from "@/core/services/api/hooks/useFavoriteCourses";
 import course from "../../../assets/images/coursePng.png";
 import FavoriteIcon from "@/core/icons/FavoriteIcon";
 import ImageFallback from "@/components/atoms/ImageFallBack/ImageFallBack";
+import debounce from "debounce";
 
 const TeacherDetail = () => {
   const { id } = useParams();
@@ -22,7 +23,13 @@ const TeacherDetail = () => {
   const { theme } = useContext(ThemeContext);
   const { addFavoriteCourseMutate } = useFavoriteCourse();
   const { isLoading, data: TeachersDetail, refetch } = useGetTeachersDetail(id);
-  const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+
+  const debouncedFn = useMemo(() => {
+    return debounce((value) => {
+      setDebouncedSearch(value);
+    }, 1000);
+  }, []);
 
   useEffect(() => {
     refetch;
@@ -85,7 +92,7 @@ const TeacherDetail = () => {
                   type="text"
                   placeholder={t("teacherDetail.inputPlaceHolder")}
                   className={`text-base font-normal text-field-silver placeholder:text-field-silver outline-none w-8/10`}
-                  onChange={(event) => setSearch(event.target.value)}
+                  onChange={(event) => debouncedFn(event.target.value)}
                 />
                 <Search
                   className={`w-0.5/10 ${lang === "en" ? "transform-[rotate(90deg)]" : "transform-[rotate(0deg)]"}`}
@@ -128,9 +135,11 @@ const TeacherDetail = () => {
           >
             {TeachersDetail?.data?.courses
               ?.filter((value) => {
-                return search.toLowerCase() === ""
+                return debouncedSearch.toLowerCase() === ""
                   ? value
-                  : value.title.toLowerCase().includes(search.toLowerCase());
+                  : value.title
+                      .toLowerCase()
+                      .includes(debouncedSearch.toLowerCase());
               })
               .map((value, index) => (
                 <Tilt key={index} tiltAxis={!view && "disable"}>
