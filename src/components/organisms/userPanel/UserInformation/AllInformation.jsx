@@ -77,7 +77,6 @@ const AllInformation = () => {
     setBirthDate(userDetail?.data?.birthDay);
     setBirthValue(formatDate(userDetail?.data?.birthDay));
   }, [userDetail, isLoading]);
-  console.log(gender);
   return isLoading ? (
     <LoadingSvg className={`h-full!`} />
   ) : (
@@ -104,12 +103,12 @@ const AllInformation = () => {
       </div>
       <Formik
         initialValues={{
-          FName: userDetail?.data.fName,
-          LName: userDetail?.data.lName,
-          UserAbout: userDetail?.data.userAbout,
-          phoneNumber: userDetail?.data.phoneNumber,
-          NationalCode: userDetail?.data.nationalCode,
-          BirthDay: birthDate,
+          FName: userDetail?.data.fName ?? "",
+          LName: userDetail?.data.lName ?? "",
+          UserAbout: userDetail?.data.userAbout ?? "",
+          phoneNumber: userDetail?.data.phoneNumber ?? "",
+          NationalCode: userDetail?.data.nationalCode ?? "",
+          BirthDay: birthDate ?? "",
           Gender: userDetail?.data?.gender ? "man" : "woman",
         }}
         validationSchema={validationSchema}

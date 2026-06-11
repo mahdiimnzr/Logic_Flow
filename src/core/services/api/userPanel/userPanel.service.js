@@ -2,6 +2,7 @@ import deleteParams from "../../common/deleteParams";
 import postParams from "../../common/postParams";
 import putParams from "../../common/putParams";
 import useGetQuery from "../../common/useGetQuery";
+import apiClient from "../../interceptor/interceptor.service";
 
 export const useGetUserDetail = () =>
   useGetQuery("UserDetail", "SharePanel/GetProfileInfo");
@@ -21,3 +22,5 @@ export const deleteUserProfileImage = (params) =>
   deleteParams("SharePanel/DeleteProfileImage", params, {
     headers: { "Content-Type": "multipart/form-data" },
   });
+export const getAddressByCoordination = (lat, lon) =>
+  apiClient.get(`https://photon.komoot.io/reverse?lon=${lon}&lat=${lat}`);
