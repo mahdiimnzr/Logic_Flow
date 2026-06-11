@@ -7,26 +7,28 @@
     "reservedCourses": "Reserved Courses",
     "myPayments": "My Payments",
     "myComments": "My Comments",
-    "courseComments": "My Comments on Courses",
-    "articlesComments": "My Comments on News",
+    "courseComments": "My Course Comments",
+    "articlesComments": "My Article Comments",
     "myFavorite": "My Favorites",
     "coursesFavorite": "My Favorite Courses",
-    "articlesFavorite": "My Favorite News",
-    "public": "Public",
+    "articlesFavorite": "My Favorite Articles",
+    "public": "General",
     "securitySetting": "Security Settings",
     "logout": "Log Out",
     "brand": "Bahr Academy",
+    "changes": "Changes",
+    "changesInfo": "Edit Information",
     "dashboardSection": {
       "myCourses": "My Courses",
       "notPayCourses": "Unpaid Courses",
       "profileCompleted": "Profile Completed",
       "reservedCourses": "Reserved Courses",
-      "showAll": "Show All",
+      "showAll": "View All",
       "status": "Status:",
       "reservedDone": "Reserved",
-      "unReserved": "Pending Approval",
+      "unReserved": "Pending Confirmation",
       "newArticles": "Latest News",
-      "notFound": "Didn`t Found Any Thing!"
+      "notFound": "No items found!"
     },
     "userInfoSection": {
       "totalInfo": "General Information",
@@ -47,12 +49,33 @@
       "birthErrorMessage": "Please select your date of birth!",
       "birthDate": "Date of Birth",
       "aboutMe": "About Me",
-      "aboutMePlaceHolder": "Enter more information about yourself",
-      "aboutMeErrorMessage": "Please provide some information about yourself!"
+      "aboutMePlaceHolder": "Enter more details about yourself",
+      "aboutMeErrorMessage": "Please enter some information about yourself!"
     },
     "imageController": {
-      "addImage": "Confirm Image",
+      "addImage": "Confirm Photo",
       "cancel": "Cancel"
+    },
+    "socialMedia": {
+      "receiveEvents": "Event Notifications",
+      "telegram": "Telegram",
+      "telegramPlaceHolder": "t.me/example",
+      "telegramErrorMessage": "Please enter your Telegram address!",
+      "linkedin": "LinkedIn",
+      "linkedinPlaceHolder": "example@gmail.com",
+      "linkedinErrorMessage": "Please enter your LinkedIn address!"
+    },
+    "locationInformation": {
+      "fullAddress": "Full Address",
+      "livingAddressPlaceHolder": "Enter your residential address or select on the map",
+      "livingAddressErrorMessage": "Please enter your residential address or select on the map",
+      "latitude": "Latitude",
+      "latitudePlaceHolder": "Enter latitude",
+      "latitudeErrorMessage": "Please enter the latitude",
+      "longitude": "Longitude",
+      "longitudePlaceHolder": "Enter longitude",
+      "longitudeErrorMessage": "Please enter the longitude",
+      "addressFetchError": "Failed to fetch address for the selected location"
     }
   },
   "fa": {
@@ -73,6 +96,7 @@
     "logout": "خروج از حساب",
     "brand": "آکادمی بحر",
     "changes": "تغییرات",
+    "changesInfo": "ویرایش اطلاعات",
     "dashboardSection": {
       "myCourses": "دوره های من",
       "notPayCourses": "دوره های پرداخت نشده",
@@ -110,6 +134,27 @@
     "imageController": {
       "addImage": "تایید عکس",
       "cancel": "انصراف"
+    },
+    "socialMedia": {
+      "receiveEvents": "اطلاع رسانی رویداد ها",
+      "telegram": "تلگرام",
+      "telegramPlaceHolder": "t.me/example",
+      "telegramErrorMessage": "لطفا آدرس تلگرام خود را وارد کنید!",
+      "linkedin": "لینکدین",
+      "linkedinPlaceHolder": "example@gmail.com",
+      "linkedinErrorMessage": "لطفا آدرس لینکدین خود را وارد کنید!"
+    },
+    "locationInformation": {
+      "fullAddress": "آدرس کامل",
+      "livingAddressPlaceHolder": "آدرس محل سکونت خود را وارد کنید یا روی نقشه انتخاب کنید",
+      "livingAddressErrorMessage": "لطفا آدرس محل سکونت خود را وارد کنید یا روی نقشه انتخاب کنید",
+      "latitude": "عرض جغرافیایی",
+      "latitudePlaceHolder": "عرض جغرافیایی را وارد کنید",
+      "latitudeErrorMessage": "لطفا عرض جغرافیایی را وارد کنید",
+      "longitude": "طول جغرافیایی",
+      "longitudePlaceHolder": "طول جغرافیایی را وارد کنید",
+      "longitudeErrorMessage": "لطفا طول جغرافیایی را وارد کنید",
+      "addressFetchError": "خطا در دریافت آدرس برای موقعیت انتخاب شده"
     }
   }
 }

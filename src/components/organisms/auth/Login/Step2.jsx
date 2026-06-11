@@ -1,5 +1,5 @@
 import { Formik, Form, ErrorMessage } from "formik";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import Button from "../../../atoms/Buttons/Button";
@@ -8,17 +8,21 @@ import OtpInput from "../../../molecules/Inputs/OtpInput";
 import { verifyCodeLogin } from "@/core/services/api/auth/auth.service";
 import { toast } from "react-toastify";
 import { useI18n } from "@/i18n/useI18n";
+import LoginContext from "@/app/context/LoginContext";
 
-const Step2 = ({ setWhichStep }) => {
+const Step2 = ({ SignUpParams, setWhichStep }) => {
   const { t } = useI18n();
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
   const otp = new Array(6).fill("");
   const [otpValue, setOtpValue] = useState("");
+  const { setIsLogin } = useContext(LoginContext);
   const handleSubmit = async (value) => {
     const result = await verifyCodeLogin(value);
     if (result.data.success) {
       toast.success(result.data.message);
-      Navigate("/");
+      navigate("/");
+      localStorage.setItem("token", JSON.stringify(result.data.token));
+      setIsLogin(true);
     } else {
       toast.error(result.data.message);
     }
@@ -31,6 +35,7 @@ const Step2 = ({ setWhichStep }) => {
   return (
     <Formik
       initialValues={{
+        phoneOrGmail: SignUpParams.phoneOrGmail,
         verifyCode: "",
       }}
       validationSchema={validationSchema}
