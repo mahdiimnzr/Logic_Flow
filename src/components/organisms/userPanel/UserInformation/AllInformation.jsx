@@ -20,6 +20,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import formDataConverter from "@/core/utils/formDataConvertor";
 import LoadingSvg from "@/core/icons/LoadingSvg";
+import ImageControllerModal from "./ImageControllerModal";
 
 const genderItems = [
   { id: 1, title: "مذکر", titleEn: "Man", name: "man" },
@@ -50,6 +51,7 @@ const AllInformation = () => {
   });
 
   const [gender, setGender] = useState(null);
+  const [imageModal, setImageModal] = useState(false);
   const [birthDate, setBirthDate] = useState(null);
   const [birthMonth, setBirthMonth] = useState(new Date().toISOString());
   const [birthValue, setBirthValue] = useState("");
@@ -79,58 +81,58 @@ const AllInformation = () => {
   return isLoading ? (
     <LoadingSvg className={`h-full!`} />
   ) : (
-    <Formik
-      initialValues={{
-        FName: userDetail?.data.fName,
-        LName: userDetail?.data.lName,
-        UserAbout: userDetail?.data.userAbout,
-        phoneNumber: userDetail?.data.phoneNumber,
-        NationalCode: userDetail?.data.nationalCode,
-        BirthDay: birthDate,
-        Gender: userDetail?.data?.gender ? "man" : "woman",
-      }}
-      validationSchema={validationSchema}
-      onSubmit={(values) => {
-        if (values.Gender == "man") {
-          values.Gender = true;
-        } else if (values.Gender == "woman") {
-          values.Gender = false;
-        }
-        const formValues = formDataConverter(values);
-        updateUserInfoMutate(formValues);
-        console.log(formValues);
-      }}
-    >
-      {({ errors, values, setFieldValue }) => {
-        if (values.BirthDay !== birthDate) {
-          setFieldValue("BirthDay", birthDate);
-        }
-        if (values.Gender !== gender) {
-          setFieldValue("Gender", gender);
-        }
-        return (
-          <Form className={`flex flex-col gap-10.5`}>
-            <div className={`relative size-40.5 rounded-full self-center`}>
-              {isLoading ? (
-                <div
-                  className={`bg-field-silver p-0.5 rounded-full self-center`}
-                >
-                  <Skeleton className={`size-40.5`} />
-                </div>
-              ) : (
-                <ImageFallback
-                  className={`size-full rounded-full`}
-                  fallback={userProfile}
-                  src={userDetail?.data?.currentPictureAddress}
-                />
-              )}
-              <div
-                className={`absolute left-0 bottom-0 cursor-pointer size-12 bg-light-gray content-center rounded-full shadow-[0px_4px_4px_0px_#000000]/25 dark:shadow-[0px_4px_4px_0px_#ffffff]/25`}
-              >
-                <Pencil className={`mx-auto size-5`} color="#848484" />
-              </div>
-            </div>
-            <div className={`grid grid-cols-2 gap-x-20 gap-y-6`}>
+    <div className={`flex flex-col gap-10.5`}>
+      <div className={`relative size-40.5 rounded-full self-center`}>
+        {isLoading ? (
+          <div className={`bg-field-silver p-0.5 rounded-full self-center`}>
+            <Skeleton className={`size-40.5`} />
+          </div>
+        ) : (
+          <ImageFallback
+            className={`size-full rounded-full`}
+            fallback={userProfile}
+            src={userDetail?.data?.currentPictureAddress}
+          />
+        )}
+        <div
+          onClick={() => setImageModal(true)}
+          className={`absolute left-0 bottom-0 cursor-pointer size-12 bg-light-gray content-center rounded-full shadow-[0px_4px_4px_0px_#000000]/25 dark:shadow-[0px_4px_4px_0px_#ffffff]/25`}
+        >
+          <Pencil className={`mx-auto size-5`} color="#848484" />
+        </div>
+        <ImageControllerModal isOpen={imageModal} setIsOpen={setImageModal} />
+      </div>
+      <Formik
+        initialValues={{
+          FName: userDetail?.data.fName,
+          LName: userDetail?.data.lName,
+          UserAbout: userDetail?.data.userAbout,
+          phoneNumber: userDetail?.data.phoneNumber,
+          NationalCode: userDetail?.data.nationalCode,
+          BirthDay: birthDate,
+          Gender: userDetail?.data?.gender ? "man" : "woman",
+        }}
+        validationSchema={validationSchema}
+        onSubmit={(values) => {
+          if (values.Gender == "man") {
+            values.Gender = true;
+          } else if (values.Gender == "woman") {
+            values.Gender = false;
+          }
+          const formValues = formDataConverter(values);
+          updateUserInfoMutate(formValues);
+          console.log(formValues);
+        }}
+      >
+        {({ errors, values, setFieldValue }) => {
+          if (values.BirthDay !== birthDate) {
+            setFieldValue("BirthDay", birthDate);
+          }
+          if (values.Gender !== gender) {
+            setFieldValue("Gender", gender);
+          }
+          return (
+            <Form className={`grid grid-cols-2 gap-x-20 gap-y-6`}>
               <div className={`flex flex-col gap-4`}>
                 <span className={`text-base font-normal text-default-black`}>
                   {t("userPanel.userInfoSection.userName")}
@@ -244,11 +246,11 @@ const AllInformation = () => {
               <Button color={"panelBtn"} className={`h-12 w-34.5`}>
                 {t("userPanel.changes")}
               </Button>
-            </div>
-          </Form>
-        );
-      }}
-    </Formik>
+            </Form>
+          );
+        }}
+      </Formik>
+    </div>
   );
 };
 

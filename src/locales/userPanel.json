@@ -49,6 +49,10 @@
       "aboutMe": "About Me",
       "aboutMePlaceHolder": "Enter more information about yourself",
       "aboutMeErrorMessage": "Please provide some information about yourself!"
+    },
+    "imageController": {
+      "addImage": "Confirm Image",
+      "cancel": "Cancel"
     }
   },
   "fa": {
@@ -102,6 +106,10 @@
       "aboutMe": "درباره من",
       "aboutMePlaceHolder": "توضیحات بیشتر راجب خود وارد کنید",
       "aboutMeErrorMessage": "لطفا درباره خود اطلاعاتی وارد کنید!"
+    },
+    "imageController": {
+      "addImage": "تایید عکس",
+      "cancel": "انصراف"
     }
   }
 }
