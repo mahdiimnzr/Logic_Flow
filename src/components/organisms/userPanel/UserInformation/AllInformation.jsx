@@ -131,9 +131,13 @@ const AllInformation = () => {
             setFieldValue("Gender", gender);
           }
           return (
-            <Form className={`grid grid-cols-2 gap-x-20 gap-y-6`}>
+            <Form
+              className={`grid xl:grid-cols-2 grid-cols-1 gap-x-20 gap-y-6`}
+            >
               <div className={`flex flex-col gap-4`}>
-                <span className={`text-base font-normal text-default-black`}>
+                <span
+                  className={`sm:text-base text-[14px] font-normal text-default-black`}
+                >
                   {t("userPanel.userInfoSection.userName")}
                 </span>
                 <FormInput
@@ -142,11 +146,15 @@ const AllInformation = () => {
                   id="FName"
                   error={errors?.FName}
                   lightTheme={true}
+                  className={`sm:h-15! h-12!`}
+                  inputClassName={`sm:text-base! text-[14px]!`}
                   placeholder={t("userPanel.userInfoSection.fNamePlaceHolder")}
                 />
               </div>
               <div className={`flex flex-col gap-4`}>
-                <span className={`text-base font-normal text-default-black`}>
+                <span
+                  className={`sm:text-base text-[14px] font-normal text-default-black`}
+                >
                   {t("userPanel.userInfoSection.userLastName")}
                 </span>
                 <FormInput
@@ -155,11 +163,15 @@ const AllInformation = () => {
                   id="LName"
                   error={errors?.LName}
                   lightTheme={true}
+                  className={`sm:h-15! h-12!`}
+                  inputClassName={`sm:text-base! text-[14px]!`}
                   placeholder={t("userPanel.userInfoSection.lNamePlaceHolder")}
                 />
               </div>
               <div className={`flex flex-col gap-4`}>
-                <span className={`text-base font-normal text-default-black`}>
+                <span
+                  className={`sm:text-base text-[14px] font-normal text-default-black`}
+                >
                   {t("userPanel.userInfoSection.nationalCode")}
                 </span>
                 <FormInput
@@ -167,6 +179,8 @@ const AllInformation = () => {
                   id="NationalCode"
                   error={errors?.NationalCode}
                   lightTheme={true}
+                  className={`sm:h-15! h-12!`}
+                  inputClassName={`sm:text-base! text-[14px]!`}
                   type={"number"}
                   pattern="/^[0-9]$/"
                   placeholder={t(
@@ -175,7 +189,9 @@ const AllInformation = () => {
                 />
               </div>
               <div className={`flex flex-col gap-4`}>
-                <span className={`text-base font-normal text-default-black`}>
+                <span
+                  className={`sm:text-base text-[14px] font-normal text-default-black`}
+                >
                   {t("userPanel.userInfoSection.gender")}
                 </span>
                 <SelectModal
@@ -184,14 +200,16 @@ const AllInformation = () => {
                   contentClassName={`${theme ? `bg-[#1e1e1e] text-white` : `bg-white text-[#1E1E1E]`}`}
                   itemClassName={`${theme ? `focus:bg-[oklch(0.269_0_0)]` : `focus:bg-muted`} h-10! cursor-pointer!`}
                   value={gender ?? undefined}
-                  triggerClassName={`px-5! font-normal text-base! w-full! h-15! rounded-2xl! cursor-pointer bg-default-light! text-field-gray! ring-0! border border-light-gray`}
+                  triggerClassName={`px-5! font-normal sm:text-base! text-[14px]! w-full! sm:h-15! h-12! rounded-2xl! cursor-pointer bg-default-light! text-field-gray! ring-0! border border-light-gray`}
                   setValue={setGender}
                   onValueChange={setGender}
                   placeHolder={t("userPanel.userInfoSection.chooseGender")}
                 />
               </div>
               <div className={`flex flex-col gap-4`}>
-                <span className={`text-base font-normal text-default-black`}>
+                <span
+                  className={`sm:text-base text-[14px] font-normal text-default-black`}
+                >
                   {t("userPanel.userInfoSection.birthDate")}
                 </span>
                 <DatePickerInput
@@ -218,7 +236,7 @@ const AllInformation = () => {
                     setBirthDate(date.toISOString());
                     setBirthValue(formatDate(date));
                   }}
-                  className={`bg-default-light! border-light-gray! h-15!`}
+                  className={`bg-default-light! border-light-gray! sm:h-15! h-12!`}
                   captionLayout="dropdown"
                 />
                 <ErrorMessage
@@ -228,7 +246,9 @@ const AllInformation = () => {
                 />
               </div>
               <div className={`flex flex-col gap-4`}>
-                <span className={`text-base font-normal text-default-black`}>
+                <span
+                  className={`sm:text-base text-[14px] font-normal text-default-black`}
+                >
                   {t("userPanel.userInfoSection.aboutMe")}
                 </span>
                 <FormInput
@@ -236,6 +256,8 @@ const AllInformation = () => {
                   id="UserAbout"
                   error={errors?.UserAbout}
                   lightTheme={true}
+                  className={`sm:h-15! h-12!`}
+                  inputClassName={`sm:text-base! text-[14px]!`}
                   type={"text"}
                   placeholder={t(
                     "userPanel.userInfoSection.aboutMePlaceHolder",

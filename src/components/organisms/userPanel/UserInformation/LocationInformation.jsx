@@ -3,16 +3,23 @@ import LoadingSvg from "@/core/icons/LoadingSvg";
 import {
   updateProfileDetail,
   getAddressByCoordination,
+  getAddressBySearch,
   useGetUserDetail,
 } from "@/core/services/api/userPanel/userPanel.service";
 import { useI18n } from "@/i18n/useI18n";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Form, Formik, useFormikContext } from "formik";
 import { toast } from "react-toastify";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import "leaflet/dist/leaflet.css";
-import { MapContainer, Marker, TileLayer, useMapEvents } from "react-leaflet";
+import {
+  MapContainer,
+  Marker,
+  TileLayer,
+  useMap,
+  useMapEvents,
+} from "react-leaflet";
 import Button from "@/components/atoms/Buttons/Button";
 import * as Yup from "yup";
 import formDataConverter from "@/core/utils/formDataConvertor";
@@ -26,6 +33,24 @@ const MapMarker = ({ position, setPosition, getLocationNameByLat }) => {
   });
 
   return position === null ? null : <Marker position={position} />;
+};
+
+const FlyToMarker = ({ position }) => {
+  const map = useMap();
+  const isFirstRun = useRef(true);
+
+  useEffect(() => {
+    if (!position) return;
+
+    if (isFirstRun.current) {
+      map.setView(position, map.getZoom());
+      isFirstRun.current = false;
+    } else {
+      map.flyTo(position, map.getZoom(), { animate: true, duration: 1.5 });
+    }
+  }, [position]);
+
+  return null;
 };
 
 const FormikSynCer = ({ addressValue, latitudeValue, longitudeValue }) => {
@@ -44,6 +69,19 @@ const FormikSynCer = ({ addressValue, latitudeValue, longitudeValue }) => {
   }, [longitudeValue]);
 
   return null;
+};
+
+const formatAddressFromProperties = (properties) => {
+  if (!properties) return "";
+  const parts = [
+    properties.name,
+    properties.housenumber,
+    properties.street,
+    properties.city,
+    properties.state,
+    properties.country,
+  ];
+  return parts.filter(Boolean).join(", ");
 };
 
 const LocationInformation = () => {
@@ -67,6 +105,12 @@ const LocationInformation = () => {
   const [addressValue, setAddressValue] = useState("");
   const [latitudeValue, setLatitudeValue] = useState("");
   const [longitudeValue, setLongitudeValue] = useState("");
+  const [addressSuggestions, setAddressSuggestions] = useState([]);
+  const [showAddressSuggestions, setShowAddressSuggestions] = useState(false);
+
+  const skipSearchRef = useRef(false);
+  const isUserTypingRef = useRef(false);
+  const addressWrapperRef = useRef(null);
 
   const { isLoading, data: userDetail } = useGetUserDetail();
 
@@ -98,33 +142,119 @@ const LocationInformation = () => {
     },
   });
 
-  useEffect(() => {
-    if (!isLoading && userDetail?.data) {
-      setAddressValue(userDetail.data.homeAdderess ?? "");
-      setLatitudeValue(userDetail.data.latitude ?? "");
-      setLongitudeValue(userDetail.data.longitude ?? "");
+  const { mutate: searchAddressByText, isPending: isSearchingAddress } =
+    useMutation({
+      mutationFn: (query) => getAddressBySearch(query),
+      onSuccess: (result) => {
+        const features = result?.data?.features ?? [];
+        setAddressSuggestions(features);
 
-      if (userDetail.data.latitude && userDetail.data.longitude) {
-        const lat = Number(userDetail.data.latitude);
-        const lng = Number(userDetail.data.longitude);
+        if (isUserTypingRef.current) {
+          setShowAddressSuggestions(features.length > 0);
+        }
+      },
+      onError: () => {
+        setAddressSuggestions([]);
+        setShowAddressSuggestions(false);
+      },
+    });
+
+  useEffect(() => {
+    if (isLoading) return;
+
+    const homeAddress = userDetail?.data?.homeAdderess;
+    const latitude = userDetail?.data?.latitude;
+    const longitude = userDetail?.data?.longitude;
+
+    if (homeAddress) {
+      skipSearchRef.current = true;
+      setAddressValue(homeAddress);
+      setLatitudeValue(latitude ?? "");
+      setLongitudeValue(longitude ?? "");
+
+      if (latitude && longitude) {
+        const lat = Number(latitude);
+        const lng = Number(longitude);
         setPosition([lat, lng]);
         setCenterPosition([lat, lng]);
       }
-    }
-  }, [userDetail, isLoading]);
 
-  useEffect(() => {
+      return;
+    }
+
     if (!navigator?.geolocation) return;
+
     navigator.geolocation.getCurrentPosition((pos) => {
       const lat = pos.coords.latitude;
       const lng = pos.coords.longitude;
+      skipSearchRef.current = true;
       setPosition([lat, lng]);
       setCenterPosition([lat, lng]);
       setLatitudeValue(lat);
       setLongitudeValue(lng);
       getLocationByLats({ lat, lng });
     });
+  }, [userDetail, isLoading]);
+
+  useEffect(() => {
+    if (skipSearchRef.current) {
+      skipSearchRef.current = false;
+      return;
+    }
+
+    if (!isUserTypingRef.current) return;
+
+    if (!addressValue || addressValue.trim().length < 3) {
+      setAddressSuggestions([]);
+      setShowAddressSuggestions(false);
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      searchAddressByText(addressValue);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [addressValue]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        addressWrapperRef.current &&
+        !addressWrapperRef.current.contains(event.target)
+      ) {
+        setShowAddressSuggestions(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  const handleAddressChange = (e) => {
+    isUserTypingRef.current = true;
+    setAddressValue(e.target.value);
+  };
+
+  const handleSelectAddressSuggestion = (feature) => {
+    const [lng, lat] = feature?.geometry?.coordinates ?? [];
+    const formattedAddress = formatAddressFromProperties(feature?.properties);
+
+    isUserTypingRef.current = false;
+    skipSearchRef.current = true;
+    setAddressValue(formattedAddress);
+    setLatitudeValue(lat ?? "");
+    setLongitudeValue(lng ?? "");
+
+    if (lat !== undefined && lng !== undefined) {
+      setPosition([lat, lng]);
+      setCenterPosition([lat, lng]);
+    }
+
+    setAddressSuggestions([]);
+    setShowAddressSuggestions(false);
+  };
+
   return isLoading ? (
     <LoadingSvg className="h-full!" />
   ) : (
@@ -150,25 +280,66 @@ const LocationInformation = () => {
           />
           <div className="flex flex-col gap-6">
             <div className="flex flex-col gap-4">
-              <span className="text-base font-normal text-default-black">
+              <span
+                className={`sm:text-base text-[14px] font-normal text-default-black`}
+              >
                 {t("userPanel.locationInformation.fullAddress")}
               </span>
-              <FormInput
-                type="text"
-                name="HomeAdderess"
-                id="HomeAdderess"
-                error={errors?.HomeAdderess}
-                lightTheme={true}
-                placeholder={t(
-                  "userPanel.locationInformation.livingAddressPlaceHolder",
+              <div className="relative" ref={addressWrapperRef}>
+                <FormInput
+                  type="text"
+                  name="HomeAdderess"
+                  id="HomeAdderess"
+                  error={errors?.HomeAdderess}
+                  lightTheme={true}
+                  placeholder={t(
+                    "userPanel.locationInformation.livingAddressPlaceHolder",
+                  )}
+                  value={addressValue}
+                  onChange={handleAddressChange}
+                  autoComplete="off"
+                  className={`sm:h-15! h-12!`}
+                  inputClassName={`sm:text-base! text-[14px]!`}
+                />
+                {showAddressSuggestions && (
+                  <div className="absolute left-0 right-0 top-full mt-2 z-20 bg-white border border-gray-200 rounded-2xl shadow-lg max-h-60 overflow-y-auto">
+                    {isSearchingAddress && (
+                      <div className="px-4 py-3 text-sm text-gray-400">
+                        {t("userPanel.locationInformation.searching")}
+                      </div>
+                    )}
+                    {!isSearchingAddress &&
+                      addressSuggestions.map((feature, index) => {
+                        const label = formatAddressFromProperties(
+                          feature?.properties,
+                        );
+                        return (
+                          <button
+                            type="button"
+                            key={`${label}-${index}`}
+                            className="w-full text-left px-4 py-3 text-sm hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-b-0"
+                            onClick={() =>
+                              handleSelectAddressSuggestion(feature)
+                            }
+                          >
+                            {label}
+                          </button>
+                        );
+                      })}
+                    {!isSearchingAddress && addressSuggestions.length === 0 && (
+                      <div className="px-4 py-3 text-sm text-gray-400">
+                        {t("userPanel.locationInformation.noResults")}
+                      </div>
+                    )}
+                  </div>
                 )}
-                value={addressValue}
-                onChange={(e) => setAddressValue(e.target.value)}
-              />
+              </div>
             </div>
-            <div className="grid grid-cols-2 gap-x-20">
+            <div className="grid xl:grid-cols-2 grid-cols-1 gap-x-20 gap-y-6">
               <div className="flex flex-col gap-4">
-                <span className="text-base font-normal text-default-black">
+                <span
+                  className={`sm:text-base text-[14px] font-normal text-default-black`}
+                >
                   {t("userPanel.locationInformation.longitude")}
                 </span>
                 <FormInput
@@ -182,11 +353,15 @@ const LocationInformation = () => {
                   )}
                   value={longitudeValue}
                   onChange={(e) => setLongitudeValue(e.target.value)}
+                  className={`sm:h-15! h-12!`}
+                  inputClassName={`sm:text-base! text-[14px]!`}
                 />
               </div>
 
               <div className="flex flex-col gap-4">
-                <span className="text-base font-normal text-default-black">
+                <span
+                  className={`sm:text-base text-[14px] font-normal text-default-black`}
+                >
                   {t("userPanel.locationInformation.latitude")}
                 </span>
                 <FormInput
@@ -200,6 +375,8 @@ const LocationInformation = () => {
                   )}
                   value={latitudeValue}
                   onChange={(e) => setLatitudeValue(e.target.value)}
+                  className={`sm:h-15! h-12!`}
+                  inputClassName={`sm:text-base! text-[14px]!`}
                 />
               </div>
             </div>
@@ -224,6 +401,7 @@ const LocationInformation = () => {
                 setPosition={setPosition}
                 getLocationNameByLat={getLocationByLats}
               />
+              <FlyToMarker position={position} />
             </MapContainer>
           ) : (
             <div className="bg-field-silver rounded-[16px] p-0.5">

@@ -24,3 +24,5 @@ export const deleteUserProfileImage = (params) =>
   });
 export const getAddressByCoordination = (lat, lon) =>
   apiClient.get(`https://photon.komoot.io/reverse?lon=${lon}&lat=${lat}`);
+export const getAddressBySearch = (query) =>
+  apiClient.get(`https://photon.komoot.io/api/?q=${query}`);

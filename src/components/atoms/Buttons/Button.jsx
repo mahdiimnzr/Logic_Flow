@@ -19,7 +19,7 @@ const Button = ({
     registerBtn:
       "bg-green-primary text-default-light rounded-[50px] text-base font-normal cursor-pointer",
     panelBtn:
-      "bg-green-primary text-default-light rounded-[16px] font-normal text-base cursor-pointer",
+      "bg-green-primary text-white rounded-[16px] font-normal text-base cursor-pointer",
     moreBtn:
       "bg-transparent border-2 border-green-primary text-green-primary rounded-[15px] font-bold text-[14px] text-green-primary",
     likeAndDisLikeBtn: `${isLikeOrDislike ? `bg-green-primary text-default-light` : `bg-light-gray text-field-silver`} rounded-[100px] text-base font-normal`,
