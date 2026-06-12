@@ -28,6 +28,13 @@ const Dashboard = () => {
   );
   const { isLoading: reserveLoading, data: reservedCourses } =
     useGetMyReserveCourses();
+
+  const reservedList = Array.isArray(reservedCourses?.data)
+    ? reservedCourses.data
+    : [];
+  const reserveAccessDenied = reservedCourses?.data?.success === false;
+  const coursesAccessDenied = courses?.data?.success === false;
+
   const courseNotPay = useMemo(() => {
     return (
       courses?.data?.listOfMyCourses?.filter(
@@ -61,6 +68,10 @@ const Dashboard = () => {
             <div className={`p-0.5 bg-field-silver rounded-[8px] w-fit`}>
               <Skeleton className={`rounded-[5px] h-5 w-10`} />
             </div>
+          ) : coursesAccessDenied ? (
+            <span className={`text-[14px] font-semibold text-red-danger`}>
+              {t("userPanel.dashboardSection.doNotAccessReserve")}
+            </span>
           ) : (
             <span
               className={`md:text-[48px] text-[40px] font-normal text-green-primary`}
@@ -138,10 +149,10 @@ const Dashboard = () => {
         </div>
       </div>
       <div
-        className={`flex xl:flex-row flex-col items-center justify-between 2xl:gap-8 gap-6`}
+        className={`flex xl:flex-row flex-col xl:items-start items-center justify-between 2xl:gap-8 gap-6`}
       >
         <div
-          className={`bg-default-light xl:w-5/10 w-full rounded-[20px] p-4 flex flex-col 2xl:gap-8 gap-6`}
+          className={`bg-default-light xl:w-5/10 w-full rounded-[20px] p-4 flex flex-col 2xl:gap-8 gap-6 h-full`}
         >
           <div className={`flex gap-4`}>
             <span
@@ -160,62 +171,74 @@ const Dashboard = () => {
             </Link>
           </div>
           <div className={`flex flex-col 2xl:gap-5 gap-3 items-center`}>
-            {!reserveLoading &&
-              reservedCourses?.data?.slice(0, 4)?.map((value, index) => (
-                <div
-                  key={index}
-                  className={`p-2 flex gap-4 w-full border border-light-gray rounded-[20px]`}
-                >
-                  <Link
-                    to={`/Courses/Detail/${value.courseId}/Review`}
-                    className={`md:w-25 md:min-w-25 min-w-16 w-16 h-16 rounded-[12px]`}
-                  >
-                    <ImageFallback
-                      className={`size-full rounded-[12px]`}
-                      src={value.image}
-                      fallback={fallback}
-                    />
-                  </Link>
-                  <div className={`flex flex-col justify-between gap-2 w-8/10`}>
-                    <span
-                      className={`truncate w-8/10 2xl:text-base md:text-[14px] text-[12px] font-semibold text-default-black`}
-                    >
-                      {value.courseName}
-                    </span>
-                    <div className={`flex items-center gap-2`}>
-                      <span
-                        className={`2xl:text-base text-[14px] font-normal text-default-black`}
-                      >
-                        {t("userPanel.dashboardSection.status")}
-                      </span>
-                      <p
-                        className={`${value.accept ? `text-green-primary` : `text-red-danger`} font-normal 2xl:text-base text-[14px]`}
-                      >
-                        {value.accept
-                          ? t("userPanel.dashboardSection.reservedDone")
-                          : t("userPanel.dashboardSection.unReserved")}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            {reservedCourses?.data?.length == 0 && (
-              <span className={`text-[14px] font-semibold text-default-black`}>
-                {t("userPanel.dashboardSection.notFound")}
+            {reserveAccessDenied ? (
+              <span className={`text-[14px] font-semibold text-red-danger`}>
+                {t("userPanel.dashboardSection.doNotAccessReserve")}
               </span>
-            )}
-            {reservedCourses?.data?.length >= 4 && (
-              <Link
-                to={"/UserPanel/ReservedCourses"}
-                className={`md:text-base text-[14px] font-normal text-field-silver`}
-              >
-                {t("userPanel.dashboardSection.showAll")}
-              </Link>
+            ) : (
+              <>
+                {!reserveLoading &&
+                  reservedList.slice(0, 4).map((value, index) => (
+                    <div
+                      key={index}
+                      className={`p-2 flex gap-4 w-full border border-light-gray rounded-[20px]`}
+                    >
+                      <Link
+                        to={`/Courses/Detail/${value.courseId}/Review`}
+                        className={`md:w-25 md:min-w-25 min-w-16 w-16 h-16 rounded-[12px]`}
+                      >
+                        <ImageFallback
+                          className={`size-full rounded-[12px]`}
+                          src={value.image}
+                          fallback={fallback}
+                        />
+                      </Link>
+                      <div
+                        className={`flex flex-col justify-between gap-2 w-8/10`}
+                      >
+                        <span
+                          className={`truncate w-8/10 2xl:text-base md:text-[14px] text-[12px] font-semibold text-default-black`}
+                        >
+                          {value.courseName}
+                        </span>
+                        <div className={`flex items-center gap-2`}>
+                          <span
+                            className={`2xl:text-base text-[14px] font-normal text-default-black`}
+                          >
+                            {t("userPanel.dashboardSection.status")}
+                          </span>
+                          <p
+                            className={`${value.accept ? `text-green-primary` : `text-red-danger`} font-normal 2xl:text-base text-[14px]`}
+                          >
+                            {value.accept
+                              ? t("userPanel.dashboardSection.reservedDone")
+                              : t("userPanel.dashboardSection.unReserved")}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                {reservedList.length === 0 && !reserveLoading && (
+                  <span
+                    className={`text-[14px] font-semibold text-default-black`}
+                  >
+                    {t("userPanel.dashboardSection.notFound")}
+                  </span>
+                )}
+                {reservedList.length >= 4 && (
+                  <Link
+                    to={"/UserPanel/ReservedCourses"}
+                    className={`md:text-base text-[14px] font-normal text-field-silver`}
+                  >
+                    {t("userPanel.dashboardSection.showAll")}
+                  </Link>
+                )}
+              </>
             )}
           </div>
         </div>
         <div
-          className={`bg-default-light xl:w-5/10 w-full rounded-[20px] p-4 flex flex-col 2xl:gap-8 gap-6`}
+          className={`bg-default-light xl:w-5/10 w-full rounded-[20px] p-4 flex flex-col 2xl:gap-8 gap-6 h-full`}
         >
           <div className={`flex gap-4`}>
             <span

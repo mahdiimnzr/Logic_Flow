@@ -24,7 +24,7 @@ const UserPanelLayout = () => {
       <DrawerComponents
         trigger={
           <div
-            className={`size-11.5 bg-green-primary rounded-full content-center cursor-pointer md:hidden fixed ${lang === "en" ? "left-5" : "right-5"} bottom-5`}
+            className={`size-11.5 bg-green-primary z-100 rounded-full content-center cursor-pointer md:hidden fixed ${lang === "en" ? "left-5" : "right-5"} bottom-5`}
           >
             <Menu className={`mx-auto`} color={"white"} />
           </div>

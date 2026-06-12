@@ -83,17 +83,19 @@ const ImageControllerModal = ({ isOpen, setIsOpen }) => {
         className={`size-full absolute top-0 right-0 bg-black/50 backdrop-blur-[2px]`}
       ></div>
       <div
-        className={`${isOpen ? "mt-0" : "mt-10"} transition-all p-8 bg-default-light rounded-[24px] relative w-6/10 flex flex-col items-center gap-8`}
+        className={`${isOpen ? "mt-0" : "mt-10"} transition-all sm:p-8 p-4 bg-default-light rounded-[24px] relative md:w-6/10 sm:w-7/10 w-8/10 flex flex-col items-center gap-8`}
       >
         <ImageFallback
-          className={`size-60 rounded-[24px]`}
+          className={`md:size-60 sm:size-55 size-30 rounded-[24px]`}
           src={userDetail?.data?.currentPictureAddress}
           fallback={userProfile}
         />
-        <div className={`overflow-x-auto pb-5 w-full flex items-center gap-8`}>
+        <div
+          className={`overflow-x-auto pb-5 w-full flex items-center sm:gap-8 gap-4`}
+        >
           {userDetail?.data?.userPicture.map((value, index) => (
             <div
-              className={`relative cursor-pointer min-w-22 min-h-22 size-22 box-border rounded-[16px] ${selectedImage === value.id ? "border-4 border-blue-400" : null} ${value.puctureAddress === userDetail?.data?.currentPictureAddress ? `border-4 border-green-primary` : null}`}
+              className={`relative cursor-pointer sm:min-w-22 min-w-15 sm:min-h-22 min-h-15 sm:size-22 size-15 box-border rounded-[16px] ${selectedImage === value.id ? "border-4 border-blue-400" : null} ${value.puctureAddress === userDetail?.data?.currentPictureAddress ? `border-4 border-green-primary` : null}`}
             >
               <ImageFallback
                 key={index}
@@ -110,7 +112,7 @@ const ImageControllerModal = ({ isOpen, setIsOpen }) => {
                 className={`size-full rounded-[16px]`}
               />
               <Trash
-                className={`absolute size-5 right-0 top-0 cursor-pointer`}
+                className={`absolute sm:size-5 size-4 right-0 top-0 cursor-pointer`}
                 color="#f97583"
                 onClick={() => {
                   const formData = new FormData();
@@ -122,7 +124,7 @@ const ImageControllerModal = ({ isOpen, setIsOpen }) => {
           ))}
           <label
             htmlFor="importPhoto"
-            className={`box-border cursor-pointer rounded-[16px] relative min-w-22 min-h-22 size-22 border-2 border-light-gray content-center`}
+            className={`box-border cursor-pointer rounded-[16px] relative sm:min-w-22 min-w-15 sm:min-h-22 min-h-15 sm:size-22 size-15 border-2 border-light-gray content-center`}
           >
             <input
               name="importPhoto"
@@ -142,7 +144,7 @@ const ImageControllerModal = ({ isOpen, setIsOpen }) => {
         <div className={`w-full flex justify-between`}>
           <Button
             color={"panelBtn"}
-            className={`px-4 py-2.5`}
+            className={`sm:px-4 px-3 sm:py-2.5 py-1.5 sm:text-base! text-[14px]!`}
             onClick={() => {
               const formdata = new FormData();
               formdata.append("ImageId", selectedImage);

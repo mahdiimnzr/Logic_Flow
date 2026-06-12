@@ -5,7 +5,9 @@ const UserInformation = () => {
   const { t } = useI18n();
   return (
     <div className={`flex flex-col 2xl:gap-8 gap-6`}>
-      <div className={`flex items-center gap-8`}>
+      <div
+        className={`flex sm:flex-row flex-col sm:items-center items-start sm:gap-8 gap-4`}
+      >
         <NavLink
           to={`/UserPanel/UserInformation/AllInformation`}
           className={({ isActive }) =>

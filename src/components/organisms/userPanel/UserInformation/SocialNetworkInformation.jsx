@@ -72,9 +72,11 @@ const SocialNetworkInformation = () => {
         }
         return (
           <Form className={`flex flex-col gap-10`}>
-            <div className={`grid grid-cols-2 gap-x-20 gap-y-6`}>
+            <div className={`grid xl:grid-cols-2 grid-cols-1 gap-x-20 gap-y-6`}>
               <div className={`flex flex-col gap-4`}>
-                <span className={`text-base font-normal text-default-black`}>
+                <span
+                  className={`sm:text-base text-[14px] font-normal text-default-black`}
+                >
                   {t("userPanel.socialMedia.telegram")}
                 </span>
                 <FormInput
@@ -83,11 +85,15 @@ const SocialNetworkInformation = () => {
                   id="TelegramLink"
                   error={errors?.TelegramLink}
                   lightTheme={true}
+                  className={`sm:h-15! h-12!`}
+                  inputClassName={`sm:text-base! text-[14px]!`}
                   placeholder={t("userPanel.socialMedia.telegramPlaceHolder")}
                 />
               </div>
               <div className={`flex flex-col gap-4`}>
-                <span className={`text-base font-normal text-default-black`}>
+                <span
+                  className={`sm:text-base text-[14px] font-normal text-default-black`}
+                >
                   {t("userPanel.socialMedia.linkedin")}
                 </span>
                 <FormInput
@@ -96,6 +102,8 @@ const SocialNetworkInformation = () => {
                   id="LinkdinProfile"
                   error={errors?.LinkdinProfile}
                   lightTheme={true}
+                  className={`sm:h-15! h-12!`}
+                  inputClassName={`sm:text-base! text-[14px]!`}
                   placeholder={t("userPanel.socialMedia.linkedinPlaceHolder")}
                 />
               </div>
@@ -109,7 +117,10 @@ const SocialNetworkInformation = () => {
                 label={t("userPanel.socialMedia.receiveEvents")}
               />
             </div>
-            <Button color={"panelBtn"} className={`h-12 w-34.5`}>
+            <Button
+              color={"panelBtn"}
+              className={`h-12 sm:w-34.5 w-30 sm:text-base! text-[14px]!`}
+            >
               {t("userPanel.changesInfo")}
             </Button>
           </Form>

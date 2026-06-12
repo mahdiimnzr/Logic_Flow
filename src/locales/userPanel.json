@@ -7,12 +7,12 @@
     "reservedCourses": "Reserved Courses",
     "myPayments": "My Payments",
     "myComments": "My Comments",
-    "courseComments": "My Course Comments",
-    "articlesComments": "My Article Comments",
+    "courseComments": "My Comments on Courses",
+    "articlesComments": "My Comments on News",
     "myFavorite": "My Favorites",
     "coursesFavorite": "My Favorite Courses",
-    "articlesFavorite": "My Favorite Articles",
-    "public": "General",
+    "articlesFavorite": "My Favorite News",
+    "public": "Public",
     "securitySetting": "Security Settings",
     "logout": "Log Out",
     "brand": "Bahr Academy",
@@ -26,9 +26,10 @@
       "showAll": "View All",
       "status": "Status:",
       "reservedDone": "Reserved",
-      "unReserved": "Pending Confirmation",
+      "unReserved": "Pending Approval",
       "newArticles": "Latest News",
-      "notFound": "No items found!"
+      "notFound": "No items found!",
+      "doNotAccessReserve": "You do not have access to this section"
     },
     "userInfoSection": {
       "totalInfo": "General Information",
@@ -49,11 +50,11 @@
       "birthErrorMessage": "Please select your date of birth!",
       "birthDate": "Date of Birth",
       "aboutMe": "About Me",
-      "aboutMePlaceHolder": "Enter more details about yourself",
-      "aboutMeErrorMessage": "Please enter some information about yourself!"
+      "aboutMePlaceHolder": "Enter more information about yourself",
+      "aboutMeErrorMessage": "Please enter information about yourself!"
     },
     "imageController": {
-      "addImage": "Confirm Photo",
+      "addImage": "Confirm Image",
       "cancel": "Cancel"
     },
     "socialMedia": {
@@ -67,15 +68,17 @@
     },
     "locationInformation": {
       "fullAddress": "Full Address",
-      "livingAddressPlaceHolder": "Enter your residential address or select on the map",
-      "livingAddressErrorMessage": "Please enter your residential address or select on the map",
+      "livingAddressPlaceHolder": "Enter your residential address or select it on the map",
+      "livingAddressErrorMessage": "Please enter your residential address or select it on the map",
       "latitude": "Latitude",
       "latitudePlaceHolder": "Enter latitude",
-      "latitudeErrorMessage": "Please enter the latitude",
+      "latitudeErrorMessage": "Please enter latitude",
       "longitude": "Longitude",
       "longitudePlaceHolder": "Enter longitude",
-      "longitudeErrorMessage": "Please enter the longitude",
-      "addressFetchError": "Failed to fetch address for the selected location"
+      "longitudeErrorMessage": "Please enter longitude",
+      "addressFetchError": "Error fetching address for the selected location",
+      "searching": "Searching...",
+      "noResults": "No results found!"
     }
   },
   "fa": {
@@ -107,7 +110,8 @@
       "reservedDone": "رزرو شده",
       "unReserved": "در انتظار تایید",
       "newArticles": "جدید ترین اخبار",
-      "notFound": "موردی یافت نشد!"
+      "notFound": "موردی یافت نشد!",
+      "doNotAccessReserve": " شما به این بخش دسترسی ندارید"
     },
     "userInfoSection": {
       "totalInfo": "اطلاعات کلی",
@@ -154,7 +158,9 @@
       "longitude": "طول جغرافیایی",
       "longitudePlaceHolder": "طول جغرافیایی را وارد کنید",
       "longitudeErrorMessage": "لطفا طول جغرافیایی را وارد کنید",
-      "addressFetchError": "خطا در دریافت آدرس برای موقعیت انتخاب شده"
+      "addressFetchError": "خطا در دریافت آدرس برای موقعیت انتخاب شده",
+      "searching": "در حال جستجو...",
+      "noResults": "نتیجه ای یافت نشد!"
     }
   }
 }
