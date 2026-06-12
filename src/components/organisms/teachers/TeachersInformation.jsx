@@ -1,7 +1,9 @@
 import ThemeContext from "@/app/context/ThemeContext";
 import Button from "@/components/atoms/Buttons/Button";
 import TeachersCard from "@/components/molecules/Cards/TeachersCard";
+import PaginationComponents from "@/components/molecules/Pagination/Pagination";
 import SelectModal from "@/components/molecules/Select/Select";
+import { PaginationItem } from "@/components/ui/pagination";
 import { rowsOfPages } from "@/core/constants/articlesSorting";
 import { useGetTeachers } from "@/core/services/api/teachers/teacher.service";
 import { useI18n } from "@/i18n/useI18n";
@@ -12,10 +14,35 @@ import { Link } from "react-router-dom";
 
 const TeachersInformation = () => {
   const { t, lang } = useI18n();
-  const [rowPageCount, setRowPageCount] = useState(12);
   const { theme } = useContext(ThemeContext);
   const { isLoading, data: Teachers, refetch } = useGetTeachers();
   const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [rowPageCount, setRowPageCount] = useState(12);
+  const [whichPage, setWhichPage] = useState(1);
+
+  const pageCount = useMemo(
+    () =>
+      Teachers?.data?.length
+        ? Math.ceil(Teachers?.data?.length / rowPageCount)
+        : 1,
+    [Teachers?.data?.length, rowPageCount],
+  );
+  const pageArray = useMemo(() => {
+    const pages = [];
+    for (let index = 1; index <= pageCount; index++) pages.push(index);
+    return pages;
+  }, [pageCount]);
+
+  const currentPageData = useMemo(() => {
+    if (!Teachers) return [];
+    const start = (whichPage - 1) * rowPageCount;
+    return Teachers.data.slice(start, start + rowPageCount);
+  }, [Teachers, whichPage, rowPageCount]);
+
+  const goToPage = (value) => {
+    setWhichPage(value);
+    window.scroll(0, 0);
+  };
 
   const debouncedFn = useMemo(() => {
     return debounce((value) => {
@@ -85,12 +112,9 @@ const TeachersInformation = () => {
                 triggerClassName={`border! border-light-gray! rounded-[15px] flex! items-center! gap-1! ring-0! px-4! py-2! h-auto! font-normal! text-[14px]! text-default-black! cursor-pointer! bg-default-light!`}
                 value={rowPageCount}
                 setValue={setRowPageCount}
-                // onValueChange={(event) => {
-                //   setRowPageCount(event);
-                //     dispatch(
-                //       updateArticlesParams({ key: "RowsOfPage", value: event }),
-                //     );
-                // }}
+                onValueChange={(event) => {
+                  setRowPageCount(event);
+                }}
               />
             </div>
           </div>
@@ -105,7 +129,7 @@ const TeachersInformation = () => {
       <div
         className={`w-full grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3  sm:grid-cols-2 grid-cols-1 gap-8`}
       >
-        {Teachers?.data
+        {currentPageData
           ?.filter((value) => {
             return debouncedSearch.toLowerCase() === ""
               ? value
@@ -124,6 +148,29 @@ const TeachersInformation = () => {
             />
           ))}
       </div>
+      <PaginationComponents
+        prevOnClick={() => {
+          const firstPage = pageArray[0];
+          whichPage !== firstPage && goToPage(whichPage - 1);
+        }}
+        nextOnClick={() => {
+          const lastPage = pageArray[pageArray.length - 1];
+          whichPage !== lastPage && goToPage(whichPage + 1);
+        }}
+      >
+        {pageArray?.map((value, index) => (
+          <PaginationItem
+            key={index}
+            onClick={() => {
+              whichPage !== value && goToPage(value);
+            }}
+            className={`cursor-pointer sm:size-12.5 size-8 bg-light-gray sm:rounded-[15px] rounded-[10px] shadow-[0px_2px_5px_0px_#000000]/15 flex items-center justify-center sm:text-[18px] text-[14px] font-normal`}
+            isActive={whichPage === value}
+          >
+            {value}
+          </PaginationItem>
+        ))}
+      </PaginationComponents>
     </div>
   );
 };
