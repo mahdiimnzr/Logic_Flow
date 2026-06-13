@@ -25,16 +25,24 @@ const TeacherDetail = () => {
   const { addFavoriteCourseMutate } = useFavoriteCourse();
   const { isLoading, data: TeachersDetail, refetch } = useGetTeachersDetail(id);
   const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [inputValue, setInputValue] = useState("");
   const [rowPageCount, setRowPageCount] = useState(12);
   const [whichPage, setWhichPage] = useState(1);
 
+  const displayData = useMemo(() => {
+    if (!TeachersDetail?.data?.courses) return [];
+    if (debouncedSearch.trim() === "") return TeachersDetail.data.courses;
+    return TeachersDetail.data.courses.filter((value) =>
+      value.title.toLowerCase().includes(debouncedSearch.toLowerCase()),
+    );
+  }, [debouncedSearch, TeachersDetail]);
+
   const pageCount = useMemo(
     () =>
-      TeachersDetail?.data?.courses?.length
-        ? Math.ceil(TeachersDetail?.data?.courses?.length / rowPageCount)
-        : 1,
-    [TeachersDetail?.data?.courses?.length, rowPageCount],
+      displayData.length ? Math.ceil(displayData.length / rowPageCount) : 1,
+    [displayData.length, rowPageCount],
   );
+
   const pageArray = useMemo(() => {
     const pages = [];
     for (let index = 1; index <= pageCount; index++) pages.push(index);
@@ -42,26 +50,28 @@ const TeacherDetail = () => {
   }, [pageCount]);
 
   const currentPageData = useMemo(() => {
-    if (!TeachersDetail) return [];
     const start = (whichPage - 1) * rowPageCount;
-    return TeachersDetail.data.courses.slice(start, start + rowPageCount);
-  }, [TeachersDetail, whichPage, rowPageCount]);
+    return displayData.slice(start, start + rowPageCount);
+  }, [displayData, whichPage, rowPageCount]);
 
   const debouncedFn = useMemo(() => {
     return debounce((value) => {
       setDebouncedSearch(value);
+      setWhichPage(1);
     }, 1000);
   }, []);
+
   const goToPage = (value) => {
     setWhichPage(value);
     window.scroll(0, 0);
   };
 
   useEffect(() => {
-    refetch;
+    refetch();
   }, []);
+
   return (
-    <div className={`flex flex-col gap-8.5  items-center`}>
+    <div className={`flex flex-col gap-8.5 items-center`}>
       <div className={`flex flex-col items-center gap-4`}>
         <div className={`flex items-center justify-center gap-1`}>
           <Link
@@ -74,7 +84,6 @@ const TeacherDetail = () => {
             className={`size-4 ${lang === "en" ? "transform-[rotate(180deg)]" : "transform-[rotate(0deg)]"}`}
             color="#008C78"
           />
-
           <Link
             className={`text-[14px] font-normal text-green-primary`}
             to={"/Teachers"}
@@ -96,7 +105,7 @@ const TeacherDetail = () => {
       <div
         className={`flex lg:flex-row flex-col lg:items-start items-center w-full xl:gap-12 gap-8`}
       >
-        <div className={` lg:w-2/11 md:w-9/11 w-full `}>
+        <div className={`lg:w-2/11 md:w-9/11 w-full`}>
           <TeachersCard
             isFromDetail={true}
             fullName={TeachersDetail?.data?.fullName}
@@ -106,19 +115,23 @@ const TeacherDetail = () => {
             linkdinProfileLink={TeachersDetail?.data?.linkdinProfileLink}
           />
         </div>
-        <div className={` lg:w-9/11 w-full flex flex-col gap-7`}>
+        <div className={`lg:w-9/11 w-full flex flex-col gap-7`}>
           <div
-            className={` bg-default-light rounded-[15px] shadow-[0px_2px_5px_0_#000000]/15 dark:shadow-[0px_2px_5px_0_#ffffff]/15 p-3 flex items-center justify-between`}
+            className={`bg-default-light rounded-[15px] shadow-[0px_2px_5px_0_#000000]/15 dark:shadow-[0px_2px_5px_0_#ffffff]/15 p-3 flex items-center justify-between`}
           >
-            <div className={`flex items-center lg:gap-5.5 gap-4 `}>
+            <div className={`flex items-center lg:gap-5.5 gap-4`}>
               <div
-                className={` xl:w-130 lg:w-95 sm:w-85  flex justify-between border border-light-gray p-3 rounded-[15px]`}
+                className={`xl:w-130 lg:w-95 sm:w-85 flex justify-between border border-light-gray p-3 rounded-[15px]`}
               >
                 <input
                   type="text"
                   placeholder={t("teacherDetail.inputPlaceHolder")}
                   className={`text-base font-normal text-field-silver placeholder:text-field-silver outline-none w-8/10`}
-                  onChange={(event) => debouncedFn(event.target.value)}
+                  value={inputValue}
+                  onChange={(event) => {
+                    setInputValue(event.target.value);
+                    debouncedFn(event.target.value);
+                  }}
                 />
                 <Search
                   className={`w-0.5/10 ${lang === "en" ? "transform-[rotate(90deg)]" : "transform-[rotate(0deg)]"}`}
@@ -148,63 +161,55 @@ const TeacherDetail = () => {
             </div>
             <Button
               color={"searchBtn"}
-              className={`lg:w-[125px] lg:h-[46px] w-[90px] h-[45px] lg:text-[14px] md:text-[12px] text-default-light sm:block hidden `}
+              className={`lg:w-[125px] lg:h-[46px] w-[90px] h-[45px] lg:text-[14px] md:text-[12px] text-default-light sm:block hidden`}
             >
               {t("teacherDetail.searchBtn")}
             </Button>
           </div>
           <div
-            className={`w-full grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2  grid-cols-1 gap-8`}
+            className={`w-full grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8`}
           >
-            {currentPageData
-              ?.filter((value) => {
-                return debouncedSearch.toLowerCase() === ""
-                  ? value
-                  : value.title
-                      .toLowerCase()
-                      .includes(debouncedSearch.toLowerCase());
-              })
-              .map((value, index) => (
-                <Tilt key={index} tiltAxis={!view && "disable"}>
+            {currentPageData.map((value, index) => (
+              <Tilt key={index} tiltAxis={!view && "disable"}>
+                <div
+                  dir="rtl"
+                  className={`rounded-[20px] ${view ? null : `flex items-center gap-8 p-4`} bg-default-light relative overflow-hidden w-full transition-all shadow-[0px_4px_4px_0px_#000000]/0 hover:shadow-cards-hover`}
+                >
                   <div
-                    dir="rtl"
-                    className={`rounded-[20px] ${view ? null : `flex items-center gap-8 p-4`} bg-default-light relative overflow-hidden w-full transition-all shadow-[0px_4px_4px_0px_#000000]/0 hover:shadow-cards-hover`}
+                    onClick={() =>
+                      addFavoriteCourseMutate({ courseId: value.courseId })
+                    }
+                    className={`absolute z-10 ${view ? `right-4 top-4` : `lg:right-8 lg:top-8 top-9 right-5`} content-center bg-default-black/25 size-10 rounded-full cursor-pointer`}
                   >
-                    <div
-                      onClick={() =>
-                        addFavoriteCourseMutate({ courseId: value.courseId })
-                      }
-                      className={`absolute z-10 ${view ? `right-4 top-4` : `lg:right-8 lg:top-8 top-9 right-5`} content-center bg-default-black/25 size-10 rounded-full cursor-pointer`}
-                    >
-                      <FavoriteIcon isFavorite={false} className={`mx-auto`} />
-                    </div>
-                    <Link
-                      to={`/Courses/Detail/${value.courseId}/Review`}
-                      className={`rounded-[12px] group content-center block relative ${view ? `lg:h-60 sm:h-50 h-45` : `2xl:w-4/10 lg:w-3/10 w-4/10 2xl:h-40 lg:h-50 h-35 overflow-hidden`}`}
-                    >
-                      <ImageFallback
-                        src={value.imageAddress}
-                        fallback={course}
-                        className={`${!view ? `group-hover:transform-[scale(1)]` : `group-hover:transform-[scale(1.2)]`} transform-[scale(1.5)] size-full transition-all cursor-pointer mx-auto absolute inset-0 object-cover`}
-                      />
-                    </Link>
-                    <div
-                      className={`rounded-[20px] bg-default-light flex flex-col gap-7 relative ${view ? `p-4` : `2xl:w-6/10 w-7/10`}`}
-                    >
-                      <div className={`flex flex-col gap-2 text-default-black`}>
-                        <h3 className={`text-base font-bold truncate`}>
-                          {value.title}
-                        </h3>
-                        <p
-                          className={`text-[14px] font-normal h-10.5 line-clamp-2`}
-                        >
-                          {value.miniDescribe}
-                        </p>
-                      </div>
+                    <FavoriteIcon isFavorite={false} className={`mx-auto`} />
+                  </div>
+                  <Link
+                    to={`/Courses/Detail/${value.courseId}/Review`}
+                    className={`rounded-[12px] group content-center block relative ${view ? `lg:h-60 sm:h-50 h-45` : `2xl:w-4/10 lg:w-3/10 w-4/10 2xl:h-40 lg:h-50 h-35 overflow-hidden`}`}
+                  >
+                    <ImageFallback
+                      src={value.imageAddress}
+                      fallback={course}
+                      className={`${!view ? `group-hover:transform-[scale(1)]` : `group-hover:transform-[scale(1.2)]`} transform-[scale(1.5)] size-full transition-all cursor-pointer mx-auto absolute inset-0 object-cover`}
+                    />
+                  </Link>
+                  <div
+                    className={`rounded-[20px] bg-default-light flex flex-col gap-7 relative ${view ? `p-4` : `2xl:w-6/10 w-7/10`}`}
+                  >
+                    <div className={`flex flex-col gap-2 text-default-black`}>
+                      <h3 className={`text-base font-bold truncate`}>
+                        {value.title}
+                      </h3>
+                      <p
+                        className={`text-[14px] font-normal h-10.5 line-clamp-2`}
+                      >
+                        {value.miniDescribe}
+                      </p>
                     </div>
                   </div>
-                </Tilt>
-              ))}
+                </div>
+              </Tilt>
+            ))}
           </div>
           <PaginationComponents
             prevOnClick={() => {

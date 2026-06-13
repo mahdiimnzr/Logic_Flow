@@ -20,13 +20,20 @@ const TeachersInformation = () => {
   const [rowPageCount, setRowPageCount] = useState(12);
   const [whichPage, setWhichPage] = useState(1);
 
+  const displayData = useMemo(() => {
+    if (!Teachers?.data) return [];
+    if (debouncedSearch.trim() === "") return Teachers.data;
+    return Teachers.data.filter((value) =>
+      value.fullName.toLowerCase().includes(debouncedSearch.toLowerCase()),
+    );
+  }, [debouncedSearch, Teachers]);
+
   const pageCount = useMemo(
     () =>
-      Teachers?.data?.length
-        ? Math.ceil(Teachers?.data?.length / rowPageCount)
-        : 1,
-    [Teachers?.data?.length, rowPageCount],
+      displayData.length ? Math.ceil(displayData.length / rowPageCount) : 1,
+    [displayData.length, rowPageCount],
   );
+
   const pageArray = useMemo(() => {
     const pages = [];
     for (let index = 1; index <= pageCount; index++) pages.push(index);
@@ -34,10 +41,9 @@ const TeachersInformation = () => {
   }, [pageCount]);
 
   const currentPageData = useMemo(() => {
-    if (!Teachers) return [];
     const start = (whichPage - 1) * rowPageCount;
-    return Teachers.data.slice(start, start + rowPageCount);
-  }, [Teachers, whichPage, rowPageCount]);
+    return displayData.slice(start, start + rowPageCount);
+  }, [displayData, whichPage, rowPageCount]);
 
   const goToPage = (value) => {
     setWhichPage(value);
@@ -47,14 +53,16 @@ const TeachersInformation = () => {
   const debouncedFn = useMemo(() => {
     return debounce((value) => {
       setDebouncedSearch(value);
+      setWhichPage(1);
     }, 1000);
   }, []);
 
   useEffect(() => {
     refetch();
   }, []);
+
   return (
-    <div className={` flex flex-col gap-8.5 items-center`}>
+    <div className={`flex flex-col gap-8.5 items-center`}>
       <div className={`flex flex-col items-center gap-4`}>
         <div className={`flex items-center justify-center gap-1`}>
           <Link
@@ -67,7 +75,6 @@ const TeachersInformation = () => {
             className={`size-4 ${lang === "en" ? "transform-[rotate(180deg)]" : "transform-[rotate(0deg)]"}`}
             color="#008C78"
           />
-
           <Link className={`text-[14px] font-normal text-green-primary`}>
             {t("teachers.teacher")}
           </Link>
@@ -78,11 +85,11 @@ const TeachersInformation = () => {
       </div>
       <div className={`w-full flex flex-col gap-8`}>
         <div
-          className={` bg-default-light rounded-[15px] shadow-[0px_2px_5px_0_#000000]/15 dark:shadow-[0px_2px_5px_0_#ffffff]/15 p-3 flex items-center justify-between`}
+          className={`bg-default-light rounded-[15px] shadow-[0px_2px_5px_0_#000000]/15 dark:shadow-[0px_2px_5px_0_#ffffff]/15 p-3 flex items-center justify-between`}
         >
-          <div className={`flex items-center lg:gap-5.5 gap-4 `}>
+          <div className={`flex items-center lg:gap-5.5 gap-4`}>
             <div
-              className={` xl:w-162 lg:w-140 sm:w-118  flex justify-between border border-light-gray p-3 rounded-[15px]`}
+              className={`xl:w-162 lg:w-140 sm:w-118 flex justify-between border border-light-gray p-3 rounded-[15px]`}
             >
               <input
                 type="text"
@@ -120,33 +127,25 @@ const TeachersInformation = () => {
           </div>
           <Button
             color={"searchBtn"}
-            className={`lg:w-[125px] lg:h-[46px]  w-[90px] h-[45px] lg:text-[14px] md:text-[12px] text-default-light md:block hidden `}
+            className={`lg:w-[125px] lg:h-[46px] w-[90px] h-[45px] lg:text-[14px] md:text-[12px] text-default-light md:block hidden`}
           >
             {t("teachers.searchBtn")}
           </Button>
         </div>
       </div>
       <div
-        className={`w-full grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3  sm:grid-cols-2 grid-cols-1 gap-8`}
+        className={`w-full grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-8`}
       >
-        {currentPageData
-          ?.filter((value) => {
-            return debouncedSearch.toLowerCase() === ""
-              ? value
-              : value.fullName
-                  .toLowerCase()
-                  .includes(debouncedSearch.toLowerCase());
-          })
-          .map((value, index) => (
-            <TeachersCard
-              key={index}
-              fullName={value.fullName}
-              courseCounts={value.courseCounts}
-              teacherId={value.teacherId}
-              pictureAddress={value.pictureAddress}
-              linkdinProfileLink={value.linkdinProfileLink}
-            />
-          ))}
+        {currentPageData.map((value, index) => (
+          <TeachersCard
+            key={index}
+            fullName={value.fullName}
+            courseCounts={value.courseCounts}
+            teacherId={value.teacherId}
+            pictureAddress={value.pictureAddress}
+            linkdinProfileLink={value.linkdinProfileLink}
+          />
+        ))}
       </div>
       <PaginationComponents
         prevOnClick={() => {
