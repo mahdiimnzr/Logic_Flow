@@ -25,19 +25,15 @@ import * as Yup from "yup";
 import formDataConverter from "@/core/utils/formDataConvertor";
 
 const MapMarker = ({ position, setPosition, getLocationNameByLat }) => {
+  const map = useMap();
+  const isFirstRun = useRef(true);
+
   useMapEvents({
     click(e) {
       setPosition([e.latlng.lat, e.latlng.lng]);
       getLocationNameByLat({ lat: e.latlng.lat, lng: e.latlng.lng });
     },
   });
-
-  return position === null ? null : <Marker position={position} />;
-};
-
-const FlyToMarker = ({ position }) => {
-  const map = useMap();
-  const isFirstRun = useRef(true);
 
   useEffect(() => {
     if (!position) return;
@@ -46,11 +42,11 @@ const FlyToMarker = ({ position }) => {
       map.setView(position, map.getZoom());
       isFirstRun.current = false;
     } else {
-      map.flyTo(position, map.getZoom(), { animate: true, duration: 1.5 });
+      map.flyTo(position, map.getZoom(), { animate: true, duration: 0.5 });
     }
   }, [position]);
 
-  return null;
+  return position === null ? null : <Marker position={position} />;
 };
 
 const FormikSynCer = ({ addressValue, latitudeValue, longitudeValue }) => {
@@ -58,15 +54,9 @@ const FormikSynCer = ({ addressValue, latitudeValue, longitudeValue }) => {
 
   useEffect(() => {
     setFieldValue("HomeAdderess", addressValue ?? "");
-  }, [addressValue]);
-
-  useEffect(() => {
     setFieldValue("Latitude", latitudeValue ?? "");
-  }, [latitudeValue]);
-
-  useEffect(() => {
     setFieldValue("Longitude", longitudeValue ?? "");
-  }, [longitudeValue]);
+  }, [addressValue, latitudeValue, longitudeValue]);
 
   return null;
 };
@@ -401,14 +391,12 @@ const LocationInformation = () => {
                 setPosition={setPosition}
                 getLocationNameByLat={getLocationByLats}
               />
-              <FlyToMarker position={position} />
             </MapContainer>
           ) : (
             <div className="bg-field-silver rounded-[16px] p-0.5">
               <Skeleton className="w-full h-67.5 rounded-2xl" />
             </div>
           )}
-
           <Button color="panelBtn" className="h-12 w-34.5">
             {t("userPanel.changesInfo")}
           </Button>
