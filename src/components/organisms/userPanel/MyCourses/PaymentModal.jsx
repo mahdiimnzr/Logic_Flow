@@ -28,7 +28,7 @@ const PaymentModal = ({ isOpen, setIsOpen, props }) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const initialValue = {
-    callbackUrl: "http://localhost:5173/UserPanel/MyCourses",
+    callbackUrl: "https://logic-flow-ivory.vercel.app/UserPanel/MyCourses",
   };
   const authority = {
     Authority: searchParams.get("Authority"),

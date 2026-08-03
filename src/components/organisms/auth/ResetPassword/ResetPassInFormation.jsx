@@ -38,7 +38,8 @@ const ResetPassInFormation = () => {
     <Formik
       initialValues={{
         email: "",
-        baseUrl: "http://localhost:5173/Auth/ResetPassword/NewPassword",
+        baseUrl:
+          "https://logic-flow-ivory.vercel.app/Auth/ResetPassword/NewPassword",
       }}
       validationSchema={validationSchema}
       onSubmit={(values) => {
