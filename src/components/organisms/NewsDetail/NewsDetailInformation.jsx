@@ -206,7 +206,7 @@ const NewsDetailInformation = () => {
                 <ImageFallback
                   src={details?.data?.detailsNewsDto?.currentImageAddress}
                   fallback={imgCourseDetail}
-                  className={`w-full md:h-110 sm:h-90 sm:rounded-[25px] rounded-[20px]`}
+                  className={`w-full md:h-110 sm:h-90 sm:rounded-[25px] rounded-[20px] object-cover`}
                 />
               </div>
             )}
@@ -348,7 +348,7 @@ const NewsDetailInformation = () => {
                     <ImageFallback
                       src={details?.data?.detailsNewsDto?.currentImageAddress}
                       fallback={newsDetail}
-                      className={`2xl:w-25 h-24 rounded-[12px]`}
+                      className={`2xl:w-25 h-24 rounded-[12px] object-cover`}
                     />
                     <div className={`flex flex-col gap-2 w-full`}>
                       <span
@@ -397,7 +397,7 @@ const NewsDetailInformation = () => {
                 <ImageFallback
                   src={details?.data?.detailsNewsDto?.currentImageAddress}
                   fallback={imgCourseDetail}
-                  className={`w-full xl:h-140 lg:h-87 sm:rounded-[25px] rounded-[20px]`}
+                  className={`w-full xl:h-140 lg:h-87 sm:rounded-[25px] rounded-[20px] object-cover`}
                 />
               </div>
             )}

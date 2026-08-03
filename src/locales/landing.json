@@ -61,6 +61,13 @@
     "articlesSection": {
       "title": "News & Articles",
       "description": "Stay up to date with the latest programming news and articles"
+    },
+    "NotificationModal": {
+      "notifications": "Notifications",
+      "newNotifications": "New Notification",
+      "confirm": "Mark as Read",
+      "notFound": "No notifications found",
+      "notificationsPage": "Notifications Page"
     }
   },
   "fa": {
@@ -125,6 +132,13 @@
     "articlesSection": {
       "title": "اخبار و مقالات",
       "description": "با تازه‌ترین اخبار و مقالات برنامه‌نویسی به‌روز بمانید"
+    },
+    "NotificationModal": {
+      "notifications": "اعلان‌ها",
+      "newNotifications": "اعلان جدید",
+      "confirm": "تایید دیدن",
+      "notFound": "یافت نشد",
+      "notificationsPage": " صفحه اعلان ها"
     }
   }
 }

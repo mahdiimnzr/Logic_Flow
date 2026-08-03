@@ -10,7 +10,7 @@ import { useI18n } from "@/i18n/useI18n";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Form, Formik, useFormikContext } from "formik";
 import { toast } from "react-toastify";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import "leaflet/dist/leaflet.css";
 import {
@@ -23,6 +23,10 @@ import {
 import Button from "@/components/atoms/Buttons/Button";
 import * as Yup from "yup";
 import formDataConverter from "@/core/utils/formDataConvertor";
+import { TourProvider, useTour } from "@reactour/tour";
+import { useTourControl } from "@/components/molecules/TourStep/TourProvider";
+import { getTourStyles } from "@/components/molecules/TourStep/tourStyles";
+import ThemeContext from "@/app/context/ThemeContext";
 
 const MapMarker = ({ position, setPosition, getLocationNameByLat }) => {
   const map = useMap();
@@ -48,7 +52,6 @@ const MapMarker = ({ position, setPosition, getLocationNameByLat }) => {
 
   return position === null ? null : <Marker position={position} />;
 };
-
 const FormikSynCer = ({ addressValue, latitudeValue, longitudeValue }) => {
   const { setFieldValue } = useFormikContext();
 
@@ -60,7 +63,6 @@ const FormikSynCer = ({ addressValue, latitudeValue, longitudeValue }) => {
 
   return null;
 };
-
 const formatAddressFromProperties = (properties) => {
   if (!properties) return "";
   const parts = [
@@ -73,8 +75,9 @@ const formatAddressFromProperties = (properties) => {
   ];
   return parts.filter(Boolean).join(", ");
 };
-
-const LocationInformation = () => {
+const LocationInformationContent = () => {
+  const { openRef } = useTourControl();
+  const { setIsOpen, setSteps } = useTour();
   const { t } = useI18n();
   const queryClient = useQueryClient();
 
@@ -105,10 +108,22 @@ const LocationInformation = () => {
   const { isLoading, data: userDetail } = useGetUserDetail();
 
   const { mutate: updateUserInfoMutate } = useMutation({
-    mutationFn: updateProfileDetail,
+    mutationFn: (value) =>
+      toast.promise(updateProfileDetail(value), {
+        pending: "در حال بروزرسانی اطلاعات",
+        success: {
+          render({ data }) {
+            return data.data.message;
+          },
+        },
+        error: {
+          render({ data }) {
+            return data.data.message;
+          },
+        },
+      }),
     onSuccess: (result) => {
       if (result.data.success && result.status !== 400) {
-        toast.success(result.data.message);
         queryClient.invalidateQueries({ queryKey: ["UserDetail"] });
       } else {
         toast.error(result.data.message);
@@ -148,6 +163,16 @@ const LocationInformation = () => {
         setShowAddressSuggestions(false);
       },
     });
+
+  useEffect(() => {
+    openRef.current = setIsOpen;
+    setSteps([
+      {
+        selector: '[data-tour="step1"]',
+        content: t("userPanel.LocationInformation.step1"),
+      },
+    ]);
+  }, [t]);
 
   useEffect(() => {
     if (isLoading) return;
@@ -194,12 +219,11 @@ const LocationInformation = () => {
 
     if (!isUserTypingRef.current) return;
 
-    if (!addressValue || addressValue.trim().length < 3) {
+    if (!addressValue || addressValue.trim().length == 0) {
       setAddressSuggestions([]);
       setShowAddressSuggestions(false);
       return;
     }
-
     const timer = setTimeout(() => {
       searchAddressByText(addressValue);
     }, 500);
@@ -280,7 +304,7 @@ const LocationInformation = () => {
                   type="text"
                   name="HomeAdderess"
                   id="HomeAdderess"
-                  error={errors?.HomeAdderess}
+                  error={!addressValue && errors?.HomeAdderess}
                   lightTheme={true}
                   placeholder={t(
                     "userPanel.locationInformation.livingAddressPlaceHolder",
@@ -292,9 +316,9 @@ const LocationInformation = () => {
                   inputClassName={`sm:text-base! text-[14px]!`}
                 />
                 {showAddressSuggestions && (
-                  <div className="absolute left-0 right-0 top-full mt-2 z-20 bg-white border border-gray-200 rounded-2xl shadow-lg max-h-60 overflow-y-auto">
+                  <div className="absolute left-0 right-0 top-full mt-2 z-20 bg-background-default border border-light-gray rounded-2xl shadow-lg max-h-60 overflow-y-auto">
                     {isSearchingAddress && (
-                      <div className="px-4 py-3 text-sm text-gray-400">
+                      <div className="px-4 py-3 text-sm text-default-black">
                         {t("userPanel.locationInformation.searching")}
                       </div>
                     )}
@@ -307,7 +331,7 @@ const LocationInformation = () => {
                           <button
                             type="button"
                             key={`${label}-${index}`}
-                            className="w-full text-left px-4 py-3 text-sm hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-b-0"
+                            className="w-full text-left text-default-black px-4 py-3 text-sm hover:bg-light-gray transition-colors border-b border-light-gray last:border-b-0"
                             onClick={() =>
                               handleSelectAddressSuggestion(feature)
                             }
@@ -317,7 +341,7 @@ const LocationInformation = () => {
                         );
                       })}
                     {!isSearchingAddress && addressSuggestions.length === 0 && (
-                      <div className="px-4 py-3 text-sm text-gray-400">
+                      <div className="px-4 py-3 text-sm text-default-black">
                         {t("userPanel.locationInformation.noResults")}
                       </div>
                     )}
@@ -336,7 +360,7 @@ const LocationInformation = () => {
                   type="text"
                   name="Longitude"
                   id="Longitude"
-                  error={errors?.Longitude}
+                  error={!longitudeValue && errors?.Longitude}
                   lightTheme={true}
                   placeholder={t(
                     "userPanel.locationInformation.longitudePlaceHolder",
@@ -347,7 +371,6 @@ const LocationInformation = () => {
                   inputClassName={`sm:text-base! text-[14px]!`}
                 />
               </div>
-
               <div className="flex flex-col gap-4">
                 <span
                   className={`sm:text-base text-[14px] font-normal text-default-black`}
@@ -358,7 +381,7 @@ const LocationInformation = () => {
                   type="text"
                   name="Latitude"
                   id="Latitude"
-                  error={errors?.Latitude}
+                  error={!latitudeValue && errors?.Latitude}
                   lightTheme={true}
                   placeholder={t(
                     "userPanel.locationInformation.latitudePlaceHolder",
@@ -397,13 +420,23 @@ const LocationInformation = () => {
               <Skeleton className="w-full h-67.5 rounded-2xl" />
             </div>
           )}
-          <Button color="panelBtn" className="h-12 w-34.5">
-            {t("userPanel.changesInfo")}
-          </Button>
+          <div className={`w-fit`} data-tour="step1">
+            <Button color="panelBtn" className="h-12 w-34.5">
+              {t("userPanel.changesInfo")}
+            </Button>
+          </div>
         </Form>
       )}
     </Formik>
   );
 };
-
+const LocationInformation = () => {
+  const { theme } = useContext(ThemeContext);
+  const { lang } = useI18n();
+  return (
+    <TourProvider key={lang} steps={[]} styles={getTourStyles(theme)}>
+      <LocationInformationContent />
+    </TourProvider>
+  );
+};
 export default LocationInformation;

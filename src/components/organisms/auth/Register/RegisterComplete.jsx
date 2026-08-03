@@ -32,11 +32,11 @@ const RegisterComplete = ({ setPage, registerData }) => {
       .required("شماره موبایل وارد شده معتبر نیست!"),
     password: Yup.string()
       .trim()
-      .min(8, "رمز عبور حداقل باید تشکیل شده از 8 حروف باشد")
+      .min(6, "رمز عبور حداقل باید تشکیل شده از 8 حروف باشد")
       .required("رمز عبور وارد شده معتبر نیست!"),
     repeatPassword: Yup.string()
       .trim()
-      .min(8, "رمز عبور حداقل باید تشکیل شده از 8 حروف باشد")
+      .min(6, "رمز عبور حداقل باید تشکیل شده از 8 حروف باشد")
       .oneOf([Yup.ref("password")], "مقدار وارد شده با رمز عبور یکسان نمیباشد")
       .required("رمز عبور وارد شده معتبر نیست!"),
   });
@@ -66,9 +66,11 @@ const RegisterComplete = ({ setPage, registerData }) => {
                 }}
                 className={`flex gap-2 cursor-pointer `}
               >
-                <ArrowRightIcon className={`xl:size-6 sm:size-5 size-4`} />
+                <ArrowRightIcon
+                  className={`xl:size-6 sm:size-5 size-4 ${lang === "en" ? "transform-[rotate(180deg)]" : "transform-[rotate(0deg)]"}`}
+                />
                 <span
-                  className={`text-green-dark xl:text-base sm:text-[14px] text-[12px] font-bold`}
+                  className={`text-green-dark xl:text-base sm:text-[14px] text-[12px] font-bold `}
                 >
                   {t("auth.register.step3.backBtn")}
                 </span>

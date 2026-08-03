@@ -1,4 +1,5 @@
 import ThemeContext from "@/app/context/ThemeContext";
+import HandleIdentityEditorJs from "@/components/atoms/EditorJSFormat/EditorDetailValidation";
 import Person from "@/core/icons/Person";
 import TechnologyCardIcon from "@/core/icons/TechnologyCardIcon";
 import Time from "@/core/icons/Time";
@@ -78,25 +79,19 @@ const ReviewPage = () => {
               <span
                 className={`text-default-black 2xl:text-[18px] xl:text-base sm:text-[14px] text-base`}
               >
-                {Details?.data?.active === true
-                  ? t("courseDetail.active")
-                  : t("courseDetail.disabled")}
+                {Details?.data?.statusName}
               </span>
             </div>
           </div>
         </div>
       </div>
-      <div>
+      <div className="flex flex-col gap-2">
         <span
           className={`xl:text-[18px] text-base font-bold text-default-black`}
         >
           {t("courseDetail.describe")}
         </span>
-        <p
-          className={`text-field-silver xl:text-base text-[14px] font-normal leading-loose`}
-        >
-          {Details?.data?.describe}
-        </p>
+        <HandleIdentityEditorJs desc={Details?.data?.describe} />
       </div>
     </div>
   );

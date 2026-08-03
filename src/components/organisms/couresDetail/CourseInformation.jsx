@@ -196,9 +196,9 @@ const CourseInformation = () => {
               <Skeleton className={`w-50 h-4 rounded-[5px]`} />
             </div>
           ) : (
-            <Link className={`text-[14px] font-normal text-green-primary`}>
+            <p className={`text-[14px] font-normal text-green-primary`}>
               {Details?.data?.title}
-            </Link>
+            </p>
           )}
         </div>
         {isLoading ? (
@@ -242,7 +242,7 @@ const CourseInformation = () => {
               className={`flex sm:flex-row flex-col sm:items-center gap-5 sm:gap-0 justify-between`}
             >
               <div
-                className={`flex sm:justify-center justify-start items-center gap-2`}
+                className={`flex items-center lg:gap-2 gap-1 sm:w-7/10 w-full overflow-x-auto whitespace-nowrap`}
               >
                 {Details?.data?.courseTech.map((value, index) => (
                   <Badge
@@ -469,7 +469,7 @@ const CourseInformation = () => {
               <ImageFallback
                 src={Details?.data?.imageAddress}
                 fallback={teacherDetail1}
-                className={`2xl:size-68 size-42 rounded-full`}
+                className={`2xl:size-68 size-42 rounded-full object-cover`}
               />
               <div className={`text-center`}>
                 <p
@@ -517,7 +517,7 @@ const CourseInformation = () => {
                 <ImageFallback
                   src={Details?.data?.imageAddress}
                   fallback={imgCourseDetail}
-                  className={`w-full xl:h-140 lg:h-87 sm:rounded-[25px] rounded-[20px]`}
+                  className={`w-full xl:h-140 lg:h-87 sm:rounded-[25px] rounded-[20px] object-cover`}
                 />
               </div>
             )}
@@ -525,7 +525,7 @@ const CourseInformation = () => {
               className={`flex sm:flex-row flex-col sm:items-center gap-5 sm:gap-0 justify-between`}
             >
               <div
-                className={`flex sm:justify-center justify-start items-center lg:gap-2 gap-1`}
+                className={`flex items-center lg:gap-2 gap-1 w-7/10 overflow-x-auto whitespace-nowrap`}
               >
                 {Details?.data?.courseTech.map((value, index) => (
                   <Badge
@@ -658,7 +658,7 @@ const CourseInformation = () => {
                       view={true}
                       courseId={course.courseId}
                       title={course.title}
-                      describe={course.describe}
+                      miniDescribe={course.miniDescribe}
                       levelName={course.levelName}
                       teacherName={course.teacherName}
                       rate={course.courseRate.avg}

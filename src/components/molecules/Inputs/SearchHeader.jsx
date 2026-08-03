@@ -16,6 +16,7 @@ const SearchHeader = ({
   value,
   setValue,
   onValueChange,
+  searchValue,
 }) => {
   return (
     <div
@@ -26,8 +27,9 @@ const SearchHeader = ({
         placeholder={placeHolder}
         type="text"
         onChange={onChange}
+        value={searchValue}
       />
-      <div className={`flex items-center xl:gap-4 lg:gap-2`}>
+      <div className={`flex items-center xl:gap-4 gap-2`}>
         {haveSelect && (
           <SelectModal
             items={selectCategories}

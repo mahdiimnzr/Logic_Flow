@@ -1,16 +1,27 @@
 import deleteParams from "../../common/deleteParams";
 import postParams from "../../common/postParams";
+import putParams from "../../common/putParams";
 import useGetQuery from "../../common/useGetQuery";
 
-export const useGetCourseDetail = (id) =>
-  useGetQuery(`courseDetail${id}`, `Home/GetCourseDetails?CourseId=${id}`);
+export const useGetCourseDetail = (id, options = {}) =>
+  useGetQuery(
+    `courseDetail${id}`,
+    `Home/GetCourseDetails?CourseId=${id}`,
+    null,
+    options,
+  );
 export const useGetCourseReplyComment = (params, id) =>
   useGetQuery(
     `CourseReplyComment${id}`,
     `Course/GetCourseReplyCommnets/${params.CourseId}/${params.CommentId}`,
   );
-export const useGetCourseComments = (id) =>
-  useGetQuery(`courseComment${id}`, `Course/GetCourseCommnets/${id}`);
+export const useGetCourseComments = (id, options = {}) =>
+  useGetQuery(
+    `courseComment${id}`,
+    `Course/GetCourseCommnets/${id}`,
+    null,
+    options,
+  );
 export const postCourseLike = (id) =>
   postParams(`Course/AddCourseLike?CourseId=${id}`);
 export const postCourseDisSLike = (id) =>
@@ -40,3 +51,5 @@ export const postCourseRating = (params) =>
   postParams(
     `Course/SetCourseRating?CourseId=${params.courseId}&RateNumber=${params.rateNumber}`,
   );
+export const updateCourseComment = (body) =>
+  putParams("Course/UpdateCourseComment", body);

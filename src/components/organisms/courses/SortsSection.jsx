@@ -7,8 +7,8 @@ import { Copy, ListFilterPlus, Search, X } from "lucide-react";
 import Filters from "./Filters";
 import debounce from "debounce";
 import ThemeContext from "@/app/context/ThemeContext";
-import { useContext, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useCallback, useContext, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useI18n } from "@/i18n/useI18n";
 import View from "@/components/molecules/View/View";
 import Button from "@/components/atoms/Buttons/Button";
@@ -28,22 +28,67 @@ const SortsSection = ({
   const dispatch = useDispatch();
   const { theme } = useContext(ThemeContext);
   const [sortTypes, setSortTypes] = useState("expensive");
+  const [deleteFiltersShow, setDeleteFiltersShow] = useState(false);
 
   const setParams = (key, value) =>
     dispatch(updateParams({ key: [key], value: value }));
   const setFilters = (key, value) =>
     dispatch(updateFilters({ key: [key], value: value }));
+  const {
+    startDate,
+    startValue,
+    endDate,
+    endValue,
+    selectedLevel,
+    selectedTechnology,
+    priceRange,
+    selectedTypes,
+    selectedTeachers,
+    searchValue,
+  } = useSelector((state) => state.coursesSlice.filters);
 
+  const handleShowDeleteFilters = useCallback(() => {
+    if (
+      startDate == null &&
+      startValue == "" &&
+      endDate == null &&
+      endValue == "" &&
+      selectedLevel == null &&
+      selectedTechnology.length === 0 &&
+      priceRange[0] === 0 &&
+      priceRange[1] === 10000000 &&
+      selectedTypes == null &&
+      selectedTeachers == null &&
+      (searchValue == "" || searchValue == null)
+    ) {
+      setDeleteFiltersShow(false);
+    } else {
+      setDeleteFiltersShow(true);
+    }
+  }, [
+    startDate,
+    startValue,
+    endDate,
+    endValue,
+    selectedLevel,
+    selectedTechnology,
+    priceRange,
+    selectedTypes,
+    selectedTeachers,
+    searchValue,
+  ]);
   const handleDeleteFilters = () => {
     setFilters("startValue", "");
     setFilters("startDate", null);
     setFilters("endValue", "");
+    setFilters("endDate", null);
     setFilters("selectedLevel", null);
     setFilters("selectedTeachers", null);
     setFilters("selectedTechnology", []);
     setFilters("priceRange", [0, 10000000]);
     setFilters("selectedTypes", null);
     setFilters("selectedTeachers", null);
+    setFilters("searchValue", "");
     setSearchParams(() => {
       searchParams.delete("Query");
       searchParams.delete("StartDate");
@@ -72,6 +117,9 @@ const SortsSection = ({
     const search = value.trim() === "" ? null : value.trim();
     dispatch(updateParams({ key: "Query", value: search }));
   }, 1000);
+  useEffect(() => {
+    handleShowDeleteFilters();
+  }, [handleShowDeleteFilters]);
   return (
     <div
       className={`bg-default-light rounded-[15px] shadow-[0px_2px_5px_0_#000000]/15 dark:shadow-[0px_2px_5px_0_#ffffff]/15 sm:p-4 px-2 py-1 flex items-center justify-between`}
@@ -146,16 +194,18 @@ const SortsSection = ({
         >
           <Copy className={`hidden lg:block`} />
         </Button>
-        <Button
-          onClick={handleDeleteFilters}
-          color={"authBtn"}
-          className={`p-2 flex items-center justify-center gap-1`}
-        >
-          <p className={`hidden xl:block`}>
-            {t("courses.filters.deleteFilter")}
-          </p>
-          <X className={`hidden lg:block`} />
-        </Button>
+        {deleteFiltersShow && (
+          <Button
+            onClick={handleDeleteFilters}
+            color={"authBtn"}
+            className={`p-2 flex items-center justify-center gap-1`}
+          >
+            <p className={`hidden xl:block`}>
+              {t("courses.filters.deleteFilter")}
+            </p>
+            <X className={`hidden lg:block`} />
+          </Button>
+        )}
       </div>
       <View view={gridView} setView={setGridView} />
       <div className="block lg:hidden h-11">
@@ -201,13 +251,15 @@ const SortsSection = ({
                 >
                   <Copy />
                 </Button>
-                <Button
-                  onClick={handleDeleteFilters}
-                  color={"authBtn"}
-                  className={`p-2 flex items-center justify-center gap-1`}
-                >
-                  <X className={`block lg:hidden`} />
-                </Button>
+                {deleteFiltersShow && (
+                  <Button
+                    onClick={handleDeleteFilters}
+                    color={"authBtn"}
+                    className={`p-2 flex items-center justify-center gap-1`}
+                  >
+                    <X className={`block lg:hidden`} />
+                  </Button>
+                )}
               </span>
               <DrawerClose asChild>
                 <div

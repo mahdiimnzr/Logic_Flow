@@ -2,9 +2,20 @@ import {
   AllInformation,
   Dashboard,
   LocationInformation,
+  MyComments,
+  MyCourses,
+  MyFavorites,
+  MyPayments,
+  Notifications,
+  ReservedCourses,
+  SecuritySetting,
   SocialNetworkInformation,
   UserInformation,
+  MyTickets,
+  MyClasses,
+  MyHomeWorks,
 } from "@/components/organisms/userPanel";
+import TicketDetail from "@/components/organisms/userPanel/ticket/TicketDetail";
 import { UserPanelLayout } from "@/templates";
 import { Navigate } from "react-router-dom";
 
@@ -40,38 +51,48 @@ const panelRoute = [
         ],
       },
       {
+        path: "MyCourses",
+        element: <MyCourses />,
+      },
+      {
+        path: "ReservedCourses",
+        element: <ReservedCourses />,
+      },
+      {
+        path: "MyPayments",
+        element: <MyPayments />,
+      },
+      {
         path: "MyComments",
-        children: [
-          {
-            path: "",
-            element: <Navigate to="Course" />,
-          },
-          {
-            path: "Course",
-            element: <Dashboard />,
-          },
-          {
-            path: "Articles",
-            element: <Dashboard />,
-          },
-        ],
+        element: <MyComments />,
       },
       {
         path: "MyFavorite",
-        children: [
-          {
-            path: "",
-            element: <Navigate to="Course" />,
-          },
-          {
-            path: "Course",
-            element: <Dashboard />,
-          },
-          {
-            path: "Articles",
-            element: <Dashboard />,
-          },
-        ],
+        element: <MyFavorites />,
+      },
+      {
+        path: "Notifications",
+        element: <Notifications />,
+      },
+      {
+        path: "SecuritySetting",
+        element: <SecuritySetting />,
+      },
+      {
+        path: "MyClasses",
+        element: <MyClasses />,
+      },
+      {
+        path: "MyHomeWorks",
+        element: <MyHomeWorks />,
+      },
+      {
+        path: "MyTickets",
+        element: <MyTickets />,
+      },
+      {
+        path: "TicketDetail/:id",
+        element: <TicketDetail />,
       },
     ],
   },

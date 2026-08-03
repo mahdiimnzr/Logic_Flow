@@ -11,6 +11,9 @@ import userPanel from "../locales/userPanel.json";
 import teachers from "../locales/teachers.json";
 import teacherDetail from "../locales/teacherDetail.json";
 import contactUs from "../locales/contactUs.json";
+import ai from "../locales/ai.json";
+import compare from "../locales/compare.json";
+
 const translations = {
   en: {
     landing: landing.en,
@@ -26,6 +29,8 @@ const translations = {
     teachers: teachers.en,
     teacherDetail: teacherDetail.en,
     contactUs: contactUs.en,
+    ai: ai.en,
+    compare: compare.en,
   },
   fa: {
     landing: landing.fa,
@@ -41,6 +46,8 @@ const translations = {
     teachers: teachers.fa,
     teacherDetail: teacherDetail.fa,
     contactUs: contactUs.fa,
+    ai: ai.fa,
+    compare: compare.fa,
   },
 };
 

@@ -14,6 +14,7 @@ import {
 } from "@/core/services/api/newsDetails/newsDetails.service";
 import Comments from "./Comments";
 import { useI18n } from "@/i18n/useI18n";
+import { useGetUserDetail } from "@/core/services/api/userPanel/userPanel.service";
 
 const NewsComments = () => {
   const { t } = useI18n();
@@ -23,6 +24,7 @@ const NewsComments = () => {
   });
 
   const { id } = useParams();
+  const { data: userDetail } = useGetUserDetail();
   const { isLoading, data: newsComments, refetch } = useGetNewsComments(id);
   const queryClient = useQueryClient();
 
@@ -126,7 +128,7 @@ const NewsComments = () => {
                     author={value.userFullName}
                     commentId={value.id}
                     title={value.title}
-                    pictureAddress={value.userPicture}
+                    pictureAddress={value?.user?.currentPictureAddress}
                     describe={value.describe}
                     likeCount={value.likeCount}
                     disslikeCount={value.dissLikeCount}
@@ -134,6 +136,8 @@ const NewsComments = () => {
                     currentUserIsDissLike={value.currentUserIsDissLike}
                     currentUserIsLike={value.currentUserIsLike}
                     currentUserLikeId={value.currentUserLikeId}
+                    userId={value.userId}
+                    currentUserId={userDetail?.data.id}
                   />
                   {index !== newsComments?.data?.length - 1 && (
                     <Border
@@ -151,7 +155,7 @@ const NewsComments = () => {
                     author={value.userFullName}
                     commentId={value.id}
                     title={value.title}
-                    pictureAddress={value.userPicture}
+                    pictureAddress={value?.user?.currentPictureAddress}
                     describe={value.describe}
                     likeCount={value.likeCount}
                     disslikeCount={value.dissLikeCount}
@@ -159,6 +163,8 @@ const NewsComments = () => {
                     currentUserIsDissLike={value.currentUserIsDissLike}
                     currentUserIsLike={value.currentUserIsLike}
                     currentUserLikeId={value.currentUserLikeId}
+                    userId={value.userId}
+                    currentUserId={userDetail?.data.id}
                   />
                   {index !== newsComments?.data?.length - 1 && (
                     <Border

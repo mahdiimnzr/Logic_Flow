@@ -10,7 +10,10 @@ const ThemeButton = ({
 }) => {
   return (
     <div
-      onClick={() => setTheme(!theme)}
+      onClick={() => {
+        setTheme(!theme);
+        localStorage.setItem("theme", JSON.stringify(!theme));
+      }}
       className={`size-14 content-center rounded-full cursor-pointer ${!theme ? `bg-sun-background` : `bg-moon-background`} ${className}`}
     >
       {!theme && (

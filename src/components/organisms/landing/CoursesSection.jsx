@@ -127,7 +127,7 @@ const CoursesSection = () => {
                       view={true}
                       courseId={course.courseId}
                       title={course.title}
-                      describe={course.describe}
+                      miniDescribe={course.miniDescribe}
                       levelName={course.levelName}
                       teacherName={course.teacherName}
                       rate={course.courseRate.avg}

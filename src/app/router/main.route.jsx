@@ -1,5 +1,6 @@
 import {
   Articles,
+  Comparison,
   CourseDetail,
   Courses,
   Landing,
@@ -75,6 +76,10 @@ const mainRoute = [
       {
         path: "*",
         element: <NotFound />,
+      },
+      {
+        path: "/Comparison/:courseIdOne/:courseIdTwo",
+        element: <Comparison />,
       },
     ],
   },

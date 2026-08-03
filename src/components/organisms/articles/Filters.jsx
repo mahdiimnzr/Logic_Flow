@@ -8,7 +8,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useI18n } from "@/i18n/useI18n";
 import debounce from "debounce";
 import { Minus, Plus, Search } from "lucide-react";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SelectModal from "@/components/molecules/Select/Select";
 import { rowsOfPages, sortingTypes } from "@/core/constants/articlesSorting";
@@ -27,9 +27,8 @@ const Filters = ({
   const dispatch = useDispatch();
   const { theme } = useContext(ThemeContext);
 
-  const { selectedTechnology, isTechnologiesModalOpen } = useSelector(
-    (state) => state.articlesSlice.filters,
-  );
+  const { selectedTechnology, isTechnologiesModalOpen, searchValue } =
+    useSelector((state) => state.articlesSlice.filters);
 
   const setFilter = (key, value) =>
     dispatch(updateArticlesFilters({ key, value }));
@@ -39,10 +38,14 @@ const Filters = ({
   const { isLoading: technologiesLoading, data: technologies } =
     useGetArticlesTechnologies("NewsTechnologies");
 
-  const handleSearch = debounce((value) => {
-    const search = value.trim() === "" ? null : value.trim();
-    dispatch(updateArticlesParams({ key: "Query", value: search }));
-  }, 1000);
+  const handleSearch = useMemo(
+    () =>
+      debounce((value) => {
+        const search = value.trim() === "" ? null : value.trim();
+        dispatch(updateArticlesParams({ key: "Query", value: search }));
+      }, 1000),
+    [dispatch],
+  );
 
   useEffect(() => {
     !technologiesLoading &&
@@ -58,9 +61,9 @@ const Filters = ({
         value: searchParams.get("NewsCategoryId"),
       }),
     );
+    setFilter("searchValue", searchParams.get("Query"));
     setFilter("selectedTechnology", searchParams.get("NewsCategoryId"));
   }, [technologiesLoading]);
-  console.log(searchParams.get("NewsCategoryId"));
   return (
     <>
       {sortTypes !== undefined && (
@@ -139,7 +142,9 @@ const Filters = ({
           className={`text-base font-normal text-field-silver placeholder:text-field-silver outline-none w-9/10`}
           placeholder={t("articles.filters.searchPlaceHolder")}
           type="text"
+          value={searchValue}
           onChange={(event) => {
+            setFilter("searchValue", event.target.value);
             handleSearch(event.target.value);
             setSearchParams((params) => {
               event.target.value.trim !== "" &&
@@ -208,7 +213,7 @@ const Filters = ({
                     type="radio"
                     checked={selectedTechnology === value.id}
                     onChange={(event) => {
-                      setFilter("selectedLevel", value.id);
+                      setFilter("selectedTechnology", value.id);
                       const { checked } = event.target;
                       dispatch(
                         updateArticlesParams({

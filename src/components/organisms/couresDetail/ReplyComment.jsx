@@ -1,16 +1,25 @@
-import { ThumbsDown, ThumbsUp } from "lucide-react";
+import { Pencil, ThumbsDown, ThumbsUp } from "lucide-react";
 import teacherDetail3 from "../../../assets/images/teacherDetail3.png";
 import ImageFallback from "@/components/atoms/ImageFallBack/ImageFallBack";
 import formatDate from "@/core/utils/formatDate";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import ThemeContext from "@/app/context/ThemeContext";
 import {
   deleteCourseCommentLike,
   postCourseCommentDisSLike,
   postCourseCommentLike,
+  updateCourseComment,
 } from "@/core/services/api/CourseDetails/CourseDetails.service";
 import { toast } from "react-toastify";
+import { Form, Formik } from "formik";
+import FormInput from "@/components/molecules/Inputs/FormInput";
+import TextAreaInput from "@/components/molecules/Inputs/TextAreaInput";
+import Button from "@/components/atoms/Buttons/Button";
+import formDataConverter from "@/core/utils/formDataConvertor";
+import { useParams } from "react-router-dom";
+import { useI18n } from "@/i18n/useI18n";
+import * as Yup from "yup";
 
 const ReplyComment = ({
   author,
@@ -24,9 +33,19 @@ const ReplyComment = ({
   currentUserIsLike,
   currentUserIsDissLike,
   commentId,
+  userId,
+  currentUserId,
 }) => {
+  const { t } = useI18n();
   const queryClient = useQueryClient();
+  const { id } = useParams();
   const { theme } = useContext(ThemeContext);
+  const [isUpdateOpen, setIsUpdateOpen] = useState(false);
+
+  const validationSchema = Yup.object({
+    Title: Yup.string().required(t("courseDetail.inputsError")),
+    Describe: Yup.string().required(t("courseDetail.inputsError")),
+  });
 
   const { mutate: likeCommentMutate } = useMutation({
     mutationFn: postCourseCommentLike,
@@ -81,15 +100,29 @@ const ReplyComment = ({
       likeCommentMutate(CourseCommandId);
     }
   };
+
+  const { mutate: updateCommentCourse } = useMutation({
+    mutationFn: updateCourseComment,
+    onSuccess: (result) => {
+      if (result.data.success) {
+        toast.success(result.data.message);
+        setIsUpdateOpen(false);
+        queryClient.invalidateQueries({
+          queryKey: [`CourseReplyComment${parentCommentId}`],
+        });
+      } else {
+        toast.error(result.data.message);
+      }
+    },
+  });
   return (
-    <div className={`flex flex-col md:pr-12 pr-5`}>
+    <div className={`flex flex-col gap-4 md:pr-12 pr-5`}>
       <div className={`flex gap-4`}>
         <ImageFallback
           src={pictureAddress}
           fallback={teacherDetail3}
           className={`rounded-full md:size-14 sm:size-12 size-10`}
         />
-
         <div className={`flex flex-col gap-0.5`}>
           <p
             className={`text-default-black font-bold md:text-base text-[14px]`}
@@ -144,7 +177,56 @@ const ReplyComment = ({
             {likeCount}
           </span>
         </div>
+        {userId == currentUserId && (
+          <Pencil
+            width={"18"}
+            onClick={() => {
+              setIsUpdateOpen(!isUpdateOpen);
+            }}
+            color={!theme ? `#1e1e1e` : "#FFFFFF"}
+            className={`cursor-pointer`}
+          />
+        )}
       </div>
+      <Formik
+        initialValues={{
+          CommentId: commentId,
+          CourseId: id,
+          Title: title,
+          Describe: describe,
+        }}
+        validationSchema={validationSchema}
+        onSubmit={(values) => {
+          const formData = formDataConverter(values);
+          updateCommentCourse(formData);
+        }}
+      >
+        {({ errors }) => (
+          <Form
+            className={`flex flex-col self-center gap-4 pt-6 w-9/10  ${isUpdateOpen ? `block` : `hidden`}`}
+          >
+            <FormInput
+              isComment={true}
+              error={errors.Title}
+              name={"Title"}
+              type={"text"}
+              placeholder={t("courseDetail.commentTitlePlaceHolder")}
+              className={`h-12!`}
+              errorMessageClassName={`lg:text-[14px]! text-[12px]!`}
+            />
+            <TextAreaInput
+              name={"Describe"}
+              error={errors.Describe}
+              type={"text"}
+              placeholder={t("courseDetail.commentDescribePlaceHolder")}
+              fieldClassName={`xl:min-h-29.25! xl:max-h-35 lg:min-h-22.25! lg:max-h-30 min-h-20 max-h-25`}
+            />
+            <Button color={"authBtn"} className={`w-full py-3`}>
+              {t("courseDetail.updateComment")}
+            </Button>
+          </Form>
+        )}
+      </Formik>
     </div>
   );
 };

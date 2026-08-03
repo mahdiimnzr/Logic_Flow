@@ -1,7 +1,6 @@
 import PhoneContacts from "@/core/icons/PhoneContacts";
 import image from "../../../assets/images/contact .png";
-import { Formik } from "formik";
-import { Form } from "react-router-dom";
+import { Formik, Form } from "formik";
 import HumanIcon from "@/core/icons/HumanIcon";
 import FormInput from "@/components/molecules/Inputs/FormInput";
 import EmailIcon from "@/core/icons/EmailIcon";
@@ -10,8 +9,10 @@ import PhoneCantcats2 from "@/core/icons/PhoneCantcats2";
 import Messages from "@/core/icons/Messages";
 import Button from "@/components/atoms/Buttons/Button";
 import { useI18n } from "@/i18n/useI18n";
+
 const ContactUs = () => {
   const { t } = useI18n();
+
   return (
     <div className={` flex flex-col gap-13`}>
       <div className="relative">
@@ -39,8 +40,7 @@ const ContactUs = () => {
             <p
               className={`md:text-[36px] sm:text-[32px] text-[17px] text-default-black font-bold md:w-145 sm:w-125 w-75 `}
             >
-              {t("contactUs.title")}
-              شما{" "}
+              {t("contactUs.title")}{" "}
               <span className={`text-green-primary`}>
                 {" "}
                 {t("contactUs.spanTitle")}

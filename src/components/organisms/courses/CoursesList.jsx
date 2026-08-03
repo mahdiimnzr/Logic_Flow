@@ -2,7 +2,7 @@ import "rc-slider/assets/index.css";
 import { updateFilters, updateParams } from "@/app/store/actions";
 import Card from "@/components/molecules/Cards/Card";
 import PaginationComponents from "@/components/molecules/Pagination/Pagination";
-import { PaginationItem } from "@/components/ui/pagination";
+import { PaginationEllipsis, PaginationItem } from "@/components/ui/pagination";
 import { Skeleton } from "@/components/ui/skeleton";
 import useFavoriteCourses from "@/core/services/api/hooks/useFavoriteCourses";
 import useGetCourses from "@/core/services/api/hooks/useGetCourse";
@@ -10,7 +10,7 @@ import { useI18n } from "@/i18n/useI18n";
 import { ChevronLeft } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import Filters from "./Filters";
 import SortsSection from "./SortsSection";
 
@@ -19,23 +19,20 @@ const CoursesList = () => {
   const dispatch = useDispatch();
 
   const [searchParams, setSearchParams] = useSearchParams();
-
+  const [Compare, setCompare] = useState([]);
   const skeletonCount = new Array(8).fill("");
   const [whichPage, setWhichPage] = useState(1);
   const [rowPageCount, setRowPageCount] = useState(12);
   const [gridView, setGridView] = useState(true);
   const params = useSelector((state) => state.coursesSlice.params);
-
-  const { searchValue } = useSelector((state) => state.coursesSlice.filters);
+  const navigate = useNavigate();
 
   const setFilter = (key, value) => dispatch(updateFilters({ key, value }));
-
   const {
     isLoading,
     data: courses,
     refetch,
   } = useGetCourses("CoursesList", params);
-
   const { addFavoriteCourseMutate } = useFavoriteCourses();
 
   const pageCount = useMemo(
@@ -50,6 +47,38 @@ const CoursesList = () => {
     for (let index = 1; index <= pageCount; index++) pages.push(index);
     return pages;
   }, [pageCount]);
+
+  const visiblePages = useMemo(() => {
+    if (pageCount <= 4) {
+      const pages = [];
+      for (let i = 1; i <= pageCount; i++) {
+        pages.push(i);
+      }
+      return pages;
+    }
+
+    const pages = [];
+    pages.push(1);
+    if (whichPage > 3) {
+      pages.push("left-ellipsis");
+    }
+    const start = Math.max(2, whichPage - 1);
+    const end = Math.min(pageCount - 1, whichPage + 1);
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+    if (whichPage < pageCount - 2) {
+      pages.push("right-ellipsis");
+    }
+    pages.push(pageCount);
+
+    return pages;
+  }, [whichPage, pageCount]);
+
+  const goToPage = (value) => {
+    setWhichPage(value);
+    window.scroll(0, 0);
+  };
 
   useEffect(() => {
     window.onresize = () => {
@@ -68,7 +97,7 @@ const CoursesList = () => {
     refetch();
   }, [params]);
   useEffect(() => {
-    !isLoading && setFilter(searchValue, searchParams.get("Query"));
+    !isLoading && setFilter("searchValue", searchParams.get("Query"));
     dispatch(
       updateParams({
         key: "Query",
@@ -130,6 +159,18 @@ const CoursesList = () => {
       }),
     );
   }, [isLoading]);
+  useEffect(() => {
+    if (pageCount < whichPage) {
+      goToPage(1);
+      dispatch(updateParams({ key: "PageNumber", value: 1 }));
+    }
+  }, [pageCount, whichPage, dispatch]);
+
+  useEffect(() => {
+    if (Compare.length == 2) {
+      navigate(`/Comparison/${Compare[0]}/${Compare[1]}`);
+    }
+  }, [Compare]);
   return (
     <div className={`flex flex-col items-center lg:gap-32 md:gap-20 gap-10`}>
       <div className={`flex flex-col items-center gap-4`}>
@@ -207,7 +248,7 @@ const CoursesList = () => {
                   key={index}
                   courseId={course.courseId}
                   title={course.title}
-                  describe={course.describe}
+                  miniDescribe={course.miniDescribe}
                   levelName={course.levelName}
                   teacherName={course.teacherName}
                   rate={course.courseRate.avg}
@@ -216,45 +257,74 @@ const CoursesList = () => {
                   isCourseCard={true}
                   isFavorite={false}
                   handleAddFavoriteCourse={addFavoriteCourseMutate}
+                  onClick={() => {
+                    const foundedCourses = Compare?.find(
+                      (value) => value === course.courseId,
+                    );
+                    const value = () => {
+                      if (foundedCourses) {
+                        return Compare.filter(
+                          (value) => value != course.courseId,
+                        );
+                      } else {
+                        return [...Compare, course.courseId];
+                      }
+                    };
+                    setCompare(value);
+                  }}
+                  Compare={Compare}
                 />
               ))}
             </div>
           )}
           <PaginationComponents
+            length={pageArray.length}
             prevOnClick={() => {
               const firstPage = pageArray[0];
               whichPage !== firstPage &&
-                (setWhichPage(whichPage - 1),
+                (goToPage(whichPage - 1),
                 dispatch(
                   updateParams({ key: "PageNumber", value: whichPage - 1 }),
-                ),
-                window.scroll(0, 0));
+                ));
             }}
             nextOnClick={() => {
               const lastPage = pageArray[pageArray.length - 1];
               whichPage !== lastPage &&
-                (setWhichPage(whichPage + 1),
+                (goToPage(whichPage + 1),
                 dispatch(
                   updateParams({ key: "PageNumber", value: whichPage + 1 }),
-                ),
-                window.scroll(0, 0));
+                ));
             }}
           >
-            {pageArray?.map((value, index) => (
-              <PaginationItem
-                key={index}
-                onClick={() => {
-                  whichPage !== value &&
-                    (setWhichPage(value),
-                    dispatch(updateParams({ key: "PageNumber", value: value })),
-                    window.scroll(0, 0));
-                }}
-                className={`cursor-pointer sm:size-12.5 size-8 bg-light-gray sm:rounded-[15px] rounded-[10px] shadow-[0px_2px_5px_0px_#000000]/15 flex items-center justify-center sm:text-[18px] text-[14px] font-normal`}
-                isActive={whichPage !== value ? false : true}
-              >
-                {value}
-              </PaginationItem>
-            ))}
+            {visiblePages.map((item, index) => {
+              if (typeof item === "string") {
+                return (
+                  <PaginationItem key={item + index}>
+                    <PaginationEllipsis />
+                  </PaginationItem>
+                );
+              }
+
+              return (
+                <PaginationItem
+                  key={index}
+                  onClick={() => {
+                    whichPage !== item &&
+                      (goToPage(item),
+                      dispatch(
+                        updateParams({
+                          key: "PageNumber",
+                          value: item,
+                        }),
+                      ));
+                  }}
+                  className={`cursor-pointer sm:size-12.5 size-8 bg-light-gray sm:rounded-[15px] rounded-[10px] shadow-[0px_2px_5px_0px_#000000]/15 flex items-center justify-center sm:text-[18px] text-[14px] font-normal`}
+                  isActive={whichPage !== item ? false : true}
+                >
+                  {item}
+                </PaginationItem>
+              );
+            })}
           </PaginationComponents>
         </div>
       </div>

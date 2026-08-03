@@ -3,9 +3,13 @@ import notFoundIcon from "/404_green.png";
 import { useI18n } from "@/i18n/useI18n";
 import { ChevronLeft } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 const NotFound = () => {
   const { t, lang } = useI18n();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div
       className={`md:pb-30 pb-10 md:pt-30 pt-25 md:w-[95%] w-[90%] mx-auto flex flex-col items-center md:gap-20 gap-10`}
@@ -25,10 +29,14 @@ const NotFound = () => {
       <div className={`flex flex-col items-center md:gap-15 gap-5 text-center`}>
         <img className={`lg:w-162 md:w-100 w-50`} src={notFoundIcon} />
         <div className={`flex flex-col md:gap-5 gap-2 items-center`}>
-          <h5 className={`font-bold lg:text-[40px] md:text-[30px] text-[20px] text-default-black`}>
+          <h5
+            className={`font-bold lg:text-[40px] md:text-[30px] text-[20px] text-default-black`}
+          >
             {t("notFound.notFound")}
           </h5>
-          <p className={`font-bold lg:text-[40px] md:text-[30px] text-[20px] text-default-black`}>
+          <p
+            className={`font-bold lg:text-[40px] md:text-[30px] text-[20px] text-default-black`}
+          >
             {t("notFound.description")}
           </p>
         </div>

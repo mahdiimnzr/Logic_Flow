@@ -1,60 +1,79 @@
 @font-face {
-  font-family: IRANYekanXFaNum;
+  font-family: "IRANYekanXFaNum";
   font-style: normal;
   font-weight: 100;
+  font-display: swap;
   src: url("../fonts/IRANYekanXFaNum-Thin.woff") format("woff");
 }
+
 @font-face {
-  font-family: IRANYekanXFaNum;
+  font-family: "IRANYekanXFaNum";
   font-style: normal;
   font-weight: 200;
+  font-display: swap;
   src: url("../fonts/IRANYekanXFaNum-UltraLight.woff") format("woff");
 }
+
 @font-face {
-  font-family: IRANYekanXFaNum;
+  font-family: "IRANYekanXFaNum";
   font-style: normal;
   font-weight: 300;
+  font-display: swap;
   src: url("../fonts/IRANYekanXFaNum-Light.woff") format("woff");
 }
+
 @font-face {
-  font-family: IRANYekanXFaNum;
+  font-family: "IRANYekanXFaNum";
   font-style: normal;
   font-weight: 400;
+  font-display: swap;
   src: url("../fonts/IRANYekanXFaNum-Regular.woff") format("woff");
 }
+
 @font-face {
-  font-family: IRANYekanXFaNum;
+  font-family: "IRANYekanXFaNum";
   font-style: normal;
   font-weight: 500;
+  font-display: swap;
   src: url("../fonts/IRANYekanXFaNum-Medium.woff") format("woff");
 }
+
 @font-face {
-  font-family: IRANYekanXFaNum;
+  font-family: "IRANYekanXFaNum";
   font-style: normal;
   font-weight: 600;
+  font-display: swap;
   src: url("../fonts/IRANYekanXFaNum-DemiBold.woff") format("woff");
 }
+
 @font-face {
-  font-family: IRANYekanXFaNum;
+  font-family: "IRANYekanXFaNum";
   font-style: normal;
   font-weight: 700;
+  font-display: swap;
   src: url("../fonts/IRANYekanXFaNum-Bold.woff") format("woff");
 }
+
 @font-face {
-  font-family: IRANYekanXFaNum;
+  font-family: "IRANYekanXFaNum";
   font-style: normal;
   font-weight: 800;
+  font-display: swap;
   src: url("../fonts/IRANYekanXFaNum-ExtraBold.woff") format("woff");
 }
+
 @font-face {
-  font-family: IRANYekanXFaNum;
+  font-family: "IRANYekanXFaNum";
   font-style: normal;
   font-weight: 900;
+  font-display: swap;
   src: url("../fonts/IRANYekanXFaNum-Black.woff") format("woff");
 }
+
 @font-face {
-  font-family: IRANYekanXFaNum;
+  font-family: "IRANYekanXFaNum";
   font-style: normal;
   font-weight: 950;
+  font-display: swap;
   src: url("../fonts/IRANYekanXFaNum-ExtraBlack.woff") format("woff");
 }

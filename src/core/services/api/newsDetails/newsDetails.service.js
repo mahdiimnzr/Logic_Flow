@@ -1,5 +1,6 @@
 import deleteParams from "../../common/deleteParams";
 import postParams from "../../common/postParams";
+import putParams from "../../common/putParams";
 import useGetQuery from "../../common/useGetQuery";
 
 export const useGetNewsDetails = (id) =>
@@ -29,3 +30,5 @@ export const postNewsCommentLikeAndDisLike = (params) =>
   );
 export const deleteNewsCommentLike = (likeId) =>
   deleteParams(`News/DeleteCommentLikeNews`, likeId);
+export const updateNewsComment = (body) =>
+  putParams("News/UpdateNewsComment", body);

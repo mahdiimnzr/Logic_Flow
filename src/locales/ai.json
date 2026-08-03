@@ -1,0 +1,22 @@
+{
+  "en": {
+    "assistantGreeting": "Hello 👋 How can I help you?",
+    "aiAssistant": "AI Assistant",
+    "online": "Online",
+    "welcomeTitle": "Hello 👋",
+    "welcomeDescription1": "I am the website's intelligent assistant.",
+    "welcomeDescription2": "Ask me any question about programming.",
+    "errorMessage": "Error receiving response",
+    "inputPlaceholder": "Type your message..."
+  },
+  "fa": {
+    "assistantGreeting": "سلام 👋 چطور می‌توانم کمکت کنم؟",
+    "aiAssistant": "دستیار هوشمند",
+    "online": "آنلاین",
+    "welcomeTitle": "سلام 👋",
+    "welcomeDescription1": "من دستیار هوشمند سایت هستم.",
+    "welcomeDescription2": "هر سوالی درباره برنامه نویسی داشتی بپرس.",
+    "errorMessage": "خطا در دریافت پاسخ",
+    "inputPlaceholder": "پیام خود را بنویسید..."
+  }
+}

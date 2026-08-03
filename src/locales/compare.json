@@ -1,0 +1,38 @@
+{
+  "en": {
+    "compare": "Compare",
+    "compareCourses": "Compare Courses",
+    "feature": "Feature",
+    "teacher": "Teacher",
+    "price": "Price",
+    "courseLevel": "Course Level",
+    "status": "Status",
+    "capacity": "Capacity",
+    "students": "Students",
+    "rating": "Rating",
+    "likes": "Likes",
+    "dislikes": "Dislikes",
+    "startDate": "Start",
+    "endDate": "End",
+    "courseTechnologies": "Course Technologies",
+    "backToCourses": "Back to Courses"
+  },
+  "fa": {
+    "compare": "مقایسه",
+    "compareCourses": "مقایسه دوره‌ها",
+    "feature": "ویژگی",
+    "teacher": "مدرس",
+    "price": "قیمت",
+    "courseLevel": "سطح دوره",
+    "status": "وضعیت",
+    "capacity": "ظرفیت",
+    "students": "دانشجو",
+    "rating": "امتیاز",
+    "likes": "لایک",
+    "dislikes": "دیسلایک",
+    "startDate": "شروع",
+    "endDate": "پایان",
+    "courseTechnologies": "تکنولوژی‌های دوره",
+    "backToCourses": "بازگشت به دوره‌ها"
+  }
+}

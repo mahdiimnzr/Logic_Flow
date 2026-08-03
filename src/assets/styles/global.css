@@ -8,6 +8,7 @@ html {
   scroll-behavior: smooth;
   font-family: IRANYekanXFaNum;
 }
+
 html body[data-scroll-locked] {
   overflow: auto !important;
   margin-right: 0 !important;
@@ -15,10 +16,12 @@ html body[data-scroll-locked] {
   position: static !important;
   pointer-events: auto !important;
 }
+
 [data-radix-focus-guard] {
   display: none !important;
 }
-body > div[style*="position: fixed"][style*="inset: 0"] {
+
+body>div[style*="position: fixed"][style*="inset: 0"] {
   pointer-events: none !important;
 }
 
@@ -27,6 +30,7 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
 input[type="number"] {
   -moz-appearance: textfield;
 }
@@ -201,13 +205,56 @@ input[type="number"] {
   --sidebar-ring: oklch(0.708 0 0);
 }
 
+
+body.a11y-active *:focus-visible {
+  outline: 3px solid currentColor !important;
+  outline-offset: 4px;
+  border-radius: 4px;
+  transition: outline 0.1s ease-in-out;
+}
+
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+body.a11y-active p,
+body.a11y-active h1,
+body.a11y-active h2,
+body.a11y-active h3,
+body.a11y-active h4,
+body.a11y-active h5,
+body.a11y-active h6,
+body.a11y-active li,
+body.a11y-active span {
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+body.a11y-active p:hover,
+body.a11y-active h1:hover,
+body.a11y-active h2:hover,
+body.a11y-active h3:hover,
+body.a11y-active li:hover,
+body.a11y-active span:hover {
+    background-color: rgba(128, 128, 128, 0.15) !important;
+}
+
+.a11y-reading {
+    background-color: rgba(128, 128, 128, 0.2) !important;
+    border-right: 4px solid currentColor !important;
+    padding-right: 8px;
+    border-radius: 4px;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+
   html {
     @apply font-sans;
   }

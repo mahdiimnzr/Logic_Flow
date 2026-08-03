@@ -4,6 +4,7 @@ import DatePickerInput from "@/components/molecules/DatePicker/DatePicker";
 import CheckBox from "@/components/molecules/Inputs/CheckBox";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
+  getCourseFuzzySearch,
   useGetCoursesLevels,
   useGetCoursesTechnologies,
   useGetCoursesTypes,
@@ -14,12 +15,13 @@ import { useI18n } from "@/i18n/useI18n";
 import debounce from "debounce";
 import { Minus, Plus, Search } from "lucide-react";
 import Slider from "rc-slider";
-import { useContext, useEffect, useMemo } from "react";
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SelectModal from "@/components/molecules/Select/Select";
 import { rowsOfPages, sortingTypes } from "@/core/constants/courseSortings";
 import ThemeContext from "@/app/context/ThemeContext";
 import useGetTeachers from "@/core/services/api/hooks/useGetTeachers";
+import { useMutation } from "@tanstack/react-query";
 
 const Filters = ({
   sortTypes,
@@ -59,6 +61,11 @@ const Filters = ({
   const endDateObj = endDate ? new Date(endDate) : undefined;
   const endMonthObj = endMonth ? new Date(endMonth) : new Date();
 
+  const [fuzzySuggestions, setFuzzySuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+
+  const fuzzyWrapperRef = useRef(null);
+
   const skeletonCountCheckBox = new Array(3).fill("");
 
   const { isLoading: levelsLoading, data: levels } =
@@ -70,10 +77,37 @@ const Filters = ({
   const { isLoading: teachersLoading, data: teachers } =
     useGetTeachers("CourseTeachers");
 
-  const handleSearch = debounce((value) => {
-    const search = value.trim() === "" ? null : value.trim();
-    dispatch(updateParams({ key: "Query", value: search }));
-  }, 1000);
+  const { mutate: fuzzyMutate, isPending: isSearching } = useMutation({
+    mutationFn: (query) => getCourseFuzzySearch(query),
+    onSuccess: (response) => {
+      setFuzzySuggestions(response?.data?.data);
+      if (response?.data?.data.length > 0) {
+        setShowSuggestions(true);
+      } else {
+        setShowSuggestions(false);
+      }
+      if (response?.data?.success == false) {
+        setFuzzySuggestions([]);
+      }
+    },
+  });
+
+  const handleSearch = useMemo(
+    () =>
+      debounce((value) => {
+        const search = value.trim() === "" ? null : value.trim();
+        dispatch(updateParams({ key: "Query", value: search }));
+      }, 1000),
+    [dispatch],
+  );
+  const handleFuzzySearch = useMemo(
+    () =>
+      debounce((value) => {
+        const search = value.trim() === "" ? null : value.trim();
+        fuzzyMutate(search);
+      }, 1000),
+    [fuzzyMutate],
+  );
 
   const handlePrice = useMemo(
     () =>
@@ -86,7 +120,7 @@ const Filters = ({
   useEffect(() => {
     !levelsLoading &&
       !technologiesLoading &&
-      setFilter(searchValue, searchParams.get("Query"));
+      setFilter("searchValue", searchParams.get("Query"));
     setFilter("selectedLevel", searchParams.get("courseLevelId"));
     setFilter("selectedTypes", searchParams.get("CourseTypeId"));
     setFilter("selectedTeachers", searchParams.get("TeacherId"));
@@ -108,6 +142,19 @@ const Filters = ({
     setFilter("startValue", formatDate(searchParams.get("StartDate")));
     setFilter("endValue", formatDate(searchParams.get("EndDate")));
   }, [levelsLoading, technologiesLoading, typesLoading, teachersLoading]);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        fuzzyWrapperRef.current &&
+        !fuzzyWrapperRef.current.contains(event.target)
+      ) {
+        setShowSuggestions(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
   return (
     <>
       {sortTypes !== undefined && (
@@ -172,22 +219,54 @@ const Filters = ({
         </div>
       )}
       <div
-        className={`bg-default-light shadow-[0px_2px_5px_0px_#000000]/15 dark:shadow-[0px_2px_5px_0px_#ffffff]/15 rounded-[15px] py-4 px-2 lg:flex items-center justify-between hidden`}
+        ref={fuzzyWrapperRef}
+        className={`relative bg-default-light shadow-[0px_2px_5px_0px_#000000]/15 dark:shadow-[0px_2px_5px_0px_#ffffff]/15 rounded-[15px] py-4 px-2 lg:flex items-center justify-between hidden`}
       >
         <input
           className={`text-base font-normal text-field-silver placeholder:text-field-silver outline-none w-9/10`}
           placeholder={t("courses.filters.searchPlaceHolder")}
           type="text"
+          value={searchValue}
           onChange={(event) => {
-            handleSearch(event.target.value);
+            setFilter("searchValue", event.target.value);
             setSearchParams((params) => {
               event.target.value.trim !== "" &&
                 params.set("Query", event.target.value);
               event.target.value.trim() === "" && params.delete("Query");
               return params;
             });
+            handleFuzzySearch(event.target.value);
           }}
         />
+        {showSuggestions && (
+          <div className="absolute left-0 right-0 top-full mt-2 z-20 bg-background-default border border-light-gray rounded-2xl shadow-lg max-h-60 overflow-y-auto">
+            {isSearching && (
+              <div className="px-4 py-3 text-sm text-default-black">
+                {t("userPanel.locationInformation.searching")}
+              </div>
+            )}
+            {!isSearching &&
+              fuzzySuggestions?.map((value, index) => (
+                <button
+                  type="button"
+                  key={index}
+                  className="w-full text-left text-default-black px-4 py-3 text-sm hover:bg-light-gray transition-colors border-b border-light-gray last:border-b-0"
+                  onClick={() => {
+                    setFilter("searchValue", value?.item?.title);
+                    setShowSuggestions(false);
+                    handleSearch(value?.item?.title);
+                  }}
+                >
+                  {value?.item?.title}
+                </button>
+              ))}
+            {!isSearching && fuzzySuggestions.length === 0 && (
+              <div className="px-4 py-3 text-sm text-default-black">
+                {t("userPanel.locationInformation.noResults")}
+              </div>
+            )}
+          </div>
+        )}
         <Search
           className={`w-1/10 ${lang === "en" ? "transform-[rotate(90deg)]" : "transform-[rotate(0deg)]"}`}
           color="#848484"
@@ -418,13 +497,7 @@ const Filters = ({
                 ? types?.data?.slice(0, 3)?.map((value, index) => (
                     <CheckBox
                       key={index}
-                      label={
-                        value.typeName === "online"
-                          ? "آنلاین"
-                          : value.typeName === "online2"
-                            ? "حضوری"
-                            : value.typeName
-                      }
+                      label={value.typeName}
                       id="courseTypes"
                       labelId={`courseType${value.id}`}
                       type="radio"
@@ -450,13 +523,7 @@ const Filters = ({
               : types?.data?.map((value, index) => (
                   <CheckBox
                     key={index}
-                    label={
-                      value.typeName === "online"
-                        ? "آنلاین"
-                        : value.typeName === "online2"
-                          ? "حضوری"
-                          : value.typeName
-                    }
+                    label={value.typeName}
                     id="courseTypes"
                     labelId={`courseType${value.id}`}
                     type="radio"
@@ -757,7 +824,7 @@ const Filters = ({
           <Slider
             range
             min={0}
-            max={10000000}
+            max={100000000000}
             reverse={true}
             onChange={(value) => {
               setFilter("priceRange", value);

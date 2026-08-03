@@ -1,4 +1,3 @@
-import AccordionMultiple from "@/components/molecules/Accordion/Accordions";
 import CommentsIcon from "@/core/icons/CommentsIcon";
 import DashboardIcon from "@/core/icons/DashboardIcon";
 import FavoritePanelIcon from "@/core/icons/FavoritePanelIcon";
@@ -14,6 +13,7 @@ import { toast } from "react-toastify";
 import logo from "/logoIcon.png";
 import { useContext } from "react";
 import LoginContext from "@/app/context/LoginContext";
+import { Bell, NotebookPen, School, Ticket } from "lucide-react";
 
 const UserPanelSideBar = () => {
   const { setIsLogin } = useContext(LoginContext);
@@ -23,6 +23,7 @@ const UserPanelSideBar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("notifications");
     setIsLogin(false);
     toast.success("شما از حساب خود خارج شدید!");
     navigate("/");
@@ -159,174 +160,142 @@ const UserPanelSideBar = () => {
               {t("userPanel.myPayments")}
             </span>
           </NavLink>
-          <AccordionMultiple
-            defaultValue={false}
-            value={"myComments"}
-            className={`border-none!`}
-            trigger={
-              <NavLink
-                to={"/UserPanel/MyComments"}
-                className={`flex items-center gap-4 relative`}
-              >
-                {(pathname === "/UserPanel/MyComments/Course" ||
-                  pathname === "/UserPanel/MyComments/Articles") && (
-                  <div
-                    className={`2xl:h-11 h-10 xl:w-2 w-1.5 bg-green-primary absolute md:block hidden 2xl:-top-1.5 -top-2 ${lang === "en" ? `lg:-left-6 -left-4 rounded-r-[8px]` : `lg:-right-6 -right-4 rounded-l-[8px]`}`}
-                  ></div>
-                )}
-                <CommentsIcon
-                  color={
-                    pathname === "/UserPanel/MyComments/Course" ||
-                    pathname === "/UserPanel/MyComments/Articles"
-                      ? "#008C78"
-                      : "#848484"
-                  }
-                />
-                <span
-                  className={`2xl:text-[18px] lg:text-base text-[14px] ${
-                    pathname === "/UserPanel/MyComments/Course" ||
-                    pathname === "/UserPanel/MyComments/Articles"
-                      ? "font-semibold text-default-black"
-                      : "font-normal text-field-silver"
-                  }`}
-                >
-                  {t("userPanel.myComments")}
-                </span>
-              </NavLink>
-            }
-            triggerClassName={`hover:no-underline! p-0! items-center! cursor-pointer! text-field-silver! 2xl:text-[18px] lg:text-base text-[14px]! font-semibold! text-right!`}
+          <NavLink
+            to={"/UserPanel/MyComments"}
+            className={`flex items-center gap-4 relative`}
           >
-            <div className={`flex flex-col gap-4 mt-4`}>
-              <NavLink
-                to={"/UserPanel/MyComments/Course"}
-                className={`flex items-center gap-4 relative no-underline!`}
-              >
-                {pathname === "/UserPanel/MyComments/Course" && (
-                  <div
-                    className={`2xl:h-11 h-10 xl:w-2 w-1.5 bg-green-primary absolute md:block hidden 2xl:-top-1.5 -top-2 ${lang === "en" ? `lg:-left-6 -left-4 rounded-r-[8px]` : `lg:-right-6 -right-4 rounded-l-[8px]`}`}
-                  ></div>
-                )}
-                <div
-                  className={
-                    pathname === "/UserPanel/MyComments/Course"
-                      ? "size-3.5 border-2 border-green-primary rounded-full"
-                      : "size-3.5 border-2 border-field-silver rounded-full"
-                  }
-                />
-                <span
-                  className={`2xl:text-[18px] text-[14px] ${pathname !== "/UserPanel/MyComments/Course" ? "font-normal text-field-silver" : "font-semibold text-default-black"}`}
-                >
-                  {t("userPanel.courseComments")}
-                </span>
-              </NavLink>
-              <NavLink
-                to={"/UserPanel/MyComments/Articles"}
-                className={`flex items-center gap-4 relative no-underline!`}
-              >
-                {pathname === "/UserPanel/MyComments/Articles" && (
-                  <div
-                    className={`2xl:h-11 h-10 xl:w-2 w-1.5 bg-green-primary absolute md:block hidden 2xl:-top-1.5 -top-2 ${lang === "en" ? `lg:-left-6 -left-4 rounded-r-[8px]` : `lg:-right-6 -right-4 rounded-l-[8px]`}`}
-                  ></div>
-                )}
-                <div
-                  className={
-                    pathname === "/UserPanel/MyComments/Articles"
-                      ? "size-3.5 border-2 border-green-primary rounded-full"
-                      : "size-3.5 border-2 border-field-silver rounded-full"
-                  }
-                />
-                <span
-                  className={`2xl:text-[18px] text-[14px] ${pathname !== "/UserPanel/MyComments/Articles" ? "font-normal text-field-silver" : "font-semibold text-default-black"}`}
-                >
-                  {t("userPanel.articlesComments")}
-                </span>
-              </NavLink>
-            </div>
-          </AccordionMultiple>
-          <AccordionMultiple
-            defaultValue={false}
-            value={"myFavorites"}
-            className={`border-none!`}
-            trigger={
-              <NavLink
-                to={"/UserPanel/MyFavorite"}
-                className={`flex items-center gap-4 relative`}
-              >
-                {(pathname === "/UserPanel/MyFavorite/Course" ||
-                  pathname === "/UserPanel/MyFavorite/Articles") && (
-                  <div
-                    className={`2xl:h-11 h-10 xl:w-2 w-1.5 bg-green-primary absolute md:block hidden 2xl:-top-1.5 -top-2 ${lang === "en" ? `lg:-left-6 -left-4 rounded-r-[8px]` : `lg:-right-6 -right-4 rounded-l-[8px]`}`}
-                  ></div>
-                )}
-                <FavoritePanelIcon
-                  color={
-                    pathname === "/UserPanel/MyFavorite/Course" ||
-                    pathname === "/UserPanel/MyFavorite/Articles"
-                      ? "#008C78"
-                      : "#848484"
-                  }
-                />
-                <span
-                  className={`2xl:text-[18px] lg:text-base text-[14px] ${
-                    pathname === "/UserPanel/MyFavorite/Course" ||
-                    pathname === "/UserPanel/MyFavorite/Articles"
-                      ? "font-semibold text-default-black"
-                      : "font-normal text-field-silver"
-                  }`}
-                >
-                  {t("userPanel.myFavorite")}
-                </span>
-              </NavLink>
-            }
-            triggerClassName={`hover:no-underline! p-0! items-center! cursor-pointer! text-field-silver! 2xl:text-[18px] lg:text-base text-[14px]! font-semibold! text-right!`}
+            {pathname === "/UserPanel/MyComments" && (
+              <div
+                className={`2xl:h-11 h-10 xl:w-2 w-1.5 bg-green-primary absolute md:block hidden 2xl:-top-1.5 -top-2 ${lang === "en" ? `lg:-left-6 -left-4 rounded-r-[8px]` : `lg:-right-6 -right-4 rounded-l-[8px]`}`}
+              ></div>
+            )}
+            <CommentsIcon
+              color={
+                pathname === "/UserPanel/MyComments" ? "#008C78" : "#848484"
+              }
+            />
+            <span
+              className={`2xl:text-[18px] lg:text-base text-[14px] ${
+                pathname === "/UserPanel/MyComments"
+                  ? "font-semibold text-default-black"
+                  : "font-normal text-field-silver"
+              }`}
+            >
+              {t("userPanel.myComments")}
+            </span>
+          </NavLink>
+          <NavLink
+            to={"/UserPanel/MyFavorite"}
+            className={`flex items-center gap-4 relative`}
           >
-            <div className={`flex flex-col gap-4 mt-4`}>
-              <NavLink
-                to={"/UserPanel/MyFavorite/Course"}
-                className={`flex items-center gap-4 relative no-underline!`}
-              >
-                {pathname === "/UserPanel/MyFavorite/Course" && (
-                  <div
-                    className={`2xl:h-11 h-10 xl:w-2 w-1.5 bg-green-primary absolute md:block hidden 2xl:-top-1.5 -top-2 ${lang === "en" ? `lg:-left-6 -left-4 rounded-r-[8px]` : `lg:-right-6 -right-4 rounded-l-[8px]`}`}
-                  ></div>
-                )}
-                <div
-                  className={
-                    pathname === "/UserPanel/MyFavorite/Course"
-                      ? "size-3.5 border-2 border-green-primary rounded-full"
-                      : "size-3.5 border-2 border-field-silver rounded-full"
-                  }
-                />
-                <span
-                  className={`2xl:text-[18px] text-[14px] ${pathname !== "/UserPanel/MyFavorite/Course" ? "font-normal text-field-silver" : "font-semibold text-default-black"}`}
-                >
-                  {t("userPanel.coursesFavorite")}
-                </span>
-              </NavLink>
-              <NavLink
-                to={"/UserPanel/MyFavorite/Articles"}
-                className={`flex items-center gap-4 relative no-underline!`}
-              >
-                {pathname === "/UserPanel/MyFavorite/Articles" && (
-                  <div
-                    className={`2xl:h-11 h-10 xl:w-2 w-1.5 bg-green-primary absolute md:block hidden 2xl:-top-1.5 -top-2 ${lang === "en" ? `lg:-left-6 -left-4 rounded-r-[8px]` : `lg:-right-6 -right-4 rounded-l-[8px]`}`}
-                  ></div>
-                )}
-                <div
-                  className={
-                    pathname === "/UserPanel/MyFavorite/Articles"
-                      ? "size-3.5 border-2 border-green-primary rounded-full"
-                      : "size-3.5 border-2 border-field-silver rounded-full"
-                  }
-                />
-                <span
-                  className={`2xl:text-[18px] text-[14px] ${pathname !== "/UserPanel/MyFavorite/Articles" ? "font-normal text-field-silver" : "font-semibold text-default-black"}`}
-                >
-                  {t("userPanel.articlesFavorite")}
-                </span>
-              </NavLink>
-            </div>
-          </AccordionMultiple>
+            {pathname === "/UserPanel/MyFavorite" && (
+              <div
+                className={`2xl:h-11 h-10 xl:w-2 w-1.5 bg-green-primary absolute md:block hidden 2xl:-top-1.5 -top-2 ${lang === "en" ? `lg:-left-6 -left-4 rounded-r-[8px]` : `lg:-right-6 -right-4 rounded-l-[8px]`}`}
+              ></div>
+            )}
+            <FavoritePanelIcon
+              color={
+                pathname === "/UserPanel/MyFavorite" ? "#008C78" : "#848484"
+              }
+            />
+            <span
+              className={`2xl:text-[18px] lg:text-base text-[14px] ${
+                pathname === "/UserPanel/MyFavorite"
+                  ? "font-semibold text-default-black"
+                  : "font-normal text-field-silver"
+              }`}
+            >
+              {t("userPanel.myFavorite")}
+            </span>
+          </NavLink>
+          <NavLink
+            to={"/UserPanel/MyClasses"}
+            className={`flex items-center gap-4 relative`}
+          >
+            {pathname === "/UserPanel/MyClasses" && (
+              <div
+                className={`2xl:h-11 h-10 xl:w-2 w-1.5 bg-green-primary absolute md:block hidden 2xl:-top-1.5 -top-2 ${lang === "en" ? `lg:-left-6 -left-4 rounded-r-[8px]` : `lg:-right-6 -right-4 rounded-l-[8px]`}`}
+              ></div>
+            )}
+            <School
+              color={
+                pathname === "/UserPanel/MyClasses" ? "#008C78" : "#848484"
+              }
+            />
+            <span
+              className={`2xl:text-[18px] lg:text-base text-[14px] ${
+                pathname === "/UserPanel/MyClasses"
+                  ? "font-semibold text-default-black"
+                  : "font-normal text-field-silver"
+              }`}
+            >
+              {t("userPanel.myClasses")}
+            </span>
+          </NavLink>
+          <NavLink
+            to={"/UserPanel/MyHomeWorks"}
+            className={`flex items-center gap-4 relative`}
+          >
+            {pathname === "/UserPanel/MyHomeWorks" && (
+              <div
+                className={`2xl:h-11 h-10 xl:w-2 w-1.5 bg-green-primary absolute md:block hidden 2xl:-top-1.5 -top-2 ${lang === "en" ? `lg:-left-6 -left-4 rounded-r-[8px]` : `lg:-right-6 -right-4 rounded-l-[8px]`}`}
+              ></div>
+            )}
+            <NotebookPen
+              color={
+                pathname === "/UserPanel/MyHomeWorks" ? "#008C78" : "#848484"
+              }
+            />
+            <span
+              className={`2xl:text-[18px] lg:text-base text-[14px] ${
+                pathname === "/UserPanel/MyHomeWorks"
+                  ? "font-semibold text-default-black"
+                  : "font-normal text-field-silver"
+              }`}
+            >
+              {t("userPanel.myHomeWorks")}
+            </span>
+          </NavLink>
+          <NavLink
+            to={"/UserPanel/Notifications"}
+            className={`flex items-center gap-4 relative`}
+          >
+            {pathname === "/UserPanel/Notifications" && (
+              <div
+                className={`2xl:h-11 h-10 xl:w-2 w-1.5 bg-green-primary absolute md:block hidden 2xl:-top-1.5 -top-2 ${lang === "en" ? `lg:-left-6 -left-4 rounded-r-[8px]` : `lg:-right-6 -right-4 rounded-l-[8px]`}`}
+              ></div>
+            )}
+            <Bell
+              color={
+                pathname === "/UserPanel/Notifications" ? "#008C78" : "#848484"
+              }
+            />
+            <span
+              className={`2xl:text-[18px] lg:text-base text-[14px] ${pathname !== "/UserPanel/Notifications" ? "font-normal text-field-silver" : "font-semibold text-default-black"}`}
+            >
+              {t("userPanel.notifications.notifications")}
+            </span>
+          </NavLink>
+          <NavLink
+            to={"/UserPanel/MyTickets"}
+            className={`flex items-center gap-4 relative`}
+          >
+            {pathname === "/UserPanel/MyTickets" && (
+              <div
+                className={`2xl:h-11 h-10 xl:w-2 w-1.5 bg-green-primary absolute md:block hidden 2xl:-top-1.5 -top-2 ${lang === "en" ? `lg:-left-6 -left-4 rounded-r-[8px]` : `lg:-right-6 -right-4 rounded-l-[8px]`}`}
+              ></div>
+            )}
+            <Ticket
+              color={
+                pathname === "/UserPanel/MyTickets" ? "#008C78" : "#848484"
+              }
+            />
+            <span
+              className={`2xl:text-[18px] lg:text-base text-[14px] ${pathname !== "/UserPanel/MyTickets" ? "font-normal text-field-silver" : "font-semibold text-default-black"}`}
+            >
+              {t("userPanel.tickets.myTickets")}
+            </span>
+          </NavLink>
         </div>
       </div>
       <div className={`flex flex-col gap-4`}>

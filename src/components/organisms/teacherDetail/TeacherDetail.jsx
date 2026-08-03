@@ -15,15 +15,17 @@ import FavoriteIcon from "@/core/icons/FavoriteIcon";
 import ImageFallback from "@/components/atoms/ImageFallBack/ImageFallBack";
 import debounce from "debounce";
 import PaginationComponents from "@/components/molecules/Pagination/Pagination";
-import { PaginationItem } from "@/components/ui/pagination";
+import { PaginationEllipsis, PaginationItem } from "@/components/ui/pagination";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const TeacherDetail = () => {
   const { id } = useParams();
   const { t, lang } = useI18n();
+  const skeletonCount = new Array(8).fill("");
   const [view, setView] = useState(true);
   const { theme } = useContext(ThemeContext);
   const { addFavoriteCourseMutate } = useFavoriteCourse();
-  const { isLoading, data: TeachersDetail, refetch } = useGetTeachersDetail(id);
+  const { isLoading, data: TeachersDetail } = useGetTeachersDetail(id);
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [rowPageCount, setRowPageCount] = useState(12);
@@ -49,6 +51,33 @@ const TeacherDetail = () => {
     return pages;
   }, [pageCount]);
 
+  const visiblePages = useMemo(() => {
+    if (pageCount <= 4) {
+      const pages = [];
+      for (let i = 1; i <= pageCount; i++) {
+        pages.push(i);
+      }
+      return pages;
+    }
+
+    const pages = [];
+    pages.push(1);
+    if (whichPage > 3) {
+      pages.push("left-ellipsis");
+    }
+    const start = Math.max(2, whichPage - 1);
+    const end = Math.min(pageCount - 1, whichPage + 1);
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+    if (whichPage < pageCount - 2) {
+      pages.push("right-ellipsis");
+    }
+    pages.push(pageCount);
+
+    return pages;
+  }, [whichPage, pageCount]);
+
   const currentPageData = useMemo(() => {
     const start = (whichPage - 1) * rowPageCount;
     return displayData.slice(start, start + rowPageCount);
@@ -65,11 +94,12 @@ const TeacherDetail = () => {
     setWhichPage(value);
     window.scroll(0, 0);
   };
-
   useEffect(() => {
-    refetch();
-  }, []);
-
+    if (pageCount < whichPage) {
+      setWhichPage(1);
+      window.scroll(0, 0);
+    }
+  }, [pageCount, whichPage]);
   return (
     <div className={`flex flex-col gap-8.5 items-center`}>
       <div className={`flex flex-col items-center gap-4`}>
@@ -106,14 +136,25 @@ const TeacherDetail = () => {
         className={`flex lg:flex-row flex-col lg:items-start items-center w-full xl:gap-12 gap-8`}
       >
         <div className={`lg:w-2/11 md:w-9/11 w-full`}>
-          <TeachersCard
-            isFromDetail={true}
-            fullName={TeachersDetail?.data?.fullName}
-            courseCounts={TeachersDetail?.data?.courseCounts}
-            teacherId={TeachersDetail?.data?.teacherId}
-            pictureAddress={TeachersDetail?.data?.pictureAddress}
-            linkdinProfileLink={TeachersDetail?.data?.linkdinProfileLink}
-          />
+          {isLoading ? (
+            <div
+              dir="rtl"
+              className={`w-full p-5 flex flex-col items-center gap-5 rounded-[20px] bg-field-silver`}
+            >
+              <Skeleton className={`h-55 w-full`} />
+              <Skeleton className={`h-7 w-5/10`} />
+              <Skeleton className={`h-14 w-7/10`} />
+            </div>
+          ) : (
+            <TeachersCard
+              isFromDetail={true}
+              fullName={TeachersDetail?.data?.fullName}
+              courseCounts={TeachersDetail?.data?.courseCounts ?? 0}
+              teacherId={TeachersDetail?.data?.teacherId}
+              pictureAddress={TeachersDetail?.data?.pictureAddress}
+              linkdinProfileLink={TeachersDetail?.data?.linkdinProfileLink}
+            />
+          )}
         </div>
         <div className={`lg:w-9/11 w-full flex flex-col gap-7`}>
           <div
@@ -169,49 +210,74 @@ const TeacherDetail = () => {
           <div
             className={`w-full grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8`}
           >
-            {currentPageData.map((value, index) => (
-              <Tilt key={index} tiltAxis={!view && "disable"}>
-                <div
-                  dir="rtl"
-                  className={`rounded-[20px] ${view ? null : `flex items-center gap-8 p-4`} bg-default-light relative overflow-hidden w-full transition-all shadow-[0px_4px_4px_0px_#000000]/0 hover:shadow-cards-hover`}
-                >
+            {isLoading
+              ? skeletonCount?.map((_, index) => (
                   <div
-                    onClick={() =>
-                      addFavoriteCourseMutate({ courseId: value.courseId })
-                    }
-                    className={`absolute z-10 ${view ? `right-4 top-4` : `lg:right-8 lg:top-8 top-9 right-5`} content-center bg-default-black/25 size-10 rounded-full cursor-pointer`}
+                    key={index}
+                    dir="rtl"
+                    className={`w-full p-5 flex flex-col gap-5 rounded-[20px] bg-field-silver`}
                   >
-                    <FavoriteIcon isFavorite={false} className={`mx-auto`} />
+                    <Skeleton className={`h-55 w-full`} />
+                    <Skeleton className={`h-7 w-5/10`} />
+                    <Skeleton className={`h-14 w-7/10`} />
                   </div>
-                  <Link
-                    to={`/Courses/Detail/${value.courseId}/Review`}
-                    className={`rounded-[12px] group content-center block relative ${view ? `lg:h-60 sm:h-50 h-45` : `2xl:w-4/10 lg:w-3/10 w-4/10 2xl:h-40 lg:h-50 h-35 overflow-hidden`}`}
-                  >
-                    <ImageFallback
-                      src={value.imageAddress}
-                      fallback={course}
-                      className={`${!view ? `group-hover:transform-[scale(1)]` : `group-hover:transform-[scale(1.2)]`} transform-[scale(1.5)] size-full transition-all cursor-pointer mx-auto absolute inset-0 object-cover`}
-                    />
-                  </Link>
-                  <div
-                    className={`rounded-[20px] bg-default-light flex flex-col gap-7 relative ${view ? `p-4` : `2xl:w-6/10 w-7/10`}`}
-                  >
-                    <div className={`flex flex-col gap-2 text-default-black`}>
-                      <h3 className={`text-base font-bold truncate`}>
-                        {value.title}
-                      </h3>
-                      <p
-                        className={`text-[14px] font-normal h-10.5 line-clamp-2`}
+                ))
+              : currentPageData.map((value, index) => (
+                  <Tilt key={index} tiltAxis={!view && "disable"}>
+                    <div
+                      dir="rtl"
+                      className={`rounded-[20px] ${view ? null : `flex items-center gap-8 p-4`} bg-default-light relative overflow-hidden w-full transition-all shadow-[0px_4px_4px_0px_#000000]/0 hover:shadow-cards-hover`}
+                    >
+                      <div
+                        onClick={() =>
+                          addFavoriteCourseMutate({ courseId: value.courseId })
+                        }
+                        className={`absolute z-10 ${view ? `right-4 top-4` : `lg:right-8 lg:top-8 top-9 right-5`} content-center bg-default-black/25 size-10 rounded-full cursor-pointer`}
                       >
-                        {value.miniDescribe}
-                      </p>
+                        <FavoriteIcon
+                          isFavorite={false}
+                          className={`mx-auto`}
+                        />
+                      </div>
+                      <Link
+                        to={`/Courses/Detail/${value.courseId}/Review`}
+                        className={`rounded-[12px] group content-center block relative ${view ? `lg:h-60 sm:h-50 h-45` : `2xl:w-4/10 lg:w-3/10 w-4/10 2xl:h-40 lg:h-50 h-35 overflow-hidden`}`}
+                      >
+                        <ImageFallback
+                          src={value.imageAddress}
+                          fallback={course}
+                          className={`${!view ? `group-hover:transform-[scale(1)]` : `group-hover:transform-[scale(1.2)]`} transform-[scale(1.5)] size-full transition-all cursor-pointer mx-auto absolute inset-0 object-cover`}
+                        />
+                      </Link>
+                      <div
+                        className={`rounded-[20px] bg-default-light flex flex-col gap-7 relative ${view ? `p-4` : `2xl:w-6/10 w-7/10`}`}
+                      >
+                        <div
+                          className={`flex flex-col gap-2 text-default-black`}
+                        >
+                          <h3 className={`text-base font-bold truncate`}>
+                            {value.title}
+                          </h3>
+                          <p
+                            className={`text-[14px] font-normal h-10.5 line-clamp-2`}
+                          >
+                            {value.miniDescribe}
+                          </p>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              </Tilt>
-            ))}
+                  </Tilt>
+                ))}
           </div>
+          {currentPageData.length == 0 && (
+            <span
+              className={`text-[24px] font-semibold text-default-black text-center`}
+            >
+              {t("userPanel.dashboardSection.notFound")}
+            </span>
+          )}
           <PaginationComponents
+            length={pageArray.length}
             prevOnClick={() => {
               const firstPage = pageArray[0];
               whichPage !== firstPage && goToPage(whichPage - 1);
@@ -221,18 +287,26 @@ const TeacherDetail = () => {
               whichPage !== lastPage && goToPage(whichPage + 1);
             }}
           >
-            {pageArray?.map((value, index) => (
-              <PaginationItem
-                key={index}
-                onClick={() => {
-                  whichPage !== value && goToPage(value);
-                }}
-                className={`cursor-pointer sm:size-12.5 size-8 bg-light-gray sm:rounded-[15px] rounded-[10px] shadow-[0px_2px_5px_0px_#000000]/15 flex items-center justify-center sm:text-[18px] text-[14px] font-normal`}
-                isActive={whichPage === value}
-              >
-                {value}
-              </PaginationItem>
-            ))}
+            {visiblePages.map((item, index) => {
+              if (typeof item === "string") {
+                return (
+                  <PaginationItem key={item + index}>
+                    <PaginationEllipsis />
+                  </PaginationItem>
+                );
+              }
+
+              return (
+                <PaginationItem
+                  key={index}
+                  onClick={() => goToPage(item)}
+                  className={`cursor-pointer sm:size-12.5 size-8 bg-light-gray sm:rounded-[15px] rounded-[10px] shadow-[0px_2px_5px_0px_#000000]/15 flex items-center justify-center sm:text-[18px] text-[14px] font-normal`}
+                  isActive={whichPage !== item ? false : true}
+                >
+                  {item}
+                </PaginationItem>
+              );
+            })}
           </PaginationComponents>
         </div>
       </div>

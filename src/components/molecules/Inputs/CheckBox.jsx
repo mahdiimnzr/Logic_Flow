@@ -39,7 +39,7 @@ const CheckBox = ({
         {checked && <CheckIcon className="mx-auto" />}
       </div>
       <p
-        className={`text-default-black font-normal xl:text-[14px] text-[12px] cursor-pointer select-none`}
+        className={`text-default-black font-normal xl:text-[14px] text-[13px] cursor-pointer select-none`}
       >
         {label}
       </p>

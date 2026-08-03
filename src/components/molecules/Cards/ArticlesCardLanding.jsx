@@ -27,7 +27,7 @@ const ArticlesCardLanding = ({
         fallback={article}
       />
       <Link
-        to={`/Articles/Detail/${articleId}`}
+        to={`/Articles/Detail/${articleId}/Review`}
         className={`absolute z-10 bottom-0 right-0 bg-black/50 transition-all hover:bg-black/85 size-full cursor-pointer md:p-8 p-4 flex items-end`}
       >
         <div className={`w-full flex flex-col justify-end gap-3.5`}>

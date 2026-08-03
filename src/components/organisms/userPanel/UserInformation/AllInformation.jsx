@@ -21,13 +21,18 @@ import { toast } from "react-toastify";
 import formDataConverter from "@/core/utils/formDataConvertor";
 import LoadingSvg from "@/core/icons/LoadingSvg";
 import ImageControllerModal from "./ImageControllerModal";
+import { TourProvider, useTour } from "@reactour/tour";
+import { useTourControl } from "@/components/molecules/TourStep/TourProvider";
+import { getTourStyles } from "@/components/molecules/TourStep/tourStyles";
 
 const genderItems = [
   { id: 1, title: "مذکر", titleEn: "Man", name: "man" },
   { id: 2, title: "مونث", titleEn: "Woman", name: "woman" },
 ];
 
-const AllInformation = () => {
+const AllInformationContent = () => {
+  const { openRef } = useTourControl();
+  const { setIsOpen, setSteps } = useTour();
   const { t } = useI18n();
   const { theme } = useContext(ThemeContext);
   const queryClient = useQueryClient();
@@ -58,11 +63,23 @@ const AllInformation = () => {
 
   const { isLoading, data: userDetail } = useGetUserDetail();
   const { mutate: updateUserInfoMutate } = useMutation({
-    mutationFn: updateProfileDetail,
+    mutationFn: (value) =>
+      toast.promise(updateProfileDetail(value), {
+        pending: "در حال بروزرسانی اطلاعات",
+        success: {
+          render({ data }) {
+            return data.data.message;
+          },
+        },
+        error: {
+          render({ data }) {
+            return data.data.message;
+          },
+        },
+      }),
     onSuccess: (result) => {
       if (result.data.success) {
         if (result.status != 400) {
-          toast.success(result.data.message);
           queryClient.invalidateQueries({ queryKey: [`UserDetail`] });
         } else {
           toast.error(result.data.message);
@@ -72,6 +89,19 @@ const AllInformation = () => {
       }
     },
   });
+  useEffect(() => {
+    openRef.current = setIsOpen;
+    setSteps([
+      {
+        selector: '[data-tour="step1"]',
+        content: t("userPanel.AllInformation.step1"),
+      },
+      {
+        selector: '[data-tour="step2"]',
+        content: t("userPanel.AllInformation.step2"),
+      },
+    ]);
+  }, [t]);
 
   useEffect(() => {
     setBirthDate(userDetail?.data?.birthDay);
@@ -81,7 +111,10 @@ const AllInformation = () => {
     <LoadingSvg className={`h-full!`} />
   ) : (
     <div className={`flex flex-col gap-10.5`}>
-      <div className={`relative size-40.5 rounded-full self-center`}>
+      <div
+        className={`relative size-40.5 rounded-full self-center`}
+        data-tour="step1"
+      >
         {isLoading ? (
           <div className={`bg-field-silver p-0.5 rounded-full self-center`}>
             <Skeleton className={`size-40.5`} />
@@ -89,8 +122,8 @@ const AllInformation = () => {
         ) : (
           <ImageFallback
             className={`size-full rounded-full`}
-            fallback={userProfile}
             src={userDetail?.data?.currentPictureAddress}
+            fallback={userProfile}
           />
         )}
         <div
@@ -120,7 +153,6 @@ const AllInformation = () => {
           }
           const formValues = formDataConverter(values);
           updateUserInfoMutate(formValues);
-          console.log(formValues);
         }}
       >
         {({ errors, values, setFieldValue }) => {
@@ -236,7 +268,7 @@ const AllInformation = () => {
                     setBirthDate(date.toISOString());
                     setBirthValue(formatDate(date));
                   }}
-                  className={`bg-default-light! border-light-gray! sm:h-15! h-12!`}
+                  className={`bg-default-light! border-light-gray! sm:h-15! h-12! flex! justify-between!`}
                   captionLayout="dropdown"
                 />
                 <ErrorMessage
@@ -264,14 +296,26 @@ const AllInformation = () => {
                   )}
                 />
               </div>
-              <Button color={"panelBtn"} className={`h-12 w-34.5`}>
-                {t("userPanel.changes")}
-              </Button>
+              <div className={`w-fit`} data-tour="step2">
+                <Button color={"panelBtn"} className={`h-12 w-34.5`}>
+                  {t("userPanel.changes")}
+                </Button>
+              </div>
             </Form>
           );
         }}
       </Formik>
     </div>
+  );
+};
+
+const AllInformation = () => {
+  const { theme } = useContext(ThemeContext);
+  const { lang } = useI18n();
+  return (
+    <TourProvider key={lang} steps={[]} styles={getTourStyles(theme, lang)}>
+      <AllInformationContent />
+    </TourProvider>
   );
 };
 

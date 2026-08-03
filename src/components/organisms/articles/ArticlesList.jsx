@@ -1,7 +1,7 @@
 import "rc-slider/assets/index.css";
 import Card from "@/components/molecules/Cards/Card";
 import PaginationComponents from "@/components/molecules/Pagination/Pagination";
-import { PaginationItem } from "@/components/ui/pagination";
+import { PaginationEllipsis, PaginationItem } from "@/components/ui/pagination";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useI18n } from "@/i18n/useI18n";
 import { ChevronLeft } from "lucide-react";
@@ -45,7 +45,7 @@ const ArticlesList = () => {
   const pageCount = useMemo(
     () =>
       articles?.data?.totalCount
-        ? Math.ceil(articles?.data?.news?.length / rowPageCount)
+        ? Math.ceil(articles?.data?.totalCount / rowPageCount)
         : 1,
     [articles?.data?.totalCount, rowPageCount],
   );
@@ -54,6 +54,38 @@ const ArticlesList = () => {
     for (let index = 1; index <= pageCount; index++) pages.push(index);
     return pages;
   }, [pageCount]);
+
+  const visiblePages = useMemo(() => {
+    if (pageCount <= 4) {
+      const pages = [];
+      for (let i = 1; i <= pageCount; i++) {
+        pages.push(i);
+      }
+      return pages;
+    }
+
+    const pages = [];
+    pages.push(1);
+    if (whichPage > 3) {
+      pages.push("left-ellipsis");
+    }
+    const start = Math.max(2, whichPage - 1);
+    const end = Math.min(pageCount - 1, whichPage + 1);
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+    if (whichPage < pageCount - 2) {
+      pages.push("right-ellipsis");
+    }
+    pages.push(pageCount);
+
+    return pages;
+  }, [whichPage, pageCount]);
+
+  const goToPage = (value) => {
+    setWhichPage(value);
+    window.scroll(0, 0);
+  };
 
   useEffect(() => {
     window.onresize = () => {
@@ -80,6 +112,18 @@ const ArticlesList = () => {
       }),
     );
   }, [isLoading]);
+  useEffect(() => {
+    if (pageCount < whichPage) {
+      setWhichPage(1);
+      dispatch(
+        updateArticlesParams({
+          key: "PageNumber",
+          value: 1,
+        }),
+      );
+      window.scroll(0, 0);
+    }
+  }, [pageCount, whichPage, dispatch]);
   return (
     <div className={`flex flex-col items-center lg:gap-32 md:gap-20 gap-10`}>
       <div className={`flex flex-col items-center gap-4`}>
@@ -170,6 +214,7 @@ const ArticlesList = () => {
             </div>
           )}
           <PaginationComponents
+            length={pageArray.length}
             prevOnClick={() => {
               const firstPage = pageArray[0];
               whichPage !== firstPage &&
@@ -195,23 +240,36 @@ const ArticlesList = () => {
                 window.scroll(0, 0));
             }}
           >
-            {pageArray?.map((value, index) => (
-              <PaginationItem
-                key={index}
-                onClick={() => {
-                  whichPage !== value &&
-                    (setWhichPage(value),
-                    dispatch(
-                      updateArticlesParams({ key: "PageNumber", value: value }),
-                    ),
-                    window.scroll(0, 0));
-                }}
-                className={`cursor-pointer sm:size-12.5 size-8 bg-light-gray sm:rounded-[15px] rounded-[10px] shadow-[0px_2px_5px_0px_#000000]/15 flex items-center justify-center sm:text-[18px] text-[14px] font-normal`}
-                isActive={whichPage !== value ? false : true}
-              >
-                {value}
-              </PaginationItem>
-            ))}
+            {visiblePages.map((item, index) => {
+              if (typeof item === "string") {
+                return (
+                  <PaginationItem key={item + index}>
+                    <PaginationEllipsis />
+                  </PaginationItem>
+                );
+              }
+
+              return (
+                <PaginationItem
+                  key={index}
+                  onClick={() => {
+                    whichPage !== item &&
+                      (setWhichPage(item),
+                      dispatch(
+                        updateArticlesParams({
+                          key: "PageNumber",
+                          value: item,
+                        }),
+                      ),
+                      window.scroll(0, 0));
+                  }}
+                  className={`cursor-pointer sm:size-12.5 size-8 bg-light-gray sm:rounded-[15px] rounded-[10px] shadow-[0px_2px_5px_0px_#000000]/15 flex items-center justify-center sm:text-[18px] text-[14px] font-normal`}
+                  isActive={whichPage !== item ? false : true}
+                >
+                  {item}
+                </PaginationItem>
+              );
+            })}
           </PaginationComponents>
         </div>
       </div>

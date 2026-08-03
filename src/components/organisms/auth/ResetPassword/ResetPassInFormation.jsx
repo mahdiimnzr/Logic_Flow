@@ -16,14 +16,12 @@ import { useI18n } from "@/i18n/useI18n";
 
 const ResetPassInFormation = () => {
   const { t, lang, changeLang } = useI18n();
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { theme, setTheme } = useContext(ThemeContext);
   const handleSubmit = async (value) => {
     const response = await ResetPassInFormations(value);
     if (response.data.success) {
       toast.success(response.data.message);
-      navigate("/Auth/ResetPassword/NewPassword/000000");
       dispatch(updateResetPass(value.email));
       localStorage.setItem("email", JSON.stringify(value.email));
     } else {
@@ -40,7 +38,7 @@ const ResetPassInFormation = () => {
     <Formik
       initialValues={{
         email: "",
-        baseUrl: "https:/localhost:5173/Auth/ResetPassword/NewPassword/",
+        baseUrl: "http://localhost:5173/Auth/ResetPassword/NewPassword",
       }}
       validationSchema={validationSchema}
       onSubmit={(values) => {

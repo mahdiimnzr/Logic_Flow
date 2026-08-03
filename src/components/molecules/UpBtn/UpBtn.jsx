@@ -1,42 +1,50 @@
-import Border from "@/components/atoms/Border/Border";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useI18n } from "@/i18n/useI18n";
-import { ChevronsUp } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { ChevronUp } from "lucide-react";
+import { useEffect, useState } from "react";
 
 const UpBtn = () => {
-  const upBtnRef = useRef(null);
-  const { lang, changeLang } = useI18n();
+  const { lang, changeLang, t } = useI18n();
+  const [showScrollBtn, setShowScrollBtn] = useState(false);
+
   useEffect(() => {
-    document.onscroll = () => {
-      if (window.pageYOffset > 300) {
-        upBtnRef.current.style.height = "40px";
-        upBtnRef.current.style.opacity = "100";
-        upBtnRef.current.style.transform = "rotate(0deg)";
-      } else {
-        upBtnRef.current.style.height = "0px";
-        upBtnRef.current.style.opacity = "0";
-        upBtnRef.current.style.transform = "rotate(180deg)";
-      }
+    const handleScroll = () => {
+      setShowScrollBtn(window.pageYOffset > 300);
     };
-  });
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <div
       dir={lang === "en" ? "ltr" : "rtl"}
-      className={`fixed flex flex-col items-center gap-2 ${lang === "en" ? `left-5` : `right-5`} top-7/10 z-50 bg-transparent py-1 px-2 rounded `}
+      className={`fixed flex flex-col items-center gap-3 ${lang === "en" ? "left-6" : "right-6"} top-7/10 z-50`}
     >
       <div
-        ref={upBtnRef}
-        onClick={() => scroll(0, 0)}
-        className={`rounded-full border bg-green-primary border-green-primary w-10 h-0 opacity-0 mx-auto cursor-pointer content-center transition-all transform-[rotate(180deg)]`}
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        className={`w-12 h-12 rounded-2xl bg-green-primary hover:bg-green-primary/90 border border-green-primary/30 shadow-xl flex items-center justify-center cursor-pointer transition-all duration-300 active:scale-95 ${showScrollBtn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8 pointer-events-none"}`}
       >
-        <ChevronsUp className={`mx-auto size-6`} color="white" />
+        <ChevronUp className="size-7 text-white" />
       </div>
-      <div
-        onClick={() => (lang === "en" ? changeLang("fa") : changeLang("en"))}
-        className={`cursor-pointer size-10 rounded-full bg-green-primary content-center text-center text-white md:text-base text-[12px] font-bold border leading-10 border-green-primary`}
-      >
-        {lang === "en" ? "EN" : "FA"}
-      </div>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <div
+            onClick={() =>
+              lang === "en" ? changeLang("fa") : changeLang("en")
+            }
+            className="w-12 h-12 rounded-2xl bg-green-primary hover:bg-green-primary/90 border border-green-primary/30 shadow-xl flex items-center justify-center cursor-pointer transition-all duration-300 active:scale-95 text-white font-bold text-lg tracking-widest"
+          >
+            {lang === "en" ? "EN" : "FA"}
+          </div>
+        </TooltipTrigger>
+        <TooltipContent side="left">
+          <p>{t("userPanel.tooltip.language")}</p>
+        </TooltipContent>
+      </Tooltip>
     </div>
   );
 };

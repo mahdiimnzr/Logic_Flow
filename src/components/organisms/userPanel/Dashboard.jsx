@@ -6,7 +6,7 @@ import {
   useGetUserDetail,
 } from "@/core/services/api/userPanel/userPanel.service";
 import { useI18n } from "@/i18n/useI18n";
-import { useMemo } from "react";
+import { useContext, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
@@ -14,8 +14,14 @@ import ImageFallback from "@/components/atoms/ImageFallBack/ImageFallBack";
 import useGetArticles from "@/core/services/api/hooks/useGetArticles";
 import formatDate from "@/core/utils/formatDate";
 import fallback from "../../../assets/images/coursePng.png";
+import { TourProvider, useTour } from "@reactour/tour";
+import { useTourControl } from "@/components/molecules/TourStep/TourProvider";
+import ThemeContext from "@/app/context/ThemeContext";
+import { getTourStyles } from "@/components/molecules/TourStep/tourStyles";
 
-const Dashboard = () => {
+const DashboardContent = () => {
+  const { openRef } = useTourControl();
+  const { setIsOpen, setSteps } = useTour();
   const { t, lang } = useI18n();
   const { data: userDetail } = useGetUserDetail();
   const { isLoading: articlesLoading, data: articles } = useGetArticles(
@@ -42,11 +48,35 @@ const Dashboard = () => {
       ) ?? []
     );
   }, [courses]);
+
+  useEffect(() => {
+    openRef.current = setIsOpen;
+    setSteps([
+      {
+        selector: '[data-tour="step1"]',
+        content: t("userPanel.tourDashboard.step1"),
+      },
+      {
+        selector: '[data-tour="step2"]',
+        content: t("userPanel.tourDashboard.step2"),
+      },
+      {
+        selector: '[data-tour="step3"]',
+        content: t("userPanel.tourDashboard.step3"),
+      },
+    ]);
+  }, []);
+  useEffect(() => {
+    if (userDetail?.data?.profileCompletionPercentage == 53) {
+      openRef.current?.(true);
+    }
+  }, [userDetail?.data?.profileCompletionPercentage]);
   return (
     <div className={`flex flex-col 2xl:gap-8 gap-6`}>
       <div className={`grid xl:grid-cols-3 grid-cols-1 2xl:gap-8 gap-6`}>
         <div
           className={`md:px-6 md:py-4 px-4 py-2 flex flex-col 2xl:gap-4 gap-2 bg-default-light rounded-[20px]`}
+          data-tour="step3"
         >
           <div className={`flex items-center gap-4`}>
             <span
@@ -82,6 +112,7 @@ const Dashboard = () => {
         </div>
         <div
           className={`md:px-6 md:py-4 px-4 py-2 flex flex-col 2xl:gap-4 gap-2 bg-default-light rounded-[20px]`}
+          data-tour="step2"
         >
           <div className={`flex items-center gap-4`}>
             <span
@@ -113,6 +144,7 @@ const Dashboard = () => {
         </div>
         <div
           className={`md:px-6 md:py-4 px-4 py-2 flex md:flex-row flex-col justify-between gap-4 bg-default-light rounded-[20px]`}
+          data-tour="step1"
         >
           <div className={`flex gap-4`}>
             <span
@@ -120,7 +152,7 @@ const Dashboard = () => {
             >
               {t("userPanel.dashboardSection.profileCompleted")}
             </span>
-            <Link to={"/UserPanel/MyPayments"}>
+            <Link to={"/UserPanel/UserInformation"}>
               <ToLinkIcon
                 className={
                   lang === "en"
@@ -246,7 +278,7 @@ const Dashboard = () => {
             >
               {t("userPanel.dashboardSection.newArticles")}
             </span>
-            <Link to={"/UserPanel/ReservedCourses"}>
+            <Link to={"/Articles"}>
               <ToLinkIcon
                 className={
                   lang === "en"
@@ -306,5 +338,13 @@ const Dashboard = () => {
     </div>
   );
 };
-
+const Dashboard = () => {
+  const { theme } = useContext(ThemeContext);
+  const { lang } = useI18n();
+  return (
+    <TourProvider key={lang} steps={[]} styles={getTourStyles(theme, lang)}>
+      <DashboardContent />
+    </TourProvider>
+  );
+};
 export default Dashboard;

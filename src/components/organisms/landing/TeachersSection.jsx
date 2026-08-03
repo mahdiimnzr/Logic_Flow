@@ -6,56 +6,15 @@ import { Navigation } from "swiper/modules";
 import { Link } from "react-router-dom";
 import "swiper/css";
 import { useI18n } from "@/i18n/useI18n";
-
-const mockCourses = [
-  {
-    id: 1,
-    title: "دوره React",
-    level: "مقدماتی",
-    price: "۲۵۰,۰۰۰",
-    image: null,
-  },
-  {
-    id: 2,
-    title: "دوره Next.js",
-    level: "متوسط",
-    price: "۳۵۰,۰۰۰",
-    image: null,
-  },
-  {
-    id: 3,
-    title: "دوره TypeScript",
-    level: "پیشرفته",
-    price: "۴۰۰,۰۰۰",
-    image: null,
-  },
-  {
-    id: 4,
-    title: "دوره Tailwind",
-    level: "مقدماتی",
-    price: "۱۵۰,۰۰۰",
-    image: null,
-  },
-  {
-    id: 5,
-    title: "دوره Node.js",
-    level: "متوسط",
-    price: "۳۰۰,۰۰۰",
-    image: null,
-  },
-  {
-    id: 6,
-    title: "دوره MongoDB",
-    level: "متوسط",
-    price: "۲۸۰,۰۰۰",
-    image: null,
-  },
-];
+import { useGetTeachers } from "@/core/services/api/teachers/teacher.service";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const TeachersSection = () => {
+  const { isLoading, data: teachers } = useGetTeachers();
   const { t, lang } = useI18n();
   const prevRef = useRef(null);
   const nextRef = useRef(null);
+  const skeletonCount = new Array(4).fill("");
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
   return (
@@ -135,19 +94,36 @@ const TeachersSection = () => {
               setIsEnd(swiper.isEnd);
             }}
             onSwiper={(swiper) => {
-              setIsBeginning(swiper.isBeginning);
-              setIsEnd(swiper.isEnd);
+              if (!isLoading) {
+                setIsBeginning(swiper.isBeginning);
+                setIsEnd(swiper.isEnd);
+              }
             }}
             style={{ paddingBlock: "20px" }}
           >
-            {mockCourses.map((teachers, index) => (
-              <SwiperSlide key={index}>
-                <TeachersCard
-                  isCourseCard={true}
-                  pictureAddress={teachers.image}
-                />
-              </SwiperSlide>
-            ))}
+            {isLoading
+              ? skeletonCount?.map((value, index) => (
+                  <SwiperSlide key={index}>
+                    <div
+                      dir="rtl"
+                      className={`w-full p-5 flex flex-col gap-5 rounded-[20px] bg-field-silver`}
+                    >
+                      <Skeleton className={`h-55 w-full`} />
+                      <Skeleton className={`h-7 w-5/10`} />
+                    </div>
+                  </SwiperSlide>
+                ))
+              : teachers?.data?.map((value, index) => (
+                  <SwiperSlide key={index}>
+                    <TeachersCard
+                      fullName={value.fullName}
+                      courseCounts={value.courseCounts}
+                      teacherId={value.teacherId}
+                      pictureAddress={value.pictureAddress}
+                      linkdinProfileLink={value.linkdinProfileLink}
+                    />
+                  </SwiperSlide>
+                ))}
           </Swiper>
         </div>
       </div>

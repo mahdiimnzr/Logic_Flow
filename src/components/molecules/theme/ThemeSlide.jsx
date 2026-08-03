@@ -5,7 +5,10 @@ const ThemeSlide = ({ className, theme, setTheme }) => {
   return (
     <div
       dir="rtl"
-      onClick={() => setTheme(!theme)}
+      onClick={() => {
+        setTheme(!theme);
+        localStorage.setItem("theme", JSON.stringify(!theme));
+      }}
       className={`rounded-[50px] border relative ${!theme ? `bg-[#E0E0E0] border-star-yellow` : `bg-moon-background border-[#37474F]`} flex items-center justify-between xl:w-16 lg:w-14 w-12 xl:h-7 lg:h-6.5 h-6 px-1 cursor-pointer ${className}`}
     >
       <MoonIcon

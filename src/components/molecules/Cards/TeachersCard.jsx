@@ -27,7 +27,7 @@ const TeachersCard = (props) => {
           <ImageFallback
             src={pictureAddress}
             fallback={teacher}
-            className={`size-full ${isFromDetail ? "rounded-full " : "rounded-[20px]"}`}
+            className={`size-full ${isFromDetail ? "rounded-full " : "rounded-[20px]"} object-cover`}
           />
         </Link>
         <h3 className={`text-default-black sm:text-base text-[14px] font-bold`}>

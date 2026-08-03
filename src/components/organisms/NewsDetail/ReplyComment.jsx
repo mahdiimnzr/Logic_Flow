@@ -1,20 +1,27 @@
-import { ThumbsDown, ThumbsUp } from "lucide-react";
+import { Pencil, ThumbsDown, ThumbsUp } from "lucide-react";
 import teacherDetail3 from "../../../assets/images/teacherDetail3.png";
 import ImageFallback from "@/components/atoms/ImageFallBack/ImageFallBack";
 import formatDate from "@/core/utils/formatDate";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import ThemeContext from "@/app/context/ThemeContext";
 import { toast } from "react-toastify";
 import {
   deleteNewsCommentLike,
   postNewsCommentLikeAndDisLike,
+  updateNewsComment,
 } from "@/core/services/api/newsDetails/newsDetails.service";
+import { useParams } from "react-router-dom";
+import Button from "@/components/atoms/Buttons/Button";
+import TextAreaInput from "@/components/molecules/Inputs/TextAreaInput";
+import FormInput from "@/components/molecules/Inputs/FormInput";
+import { Form, Formik } from "formik";
+import { useI18n } from "@/i18n/useI18n";
+import * as Yup from "yup";
 
 const ReplyComment = ({
   author,
   parentCommentId,
-  pictureAddress,
   insertDate,
   title,
   describe,
@@ -24,9 +31,18 @@ const ReplyComment = ({
   currentUserIsDissLike,
   currentUserLikeId,
   commentId,
+  userId,
+  currentUserId,
 }) => {
   const queryClient = useQueryClient();
   const { theme } = useContext(ThemeContext);
+  const { id } = useParams();
+  const [isUpdateOpen, setIsUpdateOpen] = useState(false);
+  const { t } = useI18n();
+  const validationSchema = Yup.object({
+    title: Yup.string().required(t("newsDetail.inputsError")),
+    describe: Yup.string().required(t("newsDetail.inputsError")),
+  });
 
   const { mutate: likeCommentMutate } = useMutation({
     mutationFn: postNewsCommentLikeAndDisLike,
@@ -94,11 +110,24 @@ const ReplyComment = ({
       });
     }
   };
+  const { mutate: updateCommentNews } = useMutation({
+    mutationFn: updateNewsComment,
+    onSuccess: (result) => {
+      if (result.data.success) {
+        toast.success(result.data.message);
+        setIsUpdateOpen(false);
+        queryClient.invalidateQueries({
+          queryKey: [`NewsReplyComment${parentCommentId}`],
+        });
+      } else {
+        toast.error(result.data.message);
+      }
+    },
+  });
   return (
     <div className={`flex flex-col md:pr-12 pr-5`}>
       <div className={`flex gap-4`}>
         <ImageFallback
-          src={pictureAddress}
           fallback={teacherDetail3}
           className={`rounded-full md:size-14 sm:size-12 size-10`}
         />
@@ -164,7 +193,56 @@ const ReplyComment = ({
             {likeCount}
           </span>
         </div>
+        {userId == currentUserId && (
+          <Pencil
+            width={"18"}
+            onClick={() => {
+              setIsUpdateOpen(!isUpdateOpen);
+            }}
+            color={!theme ? `#1e1e1e` : "#FFFFFF"}
+            className={`cursor-pointer`}
+          />
+        )}
       </div>
+      <Formik
+        initialValues={{
+          id: commentId,
+          newsId: id,
+          title: title,
+          describe: describe,
+          accept: true,
+        }}
+        validationSchema={validationSchema}
+        onSubmit={(values) => {
+          updateCommentNews(values);
+        }}
+      >
+        {({ errors }) => (
+          <Form
+            className={`flex flex-col self-center gap-4 pt-6 w-9/10  ${isUpdateOpen ? `block` : `hidden`}`}
+          >
+            <FormInput
+              isComment={true}
+              error={errors.title}
+              name={"title"}
+              type={"text"}
+              placeholder={t("newsDetail.commentTitlePlaceHolder")}
+              className={`h-10!`}
+              errorMessageClassName={`lg:text-[14px]! text-[12px]!`}
+            />
+            <TextAreaInput
+              name={"describe"}
+              error={errors.describe}
+              type={"text"}
+              placeholder={t("newsDetail.commentDescribePlaceHolder")}
+              fieldClassName={`xl:min-h-29.25! xl:max-h-35 lg:min-h-22.25! lg:max-h-30 min-h-20 max-h-25`}
+            />
+            <Button color={"authBtn"} className={`w-full py-3`}>
+              {t("courseDetail.updateComment")}
+            </Button>
+          </Form>
+        )}
+      </Formik>
     </div>
   );
 };

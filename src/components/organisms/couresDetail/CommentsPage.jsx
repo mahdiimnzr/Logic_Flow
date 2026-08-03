@@ -6,7 +6,7 @@ import {
   postAddCommentCourse,
   useGetCourseComments,
 } from "@/core/services/api/CourseDetails/CourseDetails.service";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
@@ -15,6 +15,7 @@ import formDataConverter from "@/core/utils/formDataConvertor";
 import Border from "@/components/atoms/Border/Border";
 import Comments from "./Comments";
 import { useI18n } from "@/i18n/useI18n";
+import { useGetUserDetail } from "@/core/services/api/userPanel/userPanel.service";
 
 const CommentsPage = () => {
   const { t } = useI18n();
@@ -25,6 +26,7 @@ const CommentsPage = () => {
   });
 
   const { id } = useParams();
+  const { data: userDetail } = useGetUserDetail();
   const { isLoading, data: CourseComments, refetch } = useGetCourseComments(id);
   const queryClient = useQueryClient();
 
@@ -34,7 +36,7 @@ const CommentsPage = () => {
     mutationFn: postAddCommentCourse,
     onSuccess: (result) => {
       if (result.data.success) {
-        toast.success(result.data.message);
+        toast.success("دیدگاه شما پس از تایید توسط ادمین نمایش داده خواهد شد!");
         queryClient.invalidateQueries({ queryKey: [`courseComment${id}`] });
       } else {
         toast.error(result.data.message);
@@ -122,7 +124,7 @@ const CommentsPage = () => {
           <div className={`flex flex-col xl:gap-4 gap-3`}>
             {!isLoading && CourseComments?.data?.length > 3 && !isCommentOpen
               ? CourseComments?.data?.slice(0, 3)?.map((value, index) => (
-                  <>
+                  <Fragment key={index}>
                     <Comments
                       key={index}
                       author={value.author}
@@ -135,6 +137,8 @@ const CommentsPage = () => {
                       insertDate={value.insertDate}
                       currentUserIsDissLike={value.currentUserIsDissLike}
                       currentUserIsLike={value.currentUserIsLike}
+                      userId={value.userId}
+                      currentUserId={userDetail?.data.id}
                     />
                     {index !== CourseComments?.data?.length - 1 && (
                       <Border
@@ -143,10 +147,10 @@ const CommentsPage = () => {
                         backgroundColor="bg-light-gray"
                       />
                     )}
-                  </>
+                  </Fragment>
                 ))
               : CourseComments?.data?.map((value, index) => (
-                  <>
+                  <Fragment key={index}>
                     <Comments
                       key={index}
                       author={value.author}
@@ -159,6 +163,8 @@ const CommentsPage = () => {
                       insertDate={value.insertDate}
                       currentUserIsDissLike={value.currentUserIsDissLike}
                       currentUserIsLike={value.currentUserIsLike}
+                      userId={value.userId}
+                      currentUserId={userDetail?.data.id}
                     />
                     {index !== CourseComments?.data?.length - 1 && (
                       <Border
@@ -167,7 +173,7 @@ const CommentsPage = () => {
                         backgroundColor="bg-light-gray"
                       />
                     )}
-                  </>
+                  </Fragment>
                 ))}
           </div>
         )}

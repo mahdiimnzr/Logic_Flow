@@ -9,11 +9,16 @@ import { verifyCodeLogin } from "@/core/services/api/auth/auth.service";
 import { toast } from "react-toastify";
 import { useI18n } from "@/i18n/useI18n";
 import LoginContext from "@/app/context/LoginContext";
+import ThemeSlide from "@/components/molecules/theme/ThemeSlide";
+import ThemeContext from "@/app/context/ThemeContext";
+import Timer from "@/components/atoms/Timer/Timer";
 
 const Step2 = ({ SignUpParams, setWhichStep }) => {
-  const { t } = useI18n();
+  const { t, lang, changeLang } = useI18n();
+  const { theme, setTheme } = useContext(ThemeContext);
   const navigate = useNavigate();
   const otp = new Array(6).fill("");
+  const [timer, setTimer] = useState(120);
   const [otpValue, setOtpValue] = useState("");
   const { setIsLogin } = useContext(LoginContext);
   const handleSubmit = async (value) => {
@@ -51,33 +56,50 @@ const Step2 = ({ SignUpParams, setWhichStep }) => {
         return (
           <Form>
             <div
-              className={`flex flex-col xl:gap-15 gap-5 xl:pt-27.75 lg:pt-21.75 md:pt-17.75 pt-10`}
+              className={`flex flex-col gap-20 xl:pt-19 lg:pt-15 md:pt-10 pt-2`}
             >
-              <div
-                className={`flex gap-2 `}
-                onClick={() => {
-                  setWhichStep("Step1");
-                }}
-              >
-                <ArrowRightIcon />
+              <div className={`flex items-center justify-between w-full`}>
                 <div
-                  className={`text-green-dark text-3.5 font-bold cursor-pointer `}
+                  onClick={() => {
+                    setWhichStep("Step1");
+                  }}
+                  className={`flex gap-2 cursor-pointer `}
                 >
-                  {t("auth.login.step2.backBtn")}
+                  <ArrowRightIcon
+                    className={`xl:size-6 sm:size-5 size-4 ${lang === "en" ? "transform-[rotate(180deg)]" : "transform-[rotate(0deg)]"}`}
+                  />
+                  <span
+                    className={`text-green-dark xl:text-base sm:text-[14px] text-[12px] font-bold`}
+                  >
+                    {t("auth.register.step2.backBtn")}
+                  </span>
+                </div>
+                <div className={`flex items-center lg:gap-2 gap-1`}>
+                  <div
+                    onClick={() =>
+                      lang === "en" ? changeLang("fa") : changeLang("en")
+                    }
+                    className={`cursor-pointer lg:size-10 size-8 rounded-full bg-green-primary content-center text-center text-white md:text-base text-[12px] font-bold border lg:leading-10 leading-8 border-green-primary`}
+                  >
+                    {lang === "en" ? "EN" : "FA"}
+                  </div>
+                  <ThemeSlide
+                    theme={theme}
+                    setTheme={setTheme}
+                    className={`flex md:hidden`}
+                  />
                 </div>
               </div>
-              <div
-                className={`flex flex-col items-center justify-center gap-10 `}
-              >
-                <div
-                  className={`flex flex-col gap-2 text-center cursor-pointer`}
-                >
+              <div className={`flex flex-col xl:gap-8 lg:gap-4 gap-5`}>
+                <div className={`flex flex-col gap-2 text-center`}>
                   <span
-                    className={`text-green-primary xl:text-[24px] lg:text-[20px] md:text-[16px] font-bold  `}
+                    className={`text-green-primary xl:text-2xl lg:text-[18px] md:text-base text-[14px] font-bold text-center`}
                   >
                     {t("auth.login.step2.title")}
                   </span>
-                  <span className={`text-[16px] text-default-black`}>
+                  <span
+                    className={`xl:text-[16px] lg:text-[15px] md:text-[14px] text-[12px] text-default-black`}
+                  >
                     {t("auth.login.step2.description")}
                   </span>
                 </div>
@@ -93,12 +115,29 @@ const Step2 = ({ SignUpParams, setWhichStep }) => {
                   <ErrorMessage
                     component={"span"}
                     name="verifyCode"
-                    className={`text-red-error text-[14px] font-normal mt-2`}
+                    className={`text-red-error lg:text-[14px] text-[12px] font-normal`}
                   />
                 </div>
-                <Button color={"authBtn"} className={` h-15 w-full`}>
+                <Button
+                  color={"authBtn"}
+                  className={`xl:h-15 lg:h-13 h-11 xl:text-base! lg:text-[14px]! text-[12px]!`}
+                >
                   {t("auth.login.step2.submitVerifyCode")}
                 </Button>
+                <div className={`flex justify-center`}>
+                  {timer === 0 ? (
+                    <p
+                      onClick={() => {
+                        setTimer(120);
+                      }}
+                      className={`text-default-black md:text-base text-[12px] cursor-pointer`}
+                    >
+                      {t("auth.register.step2.repeatPassword")}
+                    </p>
+                  ) : (
+                    <Timer timer={timer} setTimer={setTimer} />
+                  )}
+                </div>
               </div>
             </div>
           </Form>

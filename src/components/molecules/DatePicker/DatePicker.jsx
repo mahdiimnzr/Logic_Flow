@@ -4,7 +4,6 @@ import {
   InputGroup,
   InputGroupAddon,
   InputGroupButton,
-  InputGroupInput,
 } from "@/components/ui/input-group";
 import {
   Popover,
@@ -14,22 +13,15 @@ import {
 import { CalendarHijri } from "@/components/ui/CalendarHijri";
 import { useContext, useState } from "react";
 import ThemeContext from "@/app/context/ThemeContext";
-
-function isValidDate(date) {
-  if (!date) return false;
-  return !isNaN(date.getTime());
-}
+import formatDate from "@/core/utils/formatDate";
 
 const DatePickerInput = ({
   date,
-  setDate,
   label,
   onChange,
-  value,
-  setValue,
   month,
   setMonth,
-  className,
+  className = "flex justify-between",
   ...rest
 }) => {
   const { theme } = useContext(ThemeContext);
@@ -40,36 +32,17 @@ const DatePickerInput = ({
       {label && (
         <FieldLabel
           className={`text-base! font-normal! text-default-black!`}
-          htmlFor="date-required"
+          htmlFor="date-picker"
         >
           {label}
         </FieldLabel>
       )}
       <InputGroup className={className}>
-        <InputGroupInput
-          id="date-required"
-          value={value}
-          placeholder="yyyy/mm/dd"
-          onChange={(e) => {
-            const value = e.target.value;
-            setValue(value);
-            if (!value) {
-              setDate(undefined);
-              return;
-            }
-            const date = new Date(value);
-            if (isValidDate(date)) {
-              setDate(date);
-              setMonth(date);
-            }
-          }}
-          onKeyDown={(e) => {
-            if (e.key === "ArrowDown") {
-              e.preventDefault();
-              setOpen(true);
-            }
-          }}
-        />
+        <span
+          className={`font-normal text-field-silver sm:text-base! text-[14px]!`}
+        >
+          {date ? formatDate(date) : "mm / dd / yyyy"}
+        </span>
         <InputGroupAddon align="inline-end">
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>

@@ -1,6 +1,9 @@
+import ThemeContext from "@/app/context/ThemeContext";
 import Button from "@/components/atoms/Buttons/Button";
 import CheckBox from "@/components/molecules/Inputs/CheckBox";
 import FormInput from "@/components/molecules/Inputs/FormInput";
+import { useTourControl } from "@/components/molecules/TourStep/TourProvider";
+import { getTourStyles } from "@/components/molecules/TourStep/tourStyles";
 import LoadingSvg from "@/core/icons/LoadingSvg";
 import {
   updateProfileDetail,
@@ -8,13 +11,15 @@ import {
 } from "@/core/services/api/userPanel/userPanel.service";
 import formDataConverter from "@/core/utils/formDataConvertor";
 import { useI18n } from "@/i18n/useI18n";
+import { TourProvider, useTour } from "@reactour/tour";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Form, Formik } from "formik";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
-
-const SocialNetworkInformation = () => {
+const SocialNetworkInformationContent = () => {
+  const { openRef } = useTourControl();
+  const { setIsOpen, setSteps } = useTour();
   const { t } = useI18n();
   const queryClient = useQueryClient();
 
@@ -26,16 +31,26 @@ const SocialNetworkInformation = () => {
       t("userPanel.socialMedia.linkedinErrorMessage"),
     ),
   });
-
   const [checked, setChecked] = useState(false);
-
   const { isLoading, data: userDetail } = useGetUserDetail();
   const { mutate: updateUserInfoMutate } = useMutation({
-    mutationFn: updateProfileDetail,
+    mutationFn: (value) =>
+      toast.promise(updateProfileDetail(value), {
+        pending: "در حال بروزرسانی اطلاعات",
+        success: {
+          render({ data }) {
+            return data.data.message;
+          },
+        },
+        error: {
+          render({ data }) {
+            return data.data.message;
+          },
+        },
+      }),
     onSuccess: (result) => {
       if (result.data.success) {
         if (result.status != 400) {
-          toast.success(result.data.message);
           queryClient.invalidateQueries({ queryKey: [`UserDetail`] });
         } else {
           toast.error(result.data.message);
@@ -45,6 +60,15 @@ const SocialNetworkInformation = () => {
       }
     },
   });
+  useEffect(() => {
+    openRef.current = setIsOpen;
+    setSteps([
+      {
+        selector: '[data-tour="step1"]',
+        content: t("userPanel.SocialNetworkInformation.step1"),
+      },
+    ]);
+  }, [t]);
 
   useEffect(() => {
     setChecked(userDetail?.data.receiveMessageEvent);
@@ -117,12 +141,14 @@ const SocialNetworkInformation = () => {
                 label={t("userPanel.socialMedia.receiveEvents")}
               />
             </div>
-            <Button
-              color={"panelBtn"}
-              className={`h-12 sm:w-34.5 w-30 sm:text-base! text-[14px]!`}
-            >
-              {t("userPanel.changesInfo")}
-            </Button>
+            <div className={`w-fit `} data-tour="step1">
+              <Button
+                color={"panelBtn"}
+                className={`h-12 sm:w-34.5 w-30 sm:text-base! text-[14px]!`}
+              >
+                {t("userPanel.changesInfo")}
+              </Button>
+            </div>
           </Form>
         );
       }}
@@ -130,4 +156,14 @@ const SocialNetworkInformation = () => {
   );
 };
 
-export default SocialNetworkInformation;
+const LocationInformation = () => {
+  const { theme } = useContext(ThemeContext);
+  const { lang } = useI18n();
+  return (
+    <TourProvider key={lang} steps={[]} styles={getTourStyles(theme, lang)}>
+      <SocialNetworkInformationContent />
+    </TourProvider>
+  );
+};
+
+export default LocationInformation;

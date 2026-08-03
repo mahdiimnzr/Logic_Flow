@@ -10,8 +10,16 @@ import formatPrice from "../../../core/utils/formatPrice";
 import ImageFallback from "@/components/atoms/ImageFallBack/ImageFallBack";
 import Tilt from "react-parallax-tilt";
 import formatDate from "@/core/utils/formatDate";
+import { SquareSplitVertical } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { useI18n } from "@/i18n/useI18n";
 
 const Card = (props) => {
+  const { t } = useI18n();
   const {
     isCourseCard = false,
     isFavorite = false,
@@ -20,23 +28,52 @@ const Card = (props) => {
     image,
     handleAddFavoriteCourse,
     view,
+    onClick,
+    Compare,
   } = props;
+  const foundedCourses = Compare?.find((value) => value === courseId);
   return (
     <Tilt tiltAxis={!view && "disable"}>
       <div
         dir="rtl"
-        className={`rounded-[20px] ${view ? null : `flex items-center gap-8 p-4`} bg-default-light relative overflow-hidden w-full transition-all shadow-[0px_4px_4px_0px_#000000]/0 hover:shadow-cards-hover`}
+        className={`rounded-[20px] ${foundedCourses ? "transform-[translateY(-15px)]" : null} ${view ? null : `flex items-center gap-8 p-4`} bg-default-light relative overflow-hidden w-full transition-all shadow-[0px_4px_4px_0px_#000000]/0 hover:shadow-cards-hover`}
       >
-        <div
-          onClick={() =>
-            isCourseCard
-              ? handleAddFavoriteCourse({ courseId: courseId })
-              : handleAddFavoriteCourse({ id: articleId })
-          }
-          className={`absolute z-10 ${view ? `right-4 top-4` : `lg:right-8 lg:top-8 top-9 right-5`} content-center bg-default-black/25 size-10 rounded-full cursor-pointer`}
-        >
-          <FavoriteIcon isFavorite={isFavorite} className={`mx-auto`} />
-        </div>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <div
+              onClick={() =>
+                isCourseCard
+                  ? handleAddFavoriteCourse({ courseId: courseId })
+                  : handleAddFavoriteCourse({ id: articleId })
+              }
+              className={`absolute z-10 ${view ? `right-4 top-4` : `lg:right-8 lg:top-8 top-9 right-5`} content-center bg-default-black/25 size-10 rounded-full cursor-pointer`}
+            >
+              <FavoriteIcon isFavorite={isFavorite} className={`mx-auto`} />
+            </div>
+          </TooltipTrigger>
+          <TooltipContent side="top">
+            <p>{t("userPanel.tooltip.addFavorite")}</p>
+          </TooltipContent>
+        </Tooltip>
+        {Compare && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div
+                onClick={onClick}
+                className={`absolute z-10 ${view ? "left-4 top-4" : "lg:left-8 lg:top-8 top-9 left-5"} size-10 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer ${foundedCourses ? "bg-green-primary" : "bg-default-black/25 hover:bg-default-black/40"}`}
+              >
+                <SquareSplitVertical
+                  className={`m-auto transition-all`}
+                  color="#ffffff"
+                />
+              </div>
+            </TooltipTrigger>
+            <TooltipContent side="top">
+              <p>{t("userPanel.tooltip.compare")}</p>
+            </TooltipContent>
+          </Tooltip>
+        )}
+
         <Link
           to={
             isCourseCard
@@ -48,7 +85,7 @@ const Card = (props) => {
           <ImageFallback
             src={image}
             fallback={course}
-            className={`${!view ? `group-hover:transform-[scale(1)]` : `group-hover:transform-[scale(1.2)]`} transform-[scale(1.5)] size-full transition-all cursor-pointer mx-auto absolute inset-0 object-cover`}
+            className={`${!view ? `transform-[scale(1)]` : `transform-[scale(1.2)]`} hover:transform-[scale(1.5)] size-full transition-all cursor-pointer mx-auto absolute inset-0 object-cover`}
           />
         </Link>
         <div
@@ -66,14 +103,15 @@ const Card = (props) => {
 };
 
 const CourseCardInformation = (props) => {
-  const { title, describe, cost, levelName, teacherName, rate } = props.props;
+  const { title, miniDescribe, cost, levelName, teacherName, rate } =
+    props.props;
   const formatted = rate % 1 === 0 ? rate : rate.toFixed(1);
   return (
     <>
       <div className={`flex flex-col gap-2 text-default-black`}>
         <h3 className={`text-base font-bold truncate`}>{title}</h3>
         <p className={`text-[14px] font-normal h-10.5 line-clamp-2`}>
-          {describe}
+          {miniDescribe}
         </p>
       </div>
       <div className={`flex flex-col gap-2`}>

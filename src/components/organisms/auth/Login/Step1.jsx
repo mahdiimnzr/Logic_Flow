@@ -42,7 +42,7 @@ const Step1 = ({ setWhichStep, setSignUpParams, SignUpParams }) => {
       t("auth.login.step1.emailErrorMessage"),
     ),
     password: Yup.string()
-      .min(8, t("auth.login.step1.passwordMoreThan8ErrorMessage"))
+      .min(6, t("auth.login.step1.passwordMoreThan8ErrorMessage"))
       .required(t("auth.login.step1.passwordErrorMessage")),
   });
   return (

@@ -22,12 +22,24 @@ const useAddFavoriteArticle = () => {
     },
   });
   const { mutate: removeFavoriteNewsMutate } = useMutation({
-    mutationFn: deleteFavoriteNews,
+    mutationFn: (value) =>
+      toast.promise(deleteFavoriteNews(value), {
+        pending: "در حال حذف علاقه مندی",
+        success: {
+          render({ data }) {
+            return data.data.message;
+          },
+        },
+        error: {
+          render({ data }) {
+            return data.data.message;
+          },
+        },
+      }),
     onSuccess: (response, variables) => {
       const { key } = variables;
       if (response.data.success) {
         if (response.status != 400) {
-          toast.success(response.data.message);
           queryClient.invalidateQueries({ queryKey: [key] });
         } else {
           toast.error(response.data.message);

@@ -59,9 +59,11 @@ const RegisterCode = ({ setPage, registerData }) => {
                   onClick={() => {
                     setPage("Step1");
                   }}
-                  className={`flex gap-2 cursor-pointer `}
+                  className={`flex gap-2 cursor-pointer`}
                 >
-                  <ArrowRightIcon className={`xl:size-6 sm:size-5 size-4`} />
+                  <ArrowRightIcon
+                    className={`xl:size-6 sm:size-5 size-4 ${lang === "en" ? "transform-[rotate(180deg)]" : "transform-[rotate(0deg)]"} `}
+                  />
                   <span
                     className={`text-green-dark xl:text-base sm:text-[14px] text-[12px] font-bold`}
                   >
@@ -124,7 +126,7 @@ const RegisterCode = ({ setPage, registerData }) => {
                       onClick={() => {
                         setTimer(120);
                       }}
-                      className={`text-default-black md:text-base text-[12px]`}
+                      className={`text-default-black md:text-base text-[12px] cursor-pointer`}
                     >
                       {t("auth.register.step2.repeatPassword")}
                     </p>

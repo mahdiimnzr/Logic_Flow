@@ -23,6 +23,7 @@ const NewPassword = () => {
     if (response.data.success) {
       toast.success(response.data.message);
       navigate("/Auth/Login");
+      localStorage.removeItem("email");
     } else {
       toast.error(response.data.message);
     }
@@ -72,7 +73,9 @@ const NewPassword = () => {
                 }}
                 className={`flex gap-2 cursor-pointer `}
               >
-                <ArrowRightIcon className={`xl:size-6 sm:size-5 size-4`} />
+                <ArrowRightIcon
+                  className={`xl:size-6 sm:size-5 size-4  ${lang === "en" ? "transform-[rotate(180deg)]" : "transform-[rotate(0deg)]"}`}
+                />
                 <span
                   className={`text-green-dark xl:text-base sm:text-[14px] text-[12px] font-bold `}
                 >
