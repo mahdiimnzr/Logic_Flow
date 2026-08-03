@@ -1,5 +1,5 @@
 import { CircleCheck } from "lucide-react";
-import roadMap from "../../../assets/images/roadmap.png";
+import roadMap from "../../../assets/images/roadMap.png";
 import { useI18n } from "@/i18n/useI18n";
 
 const RoadMapSection = () => {
