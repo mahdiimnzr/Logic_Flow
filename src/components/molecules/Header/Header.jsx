@@ -272,7 +272,7 @@ const Header = () => {
                   )}
                 </div>
                 {(searchValue === "courses"
-                  ? courses.data?.courseFilterDtos
+                  ? courses?.data?.courseFilterDtos
                   : articles?.data?.news
                 )?.length >= 3 && (
                   <Link

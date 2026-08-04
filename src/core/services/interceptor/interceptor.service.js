@@ -33,7 +33,7 @@ const onError = (error) => {
     return Promise.reject(error);
   }
 
-  return error.response;
+  return error.response.data;
 };
 
 apiClient.interceptors.response.use(onSuccess, onError);
