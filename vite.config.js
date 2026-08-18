@@ -20,7 +20,7 @@ export default defineConfig({
     },
     proxy: {
       "/api": {
-        target: "http://162.19.253.202:3001",
+        target: "https://fe-api.hexorix.net",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ""),
       },

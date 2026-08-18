@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const BACKEND_URL = "http://87.107.5.212:3001";
+const BACKEND_URL = "https://fe-api.hexorix.net";
 
 const ImageFallback = ({ src, fallback = "/images/fallback.png", ...rest }) => {
   const [imgSrc, setImgSrc] = useState(fallback);

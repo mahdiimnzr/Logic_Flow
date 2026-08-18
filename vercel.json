@@ -2,11 +2,11 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "http://87.107.5.212:3001/:path*"
+      "destination": "https://fe-api.hexorix.net/:path*"
     },
     {
       "source": "/files/:path*",
-      "destination": "http://87.107.5.212:3001/files/:path*"
+      "destination": "https://fe-api.hexorix.net/files/:path*"
     },
     {
       "source": "/(.*)",
